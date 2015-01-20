@@ -13,5 +13,3 @@
 # Doxygen binary
 mitgcm/doxygen
 
-# python filter for doxygen
-doxypy.py

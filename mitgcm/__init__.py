@@ -291,16 +291,16 @@ class Vpoint_field(Simulation):
 class Wpoint_field(Simulation,dict):
 
     def __init__(self,netcdf_filename,variable,time_level):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        # Append a level of zeros on to the W point fields to represent no flow through the bottom of the domain.
-        # It's a hack, but it helps with calculations later on.
-	if hasattr(time_level, '__len__'):
-        	self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
-	else:
-        	self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[1],loaded_field.shape[2])),axis=0)
+		netcdf_file = netCDF4.MFDataset(netcdf_filename)
+		loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+		netcdf_file.close()
+
+		# Append a level of zeros on to the W point fields to represent no flow through the bottom of the domain.
+		# It's a hack, but it helps with calculations later on.
+		if hasattr(time_level, '__len__'):
+		    self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+		else:
+		    self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
 
         return
@@ -539,7 +539,6 @@ class Grid(Simulation):
 
         (self.DZF,self.DYF, self.DXF) = np.meshgrid(self.drF,self.dyF[0,:],self.dxF[:,0],indexing='ij')
 
-
         self.wet_mask_V = copy.deepcopy(np.ones((np.shape(self.HFacS))))
         self.wet_mask_V[self.HFacS[:] == 0.] = 0.
         self.wet_mask_U = copy.deepcopy(np.ones((np.shape(self.HFacW))))
@@ -548,42 +547,42 @@ class Grid(Simulation):
         self.wet_mask_TH[self.HFacC[:] == 0.] = 0.
         self.wet_mask_W = np.append(self.wet_mask_TH,np.ones((1,480,480)),axis=0)
 
-	self.west_mask = np.zeros(self.wet_mask_TH.shape)
-	self.east_mask = np.zeros(self.wet_mask_TH.shape)
-	self.south_mask = np.zeros(self.wet_mask_TH.shape)
-	self.north_mask = np.zeros(self.wet_mask_TH.shape)
-	self.bottom_mask = np.zeros(self.wet_mask_TH.shape)
+		self.west_mask = np.zeros(self.wet_mask_TH.shape)
+		self.east_mask = np.zeros(self.wet_mask_TH.shape)
+		self.south_mask = np.zeros(self.wet_mask_TH.shape)
+		self.north_mask = np.zeros(self.wet_mask_TH.shape)
+		self.bottom_mask = np.zeros(self.wet_mask_TH.shape)
 
 
-	# Find the fluxes through the boundary of the domain
-	for k in xrange(0,self.wet_mask_TH.shape[0]):
-	    for j in xrange(0,self.wet_mask_TH.shape[1]):
-		for i in xrange(0,self.wet_mask_TH.shape[2]):
-		    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
-		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
-		        self.west_mask[k,j,i] = 1
+		# Find the fluxes through the boundary of the domain
+		for k in xrange(0,self.wet_mask_TH.shape[0]):
+		    for j in xrange(0,self.wet_mask_TH.shape[1]):
+			for i in xrange(0,self.wet_mask_TH.shape[2]):
+			    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
+			    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
+			        self.west_mask[k,j,i] = 1
 
 
-		    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
-		    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
-		        self.east_mask[k,j,i] = 1
+			    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
+			    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
+			        self.east_mask[k,j,i] = 1
 
 
-		    # find the southern boundary points
-		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
-		        self.south_mask[k,j,i] = 1
+			    # find the southern boundary points
+			    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
+			        self.south_mask[k,j,i] = 1
 
 
-		    # find the northern boundary points
-		    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
-		        self.north_mask[k,j,i] = 1
+			    # find the northern boundary points
+			    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
+			        self.north_mask[k,j,i] = 1
 
 
-		    # Fluxes through the bottom
-		    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
-		        self.bottom_mask[k,j,i] = 1
+			    # Fluxes through the bottom
+			    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
+			        self.bottom_mask[k,j,i] = 1
 
-        return
+	    return
 
     
 class Temperature(Tracerpoint_field):
