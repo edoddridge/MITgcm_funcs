@@ -21,7 +21,9 @@ class Simulation(dict):
             raise ValueError('Only linear equation of state is currently supported')
             
     def load_field(self,netcdf_filename,variable,time_level):
-        """ Load a model field from NetCDF output. This function associates the field with the object it is called on."""
+        """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
+
+	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         
         netcdf_file = netCDF4.MFDataset(netcdf_filename)
         loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
@@ -44,7 +46,18 @@ class Simulation(dict):
                 setattr(me, key, value/float(other))
         return me
 
-      
+    def __mul__(self, other):
+        me = copy.deepcopy(self)
+        for key, value in me.__dict__.iteritems():
+                setattr(me, key, value * float(other))
+        return me
+
+    def __rmul__(self, other):
+        me = copy.deepcopy(self)
+        for key, value in me.__dict__.iteritems():
+                setattr(me, key, value * float(other))
+        return me
+
 class Upoint_field(Simulation):
     
     def __init__(self,netcdf_filename,variable,time_level):
@@ -262,9 +275,12 @@ class Wpoint_field(Simulation,dict):
         
         # Append a level of zeros on to the W point fields to represent no flow through the bottom of the domain.
         # It's a hack, but it helps with calculations later on.
-        loaded_field = np.append(loaded_field,np.zeros((1,loaded_field.shape[1],loaded_field.shape[2])),axis=0)
+	if hasattr(time_level, '__len__'):
+        	self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+	else:
+        	self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[1],loaded_field.shape[2])),axis=0)
 
-        self[variable] = loaded_field
+
         return
     
 
@@ -505,16 +521,53 @@ class Grid(Simulation):
         self.wet_mask_TH = copy.deepcopy(np.ones((np.shape(self.HFacC))))
         self.wet_mask_TH[self.HFacC[:] == 0.] = 0.
         self.wet_mask_W = np.append(self.wet_mask_TH,np.ones((1,480,480)),axis=0)
+
+	self.west_mask = np.zeros(self.wet_mask_TH.shape)
+	self.east_mask = np.zeros(self.wet_mask_TH.shape)
+	self.south_mask = np.zeros(self.wet_mask_TH.shape)
+	self.north_mask = np.zeros(self.wet_mask_TH.shape)
+	self.bottom_mask = np.zeros(self.wet_mask_TH.shape)
+
+
+	# Find the fluxes through the boundary of the domain
+	for k in xrange(0,self.wet_mask_TH.shape[0]):
+	    for j in xrange(0,self.wet_mask_TH.shape[1]):
+		for i in xrange(0,self.wet_mask_TH.shape[2]):
+		    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
+		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
+		        self.west_mask[k,j,i] = 1
+
+
+		    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
+		    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
+		        self.east_mask[k,j,i] = 1
+
+
+		    # find the southern boundary points
+		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
+		        self.south_mask[k,j,i] = 1
+
+
+		    # find the northern boundary points
+		    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
+		        self.north_mask[k,j,i] = 1
+
+
+		    # Fluxes through the bottom
+		    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
+		        self.bottom_mask[k,j,i] = 1
+
         return
 
     
 class Temperature(Tracerpoint_field):
-    def __init__(self,netcdf_filename = 'theta_diags.all.nc',time_level=0):
+    def __init__(self,netcdf_filename,variable,time_level):
         netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        self['THETA'] = netcdf_file.variables['THETA'][time_level,:,:,:]
+        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
         netcdf_file.close()
         
-
+        self[variable] = loaded_field
+        return
             
             
 class Density(Tracerpoint_field):
@@ -559,11 +612,14 @@ class Bernoulli(Tracerpoint_field):
 
         
 class Free_surface(Tracerpoint_field):
-    def __init__(self,netcdf_filename = '2D_fields.all.nc',time_level=0):
+    def __init__(self,netcdf_filename,variable,time_level):
         netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        self['ETAN'] = netcdf_file.variables['ETAN'][time_level,:,:]
+        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
         netcdf_file.close()
         
+        self[variable] = loaded_field
+        return
+            
         
 class Pressure(Tracerpoint_field):
     def __init__(self,model_instance):
@@ -577,7 +633,7 @@ class Pressure(Tracerpoint_field):
         delta_P[0,:,:] = (delta_P[0,:,:] + 
                           model_instance.free_surface['ETAN']*model_instance['g']*model_instance.density['RHO'][0,:,:])
     
-        self['dela_P'] = delta_P
+        self['delta_P'] = delta_P
         self['P'] = np.cumsum(delta_P,0)
         
         return
