@@ -1,3 +1,18 @@
+""" 
+@author
+Ed Doddridge
+
+@mainpage Documentation for python package mitgcm
+
+@section Overview
+This package provides methods and classes for analysing the output of mitgcm simulations.
+
+
+@section Revision History
+January 2015
+Added documentation
+"""
+
 import numpy as np
 import netCDF4
 import copy
@@ -5,7 +20,8 @@ import os
 
     
 class Simulation(dict):
-    
+    """The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
+"""
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8):
         """Instantiate an MITgcm model instance."""
         
@@ -33,6 +49,7 @@ class Simulation(dict):
         return
        
     def __add__(self,other):
+ 	"""A method that allows model objects to be added together. It does element wise addition for each of the fields."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 for key1, value1 in other.__dict__.iteritems():
@@ -41,18 +58,21 @@ class Simulation(dict):
         return me
 
     def __div__(self,other):
+	""" A method that allows model objects to be divided by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value/float(other))
         return me
 
     def __mul__(self, other):
+	""" A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
         return me
 
     def __rmul__(self, other):
+	""" A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
@@ -167,8 +187,10 @@ class Upoint_field(Simulation):
         return 
 
 class Vpoint_field(Simulation):
-    
+    """ This is the class fo rall fields on meridional velocity points."""
+
     def __init__(self,netcdf_filename,variable,time_level):
+	"""Instantiate a field on the meridional velocity points."""
         netcdf_file = netCDF4.MFDataset(netcdf_filename)
         loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
         netcdf_file.close()
@@ -379,7 +401,8 @@ class Wpoint_field(Simulation,dict):
 
     
     
-class Tracerpoint_field(Simulation,dict):  
+class Tracerpoint_field(Simulation):  
+    """This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
     
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
         """Take the x derivative of the field on tracer points, using spacings in grid object.
@@ -471,13 +494,16 @@ class Tracerpoint_field(Simulation,dict):
 
 
     
-class Vorticitypoint_field(Simulation,dict):  
+class Vorticitypoint_field(Simulation):  
     pass
     # Eventually I should put some derivative funcitons in here.
 
 
 
 class Grid(Simulation):
+    """This defines the class for the grid object. This object holds all the information about the grid on which the simulation was run. It also holds mask for getting only the boundary values of fields on the tracer points. 
+
+    This class is the only one that isn't written to use dicts - this should be fixed at some stage."""
 
     def __init__(self, grid_netcdf_filename):
         """Define a single object that has all of the grid variables tucked away in it. 
@@ -600,6 +626,7 @@ class Density(Tracerpoint_field):
             
             
 class Bernoulli(Tracerpoint_field):
+    """The Bernoulli field, evaluated from velocity, pressure and density."""
     def __init__(self,model_instance):
         self['BP'] = model_instance.grid.wet_mask_TH*(((model_instance.pressure['P'][:,:,:] + 
                  model_instance.grid.Z[:].reshape((40,1,1))*
@@ -645,5 +672,6 @@ class Vorticity(Vorticitypoint_field):
         netcdf_file.close()
         
 class Potential_vorticity(Tracerpoint_field):
+    """Evaluate the potential vorticity on the tracer points."""
     def __init__(self,model_instance):
         self['Q'] = -model_instance.vorticity['omega_a']*model_instance.density['dRHO_dz']/model_instance.density['RHO']
