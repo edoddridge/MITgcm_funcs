@@ -6,6 +6,10 @@ Navigate to the main directory and run:
 python setup.py install
 
 
+##To read the documentation##
+Open index.html with a web browser (it's in Docs/html), or compile the tex documentation.
+
+
 ##To use##
 Import the module:
 
