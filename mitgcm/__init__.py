@@ -36,6 +36,7 @@ class Simulation(dict):
         if EOS_type != 'linear':
             raise ValueError('Only linear equation of state is currently supported')
             
+
     def load_field(self,netcdf_filename,variable,time_level):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
@@ -97,6 +98,7 @@ class Upoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             dU_dx = np.zeros((UVEL.shape))
 
@@ -131,6 +133,7 @@ class Upoint_field(Simulation):
         they should be)."""
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             dU_dy = np.zeros((UVEL.shape))
 
@@ -166,6 +169,7 @@ class Upoint_field(Simulation):
         they should be)."""
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             d_dz = np.zeros((UVEL.shape))
 
@@ -209,6 +213,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dx = np.zeros((VVEL.shape))
 
@@ -238,6 +243,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dy = np.zeros((VVEL.shape))
 
@@ -268,6 +274,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             d_dz = np.zeros((VVEL.shape))
 
@@ -288,7 +295,7 @@ class Vpoint_field(Simulation):
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
-class Wpoint_field(Simulation,dict):
+class Wpoint_field(Simulation):
 
     def __init__(self,netcdf_filename,variable,time_level):
 		netcdf_file = netCDF4.MFDataset(netcdf_filename)
@@ -303,7 +310,7 @@ class Wpoint_field(Simulation,dict):
 		    self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
 
-        return
+        	return
     
 
     
@@ -315,6 +322,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             d_dx = np.zeros((WVEL.shape))
 
@@ -346,6 +354,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             dW_dy = np.zeros((WVEL.shape))
 
@@ -376,6 +385,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""  
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             dWVEL_dz = np.zeros((WVEL.shape))
 
@@ -412,6 +422,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dx = np.zeros((rho.shape))
 
@@ -442,6 +453,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dy = np.zeros((rho.shape))
 
@@ -472,6 +484,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dz = np.zeros((rho.shape))
 
@@ -547,42 +560,42 @@ class Grid(Simulation):
         self.wet_mask_TH[self.HFacC[:] == 0.] = 0.
         self.wet_mask_W = np.append(self.wet_mask_TH,np.ones((1,480,480)),axis=0)
 
-		self.west_mask = np.zeros(self.wet_mask_TH.shape)
-		self.east_mask = np.zeros(self.wet_mask_TH.shape)
-		self.south_mask = np.zeros(self.wet_mask_TH.shape)
-		self.north_mask = np.zeros(self.wet_mask_TH.shape)
-		self.bottom_mask = np.zeros(self.wet_mask_TH.shape)
+	self.west_mask = np.zeros(self.wet_mask_TH.shape)
+	self.east_mask = np.zeros(self.wet_mask_TH.shape)
+	self.south_mask = np.zeros(self.wet_mask_TH.shape)
+	self.north_mask = np.zeros(self.wet_mask_TH.shape)
+	self.bottom_mask = np.zeros(self.wet_mask_TH.shape)
 
 
-		# Find the fluxes through the boundary of the domain
-		for k in xrange(0,self.wet_mask_TH.shape[0]):
-		    for j in xrange(0,self.wet_mask_TH.shape[1]):
-			for i in xrange(0,self.wet_mask_TH.shape[2]):
-			    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
-			    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
-			        self.west_mask[k,j,i] = 1
+	# Find the fluxes through the boundary of the domain
+	for k in xrange(0,self.wet_mask_TH.shape[0]):
+	    for j in xrange(0,self.wet_mask_TH.shape[1]):
+		for i in xrange(0,self.wet_mask_TH.shape[2]):
+		    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
+		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
+		        self.west_mask[k,j,i] = 1
 
 
-			    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
-			    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
-			        self.east_mask[k,j,i] = 1
+		    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
+		    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
+		        self.east_mask[k,j,i] = 1
 
 
-			    # find the southern boundary points
-			    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
-			        self.south_mask[k,j,i] = 1
+		    # find the southern boundary points
+		    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
+		        self.south_mask[k,j,i] = 1
 
 
-			    # find the northern boundary points
-			    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
-			        self.north_mask[k,j,i] = 1
+		    # find the northern boundary points
+		    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
+		        self.north_mask[k,j,i] = 1
 
 
-			    # Fluxes through the bottom
-			    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
-			        self.bottom_mask[k,j,i] = 1
+		    # Fluxes through the bottom
+		    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
+		        self.bottom_mask[k,j,i] = 1
 
-	    return
+    	return
 
     
 class Temperature(Tracerpoint_field):

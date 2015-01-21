@@ -36,6 +36,7 @@ class Simulation(dict):
         if EOS_type != 'linear':
             raise ValueError('Only linear equation of state is currently supported')
             
+
     def load_field(self,netcdf_filename,variable,time_level):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
@@ -97,6 +98,7 @@ class Upoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             dU_dx = np.zeros((UVEL.shape))
 
@@ -131,6 +133,7 @@ class Upoint_field(Simulation):
         they should be)."""
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             dU_dy = np.zeros((UVEL.shape))
 
@@ -166,6 +169,7 @@ class Upoint_field(Simulation):
         they should be)."""
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             UVEL = self[input_field]
             d_dz = np.zeros((UVEL.shape))
 
@@ -209,6 +213,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dx = np.zeros((VVEL.shape))
 
@@ -238,6 +243,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dy = np.zeros((VVEL.shape))
 
@@ -268,6 +274,7 @@ class Vpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             VVEL = self[input_field]
             d_dz = np.zeros((VVEL.shape))
 
@@ -288,22 +295,22 @@ class Vpoint_field(Simulation):
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
-class Wpoint_field(Simulation,dict):
+class Wpoint_field(Simulation):
 
     def __init__(self,netcdf_filename,variable,time_level):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        # Append a level of zeros on to the W point fields to represent no flow through the bottom of the domain.
-        # It's a hack, but it helps with calculations later on.
-	if hasattr(time_level, '__len__'):
-        	self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
-	else:
-        	self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[1],loaded_field.shape[2])),axis=0)
+		netcdf_file = netCDF4.MFDataset(netcdf_filename)
+		loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+		netcdf_file.close()
+
+		# Append a level of zeros on to the W point fields to represent no flow through the bottom of the domain.
+		# It's a hack, but it helps with calculations later on.
+		if hasattr(time_level, '__len__'):
+		    self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+		else:
+		    self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
 
-        return
+        	return
     
 
     
@@ -315,6 +322,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             d_dx = np.zeros((WVEL.shape))
 
@@ -346,6 +354,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             dW_dy = np.zeros((WVEL.shape))
 
@@ -376,6 +385,7 @@ class Wpoint_field(Simulation,dict):
         they should be)."""  
         
         if input_field in self:
+	    np.seterr(divide='ignore')
             WVEL = self[input_field]
             dWVEL_dz = np.zeros((WVEL.shape))
 
@@ -412,6 +422,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dx = np.zeros((rho.shape))
 
@@ -442,6 +453,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dy = np.zeros((rho.shape))
 
@@ -472,6 +484,7 @@ class Tracerpoint_field(Simulation):
         they should be)."""
 
         if input_field in self:
+	    np.seterr(divide='ignore')
             rho = self[input_field]
             d_dz = np.zeros((rho.shape))
 
@@ -539,7 +552,6 @@ class Grid(Simulation):
 
         (self.DZF,self.DYF, self.DXF) = np.meshgrid(self.drF,self.dyF[0,:],self.dxF[:,0],indexing='ij')
 
-
         self.wet_mask_V = copy.deepcopy(np.ones((np.shape(self.HFacS))))
         self.wet_mask_V[self.HFacS[:] == 0.] = 0.
         self.wet_mask_U = copy.deepcopy(np.ones((np.shape(self.HFacW))))
@@ -583,7 +595,7 @@ class Grid(Simulation):
 		    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
 		        self.bottom_mask[k,j,i] = 1
 
-        return
+    	return
 
     
 class Temperature(Tracerpoint_field):
