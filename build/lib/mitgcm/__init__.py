@@ -578,7 +578,7 @@ class Grid(Simulation):
 
 		    # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
 		    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
-		        self.east_mask[k,j,i] = 1
+		        self.east_mask[k,j,i-1] = 1
 
 
 		    # find the southern boundary points
@@ -588,12 +588,12 @@ class Grid(Simulation):
 
 		    # find the northern boundary points
 		    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
-		        self.north_mask[k,j,i] = 1
+		        self.north_mask[k,j,i-1] = 1
 
 
 		    # Fluxes through the bottom
 		    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
-		        self.bottom_mask[k,j,i] = 1
+		        self.bottom_mask[k-1,j,i] = 1
 
     	return
 
