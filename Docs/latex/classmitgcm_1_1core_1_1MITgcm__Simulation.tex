@@ -1,0 +1,167 @@
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation}{\section{mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation Class Reference}
+\label{classmitgcm_1_1core_1_1MITgcm__Simulation}\index{mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation}}
+}
+
+
+The simulation class is the main class of this package, and an instance of this class is a model object.  
+
+
+Inheritance diagram for mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.244444cm]{classmitgcm_1_1core_1_1MITgcm__Simulation}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_aac012c75a0f5dce8bbc4b00422a12444}{\+\_\+\+\_\+init\+\_\+\+\_\+}
+\begin{DoxyCompactList}\small\item\em Instantiate an M\+I\+Tgcm model instance. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_a975760ba1406c74ad06af11ca3925397}{load\+\_\+field}
+\begin{DoxyCompactList}\small\item\em Load a model field from Net\+C\+D\+F output. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_a43a67ae2588987ada32f505473d469c8}{\+\_\+\+\_\+add\+\_\+\+\_\+}
+\begin{DoxyCompactList}\small\item\em A method that allows model objects to be added together. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_a64a9a65d7ed0ae3344e09dc6a36d41e0}{\+\_\+\+\_\+div\+\_\+\+\_\+}
+\begin{DoxyCompactList}\small\item\em A method that allows model objects to be divided by floating point numbers. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_a7827aeb019dd9f93317770e830db03d3}{\+\_\+\+\_\+mul\+\_\+\+\_\+}
+\begin{DoxyCompactList}\small\item\em A method that allows model objects to be multiplied by floating point numbers. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_aafdbbd993c0424568a4534edf643d312}{\+\_\+\+\_\+rmul\+\_\+\+\_\+}
+\begin{DoxyCompactList}\small\item\em A method that allows model objects to be multiplied by floating point numbers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmitgcm_1_1core_1_1MITgcm__Simulation_a984db65a189bf843e988079f724cdee3}{grid}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The simulation class is the main class of this package, and an instance of this class is a model object. 
+
+All fields are associated with the model object -\/ either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts). 
+
+Definition at line 26 of file core.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_aac012c75a0f5dce8bbc4b00422a12444}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{\+\_\+\+\_\+init\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{output\+\_\+dir, }
+\item[{}]{grid\+\_\+netcdf\+\_\+filename, }
+\item[{}]{E\+O\+S\+\_\+type = {\ttfamily 'linear'}, }
+\item[{}]{g = {\ttfamily 9.8}}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_aac012c75a0f5dce8bbc4b00422a12444}
+
+
+Instantiate an M\+I\+Tgcm model instance. 
+
+
+
+Definition at line 29 of file core.\+py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_a43a67ae2588987ada32f505473d469c8}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!\+\_\+\+\_\+add\+\_\+\+\_\+@{\+\_\+\+\_\+add\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+add\+\_\+\+\_\+@{\+\_\+\+\_\+add\+\_\+\+\_\+}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{\+\_\+\+\_\+add\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+\_\+\+\_\+add\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{other}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_a43a67ae2588987ada32f505473d469c8}
+
+
+A method that allows model objects to be added together. 
+
+It does element wise addition for each of the fields. 
+
+Definition at line 58 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_a64a9a65d7ed0ae3344e09dc6a36d41e0}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!\+\_\+\+\_\+div\+\_\+\+\_\+@{\+\_\+\+\_\+div\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+div\+\_\+\+\_\+@{\+\_\+\+\_\+div\+\_\+\+\_\+}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{\+\_\+\+\_\+div\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+\_\+\+\_\+div\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{other}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_a64a9a65d7ed0ae3344e09dc6a36d41e0}
+
+
+A method that allows model objects to be divided by floating point numbers. 
+
+
+
+Definition at line 68 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_a7827aeb019dd9f93317770e830db03d3}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!\+\_\+\+\_\+mul\+\_\+\+\_\+@{\+\_\+\+\_\+mul\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+mul\+\_\+\+\_\+@{\+\_\+\+\_\+mul\+\_\+\+\_\+}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{\+\_\+\+\_\+mul\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+\_\+\+\_\+mul\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{other}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_a7827aeb019dd9f93317770e830db03d3}
+
+
+A method that allows model objects to be multiplied by floating point numbers. 
+
+
+
+Definition at line 76 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_aafdbbd993c0424568a4534edf643d312}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!\+\_\+\+\_\+rmul\+\_\+\+\_\+@{\+\_\+\+\_\+rmul\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+rmul\+\_\+\+\_\+@{\+\_\+\+\_\+rmul\+\_\+\+\_\+}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{\+\_\+\+\_\+rmul\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+\_\+\+\_\+rmul\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{other}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_aafdbbd993c0424568a4534edf643d312}
+
+
+A method that allows model objects to be multiplied by floating point numbers. 
+
+
+
+Definition at line 84 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_a975760ba1406c74ad06af11ca3925397}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!load\+\_\+field@{load\+\_\+field}}
+\index{load\+\_\+field@{load\+\_\+field}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{load\+\_\+field}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+load\+\_\+field (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{netcdf\+\_\+filename, }
+\item[{}]{variable, }
+\item[{}]{time\+\_\+level}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_a975760ba1406c74ad06af11ca3925397}
+
+
+Load a model field from Net\+C\+D\+F output. 
+
+This function associates the field with the object it is called on.
+
+time\+\_\+level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. 
+
+Definition at line 47 of file core.\+py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmitgcm_1_1core_1_1MITgcm__Simulation_a984db65a189bf843e988079f724cdee3}{\index{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}!grid@{grid}}
+\index{grid@{grid}!mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation@{mitgcm\+::core\+::\+M\+I\+Tgcm\+\_\+\+Simulation}}
+\subsubsection[{grid}]{\setlength{\rightskip}{0pt plus 5cm}mitgcm.\+core.\+M\+I\+Tgcm\+\_\+\+Simulation.\+grid}}\label{classmitgcm_1_1core_1_1MITgcm__Simulation_a984db65a189bf843e988079f724cdee3}
+
+
+Definition at line 34 of file core.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{core_8py}{core.\+py}\end{DoxyCompactItemize}

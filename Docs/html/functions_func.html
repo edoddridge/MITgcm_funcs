@@ -37,6 +37,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -69,6 +70,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="functions.html"><span>All</span></a></li>
       <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_vars.html"><span>Variables</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index__"><span>_</span></a></li>
+      <li><a href="#index_c"><span>c</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
+      <li class="current"><a href="#index_t"><span>t</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -77,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,50 +97,77 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
 <li>__add__()
-: <a class="el" href="classmitgcm_1_1Simulation.html#a22e4f56b5b282a40a296633ab6d8b337">mitgcm.Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a43a67ae2588987ada32f505473d469c8">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__div__()
-: <a class="el" href="classmitgcm_1_1Simulation.html#a375ddd33aeb39e510d0706d81d0f2f76">mitgcm.Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a64a9a65d7ed0ae3344e09dc6a36d41e0">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__init__()
-: <a class="el" href="classmitgcm_1_1Grid.html#a156118c888f3135853c7c3c493c03232">mitgcm.Grid</a>
-, <a class="el" href="classmitgcm_1_1Simulation.html#a70d5c97bfc092a294646a5925034361b">mitgcm.Simulation</a>
-, <a class="el" href="classmitgcm_1_1Vpoint__field.html#a0dead38b0594e3f722eec29586d0451a">mitgcm.Vpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html#a823e52977dd3ac349fb569eb3a4bf167">mitgcm.core.Bernoulli</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Density.html#ac4f90f6a9c4a9fe9608b5bfdcb09a47c">mitgcm.core.Density</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Free__surface.html#aae91ac10ad70025da71f3694f063ec8b">mitgcm.core.Free_surface</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Grid.html#a8697cc503024a546e189c2707c56c0db">mitgcm.core.Grid</a>
+, <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aac012c75a0f5dce8bbc4b00422a12444">mitgcm.core.MITgcm_Simulation</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Potential__vorticity.html#aa5cd85f4c534241e18601d592c30b098">mitgcm.core.Potential_vorticity</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Pressure.html#a015248e433a994b90e08ec3123687ec8">mitgcm.core.Pressure</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Temperature.html#afd2f12d54ed18890fe7117d24c9c3da7">mitgcm.core.Temperature</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#ab4adbcfd61c7b303b8499a5228cd6f77">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Vorticity.html#a43bff58c89253c8425aef49b7ab37e2d">mitgcm.core.Vorticity</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a1ffd906684a51a4045b0b02092fab5ec">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a5149dd8a1c832999bdbcd60b4abc3b14">mitgcm.core.Wpoint_field</a>
 </li>
 <li>__mul__()
-: <a class="el" href="classmitgcm_1_1Simulation.html#adb8e8981a1736b05b0031d6fb9fc9628">mitgcm.Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a7827aeb019dd9f93317770e830db03d3">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__rmul__()
-: <a class="el" href="classmitgcm_1_1Simulation.html#aa5ac1d2836904c76b19dc0a13de0145d">mitgcm.Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aafdbbd993c0424568a4534edf643d312">mitgcm.core.MITgcm_Simulation</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>calculate_TotRhoTend()
+: <a class="el" href="classmitgcm_1_1core_1_1Density.html#aa8d1673db5cfbcd7fda25ad38a29b3a8">mitgcm.core.Density</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
 <li>load_field()
-: <a class="el" href="classmitgcm_1_1Simulation.html#aec2a4455be8979b567bc48da293ab839">mitgcm.Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a975760ba1406c74ad06af11ca3925397">mitgcm.core.MITgcm_Simulation</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#abc10b27c7fc6fd59b2e525485242d4c1">mitgcm.core.Wpoint_field</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>take_d_dx()
-: <a class="el" href="classmitgcm_1_1Tracerpoint__field.html#aaf8a54b25699658f016209c2624ccaac">mitgcm.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Upoint__field.html#a3f136fd99e5a7ce04aef0f216bd32019">mitgcm.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1Vpoint__field.html#a0735efcbc90505f47a507f102061f18a">mitgcm.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Wpoint__field.html#a9d36e2a9cc0545fb08a7b914968aa75a">mitgcm.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#a40c4ea3c2527688e8419c0a276e27d5c">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a0077d0cdd01de210b130f1e684d61b6d">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3dae400759f1828507a317507dbf681b">mitgcm.core.Wpoint_field</a>
 </li>
 <li>take_d_dy()
-: <a class="el" href="classmitgcm_1_1Tracerpoint__field.html#abe875d49041c764c65b579c6a0ba6c13">mitgcm.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Upoint__field.html#acf9bf315e3d31834781c0642086a7802">mitgcm.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1Vpoint__field.html#acaccb1a41ec42c0f60c82bf092534b94">mitgcm.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Wpoint__field.html#a669146364af5537c435957e297b41f57">mitgcm.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#acac1cef0245cd27c0975a84bef22a71d">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a7ffa6c1b239c78422f0224d675fd785e">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3874bb9811b39ed61b25de3ba3e3c39c">mitgcm.core.Wpoint_field</a>
 </li>
 <li>take_d_dz()
-: <a class="el" href="classmitgcm_1_1Tracerpoint__field.html#aae9d224b41b5cf62433fd5fe473a8116">mitgcm.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Upoint__field.html#a8bfdba5354910eed3e9e8827d38608f8">mitgcm.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1Vpoint__field.html#a6d06f4b2a5e774bbc711e39ba51723ea">mitgcm.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1Wpoint__field.html#a7edd07d71d411e7f41acb496cc054bd0">mitgcm.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#acbc550b512401054ac04eca3dc7318af">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a9975d2dcfb23b8cca0986f7e469882fa">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3f7ffb2f1ed512712805bf78d8a8cde4">mitgcm.core.Wpoint_field</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 21 2015 14:51:00 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Feb 3 2015 15:29:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

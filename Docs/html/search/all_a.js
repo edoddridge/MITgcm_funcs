@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['vorticity',['Vorticity',['../classmitgcm_1_1Vorticity.html',1,'mitgcm']]],
-  ['vorticitypoint_5ffield',['Vorticitypoint_field',['../classmitgcm_1_1Vorticitypoint__field.html',1,'mitgcm']]],
-  ['vpoint_5ffield',['Vpoint_field',['../classmitgcm_1_1Vpoint__field.html',1,'mitgcm']]]
+  ['core',['core',['../namespacemitgcm_1_1core.html',1,'mitgcm']]],
+  ['extraction_5ffunctions',['extraction_functions',['../namespacemitgcm_1_1extraction__functions.html',1,'mitgcm']]],
+  ['integration_5ffunctions',['integration_functions',['../namespacemitgcm_1_1integration__functions.html',1,'mitgcm']]],
+  ['mitgcm',['mitgcm',['../namespacemitgcm.html',1,'']]],
+  ['mitgcm_5fsimulation',['MITgcm_Simulation',['../classmitgcm_1_1core_1_1MITgcm__Simulation.html',1,'mitgcm::core']]]
 ];

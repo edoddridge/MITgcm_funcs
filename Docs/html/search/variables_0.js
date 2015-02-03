@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fsm',['fsm',['../classmitgcm_1_1doxypy_1_1Doxypy.html#abd7f9855188192eb916f119b7ef4a50e',1,'mitgcm::doxypy::Doxypy']]]
+  ['bottom_5fmask',['bottom_mask',['../classmitgcm_1_1core_1_1Grid.html#a69f90f4bcf5c06fab90674814eff4de9',1,'mitgcm::core::Grid']]]
 ];

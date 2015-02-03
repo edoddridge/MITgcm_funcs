@@ -1,0 +1,129 @@
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field}{\section{mitgcm.\+core.\+Wpoint\+\_\+field Class Reference}
+\label{classmitgcm_1_1core_1_1Wpoint__field}\index{mitgcm.\+core.\+Wpoint\+\_\+field@{mitgcm.\+core.\+Wpoint\+\_\+field}}
+}
+Inheritance diagram for mitgcm.\+core.\+Wpoint\+\_\+field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmitgcm_1_1core_1_1Wpoint__field}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a5149dd8a1c832999bdbcd60b4abc3b14}{\+\_\+\+\_\+init\+\_\+\+\_\+}
+\item 
+def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_abc10b27c7fc6fd59b2e525485242d4c1}{load\+\_\+field}
+\begin{DoxyCompactList}\small\item\em Load a model field from Net\+C\+D\+F output. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a3dae400759f1828507a317507dbf681b}{take\+\_\+d\+\_\+dx}
+\begin{DoxyCompactList}\small\item\em Take the x derivative of the field on w points, using spacings in grid object. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a3874bb9811b39ed61b25de3ba3e3c39c}{take\+\_\+d\+\_\+dy}
+\begin{DoxyCompactList}\small\item\em Take the y derivative of the field on w points, using spacings in grid object. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a3f7ffb2f1ed512712805bf78d8a8cde4}{take\+\_\+d\+\_\+dz}
+\begin{DoxyCompactList}\small\item\em Take the z derivative of the field given on w-\/points, using the spacings in grid object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 310 of file core.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a5149dd8a1c832999bdbcd60b4abc3b14}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{\+\_\+\+\_\+init\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Wpoint\+\_\+field.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{netcdf\+\_\+filename, }
+\item[{}]{variable, }
+\item[{}]{time\+\_\+level}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1Wpoint__field_a5149dd8a1c832999bdbcd60b4abc3b14}
+
+
+Definition at line 312 of file core.\+py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_abc10b27c7fc6fd59b2e525485242d4c1}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!load\+\_\+field@{load\+\_\+field}}
+\index{load\+\_\+field@{load\+\_\+field}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{load\+\_\+field}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Wpoint\+\_\+field.\+load\+\_\+field (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{netcdf\+\_\+filename, }
+\item[{}]{variable, }
+\item[{}]{time\+\_\+level}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1Wpoint__field_abc10b27c7fc6fd59b2e525485242d4c1}
+
+
+Load a model field from Net\+C\+D\+F output. 
+
+This function associates the field with the object it is called on.
+
+time\+\_\+level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. 
+
+Definition at line 321 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3dae400759f1828507a317507dbf681b}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}}
+\index{take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{take\+\_\+d\+\_\+dx}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Wpoint\+\_\+field.\+take\+\_\+d\+\_\+dx (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{model\+\_\+instance, }
+\item[{}]{input\+\_\+field = {\ttfamily 'WVEL'}, }
+\item[{}]{output\+\_\+field = {\ttfamily 'dW\+\_\+dx'}}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1Wpoint__field_a3dae400759f1828507a317507dbf681b}
+
+
+Take the x derivative of the field on w points, using spacings in grid object. 
+
+Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
+
+Definition at line 343 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3874bb9811b39ed61b25de3ba3e3c39c}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
+\index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{take\+\_\+d\+\_\+dy}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Wpoint\+\_\+field.\+take\+\_\+d\+\_\+dy (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{model\+\_\+instance, }
+\item[{}]{input\+\_\+field = {\ttfamily 'WVEL'}, }
+\item[{}]{output\+\_\+field = {\ttfamily 'dW\+\_\+dy'}}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1Wpoint__field_a3874bb9811b39ed61b25de3ba3e3c39c}
+
+
+Take the y derivative of the field on w points, using spacings in grid object. 
+
+Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
+
+Definition at line 376 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3f7ffb2f1ed512712805bf78d8a8cde4}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
+\index{take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{take\+\_\+d\+\_\+dz}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Wpoint\+\_\+field.\+take\+\_\+d\+\_\+dz (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{model\+\_\+instance, }
+\item[{}]{input\+\_\+field = {\ttfamily 'WVEL'}, }
+\item[{}]{output\+\_\+field = {\ttfamily 'dW\+\_\+dz'}}
+\end{DoxyParamCaption}
+)}}\label{classmitgcm_1_1core_1_1Wpoint__field_a3f7ffb2f1ed512712805bf78d8a8cde4}
+
+
+Take the z derivative of the field given on w-\/points, using the spacings in grid object. 
+
+Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
+
+Definition at line 408 of file core.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{core_8py}{core.\+py}\end{DoxyCompactItemize}
