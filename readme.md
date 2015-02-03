@@ -17,7 +17,7 @@ import mitgcm
 
 Instantiate a simulation object:
 
-m = mitgcm.Simulation(path_to_output,'grid.all.nc')
+m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
 
 
 The rest should be clear from the examples.
