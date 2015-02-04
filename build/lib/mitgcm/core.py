@@ -538,6 +538,7 @@ class Grid(MITgcm_Simulation):
         self.dxC = grid_netcdf_file.variables['dxC']
         self.dxV = grid_netcdf_file.variables['dxV']
         self.Y = grid_netcdf_file.variables['Y']
+        self.Yp1 = grid_netcdf_file.variables['Yp1']
         self.dyU = grid_netcdf_file.variables['dyU']
         self.dyC = grid_netcdf_file.variables['dyC']
         self.dyF = grid_netcdf_file.variables['dyF']
