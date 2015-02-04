@@ -41,13 +41,20 @@ class MITgcm_Simulation(dict):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
 	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-        
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        self[variable] = loaded_field
-        return
+	if time_level == None:
+	  netcdf_file = netCDF4.Dataset(netcdf_filename)
+	  loaded_field = netcdf_file.variables[variable][:,:,:]
+	  netcdf_file.close()
+
+	  self[variable] = loaded_field
+	  
+	else:
+	  netcdf_file = netCDF4.MFDataset(netcdf_filename)
+	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+	  netcdf_file.close()
+	  
+	  self[variable] = loaded_field
+	return
        
     def __add__(self,other):
  	"""A method that allows model objects to be added together. It does element wise addition for each of the fields."""
@@ -81,12 +88,12 @@ class MITgcm_Simulation(dict):
 
 class Upoint_field(MITgcm_Simulation):
     
-    def __init__(self,netcdf_filename,variable,time_level):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        self[variable] = loaded_field
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
         return
     
     ### Derivatives of model fields    
@@ -193,9 +200,13 @@ class Upoint_field(MITgcm_Simulation):
 class Vpoint_field(MITgcm_Simulation):
     """ This is the class fo rall fields on meridional velocity points."""
 
-    def __init__(self,netcdf_filename,variable,time_level):
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
 	"""Instantiate a field on the meridional velocity points."""
-        self.load_field(netcdf_filename,variable,time_level)
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
         return
     
     
@@ -293,27 +304,34 @@ class Vpoint_field(MITgcm_Simulation):
     
 class Wpoint_field(MITgcm_Simulation):
 
-    def __init__(self,netcdf_filename,variable,time_level):
-		self.load_field(netcdf_filename,variable,time_level)
-		
-        	return
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
+        return
     
     def load_field(self,netcdf_filename,variable,time_level):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
 	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-        
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        self[variable] = loaded_field
-        
-	if hasattr(time_level, '__len__'):
-	    self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
-	else:
-	    self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
+        if time_level == None:
+	  netcdf_file = netCDF4.Dataset(netcdf_filename)
+	  loaded_field = netcdf_file.variables[variable][:,:,:]
+	  netcdf_file.close()
+	  self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
+	else:
+	  netcdf_file = netCDF4.MFDataset(netcdf_filename)
+	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+	  netcdf_file.close()
+	  self[variable] = loaded_field
+        
+	  if hasattr(time_level, '__len__'):
+	      self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+	  else:
+	      self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
         return
     
@@ -605,31 +623,35 @@ class Grid(MITgcm_Simulation):
 
     
 class Temperature(Tracerpoint_field):
-    def __init__(self,netcdf_filename,variable,time_level):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        self[variable] = loaded_field
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
         return
             
             
 class Density(Tracerpoint_field):
-    def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000):
-        if model_instance['EOS_type'] == 'linear':
-            self['cp'] = cp
-            self['Talpha'] = Talpha
-            self['Sbeta'] = Sbeta
-            self['RhoNil'] = RhoNil
-            if Sbeta == 0:
-                self['RHO'] = (RhoNil*( -Talpha*(model_instance.temperature['THETA'] - 25)) 
-                          + RhoNil)
-                    # final term is to make density very high in the cells taht aren't fluid.
-            else:
-                raise ValueError('Linear EOS only supports temperature variations at the moment. Sorry.') 
-        else:
-            raise ValueError('Only linear EOS supported at the moment. Sorry.')
-                
+    def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
+		  temp_field='THETA',density_field='RHO',empty=False):
+        if empty:
+	  pass
+	else:
+	  if model_instance['EOS_type'] == 'linear':
+	      self['cp'] = cp
+	      self['Talpha'] = Talpha
+	      self['Sbeta'] = Sbeta
+	      self['RhoNil'] = RhoNil
+	      if Sbeta == 0:
+		  self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - 25)) 
+			    + RhoNil)
+		      # final term is to make density very high in the cells taht aren't fluid.
+	      else:
+		  raise ValueError('Linear EOS only supports temperature variations at the moment. Sorry.') 
+	  else:
+	      raise ValueError('Only linear EOS supported at the moment. Sorry.')
+		  
 
 
     def calculate_TotRhoTend(self,model_instance):
@@ -645,38 +667,38 @@ class Density(Tracerpoint_field):
             
 class Bernoulli(Tracerpoint_field):
     """The Bernoulli field, evaluated from velocity, pressure and density."""
-    def __init__(self,model_instance):
+    def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
         self['BP'] = model_instance.grid.wet_mask_TH*(((model_instance.pressure['P'][:,:,:] + 
                  model_instance.grid.Z[:].reshape((40,1,1))*
-                                    model_instance.density['RHO'][:,:,:]*model_instance['g'])/
+                                    model_instance.density[density_field][:,:,:]*model_instance['g'])/
                  model_instance.density['RhoNil']) + 
-                 ((model_instance.zonal_velocity['UVEL'][:,:,1:]*model_instance.zonal_velocity['UVEL'][:,:,1:] + 
-                 model_instance.zonal_velocity['UVEL'][:,:,:-1]*model_instance.zonal_velocity['UVEL'][:,:,:-1])/2 + 
-                 (model_instance.meridional_velocity['VVEL'][:,1:,:]*model_instance.meridional_velocity['VVEL'][:,1:,:] + 
-                 model_instance.meridional_velocity['VVEL'][:,:-1,:]*model_instance.meridional_velocity['VVEL'][:,:-1,:])/2)/2)
+                 ((model_instance.zonal_velocity[UVEL_field][:,:,1:]*model_instance.zonal_velocity[UVEL_field][:,:,1:] + 
+                 model_instance.zonal_velocity[UVEL_field][:,:,:-1]*model_instance.zonal_velocity[UVEL_field][:,:,:-1])/2 + 
+                 (model_instance.meridional_velocity[VVEL_field][:,1:,:]*model_instance.meridional_velocity[VVEL_field][:,1:,:] + 
+                 model_instance.meridional_velocity[VVEL_field][:,:-1,:]*model_instance.meridional_velocity[VVEL_field][:,:-1,:])/2)/2)
 
         
 class Free_surface(Tracerpoint_field):
-    def __init__(self,netcdf_filename,variable,time_level):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
-        
-        self[variable] = loaded_field
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+        if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
         return
             
         
 class Pressure(Tracerpoint_field):
-    def __init__(self,model_instance):
+    def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN'):
 
         # derive the hydrostatic pressure
-        delta_P = np.zeros((np.shape(model_instance.density['RHO'])))
-        delta_P[:,:,:] = model_instance['g']*model_instance.density['RHO'][:,:,:]*model_instance.grid.drF[:].reshape(40,1,1);
+        delta_P = np.zeros((np.shape(model_instance.density[density_field])))
+        delta_P[:,:,:] = model_instance['g']*model_instance.density[density_field][:,:,:]*model_instance.grid.drF[:].reshape(40,1,1);
         
     
         # add free surface contribution
         delta_P[0,:,:] = (delta_P[0,:,:] + 
-                          model_instance.free_surface['ETAN']*model_instance['g']*model_instance.density['RHO'][0,:,:])
+                          model_instance.free_surface[ETAN_field]*model_instance['g']*model_instance.density[density_field][0,:,:])
     
         self['delta_P'] = delta_P
         self['P'] = np.cumsum(delta_P,0)
@@ -684,12 +706,15 @@ class Pressure(Tracerpoint_field):
         return
     
 class Vorticity(Vorticitypoint_field):
-    def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=0):
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        self[variable] = netcdf_file.variables[variable][time_level,:,:]
-        netcdf_file.close()
+    def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=0,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
+        return
         
 class Potential_vorticity(Tracerpoint_field):
     """Evaluate the potential vorticity on the tracer points."""
-    def __init__(self,model_instance):
-        self['Q'] = -model_instance.vorticity['omega_a']*model_instance.density['dRHO_dz']/model_instance.density['RHO']
+    def __init__(self,model_instance,density_field='RhoNil',density_deriv_field='dRHO_dz',vort_field='omega_a'):
+        self['Q'] = -model_instance.vorticity[vort_field]*model_instance.density[density_deriv_field]/model_instance.density[density_field]

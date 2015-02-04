@@ -9,12 +9,12 @@ Each function has a detailed docstring.
 
 import numpy as np
 
-def stream2(u,v,startx,starty,x_u,y_u,x_v=None,y_v=None,t_int=2592000,delta_t=3600,interpolation='bilinear'):
+def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_t=3600,interpolation='bilinear'):
     """A two-dimensional streamline solver. The velocity fields must be two dimensional and not vary in time.
     """
-    if x_v == None:
+    if x_v == 'None':
         x_v = x_u
-    if y_v == None:
+    if y_v == 'None':
         y_v = y_u
 
     x_stream = np.ones((1))*startx
