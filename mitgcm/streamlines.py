@@ -134,56 +134,56 @@ def stream3(u,v,w,
 
 
 
-def bilinear_interp(location,vel,x,y):
-	"""Do bilinear interpolation of the velocity field to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+def bilinear_interp(x0,y0,vel,x,y):
+  """Do bilinear interpolation of the velocity field to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
-	location is an array of the point to interpolate to, (x_int,y_int).
-	"""
-
-	# Compute indeces at location
-	x_index = np.searchsorted(x,location[0])
-	if x_index == 0:
-	  raise ValueError('Given x location is outside the model grid - too small')
-	elif x_index == len(x):
-	  raise ValueError('Given x location is outside the model grid - too big')
-	  
-	y_index = np.searchsorted(y,location[1])
-	if y_index == 0:
-	  raise ValueError('Given y location is outside the model grid - too small')
-	elif y_index == len(y):
-	  raise ValueError('Given y location is outside the model grid - too big')
-	
-	#print 'x index = ' + str(x_index)
-	#print 'y index = ' + str(y_index)
-    
-	vel_interp = ((vel[y_index-1,x_index-1]*(x[x_index] - location[0])*(y[y_index] - location[1]) + 
-		   vel[y_index-1,x_index]*(location[0] - x[x_index-1])*(y[y_index] - location[1]) +
-		   vel[y_index,x_index]*(x[x_index] - location[0])*(location[1] - y[y_index-1]) + 
-		   vel[y_index,x_index]*(location[0] - x[x_index-1])*(location[1] - y[y_index-1]))/
-		   ((y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) 
-
-	return vel_interp
-
-def trilinear_interp(location,vel,x,y,z):
-  """Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
-
-  location is an array of the point to interpolate to, (x_int,y_int,z_int).
+  x0,y0 are the points to interpolate to.
   """
 
-  # Compute indices at location given
-  x_index = np.searchsorted(x,location[0])
+  # Compute indeces at location
+  x_index = np.searchsorted(x,x0)
   if x_index == 0:
     raise ValueError('Given x location is outside the model grid - too small')
   elif x_index == len(x):
     raise ValueError('Given x location is outside the model grid - too big')
     
-  y_index = np.searchsorted(y,location[1])
+  y_index = np.searchsorted(y,y0)
   if y_index == 0:
     raise ValueError('Given y location is outside the model grid - too small')
   elif y_index == len(y):
     raise ValueError('Given y location is outside the model grid - too big')
   
-  z_index = np.searchsorted(z,location[2])
+  #print 'x index = ' + str(x_index)
+  #print 'y index = ' + str(y_index)
+    
+  vel_interp = ((vel[y_index-1,x_index-1]*(x[x_index] - x0)*(y[y_index] - y0) + 
+       vel[y_index-1,x_index]*(x0 - x[x_index-1])*(y[y_index] - y0) +
+       vel[y_index,x_index]*(x[x_index] - x0)*(y0 - y[y_index-1]) + 
+       vel[y_index,x_index]*(x0 - x[x_index-1])*(y0 - y[y_index-1]))/
+       ((y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) 
+
+  return vel_interp
+
+def trilinear_interp(x0,y0,z0,vel,x,y,z):
+  """Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+
+  x0,y0, and z0 represent the point to interpolate to.
+  """
+
+  # Compute indices at location given
+  x_index = np.searchsorted(x,x0)
+  if x_index == 0:
+    raise ValueError('Given x location is outside the model grid - too small')
+  elif x_index == len(x):
+    raise ValueError('Given x location is outside the model grid - too big')
+    
+  y_index = np.searchsorted(y,y0)
+  if y_index == 0:
+    raise ValueError('Given y location is outside the model grid - too small')
+  elif y_index == len(y):
+    raise ValueError('Given y location is outside the model grid - too big')
+  
+  z_index = np.searchsorted(z,z0)
   if y_index == 0:
     raise ValueError('Given y location is outside the model grid - too small')
   elif y_index == len(y):
@@ -193,21 +193,21 @@ def trilinear_interp(location,vel,x,y,z):
   #print 'y index = ' + str(y_index)
     
   vel_interp = ((vel[z_index-1,y_index-1,x_index-1]*
-                    (x[x_index] - location[0])*(y[y_index] - location[1])*(z[z_index] - location[2]) + 
+                    (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
                 vel[z_index,y_index-1,x_index-1]*
-                    (x[x_index] - location[0])*(y[y_index] - location[1])*(location[2] - z[z_index-1]) + 
+                    (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
                 vel[z_index,y_index,x_index-1]*
-                    (x[x_index] - location[0])*(location[1] - y[y_index-1])*(location[2] - z[z_index-1]) + 
+                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
                 vel[z_index-1,y_index,x_index-1]*
-                    (x[x_index] - location[0])*(location[1] - y[y_index-1])*(z[z_index] - location[2]) + 
+                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0) + 
                 vel[z_index-1,y_index-1,x_index]*
-                    (location[0] - x[x_index-1])*(y[y_index] - location[1])*(z[z_index] - location[2]) + 
+                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0) + 
                 vel[z_index,y_index-1,x_index]*
-                    (location[0] - x[x_index-1])*(y[y_index] - location[1])*(location[2] - z[z_index-1]) + 
+                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
                 vel[z_index,y_index,x_index]*
-                    (location[0] - x[x_index-1])*(location[1] - y[y_index-1])*(location[2] - z[z_index-1]) + 
+                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
                 vel[z_index-1,y_index,x_index]*
-                    (location[0] - x[x_index-1])*(location[1] - y[y_index-1])*(z[z_index] - location[2]))/
+                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0))/
              ((z[z_index] - z[z_index-1])*(y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) 
 
   return vel_interp
