@@ -110,17 +110,17 @@ class Upoint_field(MITgcm_Simulation):
             dU_dx = np.zeros((UVEL.shape))
 
             for i in xrange(1,UVEL.shape[2]-2):
-                dU_dx[:,:,i] = np.nan_to_num(model_instance.grid.wet_mask_U[:,:,i]*
-                        (model_instance.grid.wet_mask_U[:,:,i+1]*UVEL[:,:,i+1] + 
-                        (1 - model_instance.grid.wet_mask_U[:,:,i+1])*UVEL[:,:,i] - 
-                        (1 - model_instance.grid.wet_mask_U[:,:,i-1])*UVEL[:,:,i] - 
-                        model_instance.grid.wet_mask_U[:,:,i-1]*UVEL[:,:,i-1])/(
-                        model_instance.grid.wet_mask_U[:,:,i-1]*model_instance.grid.dxF[:,i-1] + 
-                        model_instance.grid.wet_mask_U[:,:,i+1]*model_instance.grid.dxF[:,i]))
+                dU_dx[:,:,i] = np.nan_to_num(model_instance.grid['wet_mask_U'][:,:,i]*
+                        (model_instance.grid['wet_mask_U'][:,:,i+1]*UVEL[:,:,i+1] + 
+                        (1 - model_instance.grid['wet_mask_U'][:,:,i+1])*UVEL[:,:,i] - 
+                        (1 - model_instance.grid['wet_mask_U'][:,:,i-1])*UVEL[:,:,i] - 
+                        model_instance.grid['wet_mask_U'][:,:,i-1]*UVEL[:,:,i-1])/(
+                        model_instance.grid['wet_mask_U'][:,:,i-1]*model_instance.grid['dxF'][:,i-1] + 
+                        model_instance.grid['wet_mask_U'][:,:,i+1]*model_instance.grid['dxF'][:,i]))
             i = 1
-            dU_dx[:,:,i] = (UVEL[:,:,i+1] - UVEL[:,:,i])/(model_instance.grid.dxF[:,i])
+            dU_dx[:,:,i] = (UVEL[:,:,i+1] - UVEL[:,:,i])/(model_instance.grid['dxF'][:,i])
             i = UVEL.shape[2]-1
-            dU_dx[:,:,i] = (UVEL[:,:,i] - UVEL[:,:,i-1])/(model_instance.grid.dxF[:,i-1])
+            dU_dx[:,:,i] = (UVEL[:,:,i] - UVEL[:,:,i-1])/(model_instance.grid['dxF'][:,i-1])
 
             self[output_field] = dU_dx
         else:
@@ -145,20 +145,20 @@ class Upoint_field(MITgcm_Simulation):
             dU_dy = np.zeros((UVEL.shape))
 
             for j in xrange(1,UVEL.shape[1]-1):
-                dU_dy[:,j,1:] = np.nan_to_num(model_instance.grid.wet_mask_U[:,j,1:]*
-                                (model_instance.grid.wet_mask_U[:,j+1,1:]*UVEL[:,j+1,1:] + 
-                                (1 - model_instance.grid.wet_mask_U[:,j+1,1:])*UVEL[:,j,1:] - 
+                dU_dy[:,j,1:] = np.nan_to_num(model_instance.grid['wet_mask_U'][:,j,1:]*
+                                (model_instance.grid['wet_mask_U'][:,j+1,1:]*UVEL[:,j+1,1:] + 
+                                (1 - model_instance.grid['wet_mask_U'][:,j+1,1:])*UVEL[:,j,1:] - 
                                 # if j+1 point is not fluid, use j point as the starting 
                                 # location for the derivative
-                                (1 - model_instance.grid.wet_mask_U[:,j-1,1:])*UVEL[:,j,1:] - 
-                                model_instance.grid.wet_mask_U[:,j-1,1:]*UVEL[:,j-1,1:])/(
-                                model_instance.grid.wet_mask_U[:,j-1,1:]*model_instance.grid.dyC[j,:] + 
-                                model_instance.grid.wet_mask_U[:,j+1,1:]*model_instance.grid.dyC[j+1,:]))
+                                (1 - model_instance.grid['wet_mask_U'][:,j-1,1:])*UVEL[:,j,1:] - 
+                                model_instance.grid['wet_mask_U'][:,j-1,1:]*UVEL[:,j-1,1:])/(
+                                model_instance.grid['wet_mask_U'][:,j-1,1:]*model_instance.grid['dyC'][j,:] + 
+                                model_instance.grid['wet_mask_U'][:,j+1,1:]*model_instance.grid['dyC'][j+1,:]))
 
             j = 1
-            dU_dy[:,j,1:] = (UVEL[:,j+1,1:] - UVEL[:,j,1:])/(model_instance.grid.dyC[j+1,:])
+            dU_dy[:,j,1:] = (UVEL[:,j+1,1:] - UVEL[:,j,1:])/(model_instance.grid['dyC'][j+1,:])
             j = UVEL.shape[1]-1
-            dU_dy[:,j,1:] = (UVEL[:,j,1:] - UVEL[:,j-1,1:])/(model_instance.grid.dyC[j,:])
+            dU_dy[:,j,1:] = (UVEL[:,j,1:] - UVEL[:,j-1,1:])/(model_instance.grid['dyC'][j,:])
 
             self[output_field] = dU_dy
         else:
@@ -182,15 +182,15 @@ class Upoint_field(MITgcm_Simulation):
 
             for k in xrange(1,UVEL.shape[0]-1):
                 # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                d_dz[k,:,:] = np.nan_to_num(model_instance.grid.wet_mask_U[k,:,:]*(UVEL[k-1,:,:]  -
-                (1-model_instance.grid.wet_mask_U[k+1,:,:])*UVEL[k,:,:]-
-                model_instance.grid.wet_mask_U[k+1,:,:]*UVEL[k+1,:,:])/(model_instance.grid.drC[k] +
-                model_instance.grid.wet_mask_U[k+1,:,:]*model_instance.grid.drC[k+1]))
+                d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_U'][k,:,:]*(UVEL[k-1,:,:]  -
+                (1-model_instance.grid['wet_mask_U'][k+1,:,:])*UVEL[k,:,:]-
+                model_instance.grid['wet_mask_U'][k+1,:,:]*UVEL[k+1,:,:])/(model_instance.grid['drC'][k] +
+                model_instance.grid['wet_mask_U'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
                 k = 0
-                d_dz[k,:,:] = (UVEL[k,:,:] - UVEL[k+1,:,:])/(model_instance.grid.drC[k+1])
+                d_dz[k,:,:] = (UVEL[k,:,:] - UVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
                 k = UVEL.shape[0]-1
-                d_dz[k,:,:] = (UVEL[k-1,:,:] - UVEL[k,:,:])/(model_instance.grid.drC[k])
+                d_dz[k,:,:] = (UVEL[k-1,:,:] - UVEL[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = d_dz
         else:
@@ -225,17 +225,17 @@ class Vpoint_field(MITgcm_Simulation):
             dV_dx = np.zeros((VVEL.shape))
 
             for i in xrange(1,VVEL.shape[2]-1):
-                dV_dx[:,1:,i] = np.nan_to_num(model_instance.grid.wet_mask_V[:,1:,i]*
-                        (model_instance.grid.wet_mask_V[:,1:,i+1]*VVEL[:,1:,i+1] + 
-                        (1 - model_instance.grid.wet_mask_V[:,1:,i+1])*VVEL[:,1:,i] - 
-                        (1 - model_instance.grid.wet_mask_V[:,1:,i-1])*VVEL[:,1:,i] - 
-                        model_instance.grid.wet_mask_V[:,1:,i-1]*VVEL[:,1:,i-1])/(
-                        model_instance.grid.wet_mask_V[:,1:,i-1]*model_instance.grid.dxC[:,i] + 
-                        model_instance.grid.wet_mask_V[:,1:,i+1]*model_instance.grid.dxC[:,i+1]))
+                dV_dx[:,1:,i] = np.nan_to_num(model_instance.grid['wet_mask_V'][:,1:,i]*
+                        (model_instance.grid['wet_mask_V'][:,1:,i+1]*VVEL[:,1:,i+1] + 
+                        (1 - model_instance.grid['wet_mask_V'][:,1:,i+1])*VVEL[:,1:,i] - 
+                        (1 - model_instance.grid['wet_mask_V'][:,1:,i-1])*VVEL[:,1:,i] - 
+                        model_instance.grid['wet_mask_V'][:,1:,i-1]*VVEL[:,1:,i-1])/(
+                        model_instance.grid['wet_mask_V'][:,1:,i-1]*model_instance.grid['dxC'][:,i] + 
+                        model_instance.grid['wet_mask_V'][:,1:,i+1]*model_instance.grid['dxC'][:,i+1]))
             i = 1
-            dV_dx[:,1:,i] = (VVEL[:,1:,i+1] - VVEL[:,1:,i])/(model_instance.grid.dxC[:,i+1])
+            dV_dx[:,1:,i] = (VVEL[:,1:,i+1] - VVEL[:,1:,i])/(model_instance.grid['dxC'][:,i+1])
             i = VVEL.shape[2]-1
-            dV_dx[:,1:,i] = (VVEL[:,1:,i] - VVEL[:,1:,i-1])/(model_instance.grid.dxC[:,i])
+            dV_dx[:,1:,i] = (VVEL[:,1:,i] - VVEL[:,1:,i-1])/(model_instance.grid['dxC'][:,i])
 
             self[output_field] = dV_dx
         else:
@@ -255,17 +255,17 @@ class Vpoint_field(MITgcm_Simulation):
             dV_dy = np.zeros((VVEL.shape))
 
             for j in xrange(1,VVEL.shape[1]-2):
-                dV_dy[:,j,:] = np.nan_to_num(model_instance.grid.wet_mask_V[:,j,:]*(
-                        model_instance.grid.wet_mask_V[:,j+1,:]*VVEL[:,j+1,:] + 
-                        (1 - model_instance.grid.wet_mask_V[:,j+1,:])*VVEL[:,j,:] - 
-                        (1 - model_instance.grid.wet_mask_V[:,j-1,:])*VVEL[:,j,:] - 
-                        model_instance.grid.wet_mask_V[:,j-1,:]*VVEL[:,j-1,:])/(
-                        model_instance.grid.wet_mask_V[:,j-1,:]*model_instance.grid.dyF[j-1,:] + 
-                        model_instance.grid.wet_mask_V[:,j+1,:]*model_instance.grid.dyF[j,:]))
+                dV_dy[:,j,:] = np.nan_to_num(model_instance.grid['wet_mask_V'][:,j,:]*(
+                        model_instance.grid['wet_mask_V'][:,j+1,:]*VVEL[:,j+1,:] + 
+                        (1 - model_instance.grid['wet_mask_V'][:,j+1,:])*VVEL[:,j,:] - 
+                        (1 - model_instance.grid['wet_mask_V'][:,j-1,:])*VVEL[:,j,:] - 
+                        model_instance.grid['wet_mask_V'][:,j-1,:]*VVEL[:,j-1,:])/(
+                        model_instance.grid['wet_mask_V'][:,j-1,:]*model_instance.grid['dyF'][j-1,:] + 
+                        model_instance.grid['wet_mask_V'][:,j+1,:]*model_instance.grid['dyF'][j,:]))
             j = 1
-            dV_dy[:,j,:] = (VVEL[:,j+1,:] - VVEL[:,j,:])/(model_instance.grid.dyF[j,:])
+            dV_dy[:,j,:] = (VVEL[:,j+1,:] - VVEL[:,j,:])/(model_instance.grid['dyF'][j,:])
             j = VVEL.shape[1]-1
-            dV_dy[:,j,:] = (VVEL[:,j,:] - VVEL[:,j-1,:])/(model_instance.grid.dyF[j-1,:])
+            dV_dy[:,j,:] = (VVEL[:,j,:] - VVEL[:,j-1,:])/(model_instance.grid['dyF'][j-1,:])
 
             self[output_field] = dV_dy
         else:
@@ -287,15 +287,15 @@ class Vpoint_field(MITgcm_Simulation):
 
             for k in xrange(1,VVEL.shape[0]-1):
                 # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                d_dz[k,:,:] = np.nan_to_num(model_instance.grid.wet_mask_V[k,:,:]*(VVEL[k-1,:,:]  -
-                    (1-model_instance.grid.wet_mask_V[k+1,:,:])*VVEL[k,:,:]-
-                    model_instance.grid.wet_mask_V[k+1,:,:]*VVEL[k+1,:,:])/(model_instance.grid.drC[k] +
-                    model_instance.grid.wet_mask_V[k+1,:,:]*model_instance.grid.drC[k+1]))
+                d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_V'][k,:,:]*(VVEL[k-1,:,:]  -
+                    (1-model_instance.grid['wet_mask_V'][k+1,:,:])*VVEL[k,:,:]-
+                    model_instance.grid['wet_mask_V'][k+1,:,:]*VVEL[k+1,:,:])/(model_instance.grid['drC'][k] +
+                    model_instance.grid['wet_mask_V'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
                 k = 0
-                d_dz[k,:,:] = (VVEL[k,:,:] - VVEL[k+1,:,:])/(model_instance.grid.drC[k+1])
+                d_dz[k,:,:] = (VVEL[k,:,:] - VVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
                 k = VVEL.shape[0]-1
-                d_dz[k,:,:] = (VVEL[k-1,:,:] - VVEL[k,:,:])/(model_instance.grid.drC[k])
+                d_dz[k,:,:] = (VVEL[k-1,:,:] - VVEL[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = d_dz
         else:
@@ -348,17 +348,17 @@ class Wpoint_field(MITgcm_Simulation):
             d_dx = np.zeros((WVEL.shape))
 
             for i in xrange(1,WVEL.shape[2]-1):
-                d_dx[:,:,i] = np.nan_to_num(model_instance.grid.wet_mask_W[:,:,i]*
-                                (model_instance.grid.wet_mask_W[:,:,i+1]*WVEL[:,:,i+1] + 
-                                (1 - model_instance.grid.wet_mask_W[:,:,i+1])*WVEL[:,:,i] - 
-                                (1 - model_instance.grid.wet_mask_W[:,:,i-1])*WVEL[:,:,i] - 
-                                model_instance.grid.wet_mask_W[:,:,i-1]*WVEL[:,:,i-1])/(
-                                model_instance.grid.wet_mask_W[:,:,i-1]*model_instance.grid.dxC[:,i] + 
-                                model_instance.grid.wet_mask_W[:,:,i+1]*model_instance.grid.dxC[:,i+1]))
+                d_dx[:,:,i] = np.nan_to_num(model_instance.grid['wet_mask_W'][:,:,i]*
+                                (model_instance.grid['wet_mask_W'][:,:,i+1]*WVEL[:,:,i+1] + 
+                                (1 - model_instance.grid['wet_mask_W'][:,:,i+1])*WVEL[:,:,i] - 
+                                (1 - model_instance.grid['wet_mask_W'][:,:,i-1])*WVEL[:,:,i] - 
+                                model_instance.grid['wet_mask_W'][:,:,i-1]*WVEL[:,:,i-1])/(
+                                model_instance.grid['wet_mask_W'][:,:,i-1]*model_instance.grid['dxC'][:,i] + 
+                                model_instance.grid['wet_mask_W'][:,:,i+1]*model_instance.grid['dxC'][:,i+1]))
             i = 1
-            d_dx[:,:,i] = (WVEL[:,:,i+1] - WVEL[:,:,i])/(model_instance.grid.dxC[:,i+1])
+            d_dx[:,:,i] = (WVEL[:,:,i+1] - WVEL[:,:,i])/(model_instance.grid['dxC'][:,i+1])
             i = WVEL.shape[2]-1
-            d_dx[:,:,i] = (WVEL[:,:,i] - WVEL[:,:,i-1])/(model_instance.grid.dxC[:,i])
+            d_dx[:,:,i] = (WVEL[:,:,i] - WVEL[:,:,i-1])/(model_instance.grid['dxC'][:,i])
 
             self[output_field] = d_dx
 
@@ -380,17 +380,17 @@ class Wpoint_field(MITgcm_Simulation):
             dW_dy = np.zeros((WVEL.shape))
 
             for j in xrange(1,WVEL.shape[2]-1):
-                dW_dy[:,j,:] = np.nan_to_num(model_instance.grid.wet_mask_W[:,j,:]*
-                                    (model_instance.grid.wet_mask_W[:,j+1,:]*WVEL[:,j+1,:] + 
-                                    (1 - model_instance.grid.wet_mask_W[:,j+1,:])*WVEL[:,j,:] - 
-                                    (1 - model_instance.grid.wet_mask_W[:,j-1,:])*WVEL[:,j,:] - 
-                                    model_instance.grid.wet_mask_W[:,j-1,:]*WVEL[:,j-1,:])/(
-                                    model_instance.grid.wet_mask_W[:,j-1,:]*model_instance.grid.dyC[j,:] + 
-                                    model_instance.grid.wet_mask_W[:,j+1,:]*model_instance.grid.dyC[j+1,:]))
+                dW_dy[:,j,:] = np.nan_to_num(model_instance.grid['wet_mask_W'][:,j,:]*
+                                    (model_instance.grid['wet_mask_W'][:,j+1,:]*WVEL[:,j+1,:] + 
+                                    (1 - model_instance.grid['wet_mask_W'][:,j+1,:])*WVEL[:,j,:] - 
+                                    (1 - model_instance.grid['wet_mask_W'][:,j-1,:])*WVEL[:,j,:] - 
+                                    model_instance.grid['wet_mask_W'][:,j-1,:]*WVEL[:,j-1,:])/(
+                                    model_instance.grid['wet_mask_W'][:,j-1,:]*model_instance.grid['dyC'][j,:] + 
+                                    model_instance.grid['wet_mask_W'][:,j+1,:]*model_instance.grid['dyC'][j+1,:]))
             j = 1
-            dW_dy[:,j,:] = (WVEL[:,j+1,:] - WVEL[:,j,:])/(model_instance.grid.dyC[j+1,:])
+            dW_dy[:,j,:] = (WVEL[:,j+1,:] - WVEL[:,j,:])/(model_instance.grid['dyC'][j+1,:])
             j = WVEL.shape[1]-1
-            dW_dy[:,j,:] = (WVEL[:,j,:] - WVEL[:,j-1,:])/(model_instance.grid.dyC[j,:])
+            dW_dy[:,j,:] = (WVEL[:,j,:] - WVEL[:,j-1,:])/(model_instance.grid['dyC'][j,:])
 
             self[output_field] = dW_dy
        
@@ -411,18 +411,18 @@ class Wpoint_field(MITgcm_Simulation):
             dWVEL_dz = np.zeros((WVEL.shape))
 
             for k in xrange(1,WVEL.shape[0]-2):
-                dWVEL_dz[k,:,:] = np.nan_to_num(model_instance.grid.wet_mask_TH[k,:,:]*(WVEL[k-1,:,:] -
-                            (1-model_instance.grid.wet_mask_TH[k+1,:,:])*WVEL[k,:,:]-
-                            model_instance.grid.wet_mask_TH[k+1,:,:]*WVEL[k+1,:,:])/
-                            (model_instance.grid.drF[k-1]+
-                            model_instance.grid.wet_mask_TH[k+1,:,:]*model_instance.grid.drF[k]))
+                dWVEL_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(WVEL[k-1,:,:] -
+                            (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*WVEL[k,:,:]-
+                            model_instance.grid['wet_mask_TH'][k+1,:,:]*WVEL[k+1,:,:])/
+                            (model_instance.grid['drF'][k-1]+
+                            model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drF'][k]))
 
                 k = 0
-                dWVEL_dz[k,:,:] = (WVEL[k,:,:] - WVEL[k+1,:,:])/(model_instance.grid.drF[k])
+                dWVEL_dz[k,:,:] = (WVEL[k,:,:] - WVEL[k+1,:,:])/(model_instance.grid['drF'][k])
                 k = WVEL.shape[0]-2
-                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid.drF[k-1])        
+                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])        
                 k = WVEL.shape[0]-1
-                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid.drF[k-1])
+                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])
 
             self[output_field] = dWVEL_dz
         else:
@@ -448,17 +448,17 @@ class Tracerpoint_field(MITgcm_Simulation):
             d_dx = np.zeros((rho.shape))
 
             for i in xrange(1,rho.shape[2]-1):
-                d_dx[:,:,i] = np.nan_to_num(model_instance.grid.wet_mask_TH[:,:,i]*
-                        (model_instance.grid.wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
-                        (1 - model_instance.grid.wet_mask_TH[:,:,i+1])*rho[:,:,i] - 
-                        (1 - model_instance.grid.wet_mask_TH[:,:,i-1])*rho[:,:,i] - 
-                        model_instance.grid.wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
-                        model_instance.grid.wet_mask_TH[:,:,i-1]*model_instance.grid.dxC[:,i] + 
-                        model_instance.grid.wet_mask_TH[:,:,i+1]*model_instance.grid.dxC[:,i+1]))
+                d_dx[:,:,i] = np.nan_to_num(model_instance.grid['wet_mask_TH'][:,:,i]*
+                        (model_instance.grid['wet_mask_TH'][:,:,i+1]*rho[:,:,i+1] + 
+                        (1 - model_instance.grid['wet_mask_TH'][:,:,i+1])*rho[:,:,i] - 
+                        (1 - model_instance.grid['wet_mask_TH'][:,:,i-1])*rho[:,:,i] - 
+                        model_instance.grid['wet_mask_TH'][:,:,i-1]*rho[:,:,i-1])/(
+                        model_instance.grid['wet_mask_TH'][:,:,i-1]*model_instance.grid['dxC'][:,i] + 
+                        model_instance.grid['wet_mask_TH'][:,:,i+1]*model_instance.grid['dxC'][:,i+1]))
             i = 1
-            d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(model_instance.grid.dxC[:,i+1])
+            d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(model_instance.grid['dxC'][:,i+1])
             i = rho.shape[2]-1
-            d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(model_instance.grid.dxC[:,i])
+            d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(model_instance.grid['dxC'][:,i])
 
             self[output_field] = d_dx
         else:
@@ -479,17 +479,17 @@ class Tracerpoint_field(MITgcm_Simulation):
             d_dy = np.zeros((rho.shape))
 
             for j in xrange(1,rho.shape[2]-1):
-                d_dy[:,j,:] = np.nan_to_num(model_instance.grid.wet_mask_TH[:,j,:]*
-                                (model_instance.grid.wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
-                                (1 - model_instance.grid.wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
-                                (1 - model_instance.grid.wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
-                                model_instance.grid.wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
-                                model_instance.grid.wet_mask_TH[:,j-1,:]*model_instance.grid.dyC[j,:] + 
-                                model_instance.grid.wet_mask_TH[:,j+1,:]*model_instance.grid.dyC[j+1,:]))
+                d_dy[:,j,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][:,j,:]*
+                                (model_instance.grid['wet_mask_TH'][:,j+1,:]*rho[:,j+1,:] + 
+                                (1 - model_instance.grid['wet_mask_TH'][:,j+1,:])*rho[:,j,:] - 
+                                (1 - model_instance.grid['wet_mask_TH'][:,j-1,:])*rho[:,j,:] - 
+                                model_instance.grid['wet_mask_TH'][:,j-1,:]*rho[:,j-1,:])/(
+                                model_instance.grid['wet_mask_TH'][:,j-1,:]*model_instance.grid['dyC'][j,:] + 
+                                model_instance.grid['wet_mask_TH'][:,j+1,:]*model_instance.grid['dyC'][j+1,:]))
             j = 1
-            d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(model_instance.grid.dyC[j+1,:])
+            d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(model_instance.grid['dyC'][j+1,:])
             j = rho.shape[1]-1
-            d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(model_instance.grid.dyC[j,:])
+            d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(model_instance.grid['dyC'][j,:])
 
             self[output_field] = d_dy
         else:
@@ -511,15 +511,15 @@ class Tracerpoint_field(MITgcm_Simulation):
 
             for k in xrange(1,rho.shape[0]-1):
                 # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                d_dz[k,:,:] = np.nan_to_num(model_instance.grid.wet_mask_TH[k,:,:]*(rho[k-1,:,:]  -
-                                    (1-model_instance.grid.wet_mask_TH[k+1,:,:])*rho[k,:,:]-
-                                    model_instance.grid.wet_mask_TH[k+1,:,:]*rho[k+1,:,:])/(model_instance.grid.drC[k] +
-                                    model_instance.grid.wet_mask_TH[k+1,:,:]*model_instance.grid.drC[k+1]))
+                d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(rho[k-1,:,:]  -
+                                    (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*rho[k,:,:]-
+                                    model_instance.grid['wet_mask_TH'][k+1,:,:]*rho[k+1,:,:])/(model_instance.grid['drC'][k] +
+                                    model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
                 k = 0
-                d_dz[k,:,:] = (rho[k,:,:] - rho[k+1,:,:])/(model_instance.grid.drC[k+1])
+                d_dz[k,:,:] = (rho[k,:,:] - rho[k+1,:,:])/(model_instance.grid['drC'][k+1])
                 k = rho.shape[0]-1
-                d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid.drC[k])
+                d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = d_dz
         else:
@@ -544,79 +544,80 @@ class Grid(MITgcm_Simulation):
         Each of the variables pulled directly from the netcdf file still has the 
         original description attached to it. The 2D and 3D arrays do not."""
         grid_netcdf_file = netCDF4.Dataset(grid_netcdf_filename)
-        self.rAw = grid_netcdf_file.variables['rAw']
-        self.rAs = grid_netcdf_file.variables['rAs']
-        self.rA = grid_netcdf_file.variables['rA']
-        self.HFacW = grid_netcdf_file.variables['HFacW']
-        self.HFacS = grid_netcdf_file.variables['HFacS']
-        self.HFacC = grid_netcdf_file.variables['HFacC']
-        self.X = grid_netcdf_file.variables['X']
-        self.Xp1 = grid_netcdf_file.variables['Xp1']
-        self.dxF = grid_netcdf_file.variables['dxF']
-        self.dxC = grid_netcdf_file.variables['dxC']
-        self.dxV = grid_netcdf_file.variables['dxV']
-        self.Y = grid_netcdf_file.variables['Y']
-        self.Yp1 = grid_netcdf_file.variables['Yp1']
-        self.dyU = grid_netcdf_file.variables['dyU']
-        self.dyC = grid_netcdf_file.variables['dyC']
-        self.dyF = grid_netcdf_file.variables['dyF']
-        self.Z = grid_netcdf_file.variables['Z']
-        self.Zl = grid_netcdf_file.variables['Zl']
-        self.Zu = grid_netcdf_file.variables['Zu']
-        self.drC = grid_netcdf_file.variables['drC']
-        self.drF = grid_netcdf_file.variables['drF']
-        self.fCoriG = grid_netcdf_file.variables['fCoriG']
+        self['rAw'] = grid_netcdf_file.variables['rAw']
+        self['rAs'] = grid_netcdf_file.variables['rAs']
+        self['rA'] = grid_netcdf_file.variables['rA']
+        self['HFacW'] = grid_netcdf_file.variables['HFacW']
+        self['HFacS'] = grid_netcdf_file.variables['HFacS']
+        self['HFacC'] = grid_netcdf_file.variables['HFacC']
+        self['X']= grid_netcdf_file.variables['X']
+        self['Xp1'] = grid_netcdf_file.variables['Xp1']
+        self['dxF'] = grid_netcdf_file.variables['dxF']
+        self['dxC'] = grid_netcdf_file.variables['dxC']
+        self['dxV'] = grid_netcdf_file.variables['dxV']
+        self['Y'] = grid_netcdf_file.variables['Y']
+        self['Yp1'] = grid_netcdf_file.variables['Yp1']
+        self['dyU'] = grid_netcdf_file.variables['dyU']
+        self['dyC'] = grid_netcdf_file.variables['dyC']
+        self['dyF'] = grid_netcdf_file.variables['dyF']
+        self['Z'] = grid_netcdf_file.variables['Z']
+        self['Zl'] = grid_netcdf_file.variables['Zl']
+        self['Zu'] = grid_netcdf_file.variables['Zu']
+        self['drC'] = grid_netcdf_file.variables['drC']
+        self['drF'] = grid_netcdf_file.variables['drF']
+        self['fCoriG'] = grid_netcdf_file.variables['fCoriG']
 
-        (self.Z_y,self.Y_z) = np.meshgrid(self.Z[:],self.Y,indexing='ij')
-        (self.X_y,self.Y_x) = np.meshgrid(self.X,self.Y,indexing='ij')
-        (self.Z_x,self.X_z) = np.meshgrid(self.Z,self.X,indexing='ij')
-        (self.Z_3d,self.Y_3d,self.X_3d) = np.meshgrid(self.Z[:],self.Y,self.X,indexing='ij')
+        (self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'],indexing='ij')
+        (self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'],indexing='ij')
+        (self['Z_x'],self['X_z']) = np.meshgrid(self['Z'],self['X'],indexing='ij')
+        (self['Z_3d'],self['Y_3d'],self['X_3d']) = np.meshgrid(self['Z'][:],self['Y'],self['X'],indexing='ij')
 
-        (self.DZF,self.DYF, self.DXF) = np.meshgrid(self.drF,self.dyF[0,:],self.dxF[:,0],indexing='ij')
+        (self['DZF'],self['DYF'], self['DXF']) = np.meshgrid(self['drF'],self['dyF'][0,:],self['dxF'][:,0],indexing='ij')
 
-        self.wet_mask_V = copy.deepcopy(np.ones((np.shape(self.HFacS))))
-        self.wet_mask_V[self.HFacS[:] == 0.] = 0.
-        self.wet_mask_U = copy.deepcopy(np.ones((np.shape(self.HFacW))))
-        self.wet_mask_U[self.HFacW[:] == 0.] = 0.
-        self.wet_mask_TH = copy.deepcopy(np.ones((np.shape(self.HFacC))))
-        self.wet_mask_TH[self.HFacC[:] == 0.] = 0.
-        self.wet_mask_W = np.append(self.wet_mask_TH,np.ones((1,480,480)),axis=0)
+        self['wet_mask_V'] = copy.deepcopy(np.ones((np.shape(self['HFacS']))))
+        self['wet_mask_V'][self['HFacS'][:] == 0.] = 0.
+        self['wet_mask_U'] = copy.deepcopy(np.ones((np.shape(self['HFacW']))))
+        self['wet_mask_U'][self['HFacW'][:] == 0.] = 0.
+        self['wet_mask_TH'] = copy.deepcopy(np.ones((np.shape(self['HFacC']))))
+        self['wet_mask_TH'][self['HFacC'][:] == 0.] = 0.
+        self['wet_mask_W'] = np.append(self['wet_mask_TH'],np.ones((1,len(self['Y'][:]),len(self['X'][:]))),axis=0)
+				      #len(self['Y'][:]),len(self['X'][:]))),axis=0)
 
-        self.cell_volume = copy.deepcopy(self.dxF[:]*self.dyF[:]*self.drF[:].reshape((40,1,1)))
+        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*self['drF'][:].reshape((40,1,1)))
 
-        self.west_mask = np.zeros((self.wet_mask_TH.shape))
-        self.east_mask = np.zeros((self.wet_mask_TH.shape))
-        self.south_mask = np.zeros((self.wet_mask_TH.shape))
-        self.north_mask = np.zeros((self.wet_mask_TH.shape))
-        self.bottom_mask = np.zeros((self.wet_mask_TH.shape))
+        self['west_mask'] = np.zeros((self['wet_mask_TH'].shape))
+        self['east_mask'] = np.zeros((self['wet_mask_TH'].shape))
+        self['south_mask'] = np.zeros((self['wet_mask_TH'].shape))
+        self['north_mask'] = np.zeros((self['wet_mask_TH'].shape))
+        self['bottom_mask'] = np.zeros((self['wet_mask_TH'].shape))
 
         # Find the fluxes through the boundary of the domain
-        for k in xrange(0,self.wet_mask_TH.shape[0]):
-            for j in xrange(0,self.wet_mask_TH.shape[1]):
-                for i in xrange(0,self.wet_mask_TH.shape[2]):
+        for k in xrange(0,self['wet_mask_TH'].shape[0]):
+            for j in xrange(0,self['wet_mask_TH'].shape[1]):
+                for i in xrange(0,self['wet_mask_TH'].shape[2]):
                     # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
-                    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j,i-1] == 1:
-                        self.west_mask[k,j,i] = 1
+                    if self['wet_mask_TH'][k,j,i] - self['wet_mask_TH'][k,j,i-1] == 1:
+                        self['west_mask'][k,j,i] = 1
 
 
                     # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
-                    if self.wet_mask_TH[k,j,i-1] - self.wet_mask_TH[k,j,i] == 1:
-                        self.east_mask[k,j,i-1] = 1
+                    if self['wet_mask_TH'][k,j,i-1] - self['wet_mask_TH'][k,j,i] == 1:
+                        self['east_mask'][k,j,i-1] = 1
 
 
                     # find the southern boundary points
-                    if self.wet_mask_TH[k,j,i] - self.wet_mask_TH[k,j-1,i] == 1:
-                        self.south_mask[k,j,i] = 1
+                    if self['wet_mask_TH'][k,j,i] - self['wet_mask_TH'][k,j-1,i] == 1:
+                        self['south_mask'][k,j,i] = 1
 
 
                     # find the northern boundary points
-                    if self.wet_mask_TH[k,j-1,i] - self.wet_mask_TH[k,j,i] == 1:
-                        self.north_mask[k,j,i-1] = 1
+                    if self['wet_mask_TH'][k,j-1,i] - self['wet_mask_TH'][k,j,i] == 1:
+                        self['north_mask'][k,j,i-1] = 1
 
 
                     # Fluxes through the bottom
-                    if self.wet_mask_TH[k-1,j,i] - self.wet_mask_TH[k,j,i] == 1:
-                        self.bottom_mask[k-1,j,i] = 1
+                    if self['wet_mask_TH'][k-1,j,i] - self['wet_mask_TH'][k,j,i] == 1:
+                        self['bottom_mask'][k-1,j,i] = 1
                         
         return
 
@@ -668,8 +669,8 @@ class Density(Tracerpoint_field):
 class Bernoulli(Tracerpoint_field):
     """The Bernoulli field, evaluated from velocity, pressure and density."""
     def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
-        self['BP'] = model_instance.grid.wet_mask_TH*(((model_instance.pressure['P'][:,:,:] + 
-                 model_instance.grid.Z[:].reshape((40,1,1))*
+        self['BP'] = model_instance.grid['wet_mask_TH']*(((model_instance.pressure['P'][:,:,:] + 
+                 model_instance.grid['Z'][:].reshape((40,1,1))*
                                     model_instance.density[density_field][:,:,:]*model_instance['g'])/
                  model_instance.density['RhoNil']) + 
                  ((model_instance.zonal_velocity[UVEL_field][:,:,1:]*model_instance.zonal_velocity[UVEL_field][:,:,1:] + 
@@ -693,7 +694,7 @@ class Pressure(Tracerpoint_field):
 
         # derive the hydrostatic pressure
         delta_P = np.zeros((np.shape(model_instance.density[density_field])))
-        delta_P[:,:,:] = model_instance['g']*model_instance.density[density_field][:,:,:]*model_instance.grid.drF[:].reshape(40,1,1);
+        delta_P[:,:,:] = model_instance['g']*model_instance.density[density_field][:,:,:]*model_instance.grid['drF'][:].reshape(40,1,1);
         
     
         # add free surface contribution
