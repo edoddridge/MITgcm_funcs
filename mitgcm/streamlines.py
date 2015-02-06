@@ -9,7 +9,7 @@ Each function has a detailed docstring.
 
 import numpy as np
 import netCDF4
-from numba import jit
+import numba
 
 def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_t=3600,interpolation='bilinear'):
     """A two-dimensional streamline solver. The velocity fields must be two dimensional and not vary in time.
@@ -168,8 +168,19 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_netcdf_variable='UVEL',
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
-            t_int=6e7,delta_t=3600):
-    """A three-dimensional lagrangian particle tracker. The velocity fields must be three dimensional and  vary in time. Because this is a very large amount of data, it is passed as netcdffile handles.
+            t_int=3.1e5,delta_t=3600):
+    """A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
+    
+    Because this is a very large amount of data, the fields are passed as netcdffile handles.
+    
+    The variables are:
+    ?_netcdf_filename = name of the netcdf file with ?'s data in it.
+    start? = intial value for x, y, z, or t.
+    t = vector of time levels that are contained in the velocity data.
+    x_?,y_?,z_? = x,y,z axis for ? velocties - "?" represents one of U, V, W
+    ?_netcdf_variable = name of the "?" variable field in the netcdf file.
+    t_int = length of time to track particles for, in seconds
+    delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     """
     if x_v == 'None':
         x_v = x_u
@@ -205,56 +216,117 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     t_stream = np.zeros((int(t_int/delta_t)+2))
 
     t_RK = startt #set the initial time to be the given start time
+    z_RK = startz
+    y_RK = starty
+    x_RK = startx
+    
     i=0
     
     u_netcdf_filehandle = netCDF4.Dataset(u_netcdf_filename)
     v_netcdf_filehandle = netCDF4.Dataset(v_netcdf_filename)
     w_netcdf_filehandle = netCDF4.Dataset(w_netcdf_filename)
+    
+    t_index = np.searchsorted(t,t_RK)
+    t_index_new = np.searchsorted(t,t_RK) # this is later used to test if new data needs to be read in.
+    if t_index == 0:
+        raise ValueError('Given time value is outside the given velocity fields - too small')
+    elif t_index == len_t:
+        raise ValueError('Given time value is outside the given velocity fields - too big')
+    
+                
+    # load fields in ready for the first run through the loop
+    #  u
+    u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_u,len_y_u,len_z_u,len_t,
+                                                u_netcdf_filehandle,u_netcdf_variable)
+    u_field,x_index_u_new,y_index_u_new,z_index_u_new = indices_and_field(x_u,y_u,z_u,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_u,len_y_u,len_z_u,len_t,
+                                                u_netcdf_filehandle,u_netcdf_variable)
+    #  v
+    v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_v,len_y_v,len_z_v,len_t,
+                                                v_netcdf_filehandle,v_netcdf_variable)
+    v_field,x_index_v_new,y_index_v_new,z_index_v_new = indices_and_field(x_v,y_v,z_v,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_v,len_y_v,len_z_v,len_t,
+                                                v_netcdf_filehandle,v_netcdf_variable)
 
+    #  w
+    w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_w,len_y_w,len_z_w,len_t,
+                                                w_netcdf_filehandle,w_netcdf_variable)
+    
+    w_field,x_index_w_new,y_index_w_new,z_index_w_new = indices_and_field(x_w,y_w,z_w,
+                                                x_RK,y_RK,z_RK,t_index,
+                                                len_x_w,len_y_w,len_z_w,len_t,
+                                                w_netcdf_filehandle,w_netcdf_variable)
+    
     
     # Runge-Kutta fourth order method to estimate next position.
-    while t_RK < t_int + startt:
+    while i < np.fabs(t_int/delta_t)
+    t_RK < t_int + startt:
         
         # Compute indices at location given
         
-        t_index = np.searchsorted(t,startt)
-        if t_index == 0:
-            raise ValueError('Given time value location is outside the model - too small')
-        elif t_index == len_t:
-            raise ValueError('Given time value is outside the model - too big')
+        if (y_index_u_new==y_index_u and 
+            x_index_u_new==x_index_u and 
+            z_index_u_new==z_index_u and
             
+            y_index_v_new==y_index_v and 
+            x_index_v_new==x_index_v and 
+            z_index_v_new==z_index_v and 
             
-        # for u
+            y_index_w_new==y_index_w and 
+            x_index_w_new==x_index_w and 
+            z_index_w_new==z_index_w and 
 
-        u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
-                                                    startx,starty,startz,t_index,
-                                                    len_x_u,len_y_u,len_z_u,len_t,
-                                                    u_netcdf_filehandle,u_netcdf_variable)
-        # for v
-        v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
-                                                    startx,starty,startz,t_index,
-                                                    len_x_v,len_y_v,len_z_v,len_t,
-                                                    v_netcdf_filehandle,v_netcdf_variable)
+            t_index_new == t_index):
+            # the particle hasn't moved out of the grid cell it was in.
+            # So the loaded field is fine; there's no need to reload it.
+            pass
+        else:
+            t_index = np.searchsorted(t,t_RK)
+            if t_index == 0:
+                raise ValueError('Given time value is outside the given velocity fields - too small')
+            elif t_index == len_t:
+                raise ValueError('Given time value is outside the given velocity fields - too big')
 
-        # for w
-        w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
-                                                    startx,starty,startz,t_index,
-                                                    len_x_w,len_y_w,len_z_w,len_t,
-                                                    w_netcdf_filehandle,w_netcdf_variable)
-        
+
+            # for u
+
+            u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
+                                                        x_RK,y_RK,z_RK,t_index,
+                                                        len_x_u,len_y_u,len_z_u,len_t,
+                                                        u_netcdf_filehandle,u_netcdf_variable)
+            # for v
+            v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
+                                                        x_RK,y_RK,z_RK,t_index,
+                                                        len_x_v,len_y_v,len_z_v,len_t,
+                                                        v_netcdf_filehandle,v_netcdf_variable)
+
+            # for w
+            w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
+                                                        x_RK,y_RK,z_RK,t_index,
+                                                        len_x_w,len_y_w,len_z_w,len_t,
+                                                        w_netcdf_filehandle,w_netcdf_variable)
+
 
 
         # Interpolate velocities to initial location
-        u_loc = quadralinear_interp(startx,starty,startz,startt,
+        u_loc = quadralinear_interp(x_RK,y_RK,z_RK,t_RK,
                     u_field,
                     x_u,y_u,z_u,t,
                     len_x_u,len_y_u,len_z_u,len_t,
                     x_index_u,y_index_u,z_index_u,t_index)
-        v_loc = quadralinear_interp(startx,starty,startz,startt,
+        v_loc = quadralinear_interp(x_RK,y_RK,z_RK,t_RK,
                     v_field,
                     x_v,y_v,z_v,t,len_x_v,len_y_v,len_z_v,len_t,
                     x_index_v,y_index_v,z_index_v,t_index)
-        w_loc = quadralinear_interp(startx,starty,startz,startt,
+        w_loc = quadralinear_interp(x_RK,y_RK,z_RK,t_RK,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
@@ -262,15 +334,15 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dy1 = delta_t*v_loc
         dz1 = delta_t*w_loc
 
-        u_loc1 = quadralinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,startt + 0.5*delta_t,
+        u_loc1 = quadralinear_interp(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,t_RK + 0.5*delta_t,
                     u_field,
                     x_u,y_u,z_u,t,len_x_u,len_y_u,len_z_u,len_t,
                     x_index_u,y_index_u,z_index_u,t_index)
-        v_loc1 = quadralinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,startt + 0.5*delta_t,
+        v_loc1 = quadralinear_interp(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,t_RK + 0.5*delta_t,
                     v_field,
                     x_v,y_v,z_v,t,len_x_v,len_y_v,len_z_v,len_t,
                     x_index_v,y_index_v,z_index_v,t_index)
-        w_loc1 = quadralinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,startt + 0.5*delta_t,
+        w_loc1 = quadralinear_interp(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,t_RK + 0.5*delta_t,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
@@ -278,15 +350,15 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dy2 = delta_t*v_loc1
         dz2 = delta_t*w_loc1
 
-        u_loc2 = quadralinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,startt + 0.5*delta_t,
+        u_loc2 = quadralinear_interp(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,t_RK + 0.5*delta_t,
                     u_field,
                     x_u,y_u,z_u,t,len_x_u,len_y_u,len_z_u,len_t,
                     x_index_u,y_index_u,z_index_u,t_index)
-        v_loc2 = quadralinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,startt + 0.5*delta_t,
+        v_loc2 = quadralinear_interp(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,t_RK + 0.5*delta_t,
                     v_field,
                     x_v,y_v,z_v,t,len_x_v,len_y_v,len_z_v,len_t,
                     x_index_v,y_index_v,z_index_v,t_index)
-        w_loc2 = quadralinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,startt + 0.5*delta_t,
+        w_loc2 = quadralinear_interp(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,t_RK + 0.5*delta_t,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
@@ -294,15 +366,15 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dy3 = delta_t*v_loc2
         dz3 = delta_t*w_loc2
 
-        u_loc3 = quadralinear_interp(startx + dx3,starty + dy3,startz + dz3,startt + delta_t,
+        u_loc3 = quadralinear_interp(x_RK + dx3,y_RK + dy3,z_RK + dz3,t_RK + delta_t,
                     u_field,
                     x_u,y_u,z_u,t,len_x_u,len_y_u,len_z_u,len_t,
                     x_index_u,y_index_u,z_index_u,t_index)
-        v_loc3 = quadralinear_interp(startx + dx3,starty + dy3,startz + dz3,startt + delta_t,
+        v_loc3 = quadralinear_interp(x_RK + dx3,y_RK + dy3,z_RK + dz3,t_RK + delta_t,
                     v_field,
                     x_v,y_v,z_v,t,len_x_v,len_y_v,len_z_v,len_t,
                     x_index_v,y_index_v,z_index_v,t_index)
-        w_loc3 = quadralinear_interp(startx + dx3,starty + dy3,startz + dz3,startt + delta_t,
+        w_loc3 = quadralinear_interp(x_RK + dx3,y_RK + dy3,z_RK + dz3,t_RK + delta_t,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
@@ -310,17 +382,39 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dy4 = delta_t*v_loc3
         dz4 = delta_t*w_loc3
 
-        #recycle the "start_" variables to keep the code clean
-        startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
-        starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
-        startz = startz + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
+        #recycle the variables to keep the code clean
+        x_RK = x_RK + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
+        y_RK = y_RK + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
+        z_RK = z_RK + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
         t_RK += delta_t
         i += 1
 
-        x_stream[i] = startx
-        y_stream[i] = starty
-        z_stream[i] = startz
+        x_stream[i] = x_RK
+        y_stream[i] = y_RK
+        z_stream[i] = z_RK
         t_stream[i] = t_RK
+        
+        t_index_new = np.searchsorted(t,t_RK)
+        x_index_w_new = np.searchsorted(x_w,x_RK)
+        y_index_w_new = np.searchsorted(y_w,y_RK)
+        if z_RK < 0:
+            z_index_w_new = np.searchsorted(-z_w,-z_RK)
+        else:
+            z_index_w_new = np.searchsorted(z_w,z_RK)
+            
+        x_index_v_new = np.searchsorted(x_v,x_RK)
+        y_index_v_new = np.searchsorted(y_v,y_RK)
+        if z_RK < 0:
+            z_index_v_new = np.searchsorted(-z_v,-z_RK)
+        else:
+            z_index_v_new = np.searchsorted(z_v,z_RK)
+            
+        x_index_u_new = np.searchsorted(x_u,x_RK)
+        y_index_u_new = np.searchsorted(y_u,y_RK)
+        if z_RK < 0:
+            z_index_u_new = np.searchsorted(-z_u,-z_RK)
+        else:
+            z_index_u_new = np.searchsorted(z_u,z_RK)
 
   
     u_netcdf_filehandle.close()
@@ -328,6 +422,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     w_netcdf_filehandle.close()
 
     return x_stream,y_stream,z_stream,t_stream
+
 
 
 
@@ -358,9 +453,9 @@ def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   field_interp = actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index)
   return field_interp
   
-@jit
+@numba.jit
 def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
-    """This is a numba accelerated bilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order (1 second),overhead the first time, but not on subsequent calls. 
+    """This is a numba accelerated bilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """
     field_interp = ((field[y_index-1,x_index-1]*(x[x_index] - x0)*(y[y_index] - y0) + 
        field[y_index-1,x_index]*(x0 - x[x_index-1])*(y[y_index] - y0) +
@@ -371,7 +466,7 @@ def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
 
   
 def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
-  """Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+  """Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
 
   x0,y0, and z0 represent the point to interpolate to.
   """
@@ -406,9 +501,10 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
 
   return field_interp
 
-@jit
+@numba.jit
 def actual_trilinear_interp(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):
-    
+     """This is a numba accelerated trilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """   
     field_interp = ((field[z_index-1,y_index-1,x_index-1]*
                 (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
             field[z_index,y_index-1,x_index-1]*
@@ -437,7 +533,7 @@ def quadralinear_interp(x0,y0,z0,t0,
 
   location is an array of the point to interpolate to in four dimensional space-time (x_int,y_int,z_int,t_int).
 
-  The velocity field needs to be passed as either a 4D variable, which is big and expensive, or as a handle to the place where it can be obtained from disk.
+  The velocity field is passed as a truncated 4D field.
   
   x,y,z,t are vectors of these dimensions in netcdf_filename.
   """
@@ -447,32 +543,32 @@ def quadralinear_interp(x0,y0,z0,t0,
     
   # Compute indices at location
   x_index_shifted = np.searchsorted(x,x0) - x_index + 2
-  if x_index == 0:
-    raise ValueError('Given x location is outside the truncated field - too small')
-  elif x_index == 4:
-    raise ValueError('Given x location is outside the truncated field - too big')
+  #if x_index == 0:
+  #  raise ValueError('Given x location is outside the truncated field - too small. This error should never be seen.')
+  #elif x_index == 4:
+  #  raise ValueError('Given x location is outside the truncated field - too big. This error should never be seen.')
     
   y_index_shifted = np.searchsorted(y,y0) - y_index + 2
-  if y_index_shifted == 0:
-    raise ValueError('Given y location is outside the truncated field - too small')
-  elif y_index_shifted == 4:
-    raise ValueError('Given y location is outside the truncated field - too big')
+  #if y_index_shifted == 0:
+  #  raise ValueError('Given y location is outside the truncated field - too small. This error should never be seen.')
+  #elif y_index_shifted == 4:
+  #  raise ValueError('Given y location is outside the truncated field - too big. This error should never be seen.')
   
   # np.searchsorted only works for positive arrays, so z needs to be positive :/
   if z0 < 0:
         z0 = -z0
         z = -z
   z_index_shifted = np.searchsorted(z,z0) - z_index + 2
-  if z_index_shifted == 0:
-    raise ValueError('Given z location is outside the truncated field - too small')
-  elif z_index_shifted == 4:
-    raise ValueError('Given z location is outside the truncated field - too big')
+  #if z_index_shifted == 0:
+  #  raise ValueError('Given z location is outside the truncated field - too small. This error should never be seen.')
+  #elif z_index_shifted == 4:
+  #  raise ValueError('Given z location is outside the truncated field - too big. This error should never be seen.')
 
   t_index_shifted = np.searchsorted(t,t0) - t_index + 2
-  if t_index_shifted == 0:
-    raise ValueError('Given t location is outside the truncated field - too small')
-  elif t_index_shifted == 4:
-    raise ValueError('Given t location is outside the truncated field - too big')
+  #if t_index_shifted == 0:
+  #  raise ValueError('Given t location is outside the truncated field - too small. This error should never be seen.')
+  #elif t_index_shifted == 3:
+  #  raise ValueError('Given t location is outside the truncated field - too big. This error should never be seen.')
   
 
   field_interp = actual_quadralinear_interp(field[t_index_shifted-1:t_index_shifted+1,
@@ -485,7 +581,7 @@ def quadralinear_interp(x0,y0,z0,t0,
 
   return field_interp
 
-@jit
+@numba.jit
 def actual_quadralinear_interp(field,x0,y0,z0,t0,
                                x_index,y_index,z_index,t_index,
                                x,y,z,t):
