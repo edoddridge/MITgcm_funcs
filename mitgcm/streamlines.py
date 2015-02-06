@@ -206,6 +206,10 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
     t_RK = startt #set the initial time to be the given start time
     i=0
+    
+    u_netcdf_filehandle = netCDF4.Dataset(u_netcdf_filename)
+    v_netcdf_filehandle = netCDF4.Dataset(v_netcdf_filename)
+    w_netcdf_filehandle = netCDF4.Dataset(w_netcdf_filename)
 
     
     # Runge-Kutta fourth order method to estimate next position.
@@ -221,21 +225,22 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             
             
         # for u
+
         u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
                                                     startx,starty,startz,t_index,
                                                     len_x_u,len_y_u,len_z_u,len_t,
-                                                    u_netcdf_filename,u_netcdf_variable)
+                                                    u_netcdf_filehandle,u_netcdf_variable)
         # for v
         v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
                                                     startx,starty,startz,t_index,
                                                     len_x_v,len_y_v,len_z_v,len_t,
-                                                    v_netcdf_filename,v_netcdf_variable)
+                                                    v_netcdf_filehandle,v_netcdf_variable)
 
         # for w
         w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
                                                     startx,starty,startz,t_index,
                                                     len_x_w,len_y_w,len_z_w,len_t,
-                                                    w_netcdf_filename,w_netcdf_variable)
+                                                    w_netcdf_filehandle,w_netcdf_variable)
         
 
 
@@ -317,9 +322,12 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         z_stream[i] = startz
         t_stream[i] = t_RK
 
-      
-    return x_stream,y_stream,z_stream,t_stream
+  
+    u_netcdf_filehandle.close()
+    v_netcdf_filehandle.close()
+    w_netcdf_filehandle.close()
 
+    return x_stream,y_stream,z_stream,t_stream
 
 
 
@@ -431,44 +439,41 @@ def quadralinear_interp(x0,y0,z0,t0,
 
   The velocity field needs to be passed as either a 4D variable, which is big and expensive, or as a handle to the place where it can be obtained from disk.
   
-  x,y,z,t are vectore of these dimensions in netcdf_filename.
+  x,y,z,t are vectors of these dimensions in netcdf_filename.
   """
 
-  # Compute indices at location given
+  # These searchsorted calls are to check if the location has crossed a grid cell. 
+  # With very small time steps they're probably irrelevant.
+    
+  # Compute indices at location
   x_index_shifted = np.searchsorted(x,x0) - x_index + 2
   if x_index == 0:
-    raise ValueError('Given x location is outside the model grid - too small')
+    raise ValueError('Given x location is outside the truncated field - too small')
   elif x_index == 4:
-    raise ValueError('Given x location is outside the model grid - too big')
+    raise ValueError('Given x location is outside the truncated field - too big')
     
   y_index_shifted = np.searchsorted(y,y0) - y_index + 2
   if y_index_shifted == 0:
-    raise ValueError('Given y location is outside the model grid - too small')
+    raise ValueError('Given y location is outside the truncated field - too small')
   elif y_index_shifted == 4:
-    raise ValueError('Given y location is outside the model grid - too big')
+    raise ValueError('Given y location is outside the truncated field - too big')
   
-  # np.searchsorted only works for positive arrays :/
+  # np.searchsorted only works for positive arrays, so z needs to be positive :/
   if z0 < 0:
         z0 = -z0
         z = -z
   z_index_shifted = np.searchsorted(z,z0) - z_index + 2
   if z_index_shifted == 0:
-    raise ValueError('Given z location is outside the model grid - too small')
+    raise ValueError('Given z location is outside the truncated field - too small')
   elif z_index_shifted == 4:
-    raise ValueError('Given z location is outside the model grid - too big')
+    raise ValueError('Given z location is outside the truncated field - too big')
 
   t_index_shifted = np.searchsorted(t,t0) - t_index + 2
   if t_index_shifted == 0:
-    raise ValueError('Given t location is outside the model - too small')
+    raise ValueError('Given t location is outside the truncated field - too small')
   elif t_index_shifted == 4:
-    raise ValueError('Given t location is outside the model - too big')
+    raise ValueError('Given t location is outside the truncated field - too big')
   
-  #netcdf_file = netCDF4.Dataset(netcdf_filename)
-  #field = netcdf_file.variables[variable][t_index-1:t_index+1,
-  #                     z_index-1:z_index+1,
-  #                     y_index-1:y_index+1,
-  #                     x_index-1:x_index+1]
-  #netcdf_file.close()
 
   field_interp = actual_quadralinear_interp(field[t_index_shifted-1:t_index_shifted+1,
                        z_index_shifted-1:z_index_shifted+1,
@@ -525,10 +530,12 @@ def actual_quadralinear_interp(field,x0,y0,z0,t0,
 
 
 
+
+
 def indices_and_field(x,y,z,
                         startx,starty,startz,t_index,
                         len_x,len_y,len_z,len_t,
-                        netcdf_filename,variable):
+                        netcdf_filehandle,variable):
             
             x_index = np.searchsorted(x,startx)
             if x_index == 0:
@@ -554,12 +561,10 @@ def indices_and_field(x,y,z,
 
 
 
-            netcdf_file = netCDF4.Dataset(netcdf_filename)
-            field = netcdf_file.variables[variable][t_index-2:t_index+3,
+            field = netcdf_filehandle.variables[variable][t_index-2:t_index+3,
                            z_index-2:z_index+3,
                            y_index-2:y_index+3,
                            x_index-2:x_index+3]
-            netcdf_file.close()
             
             return field,x_index,y_index,z_index
             
