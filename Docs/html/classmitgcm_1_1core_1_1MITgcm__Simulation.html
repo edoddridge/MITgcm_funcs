@@ -89,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classmitgcm_1_1core_1_1MITgcm__Simulation-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">mitgcm.core.MITgcm_Simulation Class Reference</div>  </div>
@@ -105,10 +106,10 @@ Inheritance diagram for mitgcm.core.MITgcm_Simulation:</div>
   <map id="mitgcm.core.MITgcm_Simulation_map" name="mitgcm.core.MITgcm_Simulation_map">
 <area href="classmitgcm_1_1core_1_1Grid.html" title="This defines the class for the grid object. " alt="mitgcm.core.Grid" shape="rect" coords="0,112,192,136"/>
 <area href="classmitgcm_1_1core_1_1Tracerpoint__field.html" title="This is the base class for all model fields on the tracer points. " alt="mitgcm.core.Tracerpoint_field" shape="rect" coords="505,112,697,136"/>
-<area href="classmitgcm_1_1core_1_1Upoint__field.html" alt="mitgcm.core.Upoint_field" shape="rect" coords="707,112,899,136"/>
+<area href="classmitgcm_1_1core_1_1Upoint__field.html" title="This is the class for all fields on zonal velocity points. " alt="mitgcm.core.Upoint_field" shape="rect" coords="707,112,899,136"/>
 <area href="classmitgcm_1_1core_1_1Vorticitypoint__field.html" alt="mitgcm.core.Vorticitypoint_field" shape="rect" coords="1212,112,1404,136"/>
-<area href="classmitgcm_1_1core_1_1Vpoint__field.html" title="This is the class fo rall fields on meridional velocity points. " alt="mitgcm.core.Vpoint_field" shape="rect" coords="1414,112,1606,136"/>
-<area href="classmitgcm_1_1core_1_1Wpoint__field.html" alt="mitgcm.core.Wpoint_field" shape="rect" coords="1616,112,1808,136"/>
+<area href="classmitgcm_1_1core_1_1Vpoint__field.html" title="This is the class for all fields on meridional velocity points. " alt="mitgcm.core.Vpoint_field" shape="rect" coords="1414,112,1606,136"/>
+<area href="classmitgcm_1_1core_1_1Wpoint__field.html" title="This is the class for all fields on vertical velocity points. " alt="mitgcm.core.Wpoint_field" shape="rect" coords="1616,112,1808,136"/>
 <area href="classmitgcm_1_1core_1_1Bernoulli.html" title="The Bernoulli field, evaluated from velocity, pressure and density. " alt="mitgcm.core.Bernoulli" shape="rect" coords="0,168,192,192"/>
 <area href="classmitgcm_1_1core_1_1Density.html" alt="mitgcm.core.Density" shape="rect" coords="202,168,394,192"/>
 <area href="classmitgcm_1_1core_1_1Free__surface.html" alt="mitgcm.core.Free_surface" shape="rect" coords="404,168,596,192"/>
@@ -144,12 +145,19 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a984db65a189bf843e988079f724cdee3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3">grid</a></td></tr>
 <tr class="separator:a984db65a189bf843e988079f724cdee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a801f2b7847cdd50c031f6f566e263189"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">netcdf_file</a> = netCDF4.Dataset(netcdf_filename)</td></tr>
+<tr class="separator:a801f2b7847cdd50c031f6f566e263189"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50484938272dfc5107b0af495443d25"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
+<tr class="separator:ad50484938272dfc5107b0af495443d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The simulation class is the main class of this package, and an instance of this class is a model object. </p>
 <p>All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00026">26</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00029">29</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aac012c75a0f5dce8bbc4b00422a12444"></a>
 <div class="memitem">
@@ -195,7 +203,7 @@ Public Attributes</h2></td></tr>
 
 <p>Instantiate an MITgcm model instance. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00029">29</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00032">32</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -227,7 +235,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be added together. </p>
 <p>It does element wise addition for each of the fields. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00058">58</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00068">68</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -257,7 +265,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be divided by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00068">68</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00078">78</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -287,7 +295,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00076">76</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00086">86</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -317,7 +325,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00084">84</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00094">94</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -361,7 +369,7 @@ Public Attributes</h2></td></tr>
 <p>This function associates the field with the object it is called on.</p>
 <p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00047">47</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00050">50</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -376,7 +384,51 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00034">34</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00037">37</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad50484938272dfc5107b0af495443d25"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">list mitgcm.core.MITgcm_Simulation.loaded_field = netcdf_file.variables[variable]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00053">53</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a801f2b7847cdd50c031f6f566e263189"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple mitgcm.core.MITgcm_Simulation.netcdf_file = netCDF4.Dataset(netcdf_filename)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00052">52</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -386,7 +438,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 3 2015 15:29:08 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 6 2015 18:07:58 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

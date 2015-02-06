@@ -1,6 +1,11 @@
 \hypertarget{classmitgcm_1_1core_1_1Upoint__field}{\section{mitgcm.\+core.\+Upoint\+\_\+field Class Reference}
 \label{classmitgcm_1_1core_1_1Upoint__field}\index{mitgcm.\+core.\+Upoint\+\_\+field@{mitgcm.\+core.\+Upoint\+\_\+field}}
 }
+
+
+This is the class for all fields on zonal velocity points.  
+
+
 Inheritance diagram for mitgcm.\+core.\+Upoint\+\_\+field\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,9 +27,11 @@ def \hyperlink{classmitgcm_1_1core_1_1Upoint__field_acbc550b512401054ac04eca3dc7
 
 
 \subsection{Detailed Description}
+This is the class for all fields on zonal velocity points. 
 
 
-Definition at line 90 of file core.\+py.
+
+Definition at line 102 of file core.\+py.
 
 
 
@@ -36,12 +43,13 @@ Definition at line 90 of file core.\+py.
 \item[{}]{self, }
 \item[{}]{netcdf\+\_\+filename, }
 \item[{}]{variable, }
-\item[{}]{time\+\_\+level}
+\item[{}]{time\+\_\+level, }
+\item[{}]{empty = {\ttfamily False}}
 \end{DoxyParamCaption}
 )}}\label{classmitgcm_1_1core_1_1Upoint__field_ab4adbcfd61c7b303b8499a5228cd6f77}
 
 
-Definition at line 92 of file core.\+py.
+Definition at line 104 of file core.\+py.
 
 
 
@@ -65,7 +73,7 @@ Take the x derivative of the field given on u-\/points, using the spacings in gr
    they should be). \end{DoxyVerb}
  
 
-Definition at line 107 of file core.\+py.
+Definition at line 119 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Upoint__field_acac1cef0245cd27c0975a84bef22a71d}{\index{mitgcm\+::core\+::\+Upoint\+\_\+field@{mitgcm\+::core\+::\+Upoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
 \index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Upoint\+\_\+field@{mitgcm\+::core\+::\+Upoint\+\_\+field}}
@@ -83,7 +91,7 @@ Take the y derivative of the field on u points, using the spacings provided.
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 143 of file core.\+py.
+Definition at line 155 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Upoint__field_acbc550b512401054ac04eca3dc7318af}{\index{mitgcm\+::core\+::\+Upoint\+\_\+field@{mitgcm\+::core\+::\+Upoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
 \index{take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}!mitgcm\+::core\+::\+Upoint\+\_\+field@{mitgcm\+::core\+::\+Upoint\+\_\+field}}
@@ -101,7 +109,7 @@ Take the z derivative of the field given on u-\/points, using the spacings in gr
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 180 of file core.\+py.
+Definition at line 192 of file core.\+py.
 
 
 

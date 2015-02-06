@@ -88,11 +88,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classmitgcm_1_1core_1_1Wpoint__field-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">mitgcm.core.Wpoint_field Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This is the class for all fields on vertical velocity points.  
+ <a href="classmitgcm_1_1core_1_1Wpoint__field.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for mitgcm.core.Wpoint_field:</div>
 <div class="dyncontent">
@@ -139,6 +143,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aafdbbd993c0424568a4534edf643d312 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be multiplied by floating point numbers.  <a href="#aafdbbd993c0424568a4534edf643d312">More...</a><br /></td></tr>
 <tr class="separator:aafdbbd993c0424568a4534edf643d312 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:af9c1d07b6f48ca4ea7fc11f766b406b6"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#af9c1d07b6f48ca4ea7fc11f766b406b6">netcdf_file</a> = netCDF4.MFDataset(netcdf_filename)</td></tr>
+<tr class="separator:af9c1d07b6f48ca4ea7fc11f766b406b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfbb89a604280097ac640e55edc60d21"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#acfbb89a604280097ac640e55edc60d21">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
+<tr class="separator:acfbb89a604280097ac640e55edc60d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
+<tr class="memitem:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">netcdf_file</a> = netCDF4.Dataset(netcdf_filename)</td></tr>
+<tr class="separator:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
+<tr class="separator:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
@@ -146,8 +162,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="core_8py_source.html#l00310">310</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<div class="textblock"><p>This is the class for all fields on vertical velocity points. </p>
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00328">328</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5149dd8a1c832999bdbcd60b4abc3b14"></a>
 <div class="memitem">
@@ -175,7 +192,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>time_level</em>&#160;</td>
+          <td class="paramname"><em>time_level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>empty</em> = <code>False</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -185,7 +208,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00312">312</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00330">330</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -230,7 +253,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This function associates the field with the object it is called on.</p>
 <p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00321">321</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00342">342</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -273,7 +296,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the x derivative of the field on w points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00343">343</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00368">368</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -316,7 +339,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the y derivative of the field on w points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00376">376</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00401">401</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -359,7 +382,52 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the z derivative of the field given on w-points, using the spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00408">408</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00433">433</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="acfbb89a604280097ac640e55edc60d21"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">list mitgcm.core.Wpoint_field.loaded_field = netcdf_file.variables[variable]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00351">351</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af9c1d07b6f48ca4ea7fc11f766b406b6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple mitgcm.core.Wpoint_field.netcdf_file = netCDF4.MFDataset(netcdf_filename)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00350">350</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -369,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 3 2015 15:29:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 6 2015 18:08:00 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

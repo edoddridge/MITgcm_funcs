@@ -1,0 +1,314 @@
+\hypertarget{namespacemitgcm_1_1streamlines}{\section{mitgcm.\+streamlines Namespace Reference}
+\label{namespacemitgcm_1_1streamlines}\index{mitgcm.\+streamlines@{mitgcm.\+streamlines}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_ac4d6c763bdac75600b3778f4e0ea3a31}{stream2}
+\begin{DoxyCompactList}\small\item\em A two-\/dimensional streamline solver. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a38690a408e43bb899018203363da090d}{stream3}
+\begin{DoxyCompactList}\small\item\em A three-\/dimensional streamline solver. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a493dab136e4b63582d7f6b77e7a9c644}{streaklines}
+\begin{DoxyCompactList}\small\item\em A three-\/dimensional lagrangian particle tracker. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a5a11f20c3c4d530adaf0861633f62ce3}{bilinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em Do bilinear interpolation of a field to get nice accurate streamlines. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_ad0a40f9a0e3135fab213b52fb83bf038}{actual\+\_\+bilinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em This is a numba accelerated bilinear interpolation. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_afa4d0f154a2e8ad8cc4154dc7ff861b1}{trilinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a3577f2724420caf7e275c3d9ad3a4a03}{actual\+\_\+trilinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em This is a numba accelerated trilinear interpolation. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a2b3460327fd28541672b6ad5c1ba903f}{quadralinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_a80949f29827013f60f0808d4b531953c}{actual\+\_\+quadralinear\+\_\+interp}
+\begin{DoxyCompactList}\small\item\em This is a numba accelerated quadralinear interpolation. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1streamlines_ab0999e36574643a8ab149aef0fe3b283}{indices\+\_\+and\+\_\+field}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacemitgcm_1_1streamlines_ad0a40f9a0e3135fab213b52fb83bf038}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!actual\+\_\+bilinear\+\_\+interp@{actual\+\_\+bilinear\+\_\+interp}}
+\index{actual\+\_\+bilinear\+\_\+interp@{actual\+\_\+bilinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{actual\+\_\+bilinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+actual\+\_\+bilinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{field, }
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{len\+\_\+x, }
+\item[{}]{len\+\_\+y, }
+\item[{}]{x\+\_\+index, }
+\item[{}]{y\+\_\+index}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_ad0a40f9a0e3135fab213b52fb83bf038}
+
+
+This is a numba accelerated bilinear interpolation. 
+
+The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+
+Definition at line 465 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a80949f29827013f60f0808d4b531953c}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!actual\+\_\+quadralinear\+\_\+interp@{actual\+\_\+quadralinear\+\_\+interp}}
+\index{actual\+\_\+quadralinear\+\_\+interp@{actual\+\_\+quadralinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{actual\+\_\+quadralinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+actual\+\_\+quadralinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{field, }
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{z0, }
+\item[{}]{t0, }
+\item[{}]{x\+\_\+index, }
+\item[{}]{y\+\_\+index, }
+\item[{}]{z\+\_\+index, }
+\item[{}]{t\+\_\+index, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{z, }
+\item[{}]{t}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a80949f29827013f60f0808d4b531953c}
+
+
+This is a numba accelerated quadralinear interpolation. 
+
+The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+
+Definition at line 600 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a3577f2724420caf7e275c3d9ad3a4a03}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!actual\+\_\+trilinear\+\_\+interp@{actual\+\_\+trilinear\+\_\+interp}}
+\index{actual\+\_\+trilinear\+\_\+interp@{actual\+\_\+trilinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{actual\+\_\+trilinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+actual\+\_\+trilinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{field, }
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{z0, }
+\item[{}]{x\+\_\+index, }
+\item[{}]{y\+\_\+index, }
+\item[{}]{z\+\_\+index, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{z}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a3577f2724420caf7e275c3d9ad3a4a03}
+
+
+This is a numba accelerated trilinear interpolation. 
+
+The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+
+Definition at line 515 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a5a11f20c3c4d530adaf0861633f62ce3}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!bilinear\+\_\+interp@{bilinear\+\_\+interp}}
+\index{bilinear\+\_\+interp@{bilinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{bilinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+bilinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{field, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{len\+\_\+x, }
+\item[{}]{len\+\_\+y}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a5a11f20c3c4d530adaf0861633f62ce3}
+
+
+Do bilinear interpolation of a field to get nice accurate streamlines. 
+
+This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+
+x0,y0 are the points to interpolate to. 
+
+Definition at line 440 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_ab0999e36574643a8ab149aef0fe3b283}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!indices\+\_\+and\+\_\+field@{indices\+\_\+and\+\_\+field}}
+\index{indices\+\_\+and\+\_\+field@{indices\+\_\+and\+\_\+field}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{indices\+\_\+and\+\_\+field}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+indices\+\_\+and\+\_\+field (
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{z, }
+\item[{}]{startx, }
+\item[{}]{starty, }
+\item[{}]{startz, }
+\item[{}]{t\+\_\+index, }
+\item[{}]{len\+\_\+x, }
+\item[{}]{len\+\_\+y, }
+\item[{}]{len\+\_\+z, }
+\item[{}]{len\+\_\+t, }
+\item[{}]{netcdf\+\_\+filehandle, }
+\item[{}]{variable}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_ab0999e36574643a8ab149aef0fe3b283}
+
+
+Definition at line 646 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a2b3460327fd28541672b6ad5c1ba903f}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!quadralinear\+\_\+interp@{quadralinear\+\_\+interp}}
+\index{quadralinear\+\_\+interp@{quadralinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{quadralinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+quadralinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{z0, }
+\item[{}]{t0, }
+\item[{}]{field, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{z, }
+\item[{}]{t, }
+\item[{}]{len\+\_\+x, }
+\item[{}]{len\+\_\+y, }
+\item[{}]{len\+\_\+z, }
+\item[{}]{len\+\_\+t, }
+\item[{}]{x\+\_\+index, }
+\item[{}]{y\+\_\+index, }
+\item[{}]{z\+\_\+index, }
+\item[{}]{t\+\_\+index}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a2b3460327fd28541672b6ad5c1ba903f}
+
+
+Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. 
+
+This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+
+x0,y0,z0, and t0 represent the point to interpolate to.
+
+The velocity field, \char`\"{}field\char`\"{}, is passed as a truncated 4\+D field.
+
+x,y,z,t are vectors of these dimensions in netcdf\+\_\+filename. 
+
+Definition at line 548 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a493dab136e4b63582d7f6b77e7a9c644}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!streaklines@{streaklines}}
+\index{streaklines@{streaklines}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{streaklines}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+streaklines (
+\begin{DoxyParamCaption}
+\item[{}]{u\+\_\+netcdf\+\_\+filename, }
+\item[{}]{v\+\_\+netcdf\+\_\+filename, }
+\item[{}]{w\+\_\+netcdf\+\_\+filename, }
+\item[{}]{startx, }
+\item[{}]{starty, }
+\item[{}]{startz, }
+\item[{}]{startt, }
+\item[{}]{t, }
+\item[{}]{x\+\_\+u, }
+\item[{}]{y\+\_\+u, }
+\item[{}]{z\+\_\+u, }
+\item[{}]{x\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{y\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{z\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{x\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{y\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{z\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{u\+\_\+netcdf\+\_\+variable = {\ttfamily 'UVEL'}, }
+\item[{}]{v\+\_\+netcdf\+\_\+variable = {\ttfamily 'VVEL'}, }
+\item[{}]{w\+\_\+netcdf\+\_\+variable = {\ttfamily 'WVEL'}, }
+\item[{}]{t\+\_\+int = {\ttfamily 3.1e5}, }
+\item[{}]{delta\+\_\+t = {\ttfamily 3600}}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a493dab136e4b63582d7f6b77e7a9c644}
+
+
+A three-\/dimensional lagrangian particle tracker. 
+
+The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s. \begin{DoxyVerb}Because this is a very large amount of data, the fields are passed as netcdffile handles.
+
+The variables are:
+?_netcdf_filename = name of the netcdf file with ?'s data in it.
+start? = intial value for x, y, z, or t.
+t = vector of time levels that are contained in the velocity data.
+x_?,y_?,z_? = x,y,z axis for ? velocties - "?" represents one of U, V, W
+?_netcdf_variable = name of the "?" variable field in the netcdf file.
+t_int = length of time to track particles for, in seconds
+delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.\end{DoxyVerb}
+ 
+
+Definition at line 188 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_ac4d6c763bdac75600b3778f4e0ea3a31}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!stream2@{stream2}}
+\index{stream2@{stream2}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{stream2}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+stream2 (
+\begin{DoxyParamCaption}
+\item[{}]{u, }
+\item[{}]{v, }
+\item[{}]{startx, }
+\item[{}]{starty, }
+\item[{}]{x\+\_\+u, }
+\item[{}]{y\+\_\+u, }
+\item[{}]{x\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{y\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{t\+\_\+int = {\ttfamily 2592000}, }
+\item[{}]{delta\+\_\+t = {\ttfamily 3600}, }
+\item[{}]{interpolation = {\ttfamily 'bilinear'}}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_ac4d6c763bdac75600b3778f4e0ea3a31}
+
+
+A two-\/dimensional streamline solver. 
+
+The velocity fields must be two dimensional and not vary in time. 
+
+Definition at line 18 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_a38690a408e43bb899018203363da090d}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!stream3@{stream3}}
+\index{stream3@{stream3}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{stream3}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+stream3 (
+\begin{DoxyParamCaption}
+\item[{}]{u, }
+\item[{}]{v, }
+\item[{}]{w, }
+\item[{}]{startx, }
+\item[{}]{starty, }
+\item[{}]{startz, }
+\item[{}]{x\+\_\+u, }
+\item[{}]{y\+\_\+u, }
+\item[{}]{z\+\_\+u, }
+\item[{}]{x\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{y\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{z\+\_\+v = {\ttfamily 'None'}, }
+\item[{}]{x\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{y\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{z\+\_\+w = {\ttfamily 'None'}, }
+\item[{}]{t\+\_\+int = {\ttfamily 2592000}, }
+\item[{}]{delta\+\_\+t = {\ttfamily 3600}}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_a38690a408e43bb899018203363da090d}
+
+
+A three-\/dimensional streamline solver. 
+
+The velocity fields must be three dimensional and not vary in time. 
+
+Definition at line 83 of file streamlines.\+py.
+
+\hypertarget{namespacemitgcm_1_1streamlines_afa4d0f154a2e8ad8cc4154dc7ff861b1}{\index{mitgcm\+::streamlines@{mitgcm\+::streamlines}!trilinear\+\_\+interp@{trilinear\+\_\+interp}}
+\index{trilinear\+\_\+interp@{trilinear\+\_\+interp}!mitgcm\+::streamlines@{mitgcm\+::streamlines}}
+\subsubsection[{trilinear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+streamlines.\+trilinear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{x0, }
+\item[{}]{y0, }
+\item[{}]{z0, }
+\item[{}]{field, }
+\item[{}]{x, }
+\item[{}]{y, }
+\item[{}]{z, }
+\item[{}]{len\+\_\+x, }
+\item[{}]{len\+\_\+y, }
+\item[{}]{len\+\_\+z}
+\end{DoxyParamCaption}
+)}}\label{namespacemitgcm_1_1streamlines_afa4d0f154a2e8ad8cc4154dc7ff861b1}
+
+
+Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. 
+
+This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
+
+x0,y0, and z0 represent the point to interpolate to. 
+
+Definition at line 479 of file streamlines.\+py.
+

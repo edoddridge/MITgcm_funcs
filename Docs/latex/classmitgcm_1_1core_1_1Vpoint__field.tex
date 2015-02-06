@@ -3,7 +3,7 @@
 }
 
 
-This is the class fo rall fields on meridional velocity points.  
+This is the class for all fields on meridional velocity points.  
 
 
 Inheritance diagram for mitgcm.\+core.\+Vpoint\+\_\+field\+:\begin{figure}[H]
@@ -27,11 +27,11 @@ def \hyperlink{classmitgcm_1_1core_1_1Vpoint__field_a9975d2dcfb23b8cca0986f7e469
 
 
 \subsection{Detailed Description}
-This is the class fo rall fields on meridional velocity points. 
+This is the class for all fields on meridional velocity points. 
 
 
 
-Definition at line 206 of file core.\+py.
+Definition at line 218 of file core.\+py.
 
 
 
@@ -43,7 +43,8 @@ Definition at line 206 of file core.\+py.
 \item[{}]{self, }
 \item[{}]{netcdf\+\_\+filename, }
 \item[{}]{variable, }
-\item[{}]{time\+\_\+level}
+\item[{}]{time\+\_\+level, }
+\item[{}]{empty = {\ttfamily False}}
 \end{DoxyParamCaption}
 )}}\label{classmitgcm_1_1core_1_1Vpoint__field_a1ffd906684a51a4045b0b02092fab5ec}
 
@@ -52,7 +53,7 @@ Instantiate a field on the meridional velocity points.
 
 
 
-Definition at line 210 of file core.\+py.
+Definition at line 222 of file core.\+py.
 
 
 
@@ -75,7 +76,7 @@ This function can be daisy-\/chained to get higher order derivatives.
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 223 of file core.\+py.
+Definition at line 239 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Vpoint__field_a7ffa6c1b239c78422f0224d675fd785e}{\index{mitgcm\+::core\+::\+Vpoint\+\_\+field@{mitgcm\+::core\+::\+Vpoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
 \index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Vpoint\+\_\+field@{mitgcm\+::core\+::\+Vpoint\+\_\+field}}
@@ -93,7 +94,7 @@ Take the y derivative of the field given on v-\/points, using the spacings in gr
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 254 of file core.\+py.
+Definition at line 270 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Vpoint__field_a9975d2dcfb23b8cca0986f7e469882fa}{\index{mitgcm\+::core\+::\+Vpoint\+\_\+field@{mitgcm\+::core\+::\+Vpoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
 \index{take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}!mitgcm\+::core\+::\+Vpoint\+\_\+field@{mitgcm\+::core\+::\+Vpoint\+\_\+field}}
@@ -111,7 +112,7 @@ Take the z derivative of the field given on v-\/points, using the spacings in gr
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 286 of file core.\+py.
+Definition at line 302 of file core.\+py.
 
 
 

@@ -5,5 +5,6 @@ var searchData=
   ['take_5fd_5fdz',['take_d_dz',['../classmitgcm_1_1core_1_1Upoint__field.html#acbc550b512401054ac04eca3dc7318af',1,'mitgcm.core.Upoint_field.take_d_dz()'],['../classmitgcm_1_1core_1_1Vpoint__field.html#a9975d2dcfb23b8cca0986f7e469882fa',1,'mitgcm.core.Vpoint_field.take_d_dz()'],['../classmitgcm_1_1core_1_1Wpoint__field.html#a3f7ffb2f1ed512712805bf78d8a8cde4',1,'mitgcm.core.Wpoint_field.take_d_dz()'],['../classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e',1,'mitgcm.core.Tracerpoint_field.take_d_dz()']]],
   ['temperature',['Temperature',['../classmitgcm_1_1core_1_1Temperature.html',1,'mitgcm::core']]],
   ['test_5flayer_5fintegrate',['test_layer_integrate',['../namespacemitgcm_1_1integration__functions.html#a6b6327a2a0a7866f01f3c2c6c37d96cc',1,'mitgcm::integration_functions']]],
-  ['tracerpoint_5ffield',['Tracerpoint_field',['../classmitgcm_1_1core_1_1Tracerpoint__field.html',1,'mitgcm::core']]]
+  ['tracerpoint_5ffield',['Tracerpoint_field',['../classmitgcm_1_1core_1_1Tracerpoint__field.html',1,'mitgcm::core']]],
+  ['trilinear_5finterp',['trilinear_interp',['../namespacemitgcm_1_1streamlines.html#afa4d0f154a2e8ad8cc4154dc7ff861b1',1,'mitgcm::streamlines']]]
 ];

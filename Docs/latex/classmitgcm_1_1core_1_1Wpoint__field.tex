@@ -1,6 +1,11 @@
 \hypertarget{classmitgcm_1_1core_1_1Wpoint__field}{\section{mitgcm.\+core.\+Wpoint\+\_\+field Class Reference}
 \label{classmitgcm_1_1core_1_1Wpoint__field}\index{mitgcm.\+core.\+Wpoint\+\_\+field@{mitgcm.\+core.\+Wpoint\+\_\+field}}
 }
+
+
+This is the class for all fields on vertical velocity points.  
+
+
 Inheritance diagram for mitgcm.\+core.\+Wpoint\+\_\+field\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,13 +25,22 @@ def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a3874bb9811b39ed61b25de3ba3e
 \begin{DoxyCompactList}\small\item\em Take the y derivative of the field on w points, using spacings in grid object. \end{DoxyCompactList}\item 
 def \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_a3f7ffb2f1ed512712805bf78d8a8cde4}{take\+\_\+d\+\_\+dz}
 \begin{DoxyCompactList}\small\item\em Take the z derivative of the field given on w-\/points, using the spacings in grid object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_af9c1d07b6f48ca4ea7fc11f766b406b6}{netcdf\+\_\+file} = net\+C\+D\+F4.\+M\+F\+Dataset(netcdf\+\_\+filename)
+\item 
+list \hyperlink{classmitgcm_1_1core_1_1Wpoint__field_acfbb89a604280097ac640e55edc60d21}{loaded\+\_\+field} = netcdf\+\_\+file.\+variables\mbox{[}variable\mbox{]}
+\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
+This is the class for all fields on vertical velocity points. 
 
 
-Definition at line 310 of file core.\+py.
+
+Definition at line 328 of file core.\+py.
 
 
 
@@ -38,12 +52,13 @@ Definition at line 310 of file core.\+py.
 \item[{}]{self, }
 \item[{}]{netcdf\+\_\+filename, }
 \item[{}]{variable, }
-\item[{}]{time\+\_\+level}
+\item[{}]{time\+\_\+level, }
+\item[{}]{empty = {\ttfamily False}}
 \end{DoxyParamCaption}
 )}}\label{classmitgcm_1_1core_1_1Wpoint__field_a5149dd8a1c832999bdbcd60b4abc3b14}
 
 
-Definition at line 312 of file core.\+py.
+Definition at line 330 of file core.\+py.
 
 
 
@@ -66,7 +81,7 @@ This function associates the field with the object it is called on.
 
 time\+\_\+level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. 
 
-Definition at line 321 of file core.\+py.
+Definition at line 342 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3dae400759f1828507a317507dbf681b}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}}
 \index{take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
@@ -84,7 +99,7 @@ Take the x derivative of the field on w points, using spacings in grid object.
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 343 of file core.\+py.
+Definition at line 368 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3874bb9811b39ed61b25de3ba3e3c39c}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
 \index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
@@ -102,7 +117,7 @@ Take the y derivative of the field on w points, using spacings in grid object.
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 376 of file core.\+py.
+Definition at line 401 of file core.\+py.
 
 \hypertarget{classmitgcm_1_1core_1_1Wpoint__field_a3f7ffb2f1ed512712805bf78d8a8cde4}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
 \index{take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
@@ -120,7 +135,24 @@ Take the z derivative of the field given on w-\/points, using the spacings in gr
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 408 of file core.\+py.
+Definition at line 433 of file core.\+py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_acfbb89a604280097ac640e55edc60d21}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!loaded\+\_\+field@{loaded\+\_\+field}}
+\index{loaded\+\_\+field@{loaded\+\_\+field}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{loaded\+\_\+field}]{\setlength{\rightskip}{0pt plus 5cm}list mitgcm.\+core.\+Wpoint\+\_\+field.\+loaded\+\_\+field = netcdf\+\_\+file.\+variables\mbox{[}variable\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}}\label{classmitgcm_1_1core_1_1Wpoint__field_acfbb89a604280097ac640e55edc60d21}
+
+
+Definition at line 351 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1Wpoint__field_af9c1d07b6f48ca4ea7fc11f766b406b6}{\index{mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}!netcdf\+\_\+file@{netcdf\+\_\+file}}
+\index{netcdf\+\_\+file@{netcdf\+\_\+file}!mitgcm\+::core\+::\+Wpoint\+\_\+field@{mitgcm\+::core\+::\+Wpoint\+\_\+field}}
+\subsubsection[{netcdf\+\_\+file}]{\setlength{\rightskip}{0pt plus 5cm}tuple mitgcm.\+core.\+Wpoint\+\_\+field.\+netcdf\+\_\+file = net\+C\+D\+F4.\+M\+F\+Dataset(netcdf\+\_\+filename)\hspace{0.3cm}{\ttfamily [static]}}}\label{classmitgcm_1_1core_1_1Wpoint__field_af9c1d07b6f48ca4ea7fc11f766b406b6}
+
+
+Definition at line 350 of file core.\+py.
 
 
 

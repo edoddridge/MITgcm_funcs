@@ -455,7 +455,7 @@ def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   
 @numba.jit
 def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
-    """This is a numba accelerated bilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """This is a numba accelerated bilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """
     field_interp = ((field[y_index-1,x_index-1]*(x[x_index] - x0)*(y[y_index] - y0) + 
        field[y_index-1,x_index]*(x0 - x[x_index-1])*(y[y_index] - y0) +
@@ -503,7 +503,7 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
 
 @numba.jit
 def actual_trilinear_interp(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):
-     """This is a numba accelerated trilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+     """This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """   
     field_interp = ((field[z_index-1,y_index-1,x_index-1]*
                 (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
@@ -531,9 +531,9 @@ def quadralinear_interp(x0,y0,z0,t0,
                         x_index,y_index,z_index,t_index):
   """ Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
-  location is an array of the point to interpolate to in four dimensional space-time (x_int,y_int,z_int,t_int).
+  x0,y0,z0, and t0 represent the point to interpolate to.
 
-  The velocity field is passed as a truncated 4D field.
+  The velocity field, "field", is passed as a truncated 4D field.
   
   x,y,z,t are vectors of these dimensions in netcdf_filename.
   """
@@ -585,7 +585,9 @@ def quadralinear_interp(x0,y0,z0,t0,
 def actual_quadralinear_interp(field,x0,y0,z0,t0,
                                x_index,y_index,z_index,t_index,
                                x,y,z,t):
-
+  """This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent
+  calls. 
+  """   
   field_interp = ((field[0,0,0,0]*
                     (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + 
                 field[0,1,0,0]*
@@ -664,5 +666,3 @@ def indices_and_field(x,y,z,
             
             return field,x_index,y_index,z_index
             
-class InputError(Exception):
-	pass

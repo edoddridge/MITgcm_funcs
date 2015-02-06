@@ -148,12 +148,17 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
 <tr class="memitem:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3">grid</a></td></tr>
 <tr class="separator:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
+<tr class="memitem:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">netcdf_file</a> = netCDF4.Dataset(netcdf_filename)</td></tr>
+<tr class="separator:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
+<tr class="separator:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the base class for all model fields on the tracer points. </p>
 <p>It includes definitions for taking derivatives. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00439">439</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00464">464</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a4e5ca6800530f2c8da4bc3d21ef4e50d"></a>
 <div class="memitem">
@@ -194,7 +199,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the x derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00447">447</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00472">472</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -237,7 +242,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the y derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00479">479</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00504">504</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -280,7 +285,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the z derivative of the field given on tracer-points, using the spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00511">511</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00536">536</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -290,7 +295,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 3 2015 15:29:09 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 6 2015 18:07:59 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

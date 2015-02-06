@@ -9,8 +9,11 @@ This package provides methods and classes for analysing the output of mitgcm sim
 
 
 @section Revision History
-January 2015
+January 2015:
 Added documentation
+
+February 2015:
+Added streamline and streakline algorithms
 """
 
 import numpy as np
@@ -87,6 +90,7 @@ class MITgcm_Simulation(dict):
         return me
 
 class Upoint_field(MITgcm_Simulation):
+    """ This is the class for all fields on zonal velocity points."""
     
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
 	if empty:
@@ -198,7 +202,7 @@ class Upoint_field(MITgcm_Simulation):
         return 
 
 class Vpoint_field(MITgcm_Simulation):
-    """ This is the class fo rall fields on meridional velocity points."""
+    """ This is the class for all fields on meridional velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
 	"""Instantiate a field on the meridional velocity points."""
@@ -303,6 +307,7 @@ class Vpoint_field(MITgcm_Simulation):
         return
     
 class Wpoint_field(MITgcm_Simulation):
+    """ This is the class for all fields on vertical velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
 	if empty:

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bottom_5fmask',['bottom_mask',['../classmitgcm_1_1core_1_1Grid.html#a69f90f4bcf5c06fab90674814eff4de9',1,'mitgcm::core::Grid']]]
+  ['grid',['grid',['../classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3',1,'mitgcm::core::MITgcm_Simulation']]]
 ];

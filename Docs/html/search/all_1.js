@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['bernoulli',['Bernoulli',['../classmitgcm_1_1core_1_1Bernoulli.html',1,'mitgcm::core']]],
-  ['bottom_5fmask',['bottom_mask',['../classmitgcm_1_1core_1_1Grid.html#a69f90f4bcf5c06fab90674814eff4de9',1,'mitgcm::core::Grid']]]
+  ['actual_5fbilinear_5finterp',['actual_bilinear_interp',['../namespacemitgcm_1_1streamlines.html#ad0a40f9a0e3135fab213b52fb83bf038',1,'mitgcm::streamlines']]],
+  ['actual_5fquadralinear_5finterp',['actual_quadralinear_interp',['../namespacemitgcm_1_1streamlines.html#a80949f29827013f60f0808d4b531953c',1,'mitgcm::streamlines']]],
+  ['actual_5ftrilinear_5finterp',['actual_trilinear_interp',['../namespacemitgcm_1_1streamlines.html#a3577f2724420caf7e275c3d9ad3a4a03',1,'mitgcm::streamlines']]]
 ];
