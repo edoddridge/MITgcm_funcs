@@ -11,5 +11,6 @@ setup(name='mitgcm',
       install_requires=[
           'numpy',
 	  'netCDF4',
+	  'numba',
       ],
       zip_safe=False)
