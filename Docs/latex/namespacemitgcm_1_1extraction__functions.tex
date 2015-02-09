@@ -1,45 +1,46 @@
-\hypertarget{namespacemitgcm_1_1extraction__functions}{\section{mitgcm.\+extraction\+\_\+functions Namespace Reference}
+\hypertarget{namespacemitgcm_1_1extraction__functions}{}\section{mitgcm.\+extraction\+\_\+functions Namespace Reference}
 \label{namespacemitgcm_1_1extraction__functions}\index{mitgcm.\+extraction\+\_\+functions@{mitgcm.\+extraction\+\_\+functions}}
-}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 def \hyperlink{namespacemitgcm_1_1extraction__functions_ac997450bd917bdcefd2a182494d8c4a8}{extract\+\_\+surface}
 \begin{DoxyCompactList}\small\item\em Extract a surface (2 dimensions) from the input\+\_\+field (3 dimensions). \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1extraction__functions_ae60d3f743ac70de8a67ac7cd2c1f6758}{linear\+\_\+interp} (input\+\_\+field, surface\+\_\+value, ind, axis\+\_\+vector)
+\begin{DoxyCompactList}\small\item\em Numba accelerated linear interpolation function. \end{DoxyCompactList}\item 
 def \hyperlink{namespacemitgcm_1_1extraction__functions_a8f2297e92f5424a6ffb8b55bad6eff24}{extract\+\_\+on\+\_\+surface}
-\begin{DoxyCompactList}\small\item\em This function takes an 3 dimensional matrix 'input\+\_\+field' and an 2 dimensional matrix 'surf\+\_\+loc\+\_\+array' and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in 'axis\+\_\+values'. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function takes an 3 dimensional matrix \textquotesingle{}input\+\_\+field\textquotesingle{} and an 2 dimensional matrix \textquotesingle{}surf\+\_\+loc\+\_\+array\textquotesingle{} and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in \textquotesingle{}axis\+\_\+values\textquotesingle{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\hypertarget{namespacemitgcm_1_1extraction__functions_a8f2297e92f5424a6ffb8b55bad6eff24}{\index{mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}!extract\+\_\+on\+\_\+surface@{extract\+\_\+on\+\_\+surface}}
+\hypertarget{namespacemitgcm_1_1extraction__functions_a8f2297e92f5424a6ffb8b55bad6eff24}{}\index{mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}!extract\+\_\+on\+\_\+surface@{extract\+\_\+on\+\_\+surface}}
 \index{extract\+\_\+on\+\_\+surface@{extract\+\_\+on\+\_\+surface}!mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}}
 \subsubsection[{extract\+\_\+on\+\_\+surface}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+extraction\+\_\+functions.\+extract\+\_\+on\+\_\+surface (
 \begin{DoxyParamCaption}
 \item[{}]{input\+\_\+field, }
 \item[{}]{surf\+\_\+loc\+\_\+array, }
 \item[{}]{axis\+\_\+values, }
-\item[{}]{direction = {\ttfamily 'up'}}
+\item[{}]{direction = {\ttfamily \textquotesingle{}up\textquotesingle{}}}
 \end{DoxyParamCaption}
-)}}\label{namespacemitgcm_1_1extraction__functions_a8f2297e92f5424a6ffb8b55bad6eff24}
+)}\label{namespacemitgcm_1_1extraction__functions_a8f2297e92f5424a6ffb8b55bad6eff24}
 
 
-This function takes an 3 dimensional matrix 'input\+\_\+field' and an 2 dimensional matrix 'surf\+\_\+loc\+\_\+array' and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in 'axis\+\_\+values'. 
+This function takes an 3 dimensional matrix \textquotesingle{}input\+\_\+field\textquotesingle{} and an 2 dimensional matrix \textquotesingle{}surf\+\_\+loc\+\_\+array\textquotesingle{} and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in \textquotesingle{}axis\+\_\+values\textquotesingle{}. 
 
 direction\+: optional argument to specify which direction the axis increases in. Default is up 
 
-Definition at line 107 of file extraction\+\_\+functions.\+py.
+Definition at line 126 of file extraction\+\_\+functions.\+py.
 
-\hypertarget{namespacemitgcm_1_1extraction__functions_ac997450bd917bdcefd2a182494d8c4a8}{\index{mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}!extract\+\_\+surface@{extract\+\_\+surface}}
+\hypertarget{namespacemitgcm_1_1extraction__functions_ac997450bd917bdcefd2a182494d8c4a8}{}\index{mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}!extract\+\_\+surface@{extract\+\_\+surface}}
 \index{extract\+\_\+surface@{extract\+\_\+surface}!mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}}
 \subsubsection[{extract\+\_\+surface}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+extraction\+\_\+functions.\+extract\+\_\+surface (
 \begin{DoxyParamCaption}
 \item[{}]{input\+\_\+field, }
 \item[{}]{surface\+\_\+value, }
 \item[{}]{axis\+\_\+vector, }
-\item[{}]{direction = {\ttfamily 'down'}, }
+\item[{}]{direction = {\ttfamily \textquotesingle{}down\textquotesingle{}}, }
 \item[{}]{max\+\_\+depth = {\ttfamily -\/4000}}
 \end{DoxyParamCaption}
-)}}\label{namespacemitgcm_1_1extraction__functions_ac997450bd917bdcefd2a182494d8c4a8}
+)}\label{namespacemitgcm_1_1extraction__functions_ac997450bd917bdcefd2a182494d8c4a8}
 
 
 Extract a surface (2 dimensions) from the input\+\_\+field (3 dimensions). 
@@ -68,5 +69,23 @@ depth\+\_\+temp\+\_\+10point2 = extract\+\_\+surface(input\+\_\+field, surface\+
 
 print depth\+\_\+temp\+\_\+10.\+2 returns \mbox{[}\mbox{[} nan 1.\+8 nan\mbox{]} \mbox{[} 1.\+8 1.\+8 4.\+26666667\mbox{]} \mbox{[} 2.\+4 1.\+8 nan\mbox{]}\mbox{]} 
 
-Definition at line 56 of file extraction\+\_\+functions.\+py.
+Definition at line 57 of file extraction\+\_\+functions.\+py.
+
+\hypertarget{namespacemitgcm_1_1extraction__functions_ae60d3f743ac70de8a67ac7cd2c1f6758}{}\index{mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}!linear\+\_\+interp@{linear\+\_\+interp}}
+\index{linear\+\_\+interp@{linear\+\_\+interp}!mitgcm\+::extraction\+\_\+functions@{mitgcm\+::extraction\+\_\+functions}}
+\subsubsection[{linear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+extraction\+\_\+functions.\+linear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{input\+\_\+field, }
+\item[{}]{surface\+\_\+value, }
+\item[{}]{ind, }
+\item[{}]{axis\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1extraction__functions_ae60d3f743ac70de8a67ac7cd2c1f6758}
+
+
+Numba accelerated linear interpolation function. 
+
+This was used in the extract\+\_\+surface function, but is now superfluous. 
+
+Definition at line 98 of file extraction\+\_\+functions.\+py.
 

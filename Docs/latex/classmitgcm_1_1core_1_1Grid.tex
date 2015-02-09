@@ -1,6 +1,5 @@
-\hypertarget{classmitgcm_1_1core_1_1Grid}{\section{mitgcm.\+core.\+Grid Class Reference}
+\hypertarget{classmitgcm_1_1core_1_1Grid}{}\section{mitgcm.\+core.\+Grid Class Reference}
 \label{classmitgcm_1_1core_1_1Grid}\index{mitgcm.\+core.\+Grid@{mitgcm.\+core.\+Grid}}
-}
 
 
 This defines the class for the grid object.  
@@ -15,8 +14,10 @@ Inheritance diagram for mitgcm.\+core.\+Grid\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-def \hyperlink{classmitgcm_1_1core_1_1Grid_a8697cc503024a546e189c2707c56c0db}{\+\_\+\+\_\+init\+\_\+\+\_\+}
-\begin{DoxyCompactList}\small\item\em Define a single object that has all of the grid variables tucked away in it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+def \hyperlink{classmitgcm_1_1core_1_1Grid_a79af97fd15b63db33ac352236168d38b}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, grid\+\_\+netcdf\+\_\+filename)
+\begin{DoxyCompactList}\small\item\em Define a single object that has all of the grid variables tucked away in it. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1Grid_ad33f3e78699330079c7ae7dfbd5d7adb}{compute\+\_\+masks} (self, wet\+\_\+mask\+\_\+\+T\+H)
+\begin{DoxyCompactList}\small\item\em This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
@@ -26,26 +27,45 @@ This defines the class for the grid object.
 This object holds all the information about the grid on which the simulation was run. It also holds mask for getting only the boundary values of fields on the tracer points. \begin{DoxyVerb}This class is the only one that isn't written to use dicts - this should be fixed at some stage. \end{DoxyVerb}
  
 
-Definition at line 572 of file core.\+py.
+Definition at line 666 of file core.\+py.
 
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classmitgcm_1_1core_1_1Grid_a8697cc503024a546e189c2707c56c0db}{\index{mitgcm\+::core\+::\+Grid@{mitgcm\+::core\+::\+Grid}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\hypertarget{classmitgcm_1_1core_1_1Grid_a79af97fd15b63db33ac352236168d38b}{}\index{mitgcm\+::core\+::\+Grid@{mitgcm\+::core\+::\+Grid}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
 \index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!mitgcm\+::core\+::\+Grid@{mitgcm\+::core\+::\+Grid}}
 \subsubsection[{\+\_\+\+\_\+init\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Grid.\+\_\+\+\_\+init\+\_\+\+\_\+ (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{grid\+\_\+netcdf\+\_\+filename}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Grid_a8697cc503024a546e189c2707c56c0db}
+)}\label{classmitgcm_1_1core_1_1Grid_a79af97fd15b63db33ac352236168d38b}
 
 
 Define a single object that has all of the grid variables tucked away in it. 
 
 Each of the variables pulled directly from the netcdf file still has the original description attached to it. The 2\+D and 3\+D arrays do not. 
 
-Definition at line 578 of file core.\+py.
+Definition at line 672 of file core.\+py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmitgcm_1_1core_1_1Grid_ad33f3e78699330079c7ae7dfbd5d7adb}{}\index{mitgcm\+::core\+::\+Grid@{mitgcm\+::core\+::\+Grid}!compute\+\_\+masks@{compute\+\_\+masks}}
+\index{compute\+\_\+masks@{compute\+\_\+masks}!mitgcm\+::core\+::\+Grid@{mitgcm\+::core\+::\+Grid}}
+\subsubsection[{compute\+\_\+masks}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Grid.\+compute\+\_\+masks (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{wet\+\_\+mask\+\_\+\+T\+H}
+\end{DoxyParamCaption}
+)}\label{classmitgcm_1_1core_1_1Grid_ad33f3e78699330079c7ae7dfbd5d7adb}
+
+
+This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. 
+
+This function is accelerated by numba, making it about 100 times faster. 
+
+Definition at line 725 of file core.\+py.
 
 
 

@@ -1,0 +1,150 @@
+\hypertarget{namespacemitgcm_1_1functions}{}\section{mitgcm.\+functions Namespace Reference}
+\label{namespacemitgcm_1_1functions}\index{mitgcm.\+functions@{mitgcm.\+functions}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacemitgcm_1_1functions_a0c92a8395bc703865868e6b0a2a35e49}{extract\+\_\+surface}
+\begin{DoxyCompactList}\small\item\em Extract a surface (2 dimensions) from the input\+\_\+field (3 dimensions). \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1functions_a5cd49a5bcc251ab496dd14eab9a9735f}{linear\+\_\+interp} (input\+\_\+field, surface\+\_\+value, ind, axis\+\_\+vector)
+\begin{DoxyCompactList}\small\item\em Numba accelerated linear interpolation function. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1functions_a299918b57fada07023fdbb6ac4d6fb6e}{extract\+\_\+on\+\_\+surface}
+\begin{DoxyCompactList}\small\item\em This function takes an 3 dimensional matrix \textquotesingle{}input\+\_\+field\textquotesingle{} and an 2 dimensional matrix \textquotesingle{}surf\+\_\+loc\+\_\+array\textquotesingle{} and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in \textquotesingle{}axis\+\_\+values\textquotesingle{}. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1functions_ab26c3c96d103e888d18a0378ebd78355}{layer\+\_\+integrate}
+\begin{DoxyCompactList}\small\item\em Integrate between two non-\/trivial surfaces, \textquotesingle{}upper\+\_\+contour\textquotesingle{} and \textquotesingle{}lower\+\_\+contour\textquotesingle{}. \end{DoxyCompactList}\item 
+def \hyperlink{namespacemitgcm_1_1functions_ab12baa939c3055bc4c9bceb54da9f16e}{test\+\_\+layer\+\_\+integrate} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacemitgcm_1_1functions_a299918b57fada07023fdbb6ac4d6fb6e}{}\index{mitgcm\+::functions@{mitgcm\+::functions}!extract\+\_\+on\+\_\+surface@{extract\+\_\+on\+\_\+surface}}
+\index{extract\+\_\+on\+\_\+surface@{extract\+\_\+on\+\_\+surface}!mitgcm\+::functions@{mitgcm\+::functions}}
+\subsubsection[{extract\+\_\+on\+\_\+surface}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+functions.\+extract\+\_\+on\+\_\+surface (
+\begin{DoxyParamCaption}
+\item[{}]{input\+\_\+field, }
+\item[{}]{surf\+\_\+loc\+\_\+array, }
+\item[{}]{axis\+\_\+values, }
+\item[{}]{direction = {\ttfamily \textquotesingle{}up\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1functions_a299918b57fada07023fdbb6ac4d6fb6e}
+
+
+This function takes an 3 dimensional matrix \textquotesingle{}input\+\_\+field\textquotesingle{} and an 2 dimensional matrix \textquotesingle{}surf\+\_\+loc\+\_\+array\textquotesingle{} and returns a 2 dimensional matrix that contains the values of input\+\_\+field at the location specified by surf\+\_\+loc\+\_\+array along the third dimension using the values for that axis contained in \textquotesingle{}axis\+\_\+values\textquotesingle{}. 
+
+direction\+: optional argument to specify which direction the axis increases in. Default is up 
+
+Definition at line 126 of file functions.\+py.
+
+\hypertarget{namespacemitgcm_1_1functions_a0c92a8395bc703865868e6b0a2a35e49}{}\index{mitgcm\+::functions@{mitgcm\+::functions}!extract\+\_\+surface@{extract\+\_\+surface}}
+\index{extract\+\_\+surface@{extract\+\_\+surface}!mitgcm\+::functions@{mitgcm\+::functions}}
+\subsubsection[{extract\+\_\+surface}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+functions.\+extract\+\_\+surface (
+\begin{DoxyParamCaption}
+\item[{}]{input\+\_\+field, }
+\item[{}]{surface\+\_\+value, }
+\item[{}]{axis\+\_\+vector, }
+\item[{}]{direction = {\ttfamily \textquotesingle{}down\textquotesingle{}}, }
+\item[{}]{max\+\_\+depth = {\ttfamily -\/4000}}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1functions_a0c92a8395bc703865868e6b0a2a35e49}
+
+
+Extract a surface (2 dimensions) from the input\+\_\+field (3 dimensions). 
+
+The surface represents the location at which input\+\_\+field == hypersurface\+\_\+value. Specifying an axis\+\_\+vector means that it is possible to use this function with non-\/uniform spaced grids.
+
+The function returns output\+\_\+array, a 2\+D array of axis values.
+
+The values of input\+\_\+field {\itshape must} be monotonic in the specified dimension.
+
+input\+\_\+field\+: 3 dimensional matrix output\+\_\+array\+: 2 dimensional hypersurface surface\+\_\+value\+: value of input\+\_\+field on the extracted surface axis\+\_\+vector\+: one dimensional vector specifying the distance between elements of input\+\_\+field direction\+: optional argument to specify which direction the field increases in. Default is down
+
+Oceanography example\+: extract depths for a given temperature.
+
+Some arbitrary surface temperatures temp = np.\+array(\mbox{[}\mbox{[}10,11,10\mbox{]},\mbox{[}11,11,13\mbox{]},\mbox{[}12,11,10\mbox{]}\mbox{]}) input\+\_\+field = np.\+zeros((temp.\+shape\mbox{[}0\mbox{]},temp.\+shape\mbox{[}1\mbox{]},4))
+
+Make them decrease with depth for i in xrange(0,4)\+: input\+\_\+field\mbox{[}\+:,\+:,i\mbox{]} = temp -\/ i
+
+print input\+\_\+field\mbox{[}\+:,\+:,0\mbox{]} returns \mbox{[}\mbox{[} 10. 11. 10.\mbox{]} \mbox{[} 11. 11. 13.\mbox{]} \mbox{[} 12. 11. 10.\mbox{]}\mbox{]}
+
+Pick out the depth at which the temperature should be 10.\+2 surface\+\_\+value = 10.\+2
+
+Depth axis axis\+\_\+vector = np.\+array(\mbox{[}1,2,4,7\mbox{]})
+
+depth\+\_\+temp\+\_\+10point2 = extract\+\_\+surface(input\+\_\+field, surface\+\_\+value,axis\+\_\+vector)
+
+print depth\+\_\+temp\+\_\+10.\+2 returns \mbox{[}\mbox{[} nan 1.\+8 nan\mbox{]} \mbox{[} 1.\+8 1.\+8 4.\+26666667\mbox{]} \mbox{[} 2.\+4 1.\+8 nan\mbox{]}\mbox{]} 
+
+Definition at line 57 of file functions.\+py.
+
+\hypertarget{namespacemitgcm_1_1functions_ab26c3c96d103e888d18a0378ebd78355}{}\index{mitgcm\+::functions@{mitgcm\+::functions}!layer\+\_\+integrate@{layer\+\_\+integrate}}
+\index{layer\+\_\+integrate@{layer\+\_\+integrate}!mitgcm\+::functions@{mitgcm\+::functions}}
+\subsubsection[{layer\+\_\+integrate}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+functions.\+layer\+\_\+integrate (
+\begin{DoxyParamCaption}
+\item[{}]{upper\+\_\+contour, }
+\item[{}]{lower\+\_\+contour, }
+\item[{}]{axis, }
+\item[{}]{integrand = {\ttfamily \textquotesingle{}none\textquotesingle{}}, }
+\item[{}]{axis\+\_\+sign = {\ttfamily \textquotesingle{}negative\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1functions_ab26c3c96d103e888d18a0378ebd78355}
+
+
+Integrate between two non-\/trivial surfaces, \textquotesingle{}upper\+\_\+contour\textquotesingle{} and \textquotesingle{}lower\+\_\+contour\textquotesingle{}. 
+
+The arrays ind\+\_\+upper and ind\+\_\+lower come from the function extract\+\_\+surface. At the moment this only works if all the inputs are defined at the same location.
+
+In M\+I\+Tgcm world, the axis needs to be Zl -\/ \textquotesingle{}the lower interface locations\textquotesingle{}. It needs to include the surface, but the lowest grid face is not required.
+
+The input array \textquotesingle{}integrand\textquotesingle{} is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point,
+
+Examples\+: contour\+\_\+10375, ind\+\_\+10375 = extract\+\_\+surface(density\+\_\+diags\+\_\+mean.\+rho\mbox{[}\+:\mbox{]},1037.\+5,grid.\+Z\mbox{[}\+:\mbox{]}) contour\+\_\+1038, ind\+\_\+1038 = extract\+\_\+surface(density\+\_\+diags\+\_\+mean.\+rho\mbox{[}\+:\mbox{]},1038,grid.\+Z\mbox{[}\+:\mbox{]})
+
+Volume between two stratification surfaces. In this case the optional argument \textquotesingle{}integrand\textquotesingle{} is not required. volume = integrate\+\_\+layerwise(contour\+\_\+10375, ind\+\_\+10375,contour\+\_\+1038, ind\+\_\+1038,grid.\+Z\mbox{[}\+:\mbox{]})
+
+Kinetic energy between two stratification surfaces. The integrand is the kinetic energy. E\+K\+E\+\_\+10375\+\_\+1038 = integrate\+\_\+layerwise(contour\+\_\+10375, ind\+\_\+10375,contour\+\_\+1038, ind\+\_\+1038,grid.\+Z\mbox{[}\+:\mbox{]},E\+K\+E)
+
+\begin{DoxyVerb} upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
+ lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
+ axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
+ test = layer_integrate(upper,lower,axis)
+ print test
+ print np.sum(test)
+ print np.sum(upper - lower)
+
+ [[ 0.1  2.   2. ]
+  [ 2.   2.   2. ]
+  [ 2.   2.   2. ]]
+ 16.1
+ 16.1\end{DoxyVerb}
+ 
+
+Definition at line 200 of file functions.\+py.
+
+\hypertarget{namespacemitgcm_1_1functions_a5cd49a5bcc251ab496dd14eab9a9735f}{}\index{mitgcm\+::functions@{mitgcm\+::functions}!linear\+\_\+interp@{linear\+\_\+interp}}
+\index{linear\+\_\+interp@{linear\+\_\+interp}!mitgcm\+::functions@{mitgcm\+::functions}}
+\subsubsection[{linear\+\_\+interp}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+functions.\+linear\+\_\+interp (
+\begin{DoxyParamCaption}
+\item[{}]{input\+\_\+field, }
+\item[{}]{surface\+\_\+value, }
+\item[{}]{ind, }
+\item[{}]{axis\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1functions_a5cd49a5bcc251ab496dd14eab9a9735f}
+
+
+Numba accelerated linear interpolation function. 
+
+This was seperate from the extract\+\_\+surface function, but is now superfluous -\/ it\textquotesingle{}s here just in case it\textquotesingle{}s needed. 
+
+Definition at line 98 of file functions.\+py.
+
+\hypertarget{namespacemitgcm_1_1functions_ab12baa939c3055bc4c9bceb54da9f16e}{}\index{mitgcm\+::functions@{mitgcm\+::functions}!test\+\_\+layer\+\_\+integrate@{test\+\_\+layer\+\_\+integrate}}
+\index{test\+\_\+layer\+\_\+integrate@{test\+\_\+layer\+\_\+integrate}!mitgcm\+::functions@{mitgcm\+::functions}}
+\subsubsection[{test\+\_\+layer\+\_\+integrate}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+functions.\+test\+\_\+layer\+\_\+integrate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{namespacemitgcm_1_1functions_ab12baa939c3055bc4c9bceb54da9f16e}
+
+
+Definition at line 237 of file functions.\+py.
+

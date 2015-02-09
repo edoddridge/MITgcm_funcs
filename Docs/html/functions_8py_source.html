@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>mitgcm: extraction_functions.py Source File</title>
+<title>mitgcm: functions.py Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -81,14 +81,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">extraction_functions.py</div>  </div>
+<div class="title">functions.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="extraction__functions_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1extraction__functions.html">    1</a></span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">extraction_functions</span></div>
+<a href="functions_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html">    1</a></span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">functions</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">====================</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">Functions for extracting surfaces of constant value, or values on arbitrary surfaces.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">Functions for analysing model output.</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">Each function has a detailed docstring.</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> numba</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1extraction__functions.html#ac997450bd917bdcefd2a182494d8c4a8">extract_surface</a>(input_field,surface_value,axis_vector,direction=&#39;down&#39;,max_depth=-4000):</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a0c92a8395bc703865868e6b0a2a35e49">extract_surface</a>(input_field,surface_value,axis_vector,direction=&#39;down&#39;,max_depth=-4000):</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Extract a surface (2 dimensions) from the input_field (3 dimensions). </span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral">    The surface represents the location at which input_field == hypersurface_value. </span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">    Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.</span></div>
@@ -140,7 +140,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">     [ 2.4     1.8         nan]]</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> direction == <span class="stringliteral">&#39;down&#39;</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1extraction__functions.html#ac997450bd917bdcefd2a182494d8c4a8">   57</a></span>&#160;        dummy_direction = 1</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a0c92a8395bc703865868e6b0a2a35e49">   57</a></span>&#160;        dummy_direction = 1</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">elif</span> direction ==<span class="stringliteral">&#39;up&#39;</span>:</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        dummy_direction = -1</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">else</span>:</div>
@@ -177,11 +177,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> output_array, ind</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    </div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;@numba.jit</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1extraction__functions.html#ae60d3f743ac70de8a67ac7cd2c1f6758">linear_interp</a>(input_field,surface_value,ind,axis_vector):</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Numba accelerated linear interpolation function. This was used in the extract_surface function, but is now superfluous.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a5cd49a5bcc251ab496dd14eab9a9735f">linear_interp</a>(input_field,surface_value,ind,axis_vector):</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Numba accelerated linear interpolation function. This was seperate from the extract_surface function, but is now superfluous - it&#39;s here just in case it&#39;s needed.&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    output_array = np.zeros((input_field.shape[1], input_field.shape[2]))</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1extraction__functions.html#ae60d3f743ac70de8a67ac7cd2c1f6758">   98</a></span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,input_field.shape[1]):</div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a5cd49a5bcc251ab496dd14eab9a9735f">   98</a></span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,input_field.shape[1]):</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> xrange(0,input_field.shape[2]):</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">if</span> ind[i,j] == 0:</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                output_array[i,j] = 0<span class="comment">#np.nan</span></div>
@@ -197,7 +197,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1extraction__functions.html#a8f2297e92f5424a6ffb8b55bad6eff24">extract_on_surface</a>(input_field,surf_loc_array,axis_values,direction=&#39;up&#39;):</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a299918b57fada07023fdbb6ac4d6fb6e">extract_on_surface</a>(input_field,surf_loc_array,axis_values,direction=&#39;up&#39;):</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;This function takes an 3 dimensional matrix &#39;input_field&#39; and an 2 dimensional</span></div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="stringliteral">    matrix &#39;surf_loc_array&#39; and returns a 2 dimensional matrix that contains the</span></div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="stringliteral">    values of input_field at the location specified by surf_loc_array along the third dimension using</span></div>
@@ -209,7 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    </div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span> np.max(surf_loc_array) &gt; np.max(axis_values):</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&#39;At least one value in surf_loc_array is larger than the largest value in axis_values&#39;</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1extraction__functions.html#a8f2297e92f5424a6ffb8b55bad6eff24">  126</a></span>&#160;        </div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a299918b57fada07023fdbb6ac4d6fb6e">  126</a></span>&#160;        </div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">if</span> np.min(surf_loc_array) &lt; np.min(axis_values):</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&#39;At least one value in surf_loc_array is smaller than the smallest value in axis_values&#39;</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        </div>
@@ -241,13 +241,95 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                                      (input_field[k,i,j] - input_field[k+1,i,j])</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                                      )</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">return</span> value_on_surf</div>
-<div class="ttc" id="namespacemitgcm_1_1extraction__functions_html_a8f2297e92f5424a6ffb8b55bad6eff24"><div class="ttname"><a href="namespacemitgcm_1_1extraction__functions.html#a8f2297e92f5424a6ffb8b55bad6eff24">mitgcm.extraction_functions.extract_on_surface</a></div><div class="ttdeci">def extract_on_surface</div><div class="ttdoc">This function takes an 3 dimensional matrix &#39;input_field&#39; and an 2 dimensional matrix &#39;surf_loc_array...</div><div class="ttdef"><b>Definition:</b> <a href="extraction__functions_8py_source.html#l00126">extraction_functions.py:126</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1extraction__functions_html_ae60d3f743ac70de8a67ac7cd2c1f6758"><div class="ttname"><a href="namespacemitgcm_1_1extraction__functions.html#ae60d3f743ac70de8a67ac7cd2c1f6758">mitgcm.extraction_functions.linear_interp</a></div><div class="ttdeci">def linear_interp(input_field, surface_value, ind, axis_vector)</div><div class="ttdoc">Numba accelerated linear interpolation function. </div><div class="ttdef"><b>Definition:</b> <a href="extraction__functions_8py_source.html#l00098">extraction_functions.py:98</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1extraction__functions_html_ac997450bd917bdcefd2a182494d8c4a8"><div class="ttname"><a href="namespacemitgcm_1_1extraction__functions.html#ac997450bd917bdcefd2a182494d8c4a8">mitgcm.extraction_functions.extract_surface</a></div><div class="ttdeci">def extract_surface</div><div class="ttdoc">Extract a surface (2 dimensions) from the input_field (3 dimensions). </div><div class="ttdef"><b>Definition:</b> <a href="extraction__functions_8py_source.html#l00057">extraction_functions.py:57</a></div></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">layer_integrate</a>(upper_contour, lower_contour, axis, integrand = &#39;none&#39;, axis_sign = &#39;negative&#39;): </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Integrate between two non-trivial surfaces, &#39;upper_contour&#39; and &#39;lower_contour&#39;. The arrays ind_upper and ind_lower come from the function extract_surface.</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="stringliteral">    At the moment this only works if all the inputs are defined at the same location.</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="stringliteral">    In MITgcm world, the axis needs to be Zl - &#39;the lower interface locations&#39;. It needs to include the surface, but the lowest grid face is not required.</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="stringliteral">    The input array &#39;integrand&#39; is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point, </span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="stringliteral">    Examples:</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="stringliteral">    contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="stringliteral">    contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="stringliteral">    Volume between two stratification surfaces. In this case the optional argument &#39;integrand&#39; is not required.</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="stringliteral">    volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="stringliteral">    Kinetic energy between two stratification surfaces. The integrand is the kinetic energy.</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="stringliteral">    EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="stringliteral">    upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="stringliteral">    lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="stringliteral">    axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="stringliteral">    test = layer_integrate(upper,lower,axis)</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="stringliteral">    print test</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="stringliteral">    print np.sum(test)</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="stringliteral">    print np.sum(upper - lower)</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="stringliteral">    [[ 0.1  2.   2. ]</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="stringliteral">     [ 2.   2.   2. ]</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="stringliteral">     [ 2.   2.   2. ]]</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="stringliteral">    16.1</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="stringliteral">    16.1</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordflow">if</span> axis_sign == <span class="stringliteral">&#39;positive&#39;</span>:</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        dummy_sign = 1</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordflow">elif</span> axis_sign ==<span class="stringliteral">&#39;negative&#39;</span>:</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">  200</a></span>&#160;        dummy_sign = -1</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&quot;axis_sign not specified correctly. Should be &#39;positive&#39; or &#39;negative&#39;.&quot;</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    total = np.zeros((upper_contour.shape))</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    </div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">if</span> integrand == <span class="stringliteral">&#39;none&#39;</span>:</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        total = (upper_contour - lower_contour)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,upper_contour.shape[1]):</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> xrange(0,upper_contour.shape[0]):</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                ind_upper = np.searchsorted(dummy_sign*axis[:],dummy_sign*upper_contour[j,i],side=<span class="stringliteral">&#39;right&#39;</span>)</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                ind_lower = np.searchsorted(dummy_sign*axis[:],dummy_sign*lower_contour[j,i],side=<span class="stringliteral">&#39;right&#39;</span>)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                <span class="keywordflow">if</span> ind_lower == ind_upper:</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    total[j,i] = (upper_contour[j,i] - lower_contour[j,i])*integrand[ind_upper-1,j,i]</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                    <span class="comment">#print &#39;equal indicies, contribution is &#39;, total[j,i]</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    total[j,i] = ((upper_contour[j,i] - axis[ind_upper])*integrand[ind_upper-1,j,i] + <span class="comment">#upper partial</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                                 (axis[ind_lower-1] - lower_contour[j,i])*integrand[ind_lower-1,j,i]) <span class="comment"># lower partial</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                    <span class="comment">#print &#39;uuper partial = &#39;, (upper_contour[j,i] - axis[ind_upper])*integrand[ind_upper-1,j,i]</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    <span class="comment">#print &#39;lower partial = &#39;, (axis[ind_lower-1] - lower_contour[j,i])*integrand[ind_lower-1,j,i]</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    <span class="comment">#sum the full cells in between</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                    <span class="keywordflow">for</span> k <span class="keywordflow">in</span> xrange(ind_upper,ind_lower-1): <span class="comment">#goes up to the ind_lower-2 to ind_lower-1 cell</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                        total[j,i] += (axis[k] - axis[k+1]) * integrand[k,j,i]</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">return</span> total</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">test_layer_integrate</a>():</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    integrand = np.ones((len(axis),upper_contour.shape[0],upper_contour.shape[1]))</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])</div>
+<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">  237</a></span>&#160;    <span class="keyword">assert</span> <a class="code" href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">layer_integrate</a>(upper,lower,axis,integrand=integrand) == np.sum(upper - lower)</div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_ab12baa939c3055bc4c9bceb54da9f16e"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">mitgcm.functions.test_layer_integrate</a></div><div class="ttdeci">def test_layer_integrate()</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00237">functions.py:237</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a0c92a8395bc703865868e6b0a2a35e49"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a0c92a8395bc703865868e6b0a2a35e49">mitgcm.functions.extract_surface</a></div><div class="ttdeci">def extract_surface</div><div class="ttdoc">Extract a surface (2 dimensions) from the input_field (3 dimensions). </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00057">functions.py:57</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_ab26c3c96d103e888d18a0378ebd78355"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">mitgcm.functions.layer_integrate</a></div><div class="ttdeci">def layer_integrate</div><div class="ttdoc">Integrate between two non-trivial surfaces, &#39;upper_contour&#39; and &#39;lower_contour&#39;. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00200">functions.py:200</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a299918b57fada07023fdbb6ac4d6fb6e"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a299918b57fada07023fdbb6ac4d6fb6e">mitgcm.functions.extract_on_surface</a></div><div class="ttdeci">def extract_on_surface</div><div class="ttdoc">This function takes an 3 dimensional matrix &#39;input_field&#39; and an 2 dimensional matrix &#39;surf_loc_array...</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00126">functions.py:126</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a5cd49a5bcc251ab496dd14eab9a9735f"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a5cd49a5bcc251ab496dd14eab9a9735f">mitgcm.functions.linear_interp</a></div><div class="ttdeci">def linear_interp(input_field, surface_value, ind, axis_vector)</div><div class="ttdoc">Numba accelerated linear interpolation function. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00098">functions.py:98</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:12:34 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Feb 9 2015 23:42:51 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

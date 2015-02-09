@@ -1,6 +1,10 @@
-\hypertarget{classmitgcm_1_1core_1_1Density}{\section{mitgcm.\+core.\+Density Class Reference}
+\hypertarget{classmitgcm_1_1core_1_1Density}{}\section{mitgcm.\+core.\+Density Class Reference}
 \label{classmitgcm_1_1core_1_1Density}\index{mitgcm.\+core.\+Density@{mitgcm.\+core.\+Density}}
-}
+
+
+A tracer point field that contains methods for density fields.  
+
+
 Inheritance diagram for mitgcm.\+core.\+Density\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -12,20 +16,22 @@ Inheritance diagram for mitgcm.\+core.\+Density\+:\begin{figure}[H]
 \item 
 def \hyperlink{classmitgcm_1_1core_1_1Density_ac4f90f6a9c4a9fe9608b5bfdcb09a47c}{\+\_\+\+\_\+init\+\_\+\+\_\+}
 \item 
-def \hyperlink{classmitgcm_1_1core_1_1Density_aa8d1673db5cfbcd7fda25ad38a29b3a8}{calculate\+\_\+\+Tot\+Rho\+Tend}
-\end{DoxyCompactItemize}
+def \hyperlink{classmitgcm_1_1core_1_1Density_ace1f408672554eb3871856cb8934aaa0}{calculate\+\_\+\+Tot\+Rho\+Tend} (self, model\+\_\+instance)
+\begin{DoxyCompactList}\small\item\em Calculate time rate of change of the density field from the temperature tendency and the linear equation of state. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
+A tracer point field that contains methods for density fields. 
 
+Only linear equation of state with temperature variations is supported at the moment. 
 
-Definition at line 669 of file core.\+py.
+Definition at line 775 of file core.\+py.
 
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classmitgcm_1_1core_1_1Density_ac4f90f6a9c4a9fe9608b5bfdcb09a47c}{\index{mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\hypertarget{classmitgcm_1_1core_1_1Density_ac4f90f6a9c4a9fe9608b5bfdcb09a47c}{}\index{mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
 \index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}}
 \subsubsection[{\+\_\+\+\_\+init\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Density.\+\_\+\+\_\+init\+\_\+\+\_\+ (
 \begin{DoxyParamCaption}
@@ -35,29 +41,33 @@ Definition at line 669 of file core.\+py.
 \item[{}]{Sbeta = {\ttfamily 0}, }
 \item[{}]{Rho\+Nil = {\ttfamily 1035}, }
 \item[{}]{cp = {\ttfamily 4000}, }
-\item[{}]{temp\+\_\+field = {\ttfamily 'THETA'}, }
-\item[{}]{density\+\_\+field = {\ttfamily 'RHO'}, }
+\item[{}]{temp\+\_\+field = {\ttfamily \textquotesingle{}THETA\textquotesingle{}}, }
+\item[{}]{density\+\_\+field = {\ttfamily \textquotesingle{}RHO\textquotesingle{}}, }
 \item[{}]{empty = {\ttfamily False}}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Density_ac4f90f6a9c4a9fe9608b5bfdcb09a47c}
+)}\label{classmitgcm_1_1core_1_1Density_ac4f90f6a9c4a9fe9608b5bfdcb09a47c}
 
 
-Definition at line 671 of file core.\+py.
+Definition at line 777 of file core.\+py.
 
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmitgcm_1_1core_1_1Density_aa8d1673db5cfbcd7fda25ad38a29b3a8}{\index{mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}!calculate\+\_\+\+Tot\+Rho\+Tend@{calculate\+\_\+\+Tot\+Rho\+Tend}}
+\hypertarget{classmitgcm_1_1core_1_1Density_ace1f408672554eb3871856cb8934aaa0}{}\index{mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}!calculate\+\_\+\+Tot\+Rho\+Tend@{calculate\+\_\+\+Tot\+Rho\+Tend}}
 \index{calculate\+\_\+\+Tot\+Rho\+Tend@{calculate\+\_\+\+Tot\+Rho\+Tend}!mitgcm\+::core\+::\+Density@{mitgcm\+::core\+::\+Density}}
 \subsubsection[{calculate\+\_\+\+Tot\+Rho\+Tend}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Density.\+calculate\+\_\+\+Tot\+Rho\+Tend (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{model\+\_\+instance}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Density_aa8d1673db5cfbcd7fda25ad38a29b3a8}
+)}\label{classmitgcm_1_1core_1_1Density_ace1f408672554eb3871856cb8934aaa0}
 
 
-Definition at line 691 of file core.\+py.
+Calculate time rate of change of the density field from the temperature tendency and the linear equation of state. 
+
+
+
+Definition at line 799 of file core.\+py.
 
 
 

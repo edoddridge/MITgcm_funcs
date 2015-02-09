@@ -1,6 +1,5 @@
-\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field}{\section{mitgcm.\+core.\+Tracerpoint\+\_\+field Class Reference}
+\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field}{}\section{mitgcm.\+core.\+Tracerpoint\+\_\+field Class Reference}
 \label{classmitgcm_1_1core_1_1Tracerpoint__field}\index{mitgcm.\+core.\+Tracerpoint\+\_\+field@{mitgcm.\+core.\+Tracerpoint\+\_\+field}}
-}
 
 
 This is the base class for all model fields on the tracer points.  
@@ -29,64 +28,64 @@ This is the base class for all model fields on the tracer points.
 
 It includes definitions for taking derivatives. 
 
-Definition at line 464 of file core.\+py.
+Definition at line 465 of file core.\+py.
 
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_a4e5ca6800530f2c8da4bc3d21ef4e50d}{\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}}
+\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_a4e5ca6800530f2c8da4bc3d21ef4e50d}{}\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}}
 \index{take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}!mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}}
 \subsubsection[{take\+\_\+d\+\_\+dx}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Tracerpoint\+\_\+field.\+take\+\_\+d\+\_\+dx (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{model\+\_\+instance, }
-\item[{}]{input\+\_\+field = {\ttfamily 'RHO'}, }
-\item[{}]{output\+\_\+field = {\ttfamily 'dRHO\+\_\+dx'}}
+\item[{}]{input\+\_\+field = {\ttfamily \textquotesingle{}RHO\textquotesingle{}}, }
+\item[{}]{output\+\_\+field = {\ttfamily \textquotesingle{}dRHO\+\_\+dx\textquotesingle{}}}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Tracerpoint__field_a4e5ca6800530f2c8da4bc3d21ef4e50d}
+)}\label{classmitgcm_1_1core_1_1Tracerpoint__field_a4e5ca6800530f2c8da4bc3d21ef4e50d}
 
 
 Take the x derivative of the field on tracer points, using spacings in grid object. 
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 472 of file core.\+py.
+Definition at line 473 of file core.\+py.
 
-\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_a5292f8f5c2110f476329806bee9315bf}{\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
+\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_a5292f8f5c2110f476329806bee9315bf}{}\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
 \index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}}
 \subsubsection[{take\+\_\+d\+\_\+dy}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Tracerpoint\+\_\+field.\+take\+\_\+d\+\_\+dy (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{model\+\_\+instance, }
-\item[{}]{input\+\_\+field = {\ttfamily 'RHO'}, }
-\item[{}]{output\+\_\+field = {\ttfamily 'dRHO\+\_\+dy'}}
+\item[{}]{input\+\_\+field = {\ttfamily \textquotesingle{}RHO\textquotesingle{}}, }
+\item[{}]{output\+\_\+field = {\ttfamily \textquotesingle{}dRHO\+\_\+dy\textquotesingle{}}}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Tracerpoint__field_a5292f8f5c2110f476329806bee9315bf}
+)}\label{classmitgcm_1_1core_1_1Tracerpoint__field_a5292f8f5c2110f476329806bee9315bf}
 
 
 Take the y derivative of the field on tracer points, using spacings in grid object. 
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 504 of file core.\+py.
+Definition at line 505 of file core.\+py.
 
-\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_aa54bc7f1fe31f946b3ed13cc1c66f22e}{\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
+\hypertarget{classmitgcm_1_1core_1_1Tracerpoint__field_aa54bc7f1fe31f946b3ed13cc1c66f22e}{}\index{mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}!take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}}
 \index{take\+\_\+d\+\_\+dz@{take\+\_\+d\+\_\+dz}!mitgcm\+::core\+::\+Tracerpoint\+\_\+field@{mitgcm\+::core\+::\+Tracerpoint\+\_\+field}}
 \subsubsection[{take\+\_\+d\+\_\+dz}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Tracerpoint\+\_\+field.\+take\+\_\+d\+\_\+dz (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{model\+\_\+instance, }
-\item[{}]{input\+\_\+field = {\ttfamily 'RHO'}, }
-\item[{}]{output\+\_\+field = {\ttfamily 'dRHO\+\_\+dz'}}
+\item[{}]{input\+\_\+field = {\ttfamily \textquotesingle{}RHO\textquotesingle{}}, }
+\item[{}]{output\+\_\+field = {\ttfamily \textquotesingle{}dRHO\+\_\+dz\textquotesingle{}}}
 \end{DoxyParamCaption}
-)}}\label{classmitgcm_1_1core_1_1Tracerpoint__field_aa54bc7f1fe31f946b3ed13cc1c66f22e}
+)}\label{classmitgcm_1_1core_1_1Tracerpoint__field_aa54bc7f1fe31f946b3ed13cc1c66f22e}
 
 
 Take the z derivative of the field given on tracer-\/points, using the spacings in grid object. 
 
 Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
 
-Definition at line 536 of file core.\+py.
+Definition at line 537 of file core.\+py.
 
 
 

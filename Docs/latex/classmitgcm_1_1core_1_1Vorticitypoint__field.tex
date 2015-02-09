@@ -1,19 +1,74 @@
-\hypertarget{classmitgcm_1_1core_1_1Vorticitypoint__field}{\section{mitgcm.\+core.\+Vorticitypoint\+\_\+field Class Reference}
+\hypertarget{classmitgcm_1_1core_1_1Vorticitypoint__field}{}\section{mitgcm.\+core.\+Vorticitypoint\+\_\+field Class Reference}
 \label{classmitgcm_1_1core_1_1Vorticitypoint__field}\index{mitgcm.\+core.\+Vorticitypoint\+\_\+field@{mitgcm.\+core.\+Vorticitypoint\+\_\+field}}
-}
+
+
+A class for fields on vorticity points.  
+
+
 Inheritance diagram for mitgcm.\+core.\+Vorticitypoint\+\_\+field\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=4.000000cm]{classmitgcm_1_1core_1_1Vorticitypoint__field}
 \end{center}
 \end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classmitgcm_1_1core_1_1Vorticitypoint__field_ab7dd01f831fe81a7ce431625d54aa11f}{take\+\_\+d\+\_\+dx}
+\begin{DoxyCompactList}\small\item\em Take the x derivative of the field given on vorticity-\/points, using the spacings in grid object. \end{DoxyCompactList}\item 
+def \hyperlink{classmitgcm_1_1core_1_1Vorticitypoint__field_a1ac62e67431f0edfedfec642f3f5d3f3}{take\+\_\+d\+\_\+dy}
+\begin{DoxyCompactList}\small\item\em Take the y derivative of the field given on vorticity-\/points, using the spacings in grid object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
+A class for fields on vorticity points. 
 
 
-Definition at line 562 of file core.\+py.
+
+Definition at line 565 of file core.\+py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmitgcm_1_1core_1_1Vorticitypoint__field_ab7dd01f831fe81a7ce431625d54aa11f}{}\index{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field@{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field}!take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}}
+\index{take\+\_\+d\+\_\+dx@{take\+\_\+d\+\_\+dx}!mitgcm\+::core\+::\+Vorticitypoint\+\_\+field@{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field}}
+\subsubsection[{take\+\_\+d\+\_\+dx}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Vorticitypoint\+\_\+field.\+take\+\_\+d\+\_\+dx (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{model\+\_\+instance, }
+\item[{}]{input\+\_\+field = {\ttfamily \textquotesingle{}momVort3\textquotesingle{}}, }
+\item[{}]{output\+\_\+field = {\ttfamily \textquotesingle{}dmomVort3\+\_\+dx\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\label{classmitgcm_1_1core_1_1Vorticitypoint__field_ab7dd01f831fe81a7ce431625d54aa11f}
+
+
+Take the x derivative of the field given on vorticity-\/points, using the spacings in grid object. 
+
+Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). 
+
+Definition at line 573 of file core.\+py.
+
+\hypertarget{classmitgcm_1_1core_1_1Vorticitypoint__field_a1ac62e67431f0edfedfec642f3f5d3f3}{}\index{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field@{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field}!take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}}
+\index{take\+\_\+d\+\_\+dy@{take\+\_\+d\+\_\+dy}!mitgcm\+::core\+::\+Vorticitypoint\+\_\+field@{mitgcm\+::core\+::\+Vorticitypoint\+\_\+field}}
+\subsubsection[{take\+\_\+d\+\_\+dy}]{\setlength{\rightskip}{0pt plus 5cm}def mitgcm.\+core.\+Vorticitypoint\+\_\+field.\+take\+\_\+d\+\_\+dy (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{model\+\_\+instance, }
+\item[{}]{input\+\_\+field = {\ttfamily \textquotesingle{}momVort3\textquotesingle{}}, }
+\item[{}]{output\+\_\+field = {\ttfamily \textquotesingle{}dmomVort3\+\_\+dy\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\label{classmitgcm_1_1core_1_1Vorticitypoint__field_a1ac62e67431f0edfedfec642f3f5d3f3}
+
+
+Take the y derivative of the field given on vorticity-\/points, using the spacings in grid object. 
+
+Performs centred second-\/order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). Take the z derivative of the field given on vorticity-\/points, using the spacings in grid object. \begin{DoxyVerb}       Performs centred second-order differencing everywhere except next to boundaries. First order is 
+       used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
+       they should be). \end{DoxyVerb}
+ 
+
+Definition at line 605 of file core.\+py.
 
 
 
