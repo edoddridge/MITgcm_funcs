@@ -8,6 +8,7 @@ Each function has a detailed docstring.
 """
 
 import numpy as np
+import numba
 
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
     """Extract a surface (2 dimensions) from the input_field (3 dimensions). 
@@ -70,10 +71,16 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
             #if ind[i,j] == 0 or ind[i,j] == len(input_field[:,i,j]):
             #    ind[i,j] = np.nan
 
-    output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
     #output_array[:] = np.NAN
 
     # do linear interpolation to get the value of axis_vector at which the transition occours.
+    output_array = linear_interp(input_field,surface_value,ind,axis_vector)
+
+    return output_array, ind
+    
+@numba.jit
+def linear_interp(input_field,surface_value,ind,axis_vector):
+    output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
     for i in xrange(0,input_field.shape[1]):
         for j in xrange(0,input_field.shape[2]):
             if ind[i,j] == 0:
@@ -85,10 +92,7 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
                                      (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
                                      (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
                                      ) + axis_vector[ind[i,j]-1]
-    return output_array, ind
-    
-    
-    
+    return output_array
     
 
 
