@@ -20,6 +20,7 @@ import numpy as np
 import netCDF4
 import copy
 import os
+import numba
 
     
 class MITgcm_Simulation(dict):
@@ -590,43 +591,50 @@ class Grid(MITgcm_Simulation):
 
         self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*self['drF'][:].reshape((40,1,1)))
 
-        self['west_mask'] = np.zeros((self['wet_mask_TH'].shape))
-        self['east_mask'] = np.zeros((self['wet_mask_TH'].shape))
-        self['south_mask'] = np.zeros((self['wet_mask_TH'].shape))
-        self['north_mask'] = np.zeros((self['wet_mask_TH'].shape))
-        self['bottom_mask'] = np.zeros((self['wet_mask_TH'].shape))
 
+
+	(self['west_mask'],self['east_mask'],self['south_mask'],
+	self['north_mask'],self['bottom_mask']) = self.compute_masks(self['wet_mask_TH'])
+                        
+        return
+        
+    @numba.jit        
+    def compute_masks(self,wet_mask_TH):
+        """This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
+        west_mask = np.zeros((wet_mask_TH.shape))
+        east_mask = np.zeros((wet_mask_TH.shape))
+        south_mask = np.zeros((wet_mask_TH.shape))
+        north_mask = np.zeros((wet_mask_TH.shape))
+        bottom_mask = np.zeros((wet_mask_TH.shape))
+        
         # Find the fluxes through the boundary of the domain
-        for k in xrange(0,self['wet_mask_TH'].shape[0]):
-            for j in xrange(0,self['wet_mask_TH'].shape[1]):
-                for i in xrange(0,self['wet_mask_TH'].shape[2]):
+        for k in xrange(0,wet_mask_TH.shape[0]):
+            for j in xrange(0,wet_mask_TH.shape[1]):
+                for i in xrange(0,wet_mask_TH.shape[2]):
                     # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
-                    if self['wet_mask_TH'][k,j,i] - self['wet_mask_TH'][k,j,i-1] == 1:
-                        self['west_mask'][k,j,i] = 1
+                    if wet_mask_TH[k,j,i] - wet_mask_TH[k,j,i-1] == 1:
+                        west_mask[k,j,i] = 1
 
 
                     # find the eastern boundary points. Negative sign is to be consistent about fluxes into the domain.
-                    if self['wet_mask_TH'][k,j,i-1] - self['wet_mask_TH'][k,j,i] == 1:
-                        self['east_mask'][k,j,i-1] = 1
+                    if wet_mask_TH[k,j,i-1] - wet_mask_TH[k,j,i] == 1:
+                        east_mask[k,j,i-1] = 1
 
 
                     # find the southern boundary points
-                    if self['wet_mask_TH'][k,j,i] - self['wet_mask_TH'][k,j-1,i] == 1:
-                        self['south_mask'][k,j,i] = 1
+                    if wet_mask_TH[k,j,i] - wet_mask_TH[k,j-1,i] == 1:
+                        south_mask[k,j,i] = 1
 
 
                     # find the northern boundary points
-                    if self['wet_mask_TH'][k,j-1,i] - self['wet_mask_TH'][k,j,i] == 1:
-                        self['north_mask'][k,j,i-1] = 1
+                    if wet_mask_TH[k,j-1,i] - wet_mask_TH[k,j,i] == 1:
+                        north_mask[k,j,i-1] = 1
 
 
                     # Fluxes through the bottom
-                    if self['wet_mask_TH'][k-1,j,i] - self['wet_mask_TH'][k,j,i] == 1:
-                        self['bottom_mask'][k-1,j,i] = 1
-                        
-        return
-
-
+                    if wet_mask_TH[k-1,j,i] - wet_mask_TH[k,j,i] == 1:
+                        bottom_mask[k-1,j,i] = 1
+        return west_mask,east_mask,south_mask,north_mask,bottom_mask
     
 class Temperature(Tracerpoint_field):
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
