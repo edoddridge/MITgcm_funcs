@@ -2,9 +2,9 @@
 Streamlines
 ====================
 
-Functions for creating streamlines.
+Functions for creating and analysing streamlines.
 
-Each function has a detailed docstring.
+Each function has its own docstring.
 """
 
 import numpy as np
@@ -633,6 +633,7 @@ def indices_and_field(x,y,z,
                         startx,starty,startz,t_index,
                         len_x,len_y,len_z,len_t,
                         netcdf_filehandle,variable):
+            """A helper function to extract a small 4D hypercube of data from a netCDF file. This isn't intended to be used on its own."""
             
             x_index = np.searchsorted(x,startx)
             if x_index == 0:
@@ -666,11 +667,11 @@ def indices_and_field(x,y,z,
             return field,x_index,y_index,z_index
             
             
-def extract_along_path(path_x,path_y,path_z,path_t,
+def extract_along_path4D(path_x,path_y,path_z,path_t,
             t,x,y,z,
             netcdf_filename='netcdf file with variable of interest',
             netcdf_variable='momVort3'):
-    """extract the value of a field along a path. The field must currently be in a NetCDF file, since it is assumed to be 4D and very large.
+    """extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.
     """
 
     t_index = np.searchsorted(t,path_t[0])
@@ -752,4 +753,43 @@ def extract_along_path(path_x,path_y,path_z,path_t,
 
     netcdf_filehandle.close()
     
+    return path_variable
+
+
+
+def extract_along_path3D(path_x,path_y,path_z,
+            x,y,z,field):
+    """Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+    """
+        
+    len_x = len(x)
+    len_y = len(y)
+    len_z = len(z)
+
+    path_variable = np.zeros((path_x.shape))
+    
+    for i in xrange(0,len(path_x)):
+
+        # Interpolate field to  location
+        path_variable[i] = trilinear_interp(path_x[i],path_y[i],path_z[i],field,x,y,z,len_x,len_y,len_z):
+                
+    return path_variable
+
+
+
+def extract_along_path2D(path_x,path_y,
+            x,y,field):
+    """Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+    """
+        
+    len_x = len(x)
+    len_y = len(y)
+
+    path_variable = np.zeros((path_x.shape))
+    
+    for i in xrange(0,len(path_x)):
+
+        # Interpolate field to  location
+        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x,y,len_x,len_y):
+                
     return path_variable
