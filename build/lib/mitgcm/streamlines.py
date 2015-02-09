@@ -57,7 +57,6 @@ def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_
 
       startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
       starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
-      t += delta_t
 
       t += delta_t
       i += 1
@@ -213,7 +212,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     x_stream = np.ones((int(t_int/delta_t)+2))*startx
     y_stream = np.ones((int(t_int/delta_t)+2))*starty
     z_stream = np.ones((int(t_int/delta_t)+2))*startz
-    t_stream = np.zeros((int(t_int/delta_t)+2))
+    t_stream = np.ones((int(t_int/delta_t)+2))*startt
 
     t_RK = startt #set the initial time to be the given start time
     z_RK = startz
@@ -267,8 +266,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     
     
     # Runge-Kutta fourth order method to estimate next position.
-    while i < np.fabs(t_int/delta_t)
-    t_RK < t_int + startt:
+    while i < np.fabs(t_int/delta_t):
+    #t_RK < t_int + startt:
         
         # Compute indices at location given
         
@@ -455,7 +454,7 @@ def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   
 @numba.jit
 def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
-    """This is a numba accelerated bilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """This is a numba accelerated bilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """
     field_interp = ((field[y_index-1,x_index-1]*(x[x_index] - x0)*(y[y_index] - y0) + 
        field[y_index-1,x_index]*(x0 - x[x_index-1])*(y[y_index] - y0) +
@@ -503,25 +502,25 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
 
 @numba.jit
 def actual_trilinear_interp(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):
-     """This is a numba accelerated trilinear interpolation. The @jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """   
     field_interp = ((field[z_index-1,y_index-1,x_index-1]*
-                (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
-            field[z_index,y_index-1,x_index-1]*
-                (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
-            field[z_index,y_index,x_index-1]*
-                (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
-            field[z_index-1,y_index,x_index-1]*
-                (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0) + 
-            field[z_index-1,y_index-1,x_index]*
-                (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0) + 
-            field[z_index,y_index-1,x_index]*
-                (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
-            field[z_index,y_index,x_index]*
-                (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
-            field[z_index-1,y_index,x_index]*
-                (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0))/
-         ((z[z_index] - z[z_index-1])*(y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) 
+		(x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
+	    field[z_index,y_index-1,x_index-1]*
+		(x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
+	    field[z_index,y_index,x_index-1]*
+		(x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
+	    field[z_index-1,y_index,x_index-1]*
+		(x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0) + 
+	    field[z_index-1,y_index-1,x_index]*
+		(x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0) + 
+	    field[z_index,y_index-1,x_index]*
+		(x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1]) + 
+	    field[z_index,y_index,x_index]*
+		(x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + 
+	    field[z_index-1,y_index,x_index]*
+		(x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0))/
+	  ((z[z_index] - z[z_index-1])*(y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) 
     return field_interp
 
 def quadralinear_interp(x0,y0,z0,t0,
@@ -531,9 +530,9 @@ def quadralinear_interp(x0,y0,z0,t0,
                         x_index,y_index,z_index,t_index):
   """ Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
-  location is an array of the point to interpolate to in four dimensional space-time (x_int,y_int,z_int,t_int).
+  x0,y0,z0, and t0 represent the point to interpolate to.
 
-  The velocity field is passed as a truncated 4D field.
+  The velocity field, "field", is passed as a truncated 4D field.
   
   x,y,z,t are vectors of these dimensions in netcdf_filename.
   """
@@ -585,7 +584,9 @@ def quadralinear_interp(x0,y0,z0,t0,
 def actual_quadralinear_interp(field,x0,y0,z0,t0,
                                x_index,y_index,z_index,t_index,
                                x,y,z,t):
-
+  """This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent
+  calls. 
+  """   
   field_interp = ((field[0,0,0,0]*
                     (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + 
                 field[0,1,0,0]*
@@ -664,5 +665,91 @@ def indices_and_field(x,y,z,
             
             return field,x_index,y_index,z_index
             
-class InputError(Exception):
-	pass
+            
+def extract_along_path(path_x,path_y,path_z,path_t,
+            t,x,y,z,
+            netcdf_filename='netcdf file with variable of interest',
+            netcdf_variable='momVort3'):
+    """extract the value of a field along a path. The field must currently be in a NetCDF file, since it is assumed to be 4D and very large.
+    """
+
+    t_index = np.searchsorted(t,path_t[0])
+    t_index_new = np.searchsorted(t,path_t[0]) # this is later used to test if new data needs to be read in.
+        
+    len_x = len(x)
+    len_y = len(y)
+    len_z = len(z)
+    len_t = len(t)
+
+    
+    netcdf_filehandle = netCDF4.Dataset(netcdf_filename)  
+    field,x_index,y_index,z_index = indices_and_field(x,y,z,
+                                            path_x[0],path_y[0],path_z[0],t_index,
+                                            len_x,len_y,len_z,len_t,
+                                            netcdf_filehandle,netcdf_variable)
+
+    field,x_index_new,y_index_new,z_index_new = indices_and_field(x,y,z,
+                                            path_x[0],path_y[0],path_z[0],t_index,
+                                            len_x,len_y,len_z,len_t,
+                                            netcdf_filehandle,netcdf_variable)   
+
+
+
+    path_variable = np.zeros((path_x.shape))
+    
+    i=0
+    
+
+    if t_index == 0:
+        raise ValueError('Given start time is outside the given variable field - too small')
+    elif t_index == len_t:
+        raise ValueError('Given start time is outside the given variable field - too big')
+    
+    
+    for i in xrange(0,len(path_t)):
+        
+        if (y_index_new==y_index and 
+            x_index_new==x_index and 
+            z_index_new==z_index and
+
+            t_index_new == t_index):
+            # the particle hasn't moved out of the grid cell it was in.
+            # So the loaded field is fine; there's no need to reload it.
+            pass
+        else:
+
+            t_index = np.searchsorted(t,path_t[i])
+            if t_index == 0:
+                raise ValueError('Time value is outside the given variable field - too small')
+            elif t_index == len_t:
+                raise ValueError('Time value is outside the given variable field - too big')
+
+            field,x_index,y_index,z_index = indices_and_field(x,y,z,
+                                            path_x[i],path_y[i],path_z[i],t_index,
+                                            len_x,len_y,len_z,len_t,
+                                            netcdf_filehandle,netcdf_variable)
+
+
+        # Interpolate field to  location
+        field_at_loc = quadralinear_interp(path_x[i],path_y[i],path_z[i],path_t[i],
+                    field,
+                    x,y,z,t,
+                    len_x,len_y,len_z,len_t,
+                    x_index,y_index,z_index,t_index)
+      
+
+        path_variable[i] = field_at_loc
+
+        t_index_new = np.searchsorted(t,path_t[i])
+        x_index_new = np.searchsorted(x,path_x[i])
+        y_index_new = np.searchsorted(y,path_y[i])
+        if path_z[i] < 0:
+            z_index_new = np.searchsorted(-z,-path_z[i])
+        else:
+            z_index_new = np.searchsorted(z,path_z[i])
+            
+
+
+    netcdf_filehandle.close()
+    
+    return path_variable
