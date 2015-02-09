@@ -535,8 +535,97 @@ class Tracerpoint_field(MITgcm_Simulation):
 
     
 class Vorticitypoint_field(MITgcm_Simulation):  
-    pass
-    # Eventually I should put some derivative funcitons in here.
+    """A class for fields on vorticity points."""
+    
+    def take_d_dx(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dx'):
+        """ Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
+
+        Performs centred second-order differencing everywhere except next to boundaries. First order is 
+        used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
+        they should be)."""
+
+        if input_field in self:
+        np.seterr(divide='ignore')
+            momVort3 = self[input_field]
+            dmomVort3_dx = np.zeros((momVort3.shape))
+
+            for i in xrange(1,momVort3.shape[2]-2):
+                dmomVort3_dx[:,:,i] = np.nan_to_num(model_instance.grid['wet_mask_U'][:,:,i]*
+                        (model_instance.grid['wet_mask_U'][:,:,i+1]*momVort3[:,:,i+1] + 
+                        (1 - model_instance.grid['wet_mask_U'][:,:,i+1])*momVort3[:,:,i] - 
+                        (1 - model_instance.grid['wet_mask_U'][:,:,i-1])*momVort3[:,:,i] - 
+                        model_instance.grid['wet_mask_U'][:,:,i-1]*momVort3[:,:,i-1])/(
+                        model_instance.grid['wet_mask_U'][:,:,i-1]*model_instance.grid['dxF'][:,i-1] + 
+                        model_instance.grid['wet_mask_U'][:,:,i+1]*model_instance.grid['dxF'][:,i]))
+            i = 1
+            dmomVort3_dx[:,:,i] = (momVort3[:,:,i+1] - momVort3[:,:,i])/(model_instance.grid['dxF'][:,i])
+            i = momVort3.shape[2]-1
+            dmomVort3_dx[:,:,i] = (momVort3[:,:,i] - momVort3[:,:,i-1])/(model_instance.grid['dxF'][:,i-1])
+
+            self[output_field] = dmomVort3_dx
+        else:
+            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            
+        return 
+
+    def take_d_dy(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dy'):
+        """ Take the y derivative of the field given on vorticity-points, using the spacings in grid object.
+
+        Performs centred second-order differencing everywhere except next to boundaries. First order is 
+        used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
+        they should be)."""
+
+        if input_field in self:
+        np.seterr(divide='ignore')
+            momVort3 = self[input_field]
+            dmomVort3_dy = np.zeros((momVort3.shape))
+
+            for j in xrange(1,momVort3.shape[1]-2):
+                dmomVort3_dy[:,j,:] = np.nan_to_num(model_instance.grid['wet_mask_V'][:,j,:]*(
+                        model_instance.grid['wet_mask_V'][:,j+1,:]*momVort3[:,j+1,:] + 
+                        (1 - model_instance.grid['wet_mask_V'][:,j+1,:])*momVort3[:,j,:] - 
+                        (1 - model_instance.grid['wet_mask_V'][:,j-1,:])*momVort3[:,j,:] - 
+                        model_instance.grid['wet_mask_V'][:,j-1,:]*momVort3[:,j-1,:])/(
+                        model_instance.grid['wet_mask_V'][:,j-1,:]*model_instance.grid['dyF'][j-1,:] + 
+                        model_instance.grid['wet_mask_V'][:,j+1,:]*model_instance.grid['dyF'][j,:]))
+            j = 1
+            dmomVort3_dy[:,j,:] = (momVort3[:,j+1,:] - momVort3[:,j,:])/(model_instance.grid['dyF'][j,:])
+            j = momVort3.shape[1]-1
+            dmomVort3_dy[:,j,:] = (momVort3[:,j,:] - momVort3[:,j-1,:])/(model_instance.grid['dyF'][j-1,:])
+
+            self[output_field] = dmomVort3_dy
+        else:
+            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+        return
+
+        def take_d_dz(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dz'):
+            """ Take the z derivative of the field given on vorticity-points, using the spacings in grid object.
+
+            Performs centred second-order differencing everywhere except next to boundaries. First order is 
+            used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
+            they should be)."""
+
+            if input_field in self:
+            np.seterr(divide='ignore')
+                momVort3 = self[input_field]
+                d_dz = np.zeros((momVort3.shape))
+
+                for k in xrange(1,momVort3.shape[0]-1):
+                    # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
+                    d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(momVort3[k-1,:,:]  -
+                                        (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*momVort3[k,:,:]-
+                                        model_instance.grid['wet_mask_TH'][k+1,:,:]*momVort3[k+1,:,:])/(model_instance.grid['drC'][k] +
+                                        model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
+
+                    k = 0
+                    d_dz[k,:,:] = (momVort3[k,:,:] - momVort3[k+1,:,:])/(model_instance.grid['drC'][k+1])
+                    k = momVort3.shape[0]-1
+                    d_dz[k,:,:] = (momVort3[k-1,:,:] - momVort3[k,:,:])/(model_instance.grid['drC'][k])
+
+                self[output_field] = d_dz
+            else:
+                raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            return 
 
 
 
@@ -637,6 +726,7 @@ class Grid(MITgcm_Simulation):
         return west_mask,east_mask,south_mask,north_mask,bottom_mask
     
 class Temperature(Tracerpoint_field):
+    """A place to keep things associated with the temperature field."""
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
 	if empty:
 	  pass
@@ -647,6 +737,7 @@ class Temperature(Tracerpoint_field):
             
             
 class Density(Tracerpoint_field):
+    """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment."""
     def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
 		  temp_field='THETA',density_field='RHO',empty=False):
         if empty:
@@ -669,6 +760,7 @@ class Density(Tracerpoint_field):
 
 
     def calculate_TotRhoTend(self,model_instance):
+        """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state."""
         if model_instance['EOS_type'] == 'linear':
             if self['Sbeta'] == 0:
                 self['TotRhoTend'] = (-self['RhoNil']*self['Talpha']*model_instance.temperature['TOTTTEND'])
@@ -693,6 +785,7 @@ class Bernoulli(Tracerpoint_field):
 
         
 class Free_surface(Tracerpoint_field):
+    """Class for the free surcace field. It's pretty empty at the moment."""
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
         if empty:
 	  pass
@@ -703,6 +796,7 @@ class Free_surface(Tracerpoint_field):
             
         
 class Pressure(Tracerpoint_field):
+    """Calculates the pressure field from the density field and the hydrostatic approximation."""
     def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN'):
 
         # derive the hydrostatic pressure
@@ -720,6 +814,7 @@ class Pressure(Tracerpoint_field):
         return
     
 class Vorticity(Vorticitypoint_field):
+    """Class for vorticity point fields."""
     def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=0,empty=False):
 	if empty:
 	  pass
