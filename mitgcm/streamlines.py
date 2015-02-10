@@ -771,7 +771,7 @@ def extract_along_path3D(path_x,path_y,path_z,
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = trilinear_interp(path_x[i],path_y[i],path_z[i],field,x,y,z,len_x,len_y,len_z):
+        path_variable[i] = trilinear_interp(path_x[i],path_y[i],path_z[i],field,x,y,z,len_x,len_y,len_z)
                 
     return path_variable
 
@@ -790,6 +790,6 @@ def extract_along_path2D(path_x,path_y,
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x,y,len_x,len_y):
+        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x,y,len_x,len_y)
                 
     return path_variable

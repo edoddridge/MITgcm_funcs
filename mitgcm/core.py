@@ -481,26 +481,33 @@ class Tracerpoint_field(MITgcm_Simulation):
 
         if input_field in self:
 	    np.seterr(divide='ignore')
-            rho = self[input_field]
+            rho = self[input_field][:]
             d_dy = np.zeros((rho.shape))
 
-            for j in xrange(1,rho.shape[2]-1):
-                d_dy[:,j,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][:,j,:]*
-                                (model_instance.grid['wet_mask_TH'][:,j+1,:]*rho[:,j+1,:] + 
-                                (1 - model_instance.grid['wet_mask_TH'][:,j+1,:])*rho[:,j,:] - 
-                                (1 - model_instance.grid['wet_mask_TH'][:,j-1,:])*rho[:,j,:] - 
-                                model_instance.grid['wet_mask_TH'][:,j-1,:]*rho[:,j-1,:])/(
-                                model_instance.grid['wet_mask_TH'][:,j-1,:]*model_instance.grid['dyC'][j,:] + 
-                                model_instance.grid['wet_mask_TH'][:,j+1,:]*model_instance.grid['dyC'][j+1,:]))
-            j = 1
-            d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(model_instance.grid['dyC'][j+1,:])
-            j = rho.shape[1]-1
-            d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(model_instance.grid['dyC'][j,:])
-
-            self[output_field] = d_dy
+            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(rho,model_instance.grid['wet_mask_TH'][:],
+					  model_instance.grid['dyC'][:],d_dy))
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
+        
+    #@numba.jit    
+    def numerics_take_d_dy(self,rho,wet_mask_TH,dyC,d_dy):
+
+	for j in xrange(1,rho.shape[2]-1):
+	    d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
+			    (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
+			    (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
+			    (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
+			    wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
+			    wet_mask_TH[:,j-1,:]*dyC[j,:] + 
+			    wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
+	j = 1
+	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
+	j = rho.shape[1]-1
+	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
+
+	return d_dy
+
 
     
     def take_d_dz(self,model_instance,input_field = 'RHO',output_field='dRHO_dz'):
@@ -545,7 +552,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-        np.seterr(divide='ignore')
+	    np.seterr(divide='ignore')
             momVort3 = self[input_field]
             dmomVort3_dx = np.zeros((momVort3.shape))
 
@@ -576,7 +583,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-        np.seterr(divide='ignore')
+	    np.seterr(divide='ignore')
             momVort3 = self[input_field]
             dmomVort3_dy = np.zeros((momVort3.shape))
 
@@ -606,23 +613,23 @@ class Vorticitypoint_field(MITgcm_Simulation):
             they should be)."""
 
             if input_field in self:
-            np.seterr(divide='ignore')
-                momVort3 = self[input_field]
-                d_dz = np.zeros((momVort3.shape))
+		np.seterr(divide='ignore')
+		momVort3 = self[input_field]
+		d_dz = np.zeros((momVort3.shape))
 
-                for k in xrange(1,momVort3.shape[0]-1):
-                    # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                    d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(momVort3[k-1,:,:]  -
-                                        (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*momVort3[k,:,:]-
-                                        model_instance.grid['wet_mask_TH'][k+1,:,:]*momVort3[k+1,:,:])/(model_instance.grid['drC'][k] +
-                                        model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
+		for k in xrange(1,momVort3.shape[0]-1):
+		    # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
+		    d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(momVort3[k-1,:,:]  -
+					(1-model_instance.grid['wet_mask_TH'][k+1,:,:])*momVort3[k,:,:]-
+					model_instance.grid['wet_mask_TH'][k+1,:,:]*momVort3[k+1,:,:])/(model_instance.grid['drC'][k] +
+					model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
-                    k = 0
-                    d_dz[k,:,:] = (momVort3[k,:,:] - momVort3[k+1,:,:])/(model_instance.grid['drC'][k+1])
-                    k = momVort3.shape[0]-1
-                    d_dz[k,:,:] = (momVort3[k-1,:,:] - momVort3[k,:,:])/(model_instance.grid['drC'][k])
+		    k = 0
+		    d_dz[k,:,:] = (momVort3[k,:,:] - momVort3[k+1,:,:])/(model_instance.grid['drC'][k+1])
+		    k = momVort3.shape[0]-1
+		    d_dz[k,:,:] = (momVort3[k-1,:,:] - momVort3[k,:,:])/(model_instance.grid['drC'][k])
 
-                self[output_field] = d_dz
+		self[output_field] = d_dz
             else:
                 raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
             return 
