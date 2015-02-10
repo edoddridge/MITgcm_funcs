@@ -1,4 +1,4 @@
-"""
+"""@package docstring
 Streamlines
 ====================
 
