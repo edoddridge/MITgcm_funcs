@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quadralinear_5finterp',['quadralinear_interp',['../namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73',1,'mitgcm::streamlines']]]
+  ['numerics_5ftake_5fd_5fdy',['numerics_take_d_dy',['../classmitgcm_1_1core_1_1_tracerpoint__field.html#abbc8e2119e5d98b73c194e44feeb3cda',1,'mitgcm::core::Tracerpoint_field']]]
 ];

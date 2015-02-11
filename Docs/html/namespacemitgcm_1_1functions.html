@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li class="current"><a href="namespaces.html"><span>Packages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -61,8 +68,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
-      <li><a href="namespacemembers.html"><span>Namespace&#160;Members</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
+      <li><a href="namespacemembers.html"><span>Package&#160;Functions</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -81,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacemitgcm.html">mitgcm</a></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1functions.html">functions</a></li>  </ul>
+<li class="navelem"><b>mitgcm</b></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1functions.html">functions</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -95,21 +102,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a0c92a8395bc703865868e6b0a2a35e49"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a0c92a8395bc703865868e6b0a2a35e49">extract_surface</a></td></tr>
-<tr class="memdesc:a0c92a8395bc703865868e6b0a2a35e49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a surface (2 dimensions) from the input_field (3 dimensions).  <a href="#a0c92a8395bc703865868e6b0a2a35e49">More...</a><br /></td></tr>
 <tr class="separator:a0c92a8395bc703865868e6b0a2a35e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cd49a5bcc251ab496dd14eab9a9735f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a5cd49a5bcc251ab496dd14eab9a9735f">linear_interp</a> (input_field, surface_value, ind, axis_vector)</td></tr>
-<tr class="memdesc:a5cd49a5bcc251ab496dd14eab9a9735f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numba accelerated linear interpolation function.  <a href="#a5cd49a5bcc251ab496dd14eab9a9735f">More...</a><br /></td></tr>
 <tr class="separator:a5cd49a5bcc251ab496dd14eab9a9735f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a299918b57fada07023fdbb6ac4d6fb6e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a299918b57fada07023fdbb6ac4d6fb6e">extract_on_surface</a></td></tr>
-<tr class="memdesc:a299918b57fada07023fdbb6ac4d6fb6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the values of input_field at the location specified by surf_loc_array along the third dimension using the values for that axis contained in 'axis_values'.  <a href="#a299918b57fada07023fdbb6ac4d6fb6e">More...</a><br /></td></tr>
 <tr class="separator:a299918b57fada07023fdbb6ac4d6fb6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab26c3c96d103e888d18a0378ebd78355"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">layer_integrate</a></td></tr>
-<tr class="memdesc:ab26c3c96d103e888d18a0378ebd78355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'.  <a href="#ab26c3c96d103e888d18a0378ebd78355">More...</a><br /></td></tr>
 <tr class="separator:ab26c3c96d103e888d18a0378ebd78355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">test_layer_integrate</a> ()</td></tr>
+<tr class="memitem:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab12baa939c3055bc4c9bceb54da9f16e"></a>
+def&#160;</td><td class="memItemRight" valign="bottom"><b>test_layer_integrate</b> ()</td></tr>
 <tr class="separator:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><pre class="fragment">Functions
+====================
+
+Functions for analysing model output. These include functions to extract surfaces at a constant value of some variable and extract a variable on a surface.
+
+Each function has a detailed docstring.
+</pre> </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a299918b57fada07023fdbb6ac4d6fb6e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -145,11 +156,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
+matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the
+values of input_field at the location specified by surf_loc_array along the third dimension using
+the values for that axis contained in 'axis_values'
 
-<p>This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the values of input_field at the location specified by surf_loc_array along the third dimension using the values for that axis contained in 'axis_values'. </p>
-<p>direction: optional argument to specify which direction the axis increases in. Default is up </p>
-
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00126">126</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+direction: optional argument to specify which direction the axis increases in. Default is up</pre> 
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00117">117</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -194,22 +207,49 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">Extract a surface (2 dimensions) from the input_field (3 dimensions). 
+The surface represents the location at which input_field == hypersurface_value. 
+Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.
 
-<p>Extract a surface (2 dimensions) from the input_field (3 dimensions). </p>
-<p>The surface represents the location at which input_field == hypersurface_value. Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.</p>
-<p>The function returns output_array, a 2D array of axis values.</p>
-<p>The values of input_field <em>must</em> be monotonic in the specified dimension.</p>
-<p>input_field: 3 dimensional matrix output_array: 2 dimensional hypersurface surface_value: value of input_field on the extracted surface axis_vector: one dimensional vector specifying the distance between elements of input_field direction: optional argument to specify which direction the field increases in. Default is down</p>
-<p>Oceanography example: extract depths for a given temperature.</p>
-<p>Some arbitrary surface temperatures temp = np.array([[10,11,10],[11,11,13],[12,11,10]]) input_field = np.zeros((temp.shape[0],temp.shape[1],4))</p>
-<p>Make them decrease with depth for i in xrange(0,4): input_field[:,:,i] = temp - i</p>
-<p>print input_field[:,:,0] returns [[ 10. 11. 10.] [ 11. 11. 13.] [ 12. 11. 10.]]</p>
-<p>Pick out the depth at which the temperature should be 10.2 surface_value = 10.2</p>
-<p>Depth axis axis_vector = np.array([1,2,4,7])</p>
-<p>depth_temp_10point2 = extract_surface(input_field, surface_value,axis_vector)</p>
-<p>print depth_temp_10.2 returns [[ nan 1.8 nan] [ 1.8 1.8 4.26666667] [ 2.4 1.8 nan]] </p>
+The function returns output_array, a 2D array of axis values.
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00057">57</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+The values of input_field *must* be monotonic in the specified dimension.
+
+input_field: 3 dimensional matrix
+output_array: 2 dimensional hypersurface
+surface_value: value of input_field on the extracted surface
+axis_vector: one dimensional vector specifying the distance between elements of input_field
+direction: optional argument to specify which direction the field increases in. Default is down
+
+Oceanography example: extract depths for a given temperature.
+
+Some arbitrary surface temperatures
+temp = np.array([[10,11,10],[11,11,13],[12,11,10]])
+input_field = np.zeros((temp.shape[0],temp.shape[1],4))
+
+Make them decrease with depth
+for i in xrange(0,4):
+    input_field[:,:,i] = temp - i
+    
+print input_field[:,:,0] returns
+[[ 10.  11.  10.]
+ [ 11.  11.  13.]
+ [ 12.  11.  10.]]
+
+Pick out the depth at which the temperature should be 10.2
+surface_value = 10.2
+
+Depth axis
+axis_vector = np.array([1,2,4,7])
+
+depth_temp_10point2 = extract_surface(input_field, surface_value,axis_vector)
+
+print depth_temp_10.2 returns
+[[ nan     1.8         nan]
+ [ 1.8     1.8  4.26666667]
+ [ 2.4     1.8         nan]]
+</pre> 
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00014">14</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -254,28 +294,39 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<pre class="fragment">Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. The arrays ind_upper and ind_lower come from the function extract_surface.
+At the moment this only works if all the inputs are defined at the same location.
 
-<p>Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. </p>
-<p>The arrays ind_upper and ind_lower come from the function extract_surface. At the moment this only works if all the inputs are defined at the same location.</p>
-<p>In MITgcm world, the axis needs to be Zl - 'the lower interface locations'. It needs to include the surface, but the lowest grid face is not required.</p>
-<p>The input array 'integrand' is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point,</p>
-<p>Examples: contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:]) contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])</p>
-<p>Volume between two stratification surfaces. In this case the optional argument 'integrand' is not required. volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])</p>
-<p>Kinetic energy between two stratification surfaces. The integrand is the kinetic energy. EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)</p>
-<pre class="fragment"> upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
- lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
- axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
- test = layer_integrate(upper,lower,axis)
- print test
- print np.sum(test)
- print np.sum(upper - lower)
+In MITgcm world, the axis needs to be Zl - 'the lower interface locations'. It needs to include the surface, but the lowest grid face is not required.
 
- [[ 0.1  2.   2. ]
-  [ 2.   2.   2. ]
-  [ 2.   2.   2. ]]
- 16.1
- 16.1</pre> 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00200">200</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+The input array 'integrand' is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point, 
+
+Examples:
+contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
+contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
+
+Volume between two stratification surfaces. In this case the optional argument 'integrand' is not required.
+volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])
+
+Kinetic energy between two stratification surfaces. The integrand is the kinetic energy.
+EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)
+
+
+upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
+lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
+axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
+test = layer_integrate(upper,lower,axis)
+print test
+print np.sum(test)
+print np.sum(upper - lower)
+
+[[ 0.1  2.   2. ]
+ [ 2.   2.   2. ]
+ [ 2.   2.   2. ]]
+16.1
+16.1
+</pre> 
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00166">166</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -314,35 +365,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Numba accelerated linear interpolation function. </p>
-<p>This was seperate from the extract_surface function, but is now superfluous - it's here just in case it's needed. </p>
-
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00098">98</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab12baa939c3055bc4c9bceb54da9f16e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.functions.test_layer_integrate </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00237">237</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<pre class="fragment">Numba accelerated linear interpolation function. This was seperate from the extract_surface function, but is now superfluous - it's here just in case it's needed.</pre> 
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00097">97</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:56 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:48:48 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -1,19 +1,8 @@
 """ 
-@author
-Ed Doddridge
+Core
+==============
 
-@mainpage Documentation for python package mitgcm
-
-@section Overview
-This package provides methods and classes for analysing the output of mitgcm simulations.
-
-
-@section Revision History
-January 2015:
-Added documentation
-
-February 2015:
-Added streamline and streakline algorithms
+This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
 """
 
 import numpy as np
@@ -25,7 +14,8 @@ import numba
     
 class MITgcm_Simulation(dict):
     """The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
-"""
+
+    """
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8):
         """Instantiate an MITgcm model instance."""
         
@@ -44,47 +34,47 @@ class MITgcm_Simulation(dict):
     def load_field(self,netcdf_filename,variable,time_level):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
-	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-	if time_level == None:
-	  netcdf_file = netCDF4.Dataset(netcdf_filename)
-	  loaded_field = netcdf_file.variables[variable][:,:,:]
-	  netcdf_file.close()
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
+        if time_level == None:
+            netcdf_file = netCDF4.Dataset(netcdf_filename)
+            loaded_field = netcdf_file.variables[variable][:,:,:]
+            netcdf_file.close()
 
-	  self[variable] = loaded_field
-	  
-	else:
-	  netcdf_file = netCDF4.MFDataset(netcdf_filename)
-	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-	  netcdf_file.close()
-	  
-	  self[variable] = loaded_field
-	return
+            self[variable] = loaded_field
+
+        else:
+        netcdf_file = netCDF4.MFDataset(netcdf_filename)
+        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+        netcdf_file.close()
+
+        self[variable] = loaded_field
+        return
        
     def __add__(self,other):
- 	"""A method that allows model objects to be added together. It does element wise addition for each of the fields."""
+        """A method that allows model objects to be added together. It does element wise addition for each of the fields."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
-                for key1, value1 in other.__dict__.iteritems():
-                        if key == key1:
-                            setattr(me, key, value + value1)
+            for key1, value1 in other.__dict__.iteritems():
+                if key == key1:
+                    setattr(me, key, value + value1)
         return me
 
     def __div__(self,other):
-	""" A method that allows model objects to be divided by floating point numbers."""
+        """ A method that allows model objects to be divided by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value/float(other))
         return me
 
     def __mul__(self, other):
-	""" A method that allows model objects to be multiplied by floating point numbers."""
+        """ A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
         return me
 
     def __rmul__(self, other):
-	""" A method that allows model objects to be multiplied by floating point numbers."""
+        """ A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
@@ -492,21 +482,22 @@ class Tracerpoint_field(MITgcm_Simulation):
         
     #@numba.jit    
     def numerics_take_d_dy(self,rho,wet_mask_TH,dyC,d_dy):
+        """The numerical bit of taking the derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
 
-	for j in xrange(1,rho.shape[2]-1):
-	    d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
-			    (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
-			    (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
-			    (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
-			    wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
-			    wet_mask_TH[:,j-1,:]*dyC[j,:] + 
-			    wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
-	j = 1
-	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
-	j = rho.shape[1]-1
-	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
+    	for j in xrange(1,rho.shape[2]-1):
+    	    d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
+    			    (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
+    			    (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
+    			    (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
+    			    wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
+    			    wet_mask_TH[:,j-1,:]*dyC[j,:] + 
+    			    wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
+    	j = 1
+    	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
+    	j = rho.shape[1]-1
+    	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
 
-	return d_dy
+    	return d_dy
 
 
     
@@ -744,7 +735,15 @@ class Temperature(Tracerpoint_field):
             
             
 class Density(Tracerpoint_field):
-    """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment."""
+    """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment.
+
+    The linear equation of state is given by
+    \f[
+    \rho = \rho_{nil} (-\alpha_{T} (\theta - \theta_{0}) + \beta_{S} (S - S_{0})) + \rho_{nil}
+    \f]
+    where \f$ \rho_{nil} \f$ is the reference density, \f$ \alpha_{T} \f$ is the thermal expansion coefficient, \f$ \beta_{S} \f$ is the haline contraction coefficient, \f$ \theta \f$ and \f$ \beta \f$ are the temperature and salinity fields, and subscript zeros denote reference values.
+    """
+
     def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
 		  temp_field='THETA',density_field='RHO',empty=False):
         if empty:
@@ -767,7 +766,13 @@ class Density(Tracerpoint_field):
 
 
     def calculate_TotRhoTend(self,model_instance):
-        """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state."""
+        """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state.
+
+        Differentiating the linear equation of state with respect to temperature, and assuming \f$ \beta_{S} \f$ equals zero, gives
+        \f[
+        \frac{\partial \rho}{\partial t} = - \rho_{nil} \alpha_{T} \frac{\partial \theta}{\partial t}
+        \f]
+        """
         if model_instance['EOS_type'] == 'linear':
             if self['Sbeta'] == 0:
                 self['TotRhoTend'] = (-self['RhoNil']*self['Talpha']*model_instance.temperature['TOTTTEND'])
@@ -779,7 +784,11 @@ class Density(Tracerpoint_field):
             
             
 class Bernoulli(Tracerpoint_field):
-    """The Bernoulli field, evaluated from velocity, pressure and density."""
+    """The Bernoulli field, evaluated from velocity, pressure and density.
+    \f[
+    BP = P + \rho g z + \frac{\mathbf{u} \cdot \mathbf{u}}{2}
+    \f]
+    """
     def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
         self['BP'] = model_instance.grid['wet_mask_TH']*(((model_instance.pressure['P'][:,:,:] + 
                  model_instance.grid['Z'][:].reshape((40,1,1))*

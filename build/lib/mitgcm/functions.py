@@ -1,8 +1,8 @@
 """
-functions
+Functions
 ====================
 
-Functions for analysing model output.
+Functions for analysing model output. These include functions to extract surfaces at a constant value of some variable and extract a variable on a surface.
 
 Each function has a detailed docstring.
 """

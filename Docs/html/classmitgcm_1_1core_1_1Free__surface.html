@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -83,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacemitgcm.html">mitgcm</a></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classmitgcm_1_1core_1_1Free__surface.html">Free_surface</a></li>  </ul>
+<li class="navelem"><b>mitgcm</b></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classmitgcm_1_1core_1_1Free__surface.html">Free_surface</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -94,124 +102,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">mitgcm.core.Free_surface Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Class for the free surcace field.  
- <a href="classmitgcm_1_1core_1_1Free__surface.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for mitgcm.core.Free_surface:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classmitgcm_1_1core_1_1Free__surface.png" usemap="#mitgcm.core.Free_surface_map" alt=""/>
   <map id="mitgcm.core.Free_surface_map" name="mitgcm.core.Free_surface_map">
-<area href="classmitgcm_1_1core_1_1Tracerpoint__field.html" title="This is the base class for all model fields on the tracer points. " alt="mitgcm.core.Tracerpoint_field" shape="rect" coords="0,112,192,136"/>
-<area href="classmitgcm_1_1core_1_1MITgcm__Simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje..." alt="mitgcm.core.MITgcm_Simulation" shape="rect" coords="0,56,192,80"/>
+<area href="classmitgcm_1_1core_1_1Tracerpoint__field.html" alt="mitgcm.core.Tracerpoint_field" shape="rect" coords="0,112,192,136"/>
+<area href="classmitgcm_1_1core_1_1MITgcm__Simulation.html" alt="mitgcm.core.MITgcm_Simulation" shape="rect" coords="0,56,192,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aae91ac10ad70025da71f3694f063ec8b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Free__surface.html#aae91ac10ad70025da71f3694f063ec8b">__init__</a></td></tr>
+<tr class="memitem:aae91ac10ad70025da71f3694f063ec8b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae91ac10ad70025da71f3694f063ec8b"></a>
+def&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b></td></tr>
 <tr class="separator:aae91ac10ad70025da71f3694f063ec8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td></tr>
 <tr class="memitem:a4e5ca6800530f2c8da4bc3d21ef4e50d inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">take_d_dx</a></td></tr>
-<tr class="memdesc:a4e5ca6800530f2c8da4bc3d21ef4e50d inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take the x derivative of the field on tracer points, using spacings in grid object.  <a href="#a4e5ca6800530f2c8da4bc3d21ef4e50d">More...</a><br /></td></tr>
 <tr class="separator:a4e5ca6800530f2c8da4bc3d21ef4e50d inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5292f8f5c2110f476329806bee9315bf inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">take_d_dy</a></td></tr>
-<tr class="memdesc:a5292f8f5c2110f476329806bee9315bf inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take the y derivative of the field on tracer points, using spacings in grid object.  <a href="#a5292f8f5c2110f476329806bee9315bf">More...</a><br /></td></tr>
 <tr class="separator:a5292f8f5c2110f476329806bee9315bf inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc8e2119e5d98b73c194e44feeb3cda inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#abbc8e2119e5d98b73c194e44feeb3cda">numerics_take_d_dy</a> (self, rho, wet_mask_TH, dyC, d_dy)</td></tr>
+<tr class="separator:abbc8e2119e5d98b73c194e44feeb3cda inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa54bc7f1fe31f946b3ed13cc1c66f22e inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">take_d_dz</a></td></tr>
-<tr class="memdesc:aa54bc7f1fe31f946b3ed13cc1c66f22e inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take the z derivative of the field given on tracer-points, using the spacings in grid object.  <a href="#aa54bc7f1fe31f946b3ed13cc1c66f22e">More...</a><br /></td></tr>
 <tr class="separator:aa54bc7f1fe31f946b3ed13cc1c66f22e inherit pub_methods_classmitgcm_1_1core_1_1Tracerpoint__field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
 <tr class="memitem:aac012c75a0f5dce8bbc4b00422a12444 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aac012c75a0f5dce8bbc4b00422a12444">__init__</a></td></tr>
-<tr class="memdesc:aac012c75a0f5dce8bbc4b00422a12444 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiate an MITgcm model instance.  <a href="#aac012c75a0f5dce8bbc4b00422a12444">More...</a><br /></td></tr>
 <tr class="separator:aac012c75a0f5dce8bbc4b00422a12444 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac527880ea1c29ee3099bc9d5c71beff1 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ac527880ea1c29ee3099bc9d5c71beff1">load_field</a> (self, netcdf_filename, variable, time_level)</td></tr>
-<tr class="memdesc:ac527880ea1c29ee3099bc9d5c71beff1 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a model field from NetCDF output.  <a href="#ac527880ea1c29ee3099bc9d5c71beff1">More...</a><br /></td></tr>
 <tr class="separator:ac527880ea1c29ee3099bc9d5c71beff1 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">__add__</a> (self, other)</td></tr>
-<tr class="memdesc:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be added together.  <a href="#ad87c2a60ef71c33a8a8bcbb7b7f8564b">More...</a><br /></td></tr>
 <tr class="separator:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a8e8df1221028288883837cbf027bdb inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a2a8e8df1221028288883837cbf027bdb">__div__</a> (self, other)</td></tr>
-<tr class="memdesc:a2a8e8df1221028288883837cbf027bdb inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be divided by floating point numbers.  <a href="#a2a8e8df1221028288883837cbf027bdb">More...</a><br /></td></tr>
 <tr class="separator:a2a8e8df1221028288883837cbf027bdb inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa18b056e051289d148f1493f1aa75b55 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aa18b056e051289d148f1493f1aa75b55">__mul__</a> (self, other)</td></tr>
-<tr class="memdesc:aa18b056e051289d148f1493f1aa75b55 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be multiplied by floating point numbers.  <a href="#aa18b056e051289d148f1493f1aa75b55">More...</a><br /></td></tr>
 <tr class="separator:aa18b056e051289d148f1493f1aa75b55 inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">__rmul__</a> (self, other)</td></tr>
-<tr class="memdesc:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be multiplied by floating point numbers.  <a href="#a029086ad72acb8cb8c12e9d02e0092aa">More...</a><br /></td></tr>
 <tr class="separator:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
-<tr class="memitem:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3">grid</a></td></tr>
+<tr class="memitem:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a984db65a189bf843e988079f724cdee3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>grid</b></td></tr>
 <tr class="separator:a984db65a189bf843e988079f724cdee3 inherit pub_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
-<tr class="memitem:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">netcdf_file</a> = netCDF4.Dataset(netcdf_filename)</td></tr>
-<tr class="separator:a801f2b7847cdd50c031f6f566e263189 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
-<tr class="separator:ad50484938272dfc5107b0af495443d25 inherit pub_static_attribs_classmitgcm_1_1core_1_1MITgcm__Simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Class for the free surcace field. </p>
-<p>It's pretty empty at the moment. </p>
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00826">826</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aae91ac10ad70025da71f3694f063ec8b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.core.Free_surface.__init__ </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>variable</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>time_level</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>empty</em> = <code>False</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00827">827</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<div class="textblock"><pre class="fragment">Class for the free surcace field. It's pretty empty at the moment.</pre> 
+<p>Definition at line <a class="el" href="core_8py_source.html#l00803">803</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="core_8py_source.html">core.py</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:54 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:47:19 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

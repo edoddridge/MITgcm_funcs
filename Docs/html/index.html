@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>mitgcm: Documentation for python package mitgcm</title>
+<title>mitgcm: Main Page</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,21 +83,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Documentation for python package mitgcm </div>  </div>
+<div class="title">mitgcm Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Ed Doddridge</dd></dl>
-<h1><a class="anchor" id="Overview"></a>
-Overview</h1>
+<h2>Overview</h2>
 <p>This package provides methods and classes for analysing the output of mitgcm simulations.</p>
-<h1><a class="anchor" id="Revision"></a>
-History</h1>
+<h2>To install</h2>
+<p>Navigate to the main directory and run:</p>
+<p>python setup.py install</p>
+<h2>To read the documentation</h2>
+<p>Open index.html with a web browser (it's in Docs/html), or compile the tex documentation. From there, you should be able to navigate it on your own.</p>
+<h2>To use</h2>
+<p>Import the module:</p>
+<p>import mitgcm</p>
+<p>Instantiate a simulation object:</p>
+<p>m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')</p>
+<h2>Revision History</h2>
 <p>January 2015: Added documentation</p>
 <p>February 2015: Added streamline and streakline algorithms </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:56 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:48:48 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

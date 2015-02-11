@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -89,28 +96,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock">Here are the classes, structs, unions and interfaces with brief descriptions:</div><div class="directory">
 <div class="levels">[detail level <span onclick="javascript:toggleLevel(1);">1</span><span onclick="javascript:toggleLevel(2);">2</span><span onclick="javascript:toggleLevel(3);">3</span>]</div><table class="directory">
-<tr id="row_0_" class="even"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_0_" class="arrow" onclick="toggleFolder('0_')">&#9660;</span><span class="icona"><span class="icon">N</span></span><a class="el" href="namespacemitgcm.html" target="_self">mitgcm</a></td><td class="desc"></td></tr>
+<tr id="row_0_" class="even"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_0_" class="arrow" onclick="toggleFolder('0_')">&#9660;</span><span class="icona"><span class="icon">N</span></span><b>mitgcm</b></td><td class="desc"></td></tr>
 <tr id="row_0_0_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span id="arr_0_0_" class="arrow" onclick="toggleFolder('0_0_')">&#9660;</span><span class="icona"><span class="icon">N</span></span><a class="el" href="namespacemitgcm_1_1core.html" target="_self">core</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html" target="_self">Bernoulli</a></td><td class="desc">The <a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html" title="The Bernoulli field, evaluated from velocity, pressure and density. ">Bernoulli</a> field, evaluated from velocity, pressure and density </td></tr>
-<tr id="row_0_0_1_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Density.html" target="_self">Density</a></td><td class="desc">A tracer point field that contains methods for density fields </td></tr>
-<tr id="row_0_0_2_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Free__surface.html" target="_self">Free_surface</a></td><td class="desc">Class for the free surcace field </td></tr>
-<tr id="row_0_0_3_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Grid.html" target="_self">Grid</a></td><td class="desc">This defines the class for the grid object </td></tr>
-<tr id="row_0_0_4_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html" target="_self">MITgcm_Simulation</a></td><td class="desc">The simulation class is the main class of this package, and an instance of this class is a model object </td></tr>
-<tr id="row_0_0_5_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Potential__vorticity.html" target="_self">Potential_vorticity</a></td><td class="desc">Evaluate the potential vorticity on the tracer points </td></tr>
-<tr id="row_0_0_6_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Pressure.html" target="_self">Pressure</a></td><td class="desc">Calculates the pressure field from the density field and the hydrostatic approximation </td></tr>
-<tr id="row_0_0_7_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Temperature.html" target="_self">Temperature</a></td><td class="desc">A place to keep things associated with the temperature field </td></tr>
-<tr id="row_0_0_8_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html" target="_self">Tracerpoint_field</a></td><td class="desc">This is the base class for all model fields on the tracer points </td></tr>
-<tr id="row_0_0_9_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html" target="_self">Upoint_field</a></td><td class="desc">This is the class for all fields on zonal velocity points </td></tr>
-<tr id="row_0_0_10_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Vorticity.html" target="_self">Vorticity</a></td><td class="desc">Class for vorticity point fields </td></tr>
-<tr id="row_0_0_11_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Vorticitypoint__field.html" target="_self">Vorticitypoint_field</a></td><td class="desc">A class for fields on vorticity points </td></tr>
-<tr id="row_0_0_12_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html" target="_self">Vpoint_field</a></td><td class="desc">This is the class for all fields on meridional velocity points </td></tr>
-<tr id="row_0_0_13_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html" target="_self">Wpoint_field</a></td><td class="desc">This is the class for all fields on vertical velocity points </td></tr>
+<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_bernoulli.html" target="_self">Bernoulli</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_1_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_density.html" target="_self">Density</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_2_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_free__surface.html" target="_self">Free_surface</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_3_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_grid.html" target="_self">Grid</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_4_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" target="_self">MITgcm_Simulation</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_5_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_potential__vorticity.html" target="_self">Potential_vorticity</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_6_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_pressure.html" target="_self">Pressure</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_7_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_temperature.html" target="_self">Temperature</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_8_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html" target="_self">Tracerpoint_field</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_9_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html" target="_self">Upoint_field</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_10_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_vorticity.html" target="_self">Vorticity</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_11_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_vorticitypoint__field.html" target="_self">Vorticitypoint_field</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_12_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_vpoint__field.html" target="_self">Vpoint_field</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_13_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html" target="_self">Wpoint_field</a></td><td class="desc"></td></tr>
+<tr id="row_1_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="classdict.html" target="_self">dict</a></td><td class="desc"></td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:56 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:48:48 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -83,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacemitgcm.html">mitgcm</a></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html">Bernoulli</a></li>  </ul>
+<li class="navelem"><b>mitgcm</b></li><li class="navelem"><a class="el" href="namespacemitgcm_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html">Bernoulli</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -96,20 +104,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">__add__</a>(self, other)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a2a8e8df1221028288883837cbf027bdb">__div__</a>(self, other)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html#a823e52977dd3ac349fb569eb3a4bf167">__init__</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html">mitgcm.core.Bernoulli</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>__init__</b> (defined in <a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html">mitgcm.core.Bernoulli</a>)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html">mitgcm.core.Bernoulli</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aa18b056e051289d148f1493f1aa75b55">__mul__</a>(self, other)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">__rmul__</a>(self, other)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3">grid</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>grid</b> (defined in <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a>)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ac527880ea1c29ee3099bc9d5c71beff1">load_field</a>(self, netcdf_filename, variable, time_level)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">loaded_field</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">netcdf_file</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html">mitgcm.core.MITgcm_Simulation</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">take_d_dx</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">take_d_dy</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">take_d_dz</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#abbc8e2119e5d98b73c194e44feeb3cda">numerics_take_d_dy</a>(self, rho, wet_mask_TH, dyC, d_dy)</td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">take_d_dx</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">take_d_dy</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">take_d_dz</a></td><td class="entry"><a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html">mitgcm.core.Tracerpoint_field</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:53 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:47:19 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

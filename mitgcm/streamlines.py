@@ -1,4 +1,4 @@
-"""@package docstring
+"""
 Streamlines
 ====================
 
@@ -7,12 +7,14 @@ Functions for creating and analysing streamlines.
 Each function has its own docstring.
 """
 
+
 import numpy as np
 import netCDF4
 import numba
 
+
 def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_t=3600,interpolation='bilinear'):
-    """A two-dimensional streamline solver. The velocity fields must be two dimensional and not vary in time.
+    """A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
     """
     if x_v == 'None':
         x_v = x_u
@@ -780,6 +782,7 @@ def extract_along_path3D(path_x,path_y,path_z,
 def extract_along_path2D(path_x,path_y,
             x,y,field):
     """Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+    \todo write test function
     """
         
     len_x = len(x)

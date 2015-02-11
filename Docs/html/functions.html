@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -25,6 +31,7 @@
   <td style="padding-left: 0.5em;">
    <div id="projectname">mitgcm
    </div>
+   <div id="projectbrief">Analysis of MITgcm output using python</div>
   </td>
  </tr>
  </tbody>
@@ -38,7 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -71,17 +78,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
-      <li><a href="functions_vars.html"><span>Variables</span></a></li>
-    </ul>
-  </div>
-  <div id="navrow4" class="tabs3">
-    <ul class="tablist">
-      <li><a href="#index__"><span>_</span></a></li>
-      <li><a href="#index_c"><span>c</span></a></li>
-      <li><a href="#index_g"><span>g</span></a></li>
-      <li><a href="#index_l"><span>l</span></a></li>
-      <li><a href="#index_n"><span>n</span></a></li>
-      <li class="current"><a href="#index_t"><span>t</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -100,101 +96,63 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
-
-<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
+<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div><ul>
 <li>__add__()
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">mitgcm.core.MITgcm_Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__div__()
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a2a8e8df1221028288883837cbf027bdb">mitgcm.core.MITgcm_Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a2a8e8df1221028288883837cbf027bdb">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__init__()
-: <a class="el" href="classmitgcm_1_1core_1_1Bernoulli.html#a823e52977dd3ac349fb569eb3a4bf167">mitgcm.core.Bernoulli</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Density.html#ac4f90f6a9c4a9fe9608b5bfdcb09a47c">mitgcm.core.Density</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Free__surface.html#aae91ac10ad70025da71f3694f063ec8b">mitgcm.core.Free_surface</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Grid.html#a79af97fd15b63db33ac352236168d38b">mitgcm.core.Grid</a>
-, <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aac012c75a0f5dce8bbc4b00422a12444">mitgcm.core.MITgcm_Simulation</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Potential__vorticity.html#aa5cd85f4c534241e18601d592c30b098">mitgcm.core.Potential_vorticity</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Pressure.html#a015248e433a994b90e08ec3123687ec8">mitgcm.core.Pressure</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Temperature.html#afd2f12d54ed18890fe7117d24c9c3da7">mitgcm.core.Temperature</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#ab4adbcfd61c7b303b8499a5228cd6f77">mitgcm.core.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vorticity.html#a43bff58c89253c8425aef49b7ab37e2d">mitgcm.core.Vorticity</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a1ffd906684a51a4045b0b02092fab5ec">mitgcm.core.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a5149dd8a1c832999bdbcd60b4abc3b14">mitgcm.core.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_density.html#ac4f90f6a9c4a9fe9608b5bfdcb09a47c">mitgcm.core.Density</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_grid.html#a79af97fd15b63db33ac352236168d38b">mitgcm.core.Grid</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#aac012c75a0f5dce8bbc4b00422a12444">mitgcm.core.MITgcm_Simulation</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_potential__vorticity.html#aa5cd85f4c534241e18601d592c30b098">mitgcm.core.Potential_vorticity</a>
 </li>
 <li>__mul__()
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#aa18b056e051289d148f1493f1aa75b55">mitgcm.core.MITgcm_Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#aa18b056e051289d148f1493f1aa75b55">mitgcm.core.MITgcm_Simulation</a>
 </li>
 <li>__rmul__()
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">mitgcm.core.MITgcm_Simulation</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">mitgcm.core.MITgcm_Simulation</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>calculate_TotRhoTend()
-: <a class="el" href="classmitgcm_1_1core_1_1Density.html#ace1f408672554eb3871856cb8934aaa0">mitgcm.core.Density</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_density.html#ace1f408672554eb3871856cb8934aaa0">mitgcm.core.Density</a>
 </li>
 <li>compute_masks()
-: <a class="el" href="classmitgcm_1_1core_1_1Grid.html#ad33f3e78699330079c7ae7dfbd5d7adb">mitgcm.core.Grid</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_grid.html#ad33f3e78699330079c7ae7dfbd5d7adb">mitgcm.core.Grid</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
-<li>grid
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a984db65a189bf843e988079f724cdee3">mitgcm.core.MITgcm_Simulation</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
 <li>load_field()
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ac527880ea1c29ee3099bc9d5c71beff1">mitgcm.core.MITgcm_Simulation</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#ad38c67cd434d445fefbce10393782dd6">mitgcm.core.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#ac527880ea1c29ee3099bc9d5c71beff1">mitgcm.core.MITgcm_Simulation</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#ad38c67cd434d445fefbce10393782dd6">mitgcm.core.Wpoint_field</a>
 </li>
-<li>loaded_field
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#ad50484938272dfc5107b0af495443d25">mitgcm.core.MITgcm_Simulation</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#acfbb89a604280097ac640e55edc60d21">mitgcm.core.Wpoint_field</a>
+<li>numerics_take_d_dy()
+: <a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#abbc8e2119e5d98b73c194e44feeb3cda">mitgcm.core.Tracerpoint_field</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
-<li>netcdf_file
-: <a class="el" href="classmitgcm_1_1core_1_1MITgcm__Simulation.html#a801f2b7847cdd50c031f6f566e263189">mitgcm.core.MITgcm_Simulation</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#af9c1d07b6f48ca4ea7fc11f766b406b6">mitgcm.core.Wpoint_field</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>take_d_dx()
-: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">mitgcm.core.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#a40c4ea3c2527688e8419c0a276e27d5c">mitgcm.core.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vorticitypoint__field.html#ab7dd01f831fe81a7ce431625d54aa11f">mitgcm.core.Vorticitypoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a0077d0cdd01de210b130f1e684d61b6d">mitgcm.core.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3dae400759f1828507a317507dbf681b">mitgcm.core.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#a4e5ca6800530f2c8da4bc3d21ef4e50d">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#a40c4ea3c2527688e8419c0a276e27d5c">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_vorticitypoint__field.html#ab7dd01f831fe81a7ce431625d54aa11f">mitgcm.core.Vorticitypoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_vpoint__field.html#a0077d0cdd01de210b130f1e684d61b6d">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#a3dae400759f1828507a317507dbf681b">mitgcm.core.Wpoint_field</a>
 </li>
 <li>take_d_dy()
-: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">mitgcm.core.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#acac1cef0245cd27c0975a84bef22a71d">mitgcm.core.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vorticitypoint__field.html#a1ac62e67431f0edfedfec642f3f5d3f3">mitgcm.core.Vorticitypoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a7ffa6c1b239c78422f0224d675fd785e">mitgcm.core.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3874bb9811b39ed61b25de3ba3e3c39c">mitgcm.core.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#a5292f8f5c2110f476329806bee9315bf">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#acac1cef0245cd27c0975a84bef22a71d">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_vorticitypoint__field.html#a1ac62e67431f0edfedfec642f3f5d3f3">mitgcm.core.Vorticitypoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_vpoint__field.html#a7ffa6c1b239c78422f0224d675fd785e">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#a3874bb9811b39ed61b25de3ba3e3c39c">mitgcm.core.Wpoint_field</a>
 </li>
 <li>take_d_dz()
-: <a class="el" href="classmitgcm_1_1core_1_1Tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">mitgcm.core.Tracerpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Upoint__field.html#acbc550b512401054ac04eca3dc7318af">mitgcm.core.Upoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Vpoint__field.html#a9975d2dcfb23b8cca0986f7e469882fa">mitgcm.core.Vpoint_field</a>
-, <a class="el" href="classmitgcm_1_1core_1_1Wpoint__field.html#a3f7ffb2f1ed512712805bf78d8a8cde4">mitgcm.core.Wpoint_field</a>
+: <a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#aa54bc7f1fe31f946b3ed13cc1c66f22e">mitgcm.core.Tracerpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#acbc550b512401054ac04eca3dc7318af">mitgcm.core.Upoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_vpoint__field.html#a9975d2dcfb23b8cca0986f7e469882fa">mitgcm.core.Vpoint_field</a>
+, <a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#a3f7ffb2f1ed512712805bf78d8a8cde4">mitgcm.core.Wpoint_field</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 9 2015 23:42:56 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 11 2015 00:48:48 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
