@@ -42,7 +42,7 @@ class MITgcm_Simulation(dict):
             self[variable] = loaded_field
 
         else:
-	    netcdf_file = netCDF4.MFDataset(netcdf_filename)
+	    netcdf_file = netCDF4.Dataset(netcdf_filename)
 	    loaded_field = netcdf_file.variables[variable][time_level,...]
 	    netcdf_file.close()
 
@@ -318,7 +318,7 @@ class Wpoint_field(MITgcm_Simulation):
 	  self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
 	else:
-	  netcdf_file = netCDF4.MFDataset(netcdf_filename)
+	  netcdf_file = netCDF4.Dataset(netcdf_filename)
 	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
 	  netcdf_file.close()
 	  self[variable] = loaded_field
@@ -452,15 +452,15 @@ class Tracerpoint_field(MITgcm_Simulation):
 	      d_dx = np.zeros((rho.shape))
 
 	      d_dx = (self.numerics_take_d_dx(rho[:],model_instance.grid['wet_mask_TH'][:],
-					  model_instance.grid['dxC'][:],d_dx,rho.shape[2]))
+					  model_instance.grid['dxC'][:],d_dx,))
 	      self[output_field] = np.nan_to_num(d_dx)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
     
     
-    def numerics_take_d_dx(self,rho,wet_mask_TH,dxC,d_dx,shape):
-	  for i in xrange(1,shape-1):
+    def numerics_take_d_dx(self,rho,wet_mask_TH,dxC,d_dx):
+	  for i in xrange(1,rho.shape[2]-1):
 	      d_dx[:,:,i] = (wet_mask_TH[:,:,i]*
 		    (wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
 		    (1 - wet_mask_TH[:,:,i+1])*rho[:,:,i] - 
@@ -468,9 +468,9 @@ class Tracerpoint_field(MITgcm_Simulation):
 		    wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
 		    wet_mask_TH[:,:,i-1]*dxC[:,i] + 
 		    wet_mask_TH[:,:,i+1]*dxC[:,i+1]))
-	  i = 1
+	  i = 0
 	  d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
-	  i = shape-1
+	  i = rho.shape[2]-1
 	  d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
 	  
 	  return d_dx
@@ -484,32 +484,33 @@ class Tracerpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
-            rho = self[input_field][:]
-            d_dy = np.zeros((rho.shape))
+	    #np.seterr(divide='ignore')
 
-            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(rho[:],model_instance.grid['wet_mask_TH'][:],
-					  model_instance.grid['dyC'][:],d_dy))
+            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(self[input_field][:],model_instance.grid['wet_mask_TH'][:],
+					  model_instance.grid['dyC'][:]))
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
         
-    #@numba.jit    
-    def numerics_take_d_dy(self,rho,wet_mask_TH,dyC,d_dy):
-        """The numerical bit of taking the derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
-
-    	for j in xrange(1,rho.shape[2]-1):
-    	    d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
+    def numerics_take_d_dy(self,rho,wet_mask_TH,dyC):
+        """The numerical bit of taking the y derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
+	
+	d_dy = np.zeros((rho.shape))
+            
+    	j = 0
+    	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
+    	j = rho.shape[1]-1
+    	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
+    	
+    	for j in xrange(1,rho.shape[1]-1):
+    	   d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
     			    (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
     			    (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
     			    (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
     			    wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
     			    wet_mask_TH[:,j-1,:]*dyC[j,:] + 
     			    wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
-    	j = 1
-    	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
-    	j = rho.shape[1]-1
-    	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
+
 
     	return d_dy
 
@@ -529,7 +530,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
             for k in xrange(1,rho.shape[0]-1):
                 # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(rho[k-1,:,:]  -
+                d_dz[k,:,:] = (nmodel_instance.grid['wet_mask_TH'][k,:,:]*(rho[k-1,:,:]  -
                                     (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*rho[k,:,:]-
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*rho[k+1,:,:])/(model_instance.grid['drC'][k] +
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
@@ -539,7 +540,7 @@ class Tracerpoint_field(MITgcm_Simulation):
                 k = rho.shape[0]-1
                 d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid['drC'][k])
 
-            self[output_field] = d_dz
+            self[output_field] = p.nan_to_num(d_dz)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
