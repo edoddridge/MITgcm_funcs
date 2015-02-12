@@ -13,3 +13,5 @@
 # Doxygen binary
 mitgcm/doxygen
 
+# ipython checkpoints
+examples/.ipynb-checkpoints/

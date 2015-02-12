@@ -1,9 +1,8 @@
-""" 
-Core
-==============
-
-This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
-"""
+##Core
+#==============
+#
+#This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
+#
 
 import numpy as np
 import netCDF4
@@ -37,15 +36,15 @@ class MITgcm_Simulation(dict):
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         if time_level == None:
             netcdf_file = netCDF4.Dataset(netcdf_filename)
-            loaded_field = netcdf_file.variables[variable][:,:,:]
+            loaded_field = netcdf_file.variables[variable][...]
             netcdf_file.close()
 
             self[variable] = loaded_field
 
         else:
-        netcdf_file = netCDF4.MFDataset(netcdf_filename)
-        loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-        netcdf_file.close()
+	    netcdf_file = netCDF4.MFDataset(netcdf_filename)
+	    loaded_field = netcdf_file.variables[variable][time_level,...]
+	    netcdf_file.close()
 
         self[variable] = loaded_field
         return
@@ -426,11 +425,20 @@ class Wpoint_field(MITgcm_Simulation):
         return 
 
 
-    
-    
+
+	  
+	  
+	  
 class Tracerpoint_field(MITgcm_Simulation):  
     """This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
-    
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
+	return
+	        
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
         """Take the x derivative of the field on tracer points, using spacings in grid object.
 
@@ -439,27 +447,33 @@ class Tracerpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
-            rho = self[input_field]
-            d_dx = np.zeros((rho.shape))
+	      np.seterr(divide='ignore')
+	      rho = self[input_field]
+	      d_dx = np.zeros((rho.shape))
 
-            for i in xrange(1,rho.shape[2]-1):
-                d_dx[:,:,i] = np.nan_to_num(model_instance.grid['wet_mask_TH'][:,:,i]*
-                        (model_instance.grid['wet_mask_TH'][:,:,i+1]*rho[:,:,i+1] + 
-                        (1 - model_instance.grid['wet_mask_TH'][:,:,i+1])*rho[:,:,i] - 
-                        (1 - model_instance.grid['wet_mask_TH'][:,:,i-1])*rho[:,:,i] - 
-                        model_instance.grid['wet_mask_TH'][:,:,i-1]*rho[:,:,i-1])/(
-                        model_instance.grid['wet_mask_TH'][:,:,i-1]*model_instance.grid['dxC'][:,i] + 
-                        model_instance.grid['wet_mask_TH'][:,:,i+1]*model_instance.grid['dxC'][:,i+1]))
-            i = 1
-            d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(model_instance.grid['dxC'][:,i+1])
-            i = rho.shape[2]-1
-            d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(model_instance.grid['dxC'][:,i])
-
-            self[output_field] = d_dx
+	      d_dx = (self.numerics_take_d_dx(rho[:],model_instance.grid['wet_mask_TH'][:],
+					  model_instance.grid['dxC'][:],d_dx,rho.shape[2]))
+	      self[output_field] = np.nan_to_num(d_dx)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
+    
+    
+    def numerics_take_d_dx(self,rho,wet_mask_TH,dxC,d_dx,shape):
+	  for i in xrange(1,shape-1):
+	      d_dx[:,:,i] = (wet_mask_TH[:,:,i]*
+		    (wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
+		    (1 - wet_mask_TH[:,:,i+1])*rho[:,:,i] - 
+		    (1 - wet_mask_TH[:,:,i-1])*rho[:,:,i] - 
+		    wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
+		    wet_mask_TH[:,:,i-1]*dxC[:,i] + 
+		    wet_mask_TH[:,:,i+1]*dxC[:,i+1]))
+	  i = 1
+	  d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
+	  i = shape-1
+	  d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
+	  
+	  return d_dx
 
 
     def take_d_dy(self,model_instance,input_field = 'RHO',output_field='dRHO_dy'):
@@ -474,7 +488,7 @@ class Tracerpoint_field(MITgcm_Simulation):
             rho = self[input_field][:]
             d_dy = np.zeros((rho.shape))
 
-            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(rho,model_instance.grid['wet_mask_TH'][:],
+            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(rho[:],model_instance.grid['wet_mask_TH'][:],
 					  model_instance.grid['dyC'][:],d_dy))
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
@@ -534,7 +548,15 @@ class Tracerpoint_field(MITgcm_Simulation):
     
 class Vorticitypoint_field(MITgcm_Simulation):  
     """A class for fields on vorticity points."""
-    
+    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	if empty:
+	  pass
+	else:
+	  self.load_field(netcdf_filename,variable,time_level)
+
+	return
+	
+	    
     def take_d_dx(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dx'):
         """ Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
 
@@ -722,22 +744,28 @@ class Grid(MITgcm_Simulation):
                     if wet_mask_TH[k-1,j,i] - wet_mask_TH[k,j,i] == 1:
                         bottom_mask[k-1,j,i] = 1
         return west_mask,east_mask,south_mask,north_mask,bottom_mask
-    
-class Temperature(Tracerpoint_field):
-    """A place to keep things associated with the temperature field."""
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
+        
+        
 
-        return
+class Temperature(Tracerpoint_field):
+	"""A place to keep things associated with the temperature field.
+	
+	\f$ \rho \f$"""
+    
+	def __init__(self,netcdf_filename,variable,time_level,empty=False):
+	    if empty:
+	      pass
+	    else:
+	      self.load_field(netcdf_filename,variable,time_level)
+
+	    return
             
-            
+
 class Density(Tracerpoint_field):
     """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment.
 
     The linear equation of state is given by
+    
     \f[
     \rho = \rho_{nil} (-\alpha_{T} (\theta - \theta_{0}) + \beta_{S} (S - S_{0})) + \rho_{nil}
     \f]
@@ -745,7 +773,7 @@ class Density(Tracerpoint_field):
     """
 
     def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
-		  temp_field='THETA',density_field='RHO',empty=False):
+		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30,empty=False):
         if empty:
 	  pass
 	else:
@@ -755,11 +783,12 @@ class Density(Tracerpoint_field):
 	      self['Sbeta'] = Sbeta
 	      self['RhoNil'] = RhoNil
 	      if Sbeta == 0:
-		  self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - 25)) 
+		  self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
 			    + RhoNil)
-		      # final term is to make density very high in the cells taht aren't fluid.
 	      else:
-		  raise ValueError('Linear EOS only supports temperature variations at the moment. Sorry.') 
+		  self[density_field] = (RhoNil*( Sbeta*(model_instance.salinity[salt_field] - Sref) - Talpha*(model_instance.temperature[temp_field] - Tref)) 
+			    + RhoNil)
+		  print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
 	  else:
 	      raise ValueError('Only linear EOS supported at the moment. Sorry.')
 		  
@@ -777,12 +806,15 @@ class Density(Tracerpoint_field):
             if self['Sbeta'] == 0:
                 self['TotRhoTend'] = (-self['RhoNil']*self['Talpha']*model_instance.temperature['TOTTTEND'])
             else:
-                raise ValueError('Linear EOS only supports temperature variations at the moment. Sorry.') 
+                raise ValueError('This operator only supports temperature variations at the moment. Sorry.') 
         else:    
             raise ValueError('Only liner EOS supported at the moment.')
 
             
-            
+##The Bernoulli field, evaluated from velocity, pressure and density.
+#\f[
+#BP = P + \rho g z + \frac{\mathbf{u} \cdot \mathbf{u}}{2}
+#\f]        
 class Bernoulli(Tracerpoint_field):
     """The Bernoulli field, evaluated from velocity, pressure and density.
     \f[
@@ -801,7 +833,7 @@ class Bernoulli(Tracerpoint_field):
 
         
 class Free_surface(Tracerpoint_field):
-    """Class for the free surcace field. It's pretty empty at the moment."""
+    """Class for the free surface field. It's pretty empty at the moment."""
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
         if empty:
 	  pass
