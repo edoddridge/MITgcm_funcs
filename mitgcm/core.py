@@ -30,11 +30,12 @@ class MITgcm_Simulation(dict):
             raise ValueError('Only linear equation of state is currently supported')
             
 
-    def load_field(self,netcdf_filename,variable,time_level):
+    def load_field(self,netcdf_filename,variable,time_level='All'):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-        if time_level == None:
+        if time_level == 'All':
+	    print 'Loading all available time levels in', variable, '. This could take a while'
             netcdf_file = netCDF4.Dataset(netcdf_filename)
             loaded_field = netcdf_file.variables[variable][...]
             netcdf_file.close()
@@ -111,7 +112,7 @@ class Upoint_field(MITgcm_Simulation):
                         model_instance.grid['wet_mask_U'][:,:,i-1]*UVEL[:,:,i-1])/(
                         model_instance.grid['wet_mask_U'][:,:,i-1]*model_instance.grid['dxF'][:,i-1] + 
                         model_instance.grid['wet_mask_U'][:,:,i+1]*model_instance.grid['dxF'][:,i]))
-            i = 1
+            i = 0
             dU_dx[:,:,i] = (UVEL[:,:,i+1] - UVEL[:,:,i])/(model_instance.grid['dxF'][:,i])
             i = UVEL.shape[2]-1
             dU_dx[:,:,i] = (UVEL[:,:,i] - UVEL[:,:,i-1])/(model_instance.grid['dxF'][:,i-1])
@@ -139,7 +140,7 @@ class Upoint_field(MITgcm_Simulation):
             dU_dy = np.zeros((UVEL.shape))
 
             for j in xrange(1,UVEL.shape[1]-1):
-                dU_dy[:,j,1:] = np.nan_to_num(model_instance.grid['wet_mask_U'][:,j,1:]*
+                dU_dy[:,j,1:] = (model_instance.grid['wet_mask_U'][:,j,1:]*
                                 (model_instance.grid['wet_mask_U'][:,j+1,1:]*UVEL[:,j+1,1:] + 
                                 (1 - model_instance.grid['wet_mask_U'][:,j+1,1:])*UVEL[:,j,1:] - 
                                 # if j+1 point is not fluid, use j point as the starting 
@@ -149,12 +150,14 @@ class Upoint_field(MITgcm_Simulation):
                                 model_instance.grid['wet_mask_U'][:,j-1,1:]*model_instance.grid['dyC'][j,:] + 
                                 model_instance.grid['wet_mask_U'][:,j+1,1:]*model_instance.grid['dyC'][j+1,:]))
 
-            j = 1
-            dU_dy[:,j,1:] = (UVEL[:,j+1,1:] - UVEL[:,j,1:])/(model_instance.grid['dyC'][j+1,:])
+            j = 0
+            dU_dy[:,j,1:] = (model_instance.grid['wet_mask_U'][:,j,1:]*(UVEL[:,j+1,1:] -
+				UVEL[:,j,1:])/(model_instance.grid['dyC'][j+1,:]))
             j = UVEL.shape[1]-1
-            dU_dy[:,j,1:] = (UVEL[:,j,1:] - UVEL[:,j-1,1:])/(model_instance.grid['dyC'][j,:])
+            dU_dy[:,j,1:] = (model_instance.grid['wet_mask_U'][:,j,1:]*(UVEL[:,j,1:] -
+				UVEL[:,j-1,1:])/(model_instance.grid['dyC'][j,:]))
 
-            self[output_field] = dU_dy
+            self[output_field] = np.nan_to_num(dU_dy)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
             
@@ -226,7 +229,7 @@ class Vpoint_field(MITgcm_Simulation):
                         model_instance.grid['wet_mask_V'][:,1:,i-1]*VVEL[:,1:,i-1])/(
                         model_instance.grid['wet_mask_V'][:,1:,i-1]*model_instance.grid['dxC'][:,i] + 
                         model_instance.grid['wet_mask_V'][:,1:,i+1]*model_instance.grid['dxC'][:,i+1]))
-            i = 1
+            i = 0
             dV_dx[:,1:,i] = (VVEL[:,1:,i+1] - VVEL[:,1:,i])/(model_instance.grid['dxC'][:,i+1])
             i = VVEL.shape[2]-1
             dV_dx[:,1:,i] = (VVEL[:,1:,i] - VVEL[:,1:,i-1])/(model_instance.grid['dxC'][:,i])
@@ -256,7 +259,7 @@ class Vpoint_field(MITgcm_Simulation):
                         model_instance.grid['wet_mask_V'][:,j-1,:]*VVEL[:,j-1,:])/(
                         model_instance.grid['wet_mask_V'][:,j-1,:]*model_instance.grid['dyF'][j-1,:] + 
                         model_instance.grid['wet_mask_V'][:,j+1,:]*model_instance.grid['dyF'][j,:]))
-            j = 1
+            j = 0
             dV_dy[:,j,:] = (VVEL[:,j+1,:] - VVEL[:,j,:])/(model_instance.grid['dyF'][j,:])
             j = VVEL.shape[1]-1
             dV_dy[:,j,:] = (VVEL[:,j,:] - VVEL[:,j-1,:])/(model_instance.grid['dyF'][j-1,:])
@@ -307,11 +310,11 @@ class Wpoint_field(MITgcm_Simulation):
 
         return
     
-    def load_field(self,netcdf_filename,variable,time_level):
+    def load_field(self,netcdf_filename,variable,time_level='All'):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
 	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-        if time_level == None:
+        if time_level == 'All':
 	  netcdf_file = netCDF4.Dataset(netcdf_filename)
 	  loaded_field = netcdf_file.variables[variable][:,:,:]
 	  netcdf_file.close()
@@ -350,7 +353,7 @@ class Wpoint_field(MITgcm_Simulation):
                                 model_instance.grid['wet_mask_W'][:,:,i-1]*WVEL[:,:,i-1])/(
                                 model_instance.grid['wet_mask_W'][:,:,i-1]*model_instance.grid['dxC'][:,i] + 
                                 model_instance.grid['wet_mask_W'][:,:,i+1]*model_instance.grid['dxC'][:,i+1]))
-            i = 1
+            i = 0
             d_dx[:,:,i] = (WVEL[:,:,i+1] - WVEL[:,:,i])/(model_instance.grid['dxC'][:,i+1])
             i = WVEL.shape[2]-1
             d_dx[:,:,i] = (WVEL[:,:,i] - WVEL[:,:,i-1])/(model_instance.grid['dxC'][:,i])
@@ -382,7 +385,7 @@ class Wpoint_field(MITgcm_Simulation):
                                     model_instance.grid['wet_mask_W'][:,j-1,:]*WVEL[:,j-1,:])/(
                                     model_instance.grid['wet_mask_W'][:,j-1,:]*model_instance.grid['dyC'][j,:] + 
                                     model_instance.grid['wet_mask_W'][:,j+1,:]*model_instance.grid['dyC'][j+1,:]))
-            j = 1
+            j = 0
             dW_dy[:,j,:] = (WVEL[:,j+1,:] - WVEL[:,j,:])/(model_instance.grid['dyC'][j+1,:])
             j = WVEL.shape[1]-1
             dW_dy[:,j,:] = (WVEL[:,j,:] - WVEL[:,j-1,:])/(model_instance.grid['dyC'][j,:])
@@ -578,7 +581,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
                         model_instance.grid['wet_mask_U'][:,:,i-1]*momVort3[:,:,i-1])/(
                         model_instance.grid['wet_mask_U'][:,:,i-1]*model_instance.grid['dxF'][:,i-1] + 
                         model_instance.grid['wet_mask_U'][:,:,i+1]*model_instance.grid['dxF'][:,i]))
-            i = 1
+            i = 0
             dmomVort3_dx[:,:,i] = (momVort3[:,:,i+1] - momVort3[:,:,i])/(model_instance.grid['dxF'][:,i])
             i = momVort3.shape[2]-1
             dmomVort3_dx[:,:,i] = (momVort3[:,:,i] - momVort3[:,:,i-1])/(model_instance.grid['dxF'][:,i-1])
@@ -609,7 +612,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
                         model_instance.grid['wet_mask_V'][:,j-1,:]*momVort3[:,j-1,:])/(
                         model_instance.grid['wet_mask_V'][:,j-1,:]*model_instance.grid['dyF'][j-1,:] + 
                         model_instance.grid['wet_mask_V'][:,j+1,:]*model_instance.grid['dyF'][j,:]))
-            j = 1
+            j = 0
             dmomVort3_dy[:,j,:] = (momVort3[:,j+1,:] - momVort3[:,j,:])/(model_instance.grid['dyF'][j,:])
             j = momVort3.shape[1]-1
             dmomVort3_dy[:,j,:] = (momVort3[:,j,:] - momVort3[:,j-1,:])/(model_instance.grid['dyF'][j-1,:])
