@@ -1,8 +1,8 @@
-##Core
-#==============
-#
-#This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
-#
+"""Core
+==============
+
+This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
+"""
 
 import numpy as np
 import netCDF4
@@ -35,7 +35,7 @@ class MITgcm_Simulation(dict):
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         if time_level == 'All':
-	    print 'Loading all available time levels in', variable, '. This could take a while'
+	    print 'Loading all available time levels in', str(variable), '. This could take a while'
             netcdf_file = netCDF4.Dataset(netcdf_filename)
             loaded_field = netcdf_file.variables[variable][...]
             netcdf_file.close()
@@ -452,17 +452,23 @@ class Tracerpoint_field(MITgcm_Simulation):
         if input_field in self:
 	      np.seterr(divide='ignore')
 	      rho = self[input_field]
-	      d_dx = np.zeros((rho.shape))
 
 	      d_dx = (self.numerics_take_d_dx(rho[:],model_instance.grid['wet_mask_TH'][:],
-					  model_instance.grid['dxC'][:],d_dx,))
+					  model_instance.grid['dxC'][:],))
 	      self[output_field] = np.nan_to_num(d_dx)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
     
-    
-    def numerics_take_d_dx(self,rho,wet_mask_TH,dxC,d_dx):
+    def numerics_take_d_dx(self,rho,wet_mask_TH,dxC):
+	  
+	  d_dx = np.zeros((rho.shape))
+	  
+	  i = 0
+	  d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
+	  i = rho.shape[2]-1
+	  d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
+	  
 	  for i in xrange(1,rho.shape[2]-1):
 	      d_dx[:,:,i] = (wet_mask_TH[:,:,i]*
 		    (wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
@@ -471,10 +477,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 		    wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
 		    wet_mask_TH[:,:,i-1]*dxC[:,i] + 
 		    wet_mask_TH[:,:,i+1]*dxC[:,i+1]))
-	  i = 0
-	  d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
-	  i = rho.shape[2]-1
-	  d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
+
 	  
 	  return d_dx
 
@@ -533,7 +536,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
             for k in xrange(1,rho.shape[0]-1):
                 # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-                d_dz[k,:,:] = (nmodel_instance.grid['wet_mask_TH'][k,:,:]*(rho[k-1,:,:]  -
+                d_dz[k,:,:] = (model_instance.grid['wet_mask_TH'][k,:,:]*(rho[k-1,:,:]  -
                                     (1-model_instance.grid['wet_mask_TH'][k+1,:,:])*rho[k,:,:]-
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*rho[k+1,:,:])/(model_instance.grid['drC'][k] +
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
@@ -543,7 +546,7 @@ class Tracerpoint_field(MITgcm_Simulation):
                 k = rho.shape[0]-1
                 d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid['drC'][k])
 
-            self[output_field] = p.nan_to_num(d_dz)
+            self[output_field] = np.nan_to_num(d_dz)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
