@@ -12,6 +12,7 @@
 
 # swap files
 *~
+*.kate-swp
 
 # Doxygen binary
 mitgcm/doxygen
