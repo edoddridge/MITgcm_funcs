@@ -43,9 +43,9 @@ class MITgcm_Simulation(dict):
             self[variable] = loaded_field
 
         else:
-	    netcdf_file = netCDF4.Dataset(netcdf_filename)
-	    loaded_field = netcdf_file.variables[variable][time_level,...]
-	    netcdf_file.close()
+    	    netcdf_file = netCDF4.Dataset(netcdf_filename)
+    	    loaded_field = netcdf_file.variables[variable][time_level,...]
+    	    netcdf_file.close()
 
         self[variable] = loaded_field
         return
