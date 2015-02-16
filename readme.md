@@ -22,4 +22,4 @@ Instantiate a simulation object:
 m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
 
 
-The rest should be clear from the example.
+The rest should be clear from the example, which can be viewed online [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).
