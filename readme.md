@@ -9,7 +9,7 @@ python setup.py install
 
 
 ##To read the documentation##
-Open index.html with a web browser (it's in Docs/html), or compile the tex documentation.
+Open index.html with a web browser (it's in Docs/html).
 
 
 ##To use##
