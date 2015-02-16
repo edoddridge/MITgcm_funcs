@@ -9,7 +9,7 @@ python setup.py install
 
 
 ##To read the documentation##
-Open index.html with a web browser (it's in Docs/html).
+Open index.html with a web browser (it's in Docs/html), or click [here](http://edoddridge.bitbucket.org/MITgcm_py/index.html) to view the online documentation.
 
 
 ##To use##
