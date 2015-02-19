@@ -1,13 +1,15 @@
 #Read me#
 
 ##To install##
-Navigate to the main directory and run:
+Download the code (either by downloading the repo or cloning it into a directory)
+
+Navigate to the download directory and run:
 
 python setup.py install
 
 
 ##To read the documentation##
-Open index.html with a web browser (it's in Docs/html), or compile the tex documentation.
+Open index.html with a web browser (it's in Docs/html), or click [here](http://edoddridge.bitbucket.org/MITgcm_py/index.html) to view the online documentation.
 
 
 ##To use##
@@ -20,4 +22,4 @@ Instantiate a simulation object:
 m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
 
 
-The rest should be clear from the examples.
+The rest should be clear from the example, which can be viewed online [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).
