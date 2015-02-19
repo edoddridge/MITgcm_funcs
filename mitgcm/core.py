@@ -30,24 +30,27 @@ class MITgcm_Simulation(dict):
             raise ValueError('Only linear equation of state is currently supported')
             
 
-    def load_field(self,netcdf_filename,variable,time_level='All'):
+    def load_field(self,netcdf_filename,variable,time_level='All',field_name=None):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
+        if field_name == None:
+	  field_name = variable
+	  
         if time_level == 'All':
-	    print 'Loading all available time levels in', str(variable), '. This could take a while'
+	    print 'Loading all available time levels in ' + str(variable) + '. This could take a while.'
             netcdf_file = netCDF4.Dataset(netcdf_filename)
             loaded_field = netcdf_file.variables[variable][...]
             netcdf_file.close()
 
-            self[variable] = loaded_field
+            self[field_name] = loaded_field
 
         else:
 	    netcdf_file = netCDF4.Dataset(netcdf_filename)
 	    loaded_field = netcdf_file.variables[variable][time_level,...]
 	    netcdf_file.close()
 
-        self[variable] = loaded_field
+        self[field_name] = loaded_field
         return
        
     def __add__(self,other):
@@ -310,26 +313,29 @@ class Wpoint_field(MITgcm_Simulation):
 
         return
     
-    def load_field(self,netcdf_filename,variable,time_level='All'):
+    def load_field(self,netcdf_filename,variable,time_level='All',field_name=None):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
 	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
-        if time_level == 'All':
+        if field_name == None:
+	  field_name = variable
+	  
+	if time_level == 'All':
 	  netcdf_file = netCDF4.Dataset(netcdf_filename)
 	  loaded_field = netcdf_file.variables[variable][:,:,:]
 	  netcdf_file.close()
-	  self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
+	  self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
 	else:
 	  netcdf_file = netCDF4.Dataset(netcdf_filename)
 	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
 	  netcdf_file.close()
-	  self[variable] = loaded_field
+	  self[field_name] = loaded_field
         
 	  if hasattr(time_level, '__len__'):
-	      self[variable] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+	      self[field_name] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
 	  else:
-	      self[variable] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
+	      self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
         return
     
@@ -784,11 +790,17 @@ class Density(Tracerpoint_field):
         if empty:
 	  pass
 	else:
+	  self['cp'] = cp
+	  self['Talpha'] = Talpha
+	  self['Sbeta'] = Sbeta
+	  self['RhoNil'] = RhoNil
+	  self.calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
+		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30)
+		  
+    def calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
+		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
+	  """Cacluate density field given temperature and salinity fields, using the linear equation of state."""
 	  if model_instance['EOS_type'] == 'linear':
-	      self['cp'] = cp
-	      self['Talpha'] = Talpha
-	      self['Sbeta'] = Sbeta
-	      self['RhoNil'] = RhoNil
 	      if Sbeta == 0:
 		  self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
 			    + RhoNil)
@@ -798,8 +810,6 @@ class Density(Tracerpoint_field):
 		  print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
 	  else:
 	      raise ValueError('Only linear EOS supported at the moment. Sorry.')
-		  
-
 
     def calculate_TotRhoTend(self,model_instance):
         """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state.
@@ -882,3 +892,10 @@ class Potential_vorticity(Tracerpoint_field):
     """Evaluate the potential vorticity on the tracer points."""
     def __init__(self,model_instance,density_field='RhoNil',density_deriv_field='dRHO_dz',vort_field='omega_a'):
         self['Q'] = -model_instance.vorticity[vort_field]*model_instance.density[density_deriv_field]/model_instance.density[density_field]
+
+        
+def show_variables(netcdf_filename):
+  """A shortcut function to display all of the variables contained within a netcdf file."""
+  netcdf_file = netCDF4.Dataset(netcdf_filename)
+  print netcdf_file.variables.keys()
+  netcdf_file.close()
