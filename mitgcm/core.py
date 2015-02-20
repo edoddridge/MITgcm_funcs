@@ -796,8 +796,8 @@ class Density(Tracerpoint_field):
 	  self['Talpha'] = Talpha
 	  self['Sbeta'] = Sbeta
 	  self['RhoNil'] = RhoNil
-	  self.calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
-		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30)
+	  self.calculate_density(model_instance,Talpha,Sbeta,RhoNil,cp,
+		  temp_field,salt_field,density_field,Tref,Sref)
 		  
     def calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
 		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
