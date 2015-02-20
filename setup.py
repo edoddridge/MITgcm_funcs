@@ -6,7 +6,7 @@ setup(name='mitgcm',
       url='http://bitbucket.com/edoddridge/mitgcm',
       author='Ed Doddridge',
       author_email='blank',
-      license='GPL',
+      license='MIT licence',
       packages=['mitgcm'],
       install_requires=[
           'numpy',
