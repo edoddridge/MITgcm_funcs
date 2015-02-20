@@ -105,10 +105,10 @@ def stream3(u,v,w,
     len_y_w = len(y_w)
     len_z_w = len(z_w)
 
-    x_stream = np.ones((int(t_int/delta_t)+2))*startx
-    y_stream = np.ones((int(t_int/delta_t)+2))*starty
-    z_stream = np.ones((int(t_int/delta_t)+2))*startz
-    t_stream = np.zeros((int(t_int/delta_t)+2))
+    x_stream = np.ones((int(t_int/delta_t)+1))*startx
+    y_stream = np.ones((int(t_int/delta_t)+1))*starty
+    z_stream = np.ones((int(t_int/delta_t)+1))*startz
+    t_stream = np.zeros((int(t_int/delta_t)+1))
 
     t = 0 #set the initial time to be zero
     i=0
