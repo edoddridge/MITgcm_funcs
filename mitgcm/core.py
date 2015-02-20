@@ -663,9 +663,10 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
 
 class Grid(MITgcm_Simulation):
-    """This defines the class for the grid object. This object holds all the information about the grid on which the simulation was run. It also holds mask for getting only the boundary values of fields on the tracer points. 
+    """This defines the class for the grid object. 
 
-    This class is the only one that isn't written to use dicts - this should be fixed at some stage."""
+    This object holds all the information about the grid on which the simulation was run. It also holds masks for selecting only the boundary values of fields on the tracer points. 
+	"""
 
     def __init__(self, grid_netcdf_filename):
         """Define a single object that has all of the grid variables tucked away in it. 
@@ -695,28 +696,29 @@ class Grid(MITgcm_Simulation):
         self['drF'] = grid_netcdf_file.variables['drF']
         self['fCoriG'] = grid_netcdf_file.variables['fCoriG']
 
-        (self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'],indexing='ij')
-        (self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'],indexing='ij')
-        (self['Z_x'],self['X_z']) = np.meshgrid(self['Z'],self['X'],indexing='ij')
-        (self['Z_3d'],self['Y_3d'],self['X_3d']) = np.meshgrid(self['Z'][:],self['Y'],self['X'],indexing='ij')
+        (self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'][:],indexing='ij')
+        (self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'][:],indexing='ij')
+        (self['Z_x'],self['X_z']) = np.meshgrid(self['Z'],self['X'][:],indexing='ij')
+        (self['Z_3d'],self['Y_3d'],self['X_3d']) = np.meshgrid(self['Z'][:],self['Y'][:],self['X'][:],indexing='ij')
 
-        (self['DZF'],self['DYF'], self['DXF']) = np.meshgrid(self['drF'],self['dyF'][0,:],self['dxF'][:,0],indexing='ij')
+        (self['DZF'],self['DYF'], self['DXF']) = np.meshgrid(self['drF'][:],self['dyF'][0,:],self['dxF'][:,0],indexing='ij')
 
-        self['wet_mask_V'] = copy.deepcopy(np.ones((np.shape(self['HFacS']))))
+        self['wet_mask_V'] = np.ones((np.shape(self['HFacS'][:])))
         self['wet_mask_V'][self['HFacS'][:] == 0.] = 0.
-        self['wet_mask_U'] = copy.deepcopy(np.ones((np.shape(self['HFacW']))))
+        self['wet_mask_U'] = np.ones((np.shape(self['HFacW'][:])))
         self['wet_mask_U'][self['HFacW'][:] == 0.] = 0.
-        self['wet_mask_TH'] = copy.deepcopy(np.ones((np.shape(self['HFacC']))))
+        self['wet_mask_TH'] = np.ones((np.shape(self['HFacC'][:])))
         self['wet_mask_TH'][self['HFacC'][:] == 0.] = 0.
         self['wet_mask_W'] = np.append(self['wet_mask_TH'],np.ones((1,len(self['Y'][:]),len(self['X'][:]))),axis=0)
 				      #len(self['Y'][:]),len(self['X'][:]))),axis=0)
 
-        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*self['drF'][:].reshape((40,1,1)))
+        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
+        								self['drF'][:].reshape((len(self['drF'][:]),1,1)))
 
 
 
 	(self['west_mask'],self['east_mask'],self['south_mask'],
-	self['north_mask'],self['bottom_mask']) = self.compute_masks(self['wet_mask_TH'])
+	self['north_mask'],self['bottom_mask']) = self.compute_masks(self['wet_mask_TH'][:])
                         
         return
         
