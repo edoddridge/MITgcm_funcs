@@ -768,6 +768,7 @@ class Temperature(Tracerpoint_field):
 	\f$ \rho \f$"""
     
 	def __init__(self,netcdf_filename,variable,time_level,empty=False):
+            print 'Temperature class is deprecated and will be deleted soon - use Tracerpoint_field class instead'
 	    if empty:
 	      pass
 	    else:
@@ -854,6 +855,7 @@ class Bernoulli(Tracerpoint_field):
 class Free_surface(Tracerpoint_field):
     """Class for the free surface field. It's pretty empty at the moment."""
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
+        print 'Free_surface class is deprecated and will be deleted soon - use Tracerpoint_field class instead'
         if empty:
 	  pass
 	else:
