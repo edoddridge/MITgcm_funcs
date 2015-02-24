@@ -710,15 +710,11 @@ class Grid(MITgcm_Simulation):
         self['wet_mask_TH'] = np.ones((np.shape(self['HFacC'][:])))
         self['wet_mask_TH'][self['HFacC'][:] == 0.] = 0.
         self['wet_mask_W'] = np.append(self['wet_mask_TH'],np.ones((1,len(self['Y'][:]),len(self['X'][:]))),axis=0)
-				      #len(self['Y'][:]),len(self['X'][:]))),axis=0)
 
         self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
         								self['drF'][:].reshape((len(self['drF'][:]),1,1)))
 
-
-
-	(self['west_mask'],self['east_mask'],self['south_mask'],
-	self['north_mask'],self['bottom_mask']) = self.compute_masks(self['wet_mask_TH'][:])
+        self.compute_masks(self,self['wet_mask_TH'][:])
                         
         return
         
@@ -758,30 +754,21 @@ class Grid(MITgcm_Simulation):
                     # Fluxes through the bottom
                     if wet_mask_TH[k-1,j,i] - wet_mask_TH[k,j,i] == 1:
                         bottom_mask[k-1,j,i] = 1
-        return west_mask,east_mask,south_mask,north_mask,bottom_mask
+        
+        self['west_mask'] = west_mask
+        self['east_mask'] = east_mask
+        self['south_mask'] = south_mask
+        self['north_mask'] = north_mask
+        self['bottom_mask'] = bottom_mask
+        return
         
         
-
-class Temperature(Tracerpoint_field):
-	"""A place to keep things associated with the temperature field.
-	
-	\f$ \rho \f$"""
-    
-	def __init__(self,netcdf_filename,variable,time_level,empty=False):
-            print 'Temperature class is deprecated and will be deleted soon - use Tracerpoint_field class instead'
-	    if empty:
-	      pass
-	    else:
-	      self.load_field(netcdf_filename,variable,time_level)
-
-	    return
-            
 
 class Density(Tracerpoint_field):
     """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment.
 
     The linear equation of state is given by
-    
+
     \f[
     \rho = \rho_{nil} (-\alpha_{T} (\theta - \theta_{0}) + \beta_{S} (S - S_{0})) + \rho_{nil}
     \f]
@@ -789,30 +776,31 @@ class Density(Tracerpoint_field):
     """
 
     def __init__(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
-		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30,empty=False):
+                    temp_field='THETA',salt_field='S',density_field='RHO',
+                    Tref=20,Sref=30,empty=False):
         if empty:
-	  pass
-	else:
-	  self['cp'] = cp
-	  self['Talpha'] = Talpha
-	  self['Sbeta'] = Sbeta
-	  self['RhoNil'] = RhoNil
-	  self.calculate_density(model_instance,Talpha,Sbeta,RhoNil,cp,
-		  temp_field,salt_field,density_field,Tref,Sref)
+            pass
+        else:
+            self['cp'] = cp
+            self['Talpha'] = Talpha
+            self['Sbeta'] = Sbeta
+            self['RhoNil'] = RhoNil
+            self.calculate_density(model_instance,Talpha,Sbeta,RhoNil,cp,
+                                    temp_field,salt_field,density_field,Tref,Sref)
 		  
     def calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
 		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
-	  """Cacluate density field given temperature and salinity fields, using the linear equation of state."""
-	  if model_instance['EOS_type'] == 'linear':
-	      if Sbeta == 0:
-		  self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
-			    + RhoNil)
-	      else:
-		  self[density_field] = (RhoNil*( Sbeta*(model_instance.salinity[salt_field] - Sref) - Talpha*(model_instance.temperature[temp_field] - Tref)) 
-			    + RhoNil)
-		  print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
-	  else:
-	      raise ValueError('Only linear EOS supported at the moment. Sorry.')
+        """Cacluate density field given temperature and salinity fields, using the linear equation of state."""
+        if model_instance['EOS_type'] == 'linear':
+            if Sbeta == 0:
+                self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
+        	    + RhoNil)
+            else:
+                self[density_field] = (RhoNil*( Sbeta*(model_instance.salinity[salt_field] - Sref) - Talpha*(model_instance.temperature[temp_field] - Tref)) 
+        	    + RhoNil)
+                print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
+        else:
+          raise ValueError('Only linear EOS supported at the moment. Sorry.')
 
     def calculate_TotRhoTend(self,model_instance):
         """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state.
@@ -852,18 +840,6 @@ class Bernoulli(Tracerpoint_field):
                  model_instance.meridional_velocity[VVEL_field][:,:-1,:]*model_instance.meridional_velocity[VVEL_field][:,:-1,:])/2)/2)
 
         
-class Free_surface(Tracerpoint_field):
-    """Class for the free surface field. It's pretty empty at the moment."""
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
-        print 'Free_surface class is deprecated and will be deleted soon - use Tracerpoint_field class instead'
-        if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
-
-        return
-            
-        
 class Pressure(Tracerpoint_field):
     """Calculates the pressure field from the density field and the hydrostatic approximation."""
     def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN'):
@@ -885,11 +861,10 @@ class Pressure(Tracerpoint_field):
 class Vorticity(Vorticitypoint_field):
     """Class for vorticity point fields."""
     def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=0,empty=False):
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
-
+        if empty:
+            pass
+        else:
+            self.load_field(netcdf_filename,variable,time_level)
         return
         
 class Potential_vorticity(Tracerpoint_field):
