@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['potential_5fvorticity',['Potential_vorticity',['../classmitgcm_1_1core_1_1_potential__vorticity.html',1,'mitgcm::core']]],
-  ['pressure',['Pressure',['../classmitgcm_1_1core_1_1_pressure.html',1,'mitgcm::core']]]
+  ['quadralinear_5finterp',['quadralinear_interp',['../namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73',1,'mitgcm::streamlines']]]
 ];

@@ -132,6 +132,8 @@ Classes</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a27a0189528ab26e550791d3f0d85142c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1core.html#a27a0189528ab26e550791d3f0d85142c">show_variables</a> (netcdf_filename)</td></tr>
 <tr class="separator:a27a0189528ab26e550791d3f0d85142c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84cb1c1515c236e37c08e6b3e413e313"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1core.html#a84cb1c1515c236e37c08e6b3e413e313">plt_mon_stats</a></td></tr>
+<tr class="separator:a84cb1c1515c236e37c08e6b3e413e313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">Core
@@ -139,6 +141,65 @@ Functions</h2></td></tr>
 
 This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
 </pre> </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a84cb1c1515c236e37c08e6b3e413e313"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.core.plt_mon_stats </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>netcdf_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>variables</em> = <code>['advcfl_uvel_max'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>advcfl_vvel_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>advcfl_wvel_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>time_units</em> = <code>'days'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Plot some monitor file variables. 
+
+Options include:
+advcfl_uvel_max
+advcfl_vvel_max
+advcfl_wvel_max
+ke_mean
+dynstat_theta_mean
+dynstat_sst_mean
+dynstat_sst_sd
+dynstat_salt_max
+dynstat_salt_min
+...
+and many others.</pre> 
+<p>Definition at line <a class="el" href="core_8py_source.html#l00880">880</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a27a0189528ab26e550791d3f0d85142c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -153,14 +214,14 @@ This file contains all of the classes for the module. It has the base MITgcm_Sim
       </table>
 </div><div class="memdoc">
 <pre class="fragment">A shortcut function to display all of the variables contained within a netcdf file.</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00876">876</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00869">869</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 24 2015 09:24:53 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 25 2015 23:02:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

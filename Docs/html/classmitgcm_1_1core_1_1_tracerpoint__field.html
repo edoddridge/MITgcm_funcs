@@ -96,7 +96,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classmitgcm_1_1core_1_1_tracerpoint__field-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">mitgcm.core.Tracerpoint_field Class Reference</div>  </div>
@@ -145,15 +144,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">__rmul__</a> (self, other)</td></tr>
 <tr class="separator:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:ab44388b170743078c53af457797bb4c1"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#ab44388b170743078c53af457797bb4c1">d_dy</a> = np.zeros((rho.shape))</td></tr>
-<tr class="separator:ab44388b170743078c53af457797bb4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d8959018602c0200fe03f4cfd011df9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#a1d8959018602c0200fe03f4cfd011df9">j</a> = 0</td></tr>
-<tr class="separator:a1d8959018602c0200fe03f4cfd011df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e712a125cb43cb2573369dd63d52267"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_tracerpoint__field.html#a5e712a125cb43cb2573369dd63d52267">j</a> = rho.shape[1]</td></tr>
-<tr class="separator:a5e712a125cb43cb2573369dd63d52267"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classmitgcm_1_1core_1_1_m_i_tgcm___simulation')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html">mitgcm.core.MITgcm_Simulation</a></td></tr>
@@ -162,7 +152,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives.</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00441">441</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00437">437</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a71960ccda494c5844ef01526a32bed1e"></a>
 <div class="memitem">
@@ -190,7 +180,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>time_level</em>, </td>
+          <td class="paramname"><em>time_level</em> = <code>-1</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -206,7 +196,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00443">443</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00439">439</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -247,7 +237,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00469">469</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00464">464</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -287,7 +277,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <pre class="fragment">The numerical bit of taking the y derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet.</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00507">507</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00500">500</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -331,7 +321,7 @@ Additional Inherited Members</h2></td></tr>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00451">451</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00446">446</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -375,7 +365,7 @@ they should be).</pre>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00491">491</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00484">484</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -419,74 +409,7 @@ they should be).</pre>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00531">531</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ab44388b170743078c53af457797bb4c1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple mitgcm.core.Tracerpoint_field.d_dy = np.zeros((rho.shape))</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00510">510</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1d8959018602c0200fe03f4cfd011df9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int mitgcm.core.Tracerpoint_field.j = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00512">512</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5e712a125cb43cb2573369dd63d52267"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">list mitgcm.core.Tracerpoint_field.j = rho.shape[1]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00514">514</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00522">522</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -496,7 +419,7 @@ they should be).</pre>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 24 2015 09:24:53 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 25 2015 23:02:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

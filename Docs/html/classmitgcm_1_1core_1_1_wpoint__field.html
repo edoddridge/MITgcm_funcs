@@ -96,7 +96,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classmitgcm_1_1core_1_1_wpoint__field-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">mitgcm.core.Wpoint_field Class Reference</div>  </div>
@@ -138,13 +137,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa18b056e051289d148f1493f1aa75b55 inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a029086ad72acb8cb8c12e9d02e0092aa">__rmul__</a> (self, other)</td></tr>
 <tr class="separator:a029086ad72acb8cb8c12e9d02e0092aa inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:af9c1d07b6f48ca4ea7fc11f766b406b6"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#af9c1d07b6f48ca4ea7fc11f766b406b6">netcdf_file</a> = netCDF4.Dataset(netcdf_filename)</td></tr>
-<tr class="separator:af9c1d07b6f48ca4ea7fc11f766b406b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfbb89a604280097ac640e55edc60d21"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html#acfbb89a604280097ac640e55edc60d21">loaded_field</a> = netcdf_file.variables[variable]</td></tr>
-<tr class="separator:acfbb89a604280097ac640e55edc60d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -229,7 +221,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>time_level</em> = <code>'All'</code>, </td>
+          <td class="paramname"><em>time_level</em> = <code>-1</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -246,7 +238,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <pre class="fragment">Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
-    time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</pre> 
+time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</pre> 
 <p>Definition at line <a class="el" href="core_8py_source.html#l00316">316</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
@@ -291,7 +283,7 @@ Additional Inherited Members</h2></td></tr>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00342">342</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00341">341</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -335,7 +327,7 @@ they should be).</pre>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00374">374</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00373">373</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -379,52 +371,7 @@ they should be).</pre>
 Performs centred second-order differencing everywhere except next to boundaries. First order is 
 used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
 they should be).</pre> 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00405">405</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="acfbb89a604280097ac640e55edc60d21"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">list mitgcm.core.Wpoint_field.loaded_field = netcdf_file.variables[variable]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00325">325</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af9c1d07b6f48ca4ea7fc11f766b406b6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple mitgcm.core.Wpoint_field.netcdf_file = netCDF4.Dataset(netcdf_filename)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l00324">324</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00404">404</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -434,7 +381,7 @@ they should be).</pre>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 24 2015 09:24:53 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 25 2015 23:02:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

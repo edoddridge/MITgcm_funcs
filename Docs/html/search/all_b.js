@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['core',['core',['../namespacemitgcm_1_1core.html',1,'mitgcm']]],
-  ['functions',['functions',['../namespacemitgcm_1_1functions.html',1,'mitgcm']]],
-  ['mainpage_2emd',['mainpage.md',['../mainpage_8md.html',1,'']]],
-  ['mitgcm',['mitgcm',['../namespacemitgcm.html',1,'']]],
-  ['mitgcm_5fsimulation',['MITgcm_Simulation',['../classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html',1,'mitgcm::core']]],
-  ['streamlines',['streamlines',['../namespacemitgcm_1_1streamlines.html',1,'mitgcm']]]
+  ['numerics_5ftake_5fd_5fdx',['numerics_take_d_dx',['../classmitgcm_1_1core_1_1_tracerpoint__field.html#abdbf0d953baced17806d26ed4fedad12',1,'mitgcm::core::Tracerpoint_field']]],
+  ['numerics_5ftake_5fd_5fdy',['numerics_take_d_dy',['../classmitgcm_1_1core_1_1_tracerpoint__field.html#aa7104af7db145561e258c97c96c1be1b',1,'mitgcm::core::Tracerpoint_field']]]
 ];
