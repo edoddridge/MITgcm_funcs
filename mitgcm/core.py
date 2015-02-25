@@ -30,7 +30,7 @@ class MITgcm_Simulation(dict):
             raise ValueError('Only linear equation of state is currently supported')
             
 
-    def load_field(self,netcdf_filename,variable,time_level='All',field_name=None):
+    def load_field(self,netcdf_filename,variable,time_level=-1,field_name=None):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
@@ -86,7 +86,7 @@ class MITgcm_Simulation(dict):
 class Upoint_field(MITgcm_Simulation):
     """ This is the class for all fields on zonal velocity points."""
     
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+    def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
 	if empty:
 	  pass
 	else:
@@ -176,7 +176,7 @@ class Upoint_field(MITgcm_Simulation):
         they should be)."""
         
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             UVEL = self[input_field]
             d_dz = np.zeros((UVEL.shape))
 
@@ -187,10 +187,10 @@ class Upoint_field(MITgcm_Simulation):
                 model_instance.grid['wet_mask_U'][k+1,:,:]*UVEL[k+1,:,:])/(model_instance.grid['drC'][k] +
                 model_instance.grid['wet_mask_U'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
-                k = 0
-                d_dz[k,:,:] = (UVEL[k,:,:] - UVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
-                k = UVEL.shape[0]-1
-                d_dz[k,:,:] = (UVEL[k-1,:,:] - UVEL[k,:,:])/(model_instance.grid['drC'][k])
+            k = 0
+            d_dz[k,:,:] = (UVEL[k,:,:] - UVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
+            k = UVEL.shape[0]-1
+            d_dz[k,:,:] = (UVEL[k-1,:,:] - UVEL[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = d_dz
         else:
@@ -201,11 +201,11 @@ class Vpoint_field(MITgcm_Simulation):
     """ This is the class for all fields on meridional velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
-	"""Instantiate a field on the meridional velocity points."""
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
+        """Instantiate a field on the meridional velocity points."""
+        if empty:
+            pass
+        else:
+            self.load_field(netcdf_filename,variable,time_level=-1)
 
         return
     
@@ -220,7 +220,7 @@ class Vpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dx = np.zeros((VVEL.shape))
 
@@ -250,7 +250,7 @@ class Vpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             VVEL = self[input_field]
             dV_dy = np.zeros((VVEL.shape))
 
@@ -281,7 +281,7 @@ class Vpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             VVEL = self[input_field]
             d_dz = np.zeros((VVEL.shape))
 
@@ -292,10 +292,10 @@ class Vpoint_field(MITgcm_Simulation):
                     model_instance.grid['wet_mask_V'][k+1,:,:]*VVEL[k+1,:,:])/(model_instance.grid['drC'][k] +
                     model_instance.grid['wet_mask_V'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
-                k = 0
-                d_dz[k,:,:] = (VVEL[k,:,:] - VVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
-                k = VVEL.shape[0]-1
-                d_dz[k,:,:] = (VVEL[k-1,:,:] - VVEL[k,:,:])/(model_instance.grid['drC'][k])
+            k = 0
+            d_dz[k,:,:] = (VVEL[k,:,:] - VVEL[k+1,:,:])/(model_instance.grid['drC'][k+1])
+            k = VVEL.shape[0]-1
+            d_dz[k,:,:] = (VVEL[k-1,:,:] - VVEL[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = d_dz
         else:
@@ -306,37 +306,36 @@ class Wpoint_field(MITgcm_Simulation):
     """ This is the class for all fields on vertical velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
+        if empty:
+            pass
+        else:
+            self.load_field(netcdf_filename,variable,time_level)
 
         return
     
-    def load_field(self,netcdf_filename,variable,time_level='All',field_name=None):
+    def load_field(self,netcdf_filename,variable,time_level=-1,field_name=None):
         """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
-	time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         if field_name == None:
-	  field_name = variable
-	  
-	if time_level == 'All':
-	  netcdf_file = netCDF4.Dataset(netcdf_filename)
-	  loaded_field = netcdf_file.variables[variable][:,:,:]
-	  netcdf_file.close()
-	  self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
+            field_name = variable
 
-	else:
-	  netcdf_file = netCDF4.Dataset(netcdf_filename)
-	  loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
-	  netcdf_file.close()
-	  self[field_name] = loaded_field
-        
-	  if hasattr(time_level, '__len__'):
-	      self[field_name] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
-	  else:
-	      self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
+        if time_level == 'All':
+            netcdf_file = netCDF4.Dataset(netcdf_filename)
+            loaded_field = netcdf_file.variables[variable][:,:,:]
+            netcdf_file.close()
+            self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
+        else:
+            netcdf_file = netCDF4.Dataset(netcdf_filename)
+            loaded_field = netcdf_file.variables[variable][time_level,:,:,:]
+            netcdf_file.close()
+            self[field_name] = loaded_field
+
+            if hasattr(time_level, '__len__'):
+                self[field_name] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+            else:
+                self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
         return
     
     def take_d_dx(self,model_instance,input_field = 'WVEL',output_field='dW_dx'):
@@ -347,7 +346,7 @@ class Wpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             WVEL = self[input_field]
             d_dx = np.zeros((WVEL.shape))
 
@@ -370,7 +369,7 @@ class Wpoint_field(MITgcm_Simulation):
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
 
-	
+
     def take_d_dy(self,model_instance,input_field = 'WVEL',output_field='dW_dy'):
         """Take the y derivative of the field on w points, using spacings in grid object.
 
@@ -379,7 +378,7 @@ class Wpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             WVEL = self[input_field]
             dW_dy = np.zeros((WVEL.shape))
 
@@ -410,7 +409,7 @@ class Wpoint_field(MITgcm_Simulation):
         they should be)."""  
         
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             WVEL = self[input_field]
             dWVEL_dz = np.zeros((WVEL.shape))
 
@@ -421,12 +420,12 @@ class Wpoint_field(MITgcm_Simulation):
                             (model_instance.grid['drF'][k-1]+
                             model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drF'][k]))
 
-                k = 0
-                dWVEL_dz[k,:,:] = (WVEL[k,:,:] - WVEL[k+1,:,:])/(model_instance.grid['drF'][k])
-                k = WVEL.shape[0]-2
-                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])        
-                k = WVEL.shape[0]-1
-                dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])
+            k = 0
+            dWVEL_dz[k,:,:] = (WVEL[k,:,:] - WVEL[k+1,:,:])/(model_instance.grid['drF'][k])
+            k = WVEL.shape[0]-2
+            dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])        
+            k = WVEL.shape[0]-1
+            dWVEL_dz[k,:,:] = (WVEL[k-1,:,:] - WVEL[k,:,:])/(model_instance.grid['drF'][k-1])
 
             self[output_field] = dWVEL_dz
         else:
@@ -435,19 +434,15 @@ class Wpoint_field(MITgcm_Simulation):
 
 
 
-	  
-	  
-	  
 class Tracerpoint_field(MITgcm_Simulation):  
     """This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
-
-	return
-	        
+    def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
+        if empty:
+            pass
+        else:
+            self.load_field(netcdf_filename,variable,time_level=-1)
+        return
+        
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
         """Take the x derivative of the field on tracer points, using spacings in grid object.
 
@@ -456,36 +451,34 @@ class Tracerpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	      np.seterr(divide='ignore')
-	      rho = self[input_field]
+            np.seterr(divide='ignore')
+            rho = self[input_field]
 
-	      d_dx = (self.numerics_take_d_dx(rho[:],model_instance.grid['wet_mask_TH'][:],
-					  model_instance.grid['dxC'][:],))
-	      self[output_field] = np.nan_to_num(d_dx)
+            d_dx = (self.numerics_take_d_dx(rho[:],model_instance.grid['wet_mask_TH'][:],
+                                            model_instance.grid['dxC'][:],))
+            self[output_field] = np.nan_to_num(d_dx)
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
     
     def numerics_take_d_dx(self,rho,wet_mask_TH,dxC):
-	  
-	  d_dx = np.zeros((rho.shape))
-	  
-	  i = 0
-	  d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
-	  i = rho.shape[2]-1
-	  d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
-	  
-	  for i in xrange(1,rho.shape[2]-1):
-	      d_dx[:,:,i] = (wet_mask_TH[:,:,i]*
-		    (wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
-		    (1 - wet_mask_TH[:,:,i+1])*rho[:,:,i] - 
-		    (1 - wet_mask_TH[:,:,i-1])*rho[:,:,i] - 
-		    wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
-		    wet_mask_TH[:,:,i-1]*dxC[:,i] + 
-		    wet_mask_TH[:,:,i+1]*dxC[:,i+1]))
 
-	  
-	  return d_dx
+        d_dx = np.zeros((rho.shape))
+
+        i = 0
+        d_dx[:,:,i] = (rho[:,:,i+1] - rho[:,:,i])/(dxC[:,i+1])
+        i = rho.shape[2]-1
+        d_dx[:,:,i] = (rho[:,:,i] - rho[:,:,i-1])/(dxC[:,i])
+
+        for i in xrange(1,rho.shape[2]-1):
+            d_dx[:,:,i] = (wet_mask_TH[:,:,i]*
+                            (wet_mask_TH[:,:,i+1]*rho[:,:,i+1] + 
+                            (1 - wet_mask_TH[:,:,i+1])*rho[:,:,i] - 
+                            (1 - wet_mask_TH[:,:,i-1])*rho[:,:,i] - 
+                            wet_mask_TH[:,:,i-1]*rho[:,:,i-1])/(
+                            wet_mask_TH[:,:,i-1]*dxC[:,i] + 
+                            wet_mask_TH[:,:,i+1]*dxC[:,i+1]))
+        return d_dx
 
 
     def take_d_dy(self,model_instance,input_field = 'RHO',output_field='dRHO_dy'):
@@ -496,35 +489,33 @@ class Tracerpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    #np.seterr(divide='ignore')
+        #np.seterr(divide='ignore')
 
             self[output_field] = np.nan_to_num(self.numerics_take_d_dy(self[input_field][:],model_instance.grid['wet_mask_TH'][:],
-					  model_instance.grid['dyC'][:]))
+                                                 model_instance.grid['dyC'][:]))
         else:
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
         
     def numerics_take_d_dy(self,rho,wet_mask_TH,dyC):
         """The numerical bit of taking the y derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
-	
-	d_dy = np.zeros((rho.shape))
+
+        d_dy = np.zeros((rho.shape))
             
-    	j = 0
-    	d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
-    	j = rho.shape[1]-1
-    	d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
-    	
-    	for j in xrange(1,rho.shape[1]-1):
-    	   d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
-    			    (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
-    			    (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
-    			    (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
-    			    wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
-    			    wet_mask_TH[:,j-1,:]*dyC[j,:] + 
-    			    wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
+        j = 0
+        d_dy[:,j,:] = (rho[:,j+1,:] - rho[:,j,:])/(dyC[j+1,:])
+        j = rho.shape[1]-1
+        d_dy[:,j,:] = (rho[:,j,:] - rho[:,j-1,:])/(dyC[j,:])
 
-
-    	return d_dy
+        for j in xrange(1,rho.shape[1]-1):
+           d_dy[:,j,:] = (wet_mask_TH[:,j,:]*
+                            (wet_mask_TH[:,j+1,:]*rho[:,j+1,:] + 
+                            (1 - wet_mask_TH[:,j+1,:])*rho[:,j,:] - 
+                            (1 - wet_mask_TH[:,j-1,:])*rho[:,j,:] - 
+                            wet_mask_TH[:,j-1,:]*rho[:,j-1,:])/(
+                            wet_mask_TH[:,j-1,:]*dyC[j,:] + 
+                            wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
+        return d_dy
 
 
     
@@ -536,7 +527,7 @@ class Tracerpoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             rho = self[input_field]
             d_dz = np.zeros((rho.shape))
 
@@ -547,10 +538,10 @@ class Tracerpoint_field(MITgcm_Simulation):
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*rho[k+1,:,:])/(model_instance.grid['drC'][k] +
                                     model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
-                k = 0
-                d_dz[k,:,:] = (rho[k,:,:] - rho[k+1,:,:])/(model_instance.grid['drC'][k+1])
-                k = rho.shape[0]-1
-                d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid['drC'][k])
+            k = 0
+            d_dz[k,:,:] = (rho[k,:,:] - rho[k+1,:,:])/(model_instance.grid['drC'][k+1])
+            k = rho.shape[0]-1
+            d_dz[k,:,:] = (rho[k-1,:,:] - rho[k,:,:])/(model_instance.grid['drC'][k])
 
             self[output_field] = np.nan_to_num(d_dz)
         else:
@@ -562,14 +553,14 @@ class Tracerpoint_field(MITgcm_Simulation):
 class Vorticitypoint_field(MITgcm_Simulation):  
     """A class for fields on vorticity points."""
     def __init__(self,netcdf_filename,variable,time_level,empty=False):
-	if empty:
-	  pass
-	else:
-	  self.load_field(netcdf_filename,variable,time_level)
+        if empty:
+            pass
+        else:
+            self.load_field(netcdf_filename,variable,time_level)
 
-	return
-	
-	    
+        return
+
+        
     def take_d_dx(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dx'):
         """ Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
 
@@ -578,7 +569,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             momVort3 = self[input_field]
             dmomVort3_dx = np.zeros((momVort3.shape))
 
@@ -609,7 +600,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         they should be)."""
 
         if input_field in self:
-	    np.seterr(divide='ignore')
+            np.seterr(divide='ignore')
             momVort3 = self[input_field]
             dmomVort3_dy = np.zeros((momVort3.shape))
 
@@ -631,34 +622,34 @@ class Vorticitypoint_field(MITgcm_Simulation):
             raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
         return
 
-        def take_d_dz(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dz'):
-            """ Take the z derivative of the field given on vorticity-points, using the spacings in grid object.
+    def take_d_dz(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dz'):
+        """ Take the z derivative of the field given on vorticity-points, using the spacings in grid object.
 
-            Performs centred second-order differencing everywhere except next to boundaries. First order is 
-            used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
-            they should be)."""
+        Performs centred second-order differencing everywhere except next to boundaries. First order is 
+        used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
+        they should be)."""
 
-            if input_field in self:
-		np.seterr(divide='ignore')
-		momVort3 = self[input_field]
-		d_dz = np.zeros((momVort3.shape))
+        if input_field in self:
+            np.seterr(divide='ignore')
+            momVort3 = self[input_field]
+            d_dz = np.zeros((momVort3.shape))
 
-		for k in xrange(1,momVort3.shape[0]-1):
-		    # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
-		    d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(momVort3[k-1,:,:]  -
-					(1-model_instance.grid['wet_mask_TH'][k+1,:,:])*momVort3[k,:,:]-
-					model_instance.grid['wet_mask_TH'][k+1,:,:]*momVort3[k+1,:,:])/(model_instance.grid['drC'][k] +
-					model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
+            for k in xrange(1,momVort3.shape[0]-1):
+            # model doesn't have overhangs, so only need this to work with fluid above and bathymetry below.
+                d_dz[k,:,:] = np.nan_to_num(model_instance.grid['wet_mask_TH'][k,:,:]*(momVort3[k-1,:,:]  -
+            		(1-model_instance.grid['wet_mask_TH'][k+1,:,:])*momVort3[k,:,:]-
+            		model_instance.grid['wet_mask_TH'][k+1,:,:]*momVort3[k+1,:,:])/(model_instance.grid['drC'][k] +
+            		model_instance.grid['wet_mask_TH'][k+1,:,:]*model_instance.grid['drC'][k+1]))
 
-		    k = 0
-		    d_dz[k,:,:] = (momVort3[k,:,:] - momVort3[k+1,:,:])/(model_instance.grid['drC'][k+1])
-		    k = momVort3.shape[0]-1
-		    d_dz[k,:,:] = (momVort3[k-1,:,:] - momVort3[k,:,:])/(model_instance.grid['drC'][k])
+            k = 0
+            d_dz[k,:,:] = (momVort3[k,:,:] - momVort3[k+1,:,:])/(model_instance.grid['drC'][k+1])
+            k = momVort3.shape[0]-1
+            d_dz[k,:,:] = (momVort3[k-1,:,:] - momVort3[k,:,:])/(model_instance.grid['drC'][k])
 
-		self[output_field] = d_dz
-            else:
-                raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
-            return 
+            self[output_field] = d_dz
+        else:
+            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+        return 
 
 
 
@@ -666,7 +657,7 @@ class Grid(MITgcm_Simulation):
     """This defines the class for the grid object. 
 
     This object holds all the information about the grid on which the simulation was run. It also holds masks for selecting only the boundary values of fields on the tracer points. 
-	"""
+    """
 
     def __init__(self, grid_netcdf_filename):
         """Define a single object that has all of the grid variables tucked away in it. 
@@ -712,9 +703,9 @@ class Grid(MITgcm_Simulation):
         self['wet_mask_W'] = np.append(self['wet_mask_TH'],np.ones((1,len(self['Y'][:]),len(self['X'][:]))),axis=0)
 
         self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
-        								self['drF'][:].reshape((len(self['drF'][:]),1,1)))
+                                    self['drF'][:].reshape((len(self['drF'][:]),1,1)))
 
-        self.compute_masks(self,self['wet_mask_TH'][:])
+        self.compute_masks(self['wet_mask_TH'][:])
                         
         return
         
@@ -787,17 +778,18 @@ class Density(Tracerpoint_field):
             self['RhoNil'] = RhoNil
             self.calculate_density(model_instance,Talpha,Sbeta,RhoNil,cp,
                                     temp_field,salt_field,density_field,Tref,Sref)
-		  
+
+
     def calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
-		  temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
+          temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
         """Cacluate density field given temperature and salinity fields, using the linear equation of state."""
         if model_instance['EOS_type'] == 'linear':
             if Sbeta == 0:
                 self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
-        	    + RhoNil)
+                + RhoNil)
             else:
                 self[density_field] = (RhoNil*( Sbeta*(model_instance.salinity[salt_field] - Sref) - Talpha*(model_instance.temperature[temp_field] - Tref)) 
-        	    + RhoNil)
+                + RhoNil)
                 print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
         else:
           raise ValueError('Only linear EOS supported at the moment. Sorry.')
@@ -860,7 +852,7 @@ class Pressure(Tracerpoint_field):
     
 class Vorticity(Vorticitypoint_field):
     """Class for vorticity point fields."""
-    def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=0,empty=False):
+    def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=-1,empty=False):
         if empty:
             pass
         else:
@@ -874,7 +866,43 @@ class Potential_vorticity(Tracerpoint_field):
 
         
 def show_variables(netcdf_filename):
-  """A shortcut function to display all of the variables contained within a netcdf file."""
-  netcdf_file = netCDF4.Dataset(netcdf_filename)
-  print netcdf_file.variables.keys()
-  netcdf_file.close()
+    """A shortcut function to display all of the variables contained within a netcdf file."""
+    netcdf_file = netCDF4.Dataset(netcdf_filename)
+    print netcdf_file.variables.keys()
+    netcdf_file.close()
+
+
+  
+  
+def plt_mon_stats(netcdf_filename,
+                    variables=['advcfl_uvel_max','advcfl_vvel_max','advcfl_wvel_max'],
+                    time_units='days'):
+    """Plot some monitor file variables. 
+    
+    Options include:
+    advcfl_uvel_max
+    advcfl_vvel_max
+    advcfl_wvel_max
+    ke_mean
+    dynstat_theta_mean
+    dynstat_sst_mean
+    dynstat_sst_sd
+    dynstat_salt_max
+    dynstat_salt_min
+    ...
+    and many others.
+    
+    """
+    monitor_output = netCDF4.MFDataset(netcdf_filename)
+    
+    if time_units == 'days':
+        time = monitor_output.variables['time_secondsf'][:]/(86400)
+    elif time_units == 'years':
+        time = monitor_output.variables['time_secondsf'][:]/(86400*365)
+    else:
+        raise ValueError(str(time_units) + ' is not a valid option for time_units')
+
+    for stat in variables:
+        plt.plot(time,monitor_output.variables[stat][:],label=stat)
+    plt.xlabel('Model '+ time_units)
+    plt.legend()
