@@ -118,17 +118,17 @@ def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
     """This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
     matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the
     values of input_field at the location specified by surf_loc_array along the third dimension using
-    the values for that axis contained in 'axis_values'
+    the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.
     
     direction: optional argument to specify which direction the axis increases in. Default is up
 
     """
     
-    if np.max(surf_loc_array) > np.max(axis_values):
-        print 'At least one value in surf_loc_array is larger than the largest value in axis_values'
+    #if np.max(surf_loc_array) > np.max(axis_values):
+    #    print 'At least one value in surf_loc_array is larger than the largest value in axis_values'
         
-    if np.min(surf_loc_array) < np.min(axis_values):
-        print 'At least one value in surf_loc_array is smaller than the smallest value in axis_values'
+    #if np.min(surf_loc_array) < np.min(axis_values):
+    #    print 'At least one value in surf_loc_array is smaller than the smallest value in axis_values'
         
     if not (all(np.diff(axis_values))<0 or all(np.diff(axis_values))>0):
         print 'axis_vector is not monotonic. This is a problem.'
