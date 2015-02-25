@@ -823,7 +823,7 @@ class Bernoulli(Tracerpoint_field):
     """
     def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
         self['BP'] = model_instance.grid['wet_mask_TH']*(((model_instance.pressure['P'][:,:,:] + 
-                 model_instance.grid['Z'][:].reshape((40,1,1))*
+                 model_instance.grid['Z'][:].reshape((len(model_instance.grid['Z'][:]),1,1))*
                                     model_instance.density[density_field][:,:,:]*model_instance['g'])/
                  model_instance.density['RhoNil']) + 
                  ((model_instance.zonal_velocity[UVEL_field][:,:,1:]*model_instance.zonal_velocity[UVEL_field][:,:,1:] + 
@@ -838,7 +838,8 @@ class Pressure(Tracerpoint_field):
 
         # derive the hydrostatic pressure
         delta_P = np.zeros((np.shape(model_instance.density[density_field])))
-        delta_P[:,:,:] = model_instance['g']*model_instance.density[density_field][:,:,:]*model_instance.grid['drF'][:].reshape(40,1,1);
+        delta_P[:,:,:] = (model_instance['g']*model_instance.density[density_field][:,:,:]*
+                            model_instance.grid['drF'][:].reshape(len(model_instance.grid['drF'][:]),1,1))
         
     
         # add free surface contribution
