@@ -211,17 +211,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;This function takes an 3 dimensional matrix &#39;input_field&#39; and an 2 dimensional</span></div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral">    matrix &#39;surf_loc_array&#39; and returns a 2 dimensional matrix that contains the</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">    values of input_field at the location specified by surf_loc_array along the third dimension using</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">    the values for that axis contained in &#39;axis_values&#39;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">    the values for that axis contained in &#39;axis_values&#39;. Linear interpolation is used to find the values.</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">    </span></div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">    direction: optional argument to specify which direction the axis increases in. Default is up</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">if</span> np.max(surf_loc_array) &gt; np.max(axis_values):</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&#39;At least one value in surf_loc_array is larger than the largest value in axis_values&#39;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">#if np.max(surf_loc_array) &gt; np.max(axis_values):</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">#    print &#39;At least one value in surf_loc_array is larger than the largest value in axis_values&#39;</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">if</span> np.min(surf_loc_array) &lt; np.min(axis_values):</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&#39;At least one value in surf_loc_array is smaller than the smallest value in axis_values&#39;</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">#if np.min(surf_loc_array) &lt; np.min(axis_values):</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">#    print &#39;At least one value in surf_loc_array is smaller than the smallest value in axis_values&#39;</span></div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        </div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> (all(np.diff(axis_values))&lt;0 <span class="keywordflow">or</span> all(np.diff(axis_values))&gt;0):</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&#39;axis_vector is not monotonic. This is a problem.&#39;</span></div>
@@ -339,7 +339,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 25 2015 23:02:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 25 2015 23:26:21 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
