@@ -13,13 +13,14 @@ Open index.html with a web browser (it's in Docs/html), or click [here](http://e
 
 
 ##To use##
-Import the module:
+Import the module and instantiate a simulation object:
 
+```
+#!numpy
 import mitgcm
 
-Instantiate a simulation object:
-
 m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
+```
 
-
-The rest should be clear from the example, which can be viewed online [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).
+##An example!##
+The example notebook, which can be viewed online [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster) or found in the examples/ folder, shows how to use some of the functions in this package. There are others, some of which aren't included because they need access to large datasets, and some which aren't included because it's not (yet) a comprehensive example.
