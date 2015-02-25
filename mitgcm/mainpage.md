@@ -17,16 +17,10 @@ You're now ready to install this package. Navigate to the directory it is in and
 python setup.py install
 
 
-##To read the documentation##
-Open index.html with a web browser (it's in Docs/html). From there, you should be able to navigate it on your own.
-
-
 ##To use##
-Import the module:
+Import the module and instantiate a simulation object:
 
 import mitgcm
-
-Instantiate a simulation object:
 
 m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
 
@@ -38,8 +32,9 @@ An example ipython notebook, and the data it relies on, are in the examples fold
 
 ##Revision History##
 January 2015:
-Added documentation
+ * Added documentation
 
 February 2015:
-Added streamline and streakline algorithms
+ * Added streamline and streakline algorithms
+ * v0.1 tagged
 
