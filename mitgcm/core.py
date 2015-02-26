@@ -441,7 +441,7 @@ class Tracerpoint_field(MITgcm_Simulation):
         if empty:
             pass
         else:
-            self.load_field(netcdf_filename,variable,time_level=-1)
+            self.load_field(netcdf_filename,variable,time_level)
         return
         
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
