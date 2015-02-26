@@ -9,6 +9,7 @@ import netCDF4
 import copy
 import os
 import numba
+import matplotlib.pyplot as plt
 
     
 class MITgcm_Simulation(dict):
@@ -200,12 +201,12 @@ class Upoint_field(MITgcm_Simulation):
 class Vpoint_field(MITgcm_Simulation):
     """ This is the class for all fields on meridional velocity points."""
 
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+    def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         """Instantiate a field on the meridional velocity points."""
         if empty:
             pass
         else:
-            self.load_field(netcdf_filename,variable,time_level=-1)
+            self.load_field(netcdf_filename,variable,time_level)
 
         return
     
@@ -305,7 +306,7 @@ class Vpoint_field(MITgcm_Simulation):
 class Wpoint_field(MITgcm_Simulation):
     """ This is the class for all fields on vertical velocity points."""
 
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+    def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         if empty:
             pass
         else:
@@ -552,7 +553,7 @@ class Tracerpoint_field(MITgcm_Simulation):
     
 class Vorticitypoint_field(MITgcm_Simulation):  
     """A class for fields on vorticity points."""
-    def __init__(self,netcdf_filename,variable,time_level,empty=False):
+    def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         if empty:
             pass
         else:
@@ -811,26 +812,25 @@ class Density(Tracerpoint_field):
             raise ValueError('Only liner EOS supported at the moment.')
 
             
-##The Bernoulli field, evaluated from velocity, pressure and density.
-#\f[
-#BP = P + \rho g z + \frac{\mathbf{u} \cdot \mathbf{u}}{2}
-#\f]        
+    
 class Bernoulli(Tracerpoint_field):
     """The Bernoulli field, evaluated from velocity, pressure and density.
     \f[
-    BP = P + \rho g z + \frac{\mathbf{u} \cdot \mathbf{u}}{2}
+    BP = \dfrac{P}{\rho_{0}} +  g z + \dfrac{\mathbf{u} \cdot \mathbf{u}}{2}
     \f]
     """
     def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
-        self['BP'] = model_instance.grid['wet_mask_TH']*(((model_instance.pressure['P'][:,:,:] + 
-                 model_instance.grid['Z'][:].reshape((len(model_instance.grid['Z'][:]),1,1))*
-                                    model_instance.density[density_field][:,:,:]*model_instance['g'])/
-                 model_instance.density['RhoNil']) + 
-                 ((model_instance.zonal_velocity[UVEL_field][:,:,1:]*model_instance.zonal_velocity[UVEL_field][:,:,1:] + 
-                 model_instance.zonal_velocity[UVEL_field][:,:,:-1]*model_instance.zonal_velocity[UVEL_field][:,:,:-1])/2 + 
-                 (model_instance.meridional_velocity[VVEL_field][:,1:,:]*model_instance.meridional_velocity[VVEL_field][:,1:,:] + 
-                 model_instance.meridional_velocity[VVEL_field][:,:-1,:]*model_instance.meridional_velocity[VVEL_field][:,:-1,:])/2)/2)
+        BP_pressure = ((model_instance.pressure['P'][:,:,:]/model_instance.density['RhoNil'] + 
+                 model_instance.grid['Z'][:].reshape((len(model_instance.grid['Z'][:]),1,1))*model_instance['g']))
 
+        BP_u = (model_instance.zonal_velocity[UVEL_field][:,:,1:]*model_instance.zonal_velocity[UVEL_field][:,:,1:] + 
+                 model_instance.zonal_velocity[UVEL_field][:,:,:-1]*model_instance.zonal_velocity[UVEL_field][:,:,:-1])/2
+
+        BP_v = (model_instance.meridional_velocity[VVEL_field][:,1:,:]*model_instance.meridional_velocity[VVEL_field][:,1:,:] + 
+                 model_instance.meridional_velocity[VVEL_field][:,:-1,:]*model_instance.meridional_velocity[VVEL_field][:,:-1,:])/2
+
+        self['BP'] = model_instance.grid['wet_mask_TH'][:]*(BP_pressure + (BP_u + BP_v)/2)
+        # decomposition into three components suggested by Craig.
         
 class Pressure(Tracerpoint_field):
     """Calculates the pressure field from the density field and the hydrostatic approximation."""
