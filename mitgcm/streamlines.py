@@ -76,23 +76,23 @@ def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_
 def stream3(u,v,w,
             startx,starty,startz,
             x_u,y_u,z_u,
-            x_v=None,y_v=None,z_v=None,
-            x_w=None,y_w=None,z_w=None,
+            x_v='None',y_v='None',z_v='None',
+            x_w='None',y_w='None',z_w='None',
             t_int=2592000,delta_t=3600):
     """A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
     """
-    if x_v == None:
+    if x_v == 'None':
         x_v = x_u
-    if y_v == None:
+    if y_v == 'None':
         y_v = y_u
-    if z_v == None:
+    if z_v == 'None':
         z_v = z_u
 
-    if x_w == None:
+    if x_w == 'None':
         x_w = x_u
-    if y_w == None:
+    if y_w == 'None':
         y_w = y_u
-    if z_w == None:
+    if z_w == 'None':
         z_w = z_u
         
     len_x_u = len(x_u)
