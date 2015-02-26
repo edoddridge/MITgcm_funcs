@@ -15,13 +15,17 @@ import netCDF4
 import numba
 
 
-def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_t=3600,interpolation='bilinear'):
+def stream2(u,v,
+            startx,starty,
+            grid_object,
+            t_int=2592000,delta_t=3600):
     """A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
     """
-    if x_v == 'None':
-        x_v = x_u
-    if y_v == 'None':
-        y_v = y_u
+    x_u = grid_object['Xp1'][:]
+    y_u = grid_object['Y'][:]
+
+    x_v = grid_object['X'][:]
+    y_v = grid_object['Yp1'][:]
 
     len_x_u = len(x_u)
     len_y_u = len(y_u)
@@ -75,25 +79,23 @@ def stream2(u,v,startx,starty,x_u,y_u,x_v='None',y_v='None',t_int=2592000,delta_
 
 def stream3(u,v,w,
             startx,starty,startz,
-            x_u,y_u,z_u,
+            grid_object,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
             t_int=2592000,delta_t=3600):
     """A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
     """
-    if x_v == 'None':
-        x_v = x_u
-    if y_v == 'None':
-        y_v = y_u
-    if z_v == 'None':
-        z_v = z_u
+    x_u = grid_object['Xp1'][:]
+    y_u = grid_object['Y'][:]
+    z_u = grid_object['Z'][:]
 
-    if x_w == 'None':
-        x_w = x_u
-    if y_w == 'None':
-        y_w = y_u
-    if z_w == 'None':
-        z_w = z_u
+    x_v = grid_object['X'][:]
+    y_v = grid_object['Yp1'][:]
+    z_v = grid_object['Z'][:]
+
+    x_w = grid_object['X'][:]
+    y_w = grid_object['Y'][:]
+    z_w = grid_object['Zl'][:]
         
     len_x_u = len(x_u)
     len_y_u = len(y_u)
@@ -165,9 +167,7 @@ def stream3(u,v,w,
 def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             startx,starty,startz,startt,
             t,
-            x_u,y_u,z_u,
-            x_v='None',y_v='None',z_v='None',
-            x_w='None',y_w='None',z_w='None',            
+            grid_object,            
             u_netcdf_variable='UVEL',
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
@@ -181,24 +181,23 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     ?_netcdf_filename = name of the netcdf file with ?'s data in it.
     start? = intial value for x, y, z, or t.
     t = vector of time levels that are contained in the velocity data.
-    x_?,y_?,z_? = x,y,z axis for ? velocties - "?" represents one of U, V, W
+    grid_object is m.grid if you followed the standard naming conventions.
     ?_netcdf_variable = name of the "?" variable field in the netcdf file.
     t_int = length of time to track particles for, in seconds
     delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     """
-    if x_v == 'None':
-        x_v = x_u
-    if y_v == 'None':
-        y_v = y_u
-    if z_v == 'None':
-        z_v = z_u
 
-    if x_w == 'None':
-        x_w = x_u
-    if y_w == 'None':
-        y_w = y_u
-    if z_w == 'None':
-        z_w = z_u
+    x_u = grid_object['Xp1'][:]
+    y_u = grid_object['Y'][:]
+    z_u = grid_object['Z'][:]
+
+    x_v = grid_object['X'][:]
+    y_v = grid_object['Yp1'][:]
+    z_v = grid_object['Z'][:]
+
+    x_w = grid_object['X'][:]
+    y_w = grid_object['Y'][:]
+    z_w = grid_object['Zl'][:]
 
     len_x_u = len(x_u)
     len_y_u = len(y_u)
