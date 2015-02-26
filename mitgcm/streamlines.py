@@ -173,6 +173,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             w_netcdf_variable='WVEL',
             t_int=3.1e5,delta_t=3600):
     """A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
+    It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been tested yet.
     
     Because this is a very large amount of data, the fields are passed as netcdffile handles.
     
