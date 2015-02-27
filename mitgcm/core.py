@@ -55,7 +55,7 @@ class MITgcm_Simulation(dict):
     	    netcdf_file.close()
 
         self[field_name] = loaded_field
-        return loaded_field
+        return 
 
        
     def __add__(self,other):
