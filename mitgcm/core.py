@@ -1,7 +1,10 @@
-"""Core
+"""!
+The main file with the class definitions
+
+Core
 ==============
 
-This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons.
+This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons. It also has some functions that might be of use.
 """
 
 import numpy as np
@@ -13,11 +16,11 @@ import matplotlib.pyplot as plt
 
     
 class MITgcm_Simulation(dict):
-    """The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
+    """!The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
 
     """
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8):
-        """Instantiate an MITgcm model instance."""
+        """!Instantiate an MITgcm model instance."""
         
         os.chdir(output_dir)
         self['output_dir'] = output_dir
@@ -32,12 +35,12 @@ class MITgcm_Simulation(dict):
             
 
     def load_field(self,netcdf_filename,variable,time_level=-1,field_name=None):
-        """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
+        """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         if field_name == None:
-	  field_name = variable
-	  
+            field_name = variable
+
         if time_level == 'All':
 	    print 'Loading all available time levels in ' + str(variable) + '. This could take a while.'
             netcdf_file = netCDF4.Dataset(netcdf_filename)
@@ -52,10 +55,11 @@ class MITgcm_Simulation(dict):
     	    netcdf_file.close()
 
         self[field_name] = loaded_field
-        return
+        return loaded_field
+
        
     def __add__(self,other):
-        """A method that allows model objects to be added together. It does element wise addition for each of the fields."""
+        """!A method that allows model objects to be added together. It does element wise addition for each of the fields."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
             for key1, value1 in other.__dict__.iteritems():
@@ -64,28 +68,28 @@ class MITgcm_Simulation(dict):
         return me
 
     def __div__(self,other):
-        """ A method that allows model objects to be divided by floating point numbers."""
+        """!A method that allows model objects to be divided by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value/float(other))
         return me
 
     def __mul__(self, other):
-        """ A method that allows model objects to be multiplied by floating point numbers."""
+        """! A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
         return me
 
     def __rmul__(self, other):
-        """ A method that allows model objects to be multiplied by floating point numbers."""
+        """! A method that allows model objects to be multiplied by floating point numbers."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
         return me
 
 class Upoint_field(MITgcm_Simulation):
-    """ This is the class for all fields on zonal velocity points."""
+    """! This is the class for all fields on zonal velocity points."""
     
     def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
 	if empty:
@@ -97,7 +101,7 @@ class Upoint_field(MITgcm_Simulation):
     
     ### Derivatives of model fields    
     def take_d_dx(self,model_instance,input_field = 'UVEL',output_field='dU_dx'):
-        """ Take the x derivative of the field given on u-points, using the spacings in grid object.
+        """! Take the x derivative of the field given on u-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -131,7 +135,7 @@ class Upoint_field(MITgcm_Simulation):
     
 
     def take_d_dy(self,model_instance,input_field = 'UVEL',output_field='dU_dy'):
-        """ Take the y derivative of the field on u points, using the spacings provided.
+        """! Take the y derivative of the field on u points, using the spacings provided.
 
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
@@ -170,7 +174,7 @@ class Upoint_field(MITgcm_Simulation):
    
             
     def take_d_dz(self,model_instance,input_field = 'UVEL',output_field='dU_dz'):
-        """ Take the z derivative of the field given on u-points, using the spacings in grid object.
+        """! Take the z derivative of the field given on u-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -199,10 +203,10 @@ class Upoint_field(MITgcm_Simulation):
         return 
 
 class Vpoint_field(MITgcm_Simulation):
-    """ This is the class for all fields on meridional velocity points."""
+    """! This is the class for all fields on meridional velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
-        """Instantiate a field on the meridional velocity points."""
+        """!Instantiate a field on the meridional velocity points."""
         if empty:
             pass
         else:
@@ -212,7 +216,7 @@ class Vpoint_field(MITgcm_Simulation):
     
     
     def take_d_dx(self,model_instance,input_field = 'VVEL',output_field='dV_dx'):
-        """Take the x derivative of the field on v points using the spacings in model_instance.grid object.
+        """!Take the x derivative of the field on v points using the spacings in model_instance.grid object.
         
         This function can be daisy-chained to get higher order derivatives.
 
@@ -244,7 +248,7 @@ class Vpoint_field(MITgcm_Simulation):
         return
 
     def take_d_dy(self,model_instance,input_field = 'VVEL',output_field='dV_dy'):
-        """ Take the y derivative of the field given on v-points, using the spacings in grid object.
+        """! Take the y derivative of the field given on v-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -275,7 +279,7 @@ class Vpoint_field(MITgcm_Simulation):
     
     
     def take_d_dz(self,model_instance,input_field = 'VVEL',output_field='dV_dz'):
-        """ Take the z derivative of the field given on v-points, using the spacings in grid object.
+        """! Take the z derivative of the field given on v-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -304,7 +308,7 @@ class Vpoint_field(MITgcm_Simulation):
         return
     
 class Wpoint_field(MITgcm_Simulation):
-    """ This is the class for all fields on vertical velocity points."""
+    """! This is the class for all fields on vertical velocity points."""
 
     def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         if empty:
@@ -315,7 +319,7 @@ class Wpoint_field(MITgcm_Simulation):
         return
     
     def load_field(self,netcdf_filename,variable,time_level=-1,field_name=None):
-        """ Load a model field from NetCDF output. This function associates the field with the object it is called on.
+        """! Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
         if field_name == None:
@@ -340,7 +344,7 @@ class Wpoint_field(MITgcm_Simulation):
         return
     
     def take_d_dx(self,model_instance,input_field = 'WVEL',output_field='dW_dx'):
-        """Take the x derivative of the field on w points, using spacings in grid object.
+        """!Take the x derivative of the field on w points, using spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -372,7 +376,7 @@ class Wpoint_field(MITgcm_Simulation):
 
 
     def take_d_dy(self,model_instance,input_field = 'WVEL',output_field='dW_dy'):
-        """Take the y derivative of the field on w points, using spacings in grid object.
+        """!Take the y derivative of the field on w points, using spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -403,7 +407,7 @@ class Wpoint_field(MITgcm_Simulation):
         return 
 
     def take_d_dz(self,model_instance,input_field = 'WVEL',output_field='dW_dz'):
-        """ Take the z derivative of the field given on w-points, using the spacings in grid object.
+        """! Take the z derivative of the field given on w-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -436,7 +440,7 @@ class Wpoint_field(MITgcm_Simulation):
 
 
 class Tracerpoint_field(MITgcm_Simulation):  
-    """This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
+    """!This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
     def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         if empty:
             pass
@@ -445,7 +449,7 @@ class Tracerpoint_field(MITgcm_Simulation):
         return
         
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
-        """Take the x derivative of the field on tracer points, using spacings in grid object.
+        """!Take the x derivative of the field on tracer points, using spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -483,7 +487,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
 
     def take_d_dy(self,model_instance,input_field = 'RHO',output_field='dRHO_dy'):
-        """Take the y derivative of the field on tracer points, using spacings in grid object.
+        """!Take the y derivative of the field on tracer points, using spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -499,7 +503,7 @@ class Tracerpoint_field(MITgcm_Simulation):
         return  
         
     def numerics_take_d_dy(self,rho,wet_mask_TH,dyC):
-        """The numerical bit of taking the y derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
+        """!The numerical bit of taking the y derivative. This has been separated out so that it can be accelerated with numba, but that isn't working yet."""
 
         d_dy = np.zeros((rho.shape))
             
@@ -518,10 +522,9 @@ class Tracerpoint_field(MITgcm_Simulation):
                             wet_mask_TH[:,j+1,:]*dyC[j+1,:]))
         return d_dy
 
-
     
     def take_d_dz(self,model_instance,input_field = 'RHO',output_field='dRHO_dz'):
-        """ Take the z derivative of the field given on tracer-points, using the spacings in grid object.
+        """! Take the z derivative of the field given on tracer-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -552,7 +555,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
     
 class Vorticitypoint_field(MITgcm_Simulation):  
-    """A class for fields on vorticity points."""
+    """!A class for fields on vorticity points."""
     def __init__(self,netcdf_filename,variable,time_level=-1,empty=False):
         if empty:
             pass
@@ -563,7 +566,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
         
     def take_d_dx(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dx'):
-        """ Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
+        """! Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -594,7 +597,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         return 
 
     def take_d_dy(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dy'):
-        """ Take the y derivative of the field given on vorticity-points, using the spacings in grid object.
+        """! Take the y derivative of the field given on vorticity-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -624,7 +627,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
         return
 
     def take_d_dz(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dz'):
-        """ Take the z derivative of the field given on vorticity-points, using the spacings in grid object.
+        """! Take the z derivative of the field given on vorticity-points, using the spacings in grid object.
 
         Performs centred second-order differencing everywhere except next to boundaries. First order is 
         used there (meaning the gradients at the boundary are evaluated half a grid point away from where 
@@ -653,15 +656,25 @@ class Vorticitypoint_field(MITgcm_Simulation):
         return 
 
 
+class Vorticity(Vorticitypoint_field):
+    """!Class for vorticity fields"""
+    def __init__(self,model_instance,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=-1,empty=False):
+        if empty:
+            pass
+        else:
+            model_instance.vorticity = self.load_field(netcdf_filename,variable,time_level)
+        return
+
+
 
 class Grid(MITgcm_Simulation):
-    """This defines the class for the grid object. 
+    """!This defines the class for the grid object. 
 
     This object holds all the information about the grid on which the simulation was run. It also holds masks for selecting only the boundary values of fields on the tracer points. 
     """
 
     def __init__(self, grid_netcdf_filename):
-        """Define a single object that has all of the grid variables tucked away in it. 
+        """!Define a single object that has all of the grid variables tucked away in it. 
         Each of the variables pulled directly from the netcdf file still has the 
         original description attached to it. The 2D and 3D arrays do not."""
         grid_netcdf_file = netCDF4.Dataset(grid_netcdf_filename)
@@ -712,7 +725,7 @@ class Grid(MITgcm_Simulation):
         
     @numba.jit        
     def compute_masks(self,wet_mask_TH):
-        """This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
+        """!This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
         west_mask = np.zeros((wet_mask_TH.shape))
         east_mask = np.zeros((wet_mask_TH.shape))
         south_mask = np.zeros((wet_mask_TH.shape))
@@ -757,7 +770,7 @@ class Grid(MITgcm_Simulation):
         
 
 class Density(Tracerpoint_field):
-    """A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment.
+    """!A tracer point field that contains methods for density fields. Only linear equation of state with temperature variations is supported at the moment.
 
     The linear equation of state is given by
 
@@ -783,7 +796,7 @@ class Density(Tracerpoint_field):
 
     def calculate_density(self,model_instance,Talpha=2e-4,Sbeta=0,RhoNil=1035,cp=4000,
           temp_field='THETA',salt_field='S',density_field='RHO',Tref=20,Sref=30):
-        """Cacluate density field given temperature and salinity fields, using the linear equation of state."""
+        """!Cacluate Density field given temperature and salinity fields, using the linear equation of state."""
         if model_instance['EOS_type'] == 'linear':
             if Sbeta == 0:
                 self[density_field] = (RhoNil*( -Talpha*(model_instance.temperature[temp_field] - Tref)) 
@@ -796,7 +809,7 @@ class Density(Tracerpoint_field):
           raise ValueError('Only linear EOS supported at the moment. Sorry.')
 
     def calculate_TotRhoTend(self,model_instance):
-        """Calculate time rate of change of the density field from the temperature tendency and the linear equation of state.
+        """!Calculate time rate of change of the Density field from the temperature tendency and the linear equation of state.
 
         Differentiating the linear equation of state with respect to temperature, and assuming \f$ \beta_{S} \f$ equals zero, gives
         \f[
@@ -814,9 +827,9 @@ class Density(Tracerpoint_field):
             
     
 class Bernoulli(Tracerpoint_field):
-    """The Bernoulli field, evaluated from velocity, pressure and density.
+    """!The Bernoulli field, evaluated from velocity, Pressure and Density.
     \f[
-    BP = \dfrac{P}{\rho_{0}} +  g z + \dfrac{\mathbf{u} \cdot \mathbf{u}}{2}
+    BP = \frac{P}{\rho_{0}} +  g z + \frac{u^{2} + v^{2}}{2}
     \f]
     """
     def __init__(self,model_instance,density_field='RHO',UVEL_field='UVEL',VVEL_field='VVEL'):
@@ -833,7 +846,7 @@ class Bernoulli(Tracerpoint_field):
         # decomposition into three components suggested by Craig.
         
 class Pressure(Tracerpoint_field):
-    """Calculates the pressure field from the density field and the hydrostatic approximation."""
+    """!Calculates the pressure field from the density field using the hydrostatic approximation."""
     def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN'):
 
         # derive the hydrostatic pressure
@@ -851,23 +864,16 @@ class Pressure(Tracerpoint_field):
         
         return
     
-class Vorticity(Vorticitypoint_field):
-    """Class for vorticity point fields."""
-    def __init__(self,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=-1,empty=False):
-        if empty:
-            pass
-        else:
-            self.load_field(netcdf_filename,variable,time_level)
-        return
+
         
 class Potential_vorticity(Tracerpoint_field):
-    """Evaluate the potential vorticity on the tracer points."""
+    """!Evaluate the potential vorticity on the tracer points."""
     def __init__(self,model_instance,density_field='RhoNil',density_deriv_field='dRHO_dz',vort_field='omega_a'):
         self['Q'] = -model_instance.vorticity[vort_field]*model_instance.density[density_deriv_field]/model_instance.density[density_field]
 
         
 def show_variables(netcdf_filename):
-    """A shortcut function to display all of the variables contained within a netcdf file."""
+    """!A shortcut function to display all of the variables contained within a netcdf file."""
     netcdf_file = netCDF4.Dataset(netcdf_filename)
     print netcdf_file.variables.keys()
     netcdf_file.close()
@@ -878,20 +884,20 @@ def show_variables(netcdf_filename):
 def plt_mon_stats(netcdf_filename,
                     variables=['advcfl_uvel_max','advcfl_vvel_max','advcfl_wvel_max'],
                     time_units='days'):
-    """Plot some monitor file variables. 
+    """!Plot some monitor file variables. 
     
     Options include:
-    advcfl_uvel_max
-    advcfl_vvel_max
-    advcfl_wvel_max
-    ke_mean
-    dynstat_theta_mean
-    dynstat_sst_mean
-    dynstat_sst_sd
-    dynstat_salt_max
-    dynstat_salt_min
-    ...
-    and many others.
+    * advcfl_uvel_max
+    * advcfl_vvel_max
+    * advcfl_wvel_max
+    * ke_mean
+    * dynstat_theta_mean
+    * dynstat_sst_mean
+    * dynstat_sst_sd
+    * dynstat_salt_max
+    * dynstat_salt_min
+    * ...
+    * and many others.
     
     """
     monitor_output = netCDF4.MFDataset(netcdf_filename)

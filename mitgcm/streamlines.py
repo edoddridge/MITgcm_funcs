@@ -1,4 +1,6 @@
-"""
+"""!
+A collection of functions for streamlines and related shennanigans.
+
 Streamlines
 ====================
 
@@ -19,7 +21,7 @@ def stream2(u,v,
             startx,starty,
             grid_object,
             t_int=2592000,delta_t=3600):
-    """A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
+    """!A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
     """
     x_u = grid_object['Xp1'][:]
     y_u = grid_object['Y'][:]
@@ -83,7 +85,7 @@ def stream3(u,v,w,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
             t_int=2592000,delta_t=3600):
-    """A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
+    """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
     """
     x_u = grid_object['Xp1'][:]
     y_u = grid_object['Y'][:]
@@ -172,19 +174,19 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
             t_int=3.1e5,delta_t=3600):
-    """A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
+    """!A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been tested yet.
     
     Because this is a very large amount of data, the fields are passed as netcdffile handles.
     
     The variables are:
-    ?_netcdf_filename = name of the netcdf file with ?'s data in it.
-    start? = intial value for x, y, z, or t.
-    t = vector of time levels that are contained in the velocity data.
-    grid_object is m.grid if you followed the standard naming conventions.
-    ?_netcdf_variable = name of the "?" variable field in the netcdf file.
-    t_int = length of time to track particles for, in seconds
-    delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
+    * ?_netcdf_filename = name of the netcdf file with ?'s data in it.
+    * start? = intial value for x, y, z, or t.
+    * t = vector of time levels that are contained in the velocity data.
+    * grid_object is m.grid if you followed the standard naming conventions.
+    * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
+    * t_int = length of time to track particles for, in seconds
+    * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     """
 
     x_u = grid_object['Xp1'][:]
@@ -432,7 +434,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
 
 def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
-  """Do bilinear interpolation of a field to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+  """!Do bilinear interpolation of a field to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
   x0,y0 are the points to interpolate to.
   """
@@ -462,7 +464,7 @@ def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   
 @numba.jit
 def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
-    """This is a numba accelerated bilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """!This is a numba accelerated bilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """
     field_interp = ((field[y_index-1,x_index-1]*(x[x_index] - x0)*(y[y_index] - y0) + 
        field[y_index-1,x_index]*(x0 - x[x_index-1])*(y[y_index] - y0) +
@@ -473,7 +475,7 @@ def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
 
   
 def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
-  """Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
+  """!Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
 
   x0,y0, and z0 represent the point to interpolate to.
   """
@@ -515,7 +517,7 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
 
 @numba.jit
 def actual_trilinear_interp(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):
-    """This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
+    """!This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. 
     """   
     field_interp = ((field[z_index-1,y_index-1,x_index-1]*
 		(x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + 
@@ -541,7 +543,7 @@ def quadralinear_interp(x0,y0,z0,t0,
                         x,y,z,t,
                         len_x,len_y,len_z,len_t,
                         x_index,y_index,z_index,t_index):
-  """ Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+  """! Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
   x0,y0,z0, and t0 represent the point to interpolate to.
 
@@ -597,7 +599,7 @@ def quadralinear_interp(x0,y0,z0,t0,
 def actual_quadralinear_interp(field,x0,y0,z0,t0,
                                x_index,y_index,z_index,t_index,
                                x,y,z,t):
-  """This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent
+  """!This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent
   calls. 
   """   
   field_interp = ((field[0,0,0,0]*
@@ -646,7 +648,7 @@ def indices_and_field(x,y,z,
                         startx,starty,startz,t_index,
                         len_x,len_y,len_z,len_t,
                         netcdf_filehandle,variable):
-            """A helper function to extract a small 4D hypercube of data from a netCDF file. This isn't intended to be used on its own."""
+            """!A helper function to extract a small 4D hypercube of data from a netCDF file. This isn't intended to be used on its own."""
             
             x_index = np.searchsorted(x,startx)
             if x_index == 0:
@@ -684,7 +686,7 @@ def extract_along_path4D(path_x,path_y,path_z,path_t,
             t,x,y,z,
             netcdf_filename='netcdf file with variable of interest',
             netcdf_variable='momVort3'):
-    """extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.
+    """!extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.
     """
 
     t_index = np.searchsorted(t,path_t[0])
@@ -772,7 +774,7 @@ def extract_along_path4D(path_x,path_y,path_z,path_t,
 
 def extract_along_path3D(path_x,path_y,path_z,
             x,y,z,field):
-    """Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+    """!Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
     """
         
     len_x = len(x)
@@ -792,8 +794,7 @@ def extract_along_path3D(path_x,path_y,path_z,
 
 def extract_along_path2D(path_x,path_y,
             x,y,field):
-    """Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
-    \todo write test function
+    """!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
     """
         
     len_x = len(x)

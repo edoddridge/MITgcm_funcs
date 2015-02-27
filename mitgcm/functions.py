@@ -1,8 +1,7 @@
-"""
-Functions
-====================
+"""!
+Useful functions that don't belong elsewhere.
 
-Functions for analysing model output. These include functions to extract surfaces at a constant value of some variable and extract a variable on a surface.
+A collection of functions for analysing model output. These include functions to extract surfaces at a constant value of some variable and extract a variable on a surface.
 
 Each function has a detailed docstring.
 """
@@ -12,7 +11,7 @@ import netCDF4
 import numba
 
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
-    """Extract a surface (2 dimensions) from the input_field (3 dimensions). 
+    """!Extract a surface (2 dimensions) from the input_field (3 dimensions). 
     The surface represents the location at which input_field == hypersurface_value. 
     Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.
     
@@ -26,33 +25,41 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
     axis_vector: one dimensional vector specifying the distance between elements of input_field
     direction: optional argument to specify which direction the field increases in. Default is down
 
-    Oceanography example: extract depths for a given temperature.
+    ----------------------
+
+    ##Oceanography example:##
+    extract depths for a given temperature.
+
     
     Some arbitrary surface temperatures
-    temp = np.array([[10,11,10],[11,11,13],[12,11,10]])
-    input_field = np.zeros((temp.shape[0],temp.shape[1],4))
+
+        temp = np.array([[10,11,10],[11,11,13],[12,11,10]])
+        input_field = np.zeros((temp.shape[0],temp.shape[1],4))
     
     Make them decrease with depth
-    for i in xrange(0,4):
-        input_field[:,:,i] = temp - i
-        
-    print input_field[:,:,0] returns
-    [[ 10.  11.  10.]
-     [ 11.  11.  13.]
-     [ 12.  11.  10.]]
 
+        for i in xrange(0,4):
+            input_field[:,:,i] = temp - i
+        
+        print input_field[:,:,0]
+        > [[ 10.  11.  10.]
+        >  [ 11.  11.  13.]
+        >  [ 12.  11.  10.]]
+
+    Define a depth axis
+
+        axis_vector = np.array([1,2,4,7])
+    
     Pick out the depth at which the temperature should be 10.2
-    surface_value = 10.2
+
+        surface_value = 10.2
     
-    Depth axis
-    axis_vector = np.array([1,2,4,7])
+        depth_temp_10point2 = extract_surface(input_field, surface_value,axis_vector)
     
-    depth_temp_10point2 = extract_surface(input_field, surface_value,axis_vector)
-    
-    print depth_temp_10.2 returns
-    [[ nan     1.8         nan]
-     [ 1.8     1.8  4.26666667]
-     [ 2.4     1.8         nan]]
+        print depth_temp_10point2
+        > [[ nan     1.8         nan]
+        >  [ 1.8     1.8  4.26666667]
+        >  [ 2.4     1.8         nan]]
     """
     if direction == 'down':
         dummy_direction = 1
@@ -95,7 +102,7 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
     
 @numba.jit
 def linear_interp(input_field,surface_value,ind,axis_vector):
-    """Numba accelerated linear interpolation function. This was seperate from the extract_surface function, but is now superfluous - it's here just in case it's needed."""
+    """!Numba accelerated linear interpolation function. This was seperate from the extract_surface function, but is now superfluous - it's here just in case it's needed."""
 
     output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
     for i in xrange(0,input_field.shape[1]):
@@ -115,7 +122,8 @@ def linear_interp(input_field,surface_value,ind,axis_vector):
 
 
 def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
-    """This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
+    """!Extract the value of a 3D field on a 2D surface.
+    This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
     matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the
     values of input_field at the location specified by surf_loc_array along the third dimension using
     the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.
@@ -164,37 +172,39 @@ def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
 
 
 def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none', axis_sign = 'negative'): 
-    """Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. The arrays ind_upper and ind_lower come from the function extract_surface.
+    """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. The arrays ind_upper and ind_lower come from the function extract_surface.
     At the moment this only works if all the inputs are defined at the same location.
     
     In MITgcm world, the axis needs to be Zl - 'the lower interface locations'. It needs to include the surface, but the lowest grid face is not required.
 
     The input array 'integrand' is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point, 
 
-    Examples:
-    contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
-    contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
+    ##Examples:##
+
+        contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
+        contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
 
     Volume between two stratification surfaces. In this case the optional argument 'integrand' is not required.
-    volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])
+    
+        volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])
 
     Kinetic energy between two stratification surfaces. The integrand is the kinetic energy.
-    EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)
+    
+        EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)
 
 
-    upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
-    lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
-    axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
-    test = layer_integrate(upper,lower,axis)
-    print test
-    print np.sum(test)
-    print np.sum(upper - lower)
-
-    [[ 0.1  2.   2. ]
-     [ 2.   2.   2. ]
-     [ 2.   2.   2. ]]
-    16.1
-    16.1
+        upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
+        lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
+        axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
+        test = layer_integrate(upper,lower,axis)
+        print test
+        > [[ 0.1  2.   2. ]
+        >  [ 2.   2.   2. ]
+        >  [ 2.   2.   2. ]]
+        print np.sum(test)
+        > 16.1
+        print np.sum(upper - lower)
+        > 16.1
     """
 
     if axis_sign == 'positive':
