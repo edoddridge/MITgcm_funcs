@@ -434,7 +434,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
 
 def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
-  """!Do bilinear interpolation of a field to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
+  """!Do bilinear interpolation of a field. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
   x0,y0 are the points to interpolate to.
   """
@@ -475,7 +475,7 @@ def actual_bilinear_interp(field,x0,y0,x,y,len_x,len_y,x_index,y_index):
 
   
 def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
-  """!Do trilinear interpolation of the velocity field in three spatial dimensions to get nice accurate streamlines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
+  """!Do trilinear interpolation of the field in three spatial dimensions. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.
 
   x0,y0, and z0 represent the point to interpolate to.
   """
@@ -550,11 +550,12 @@ def quadralinear_interp(x0,y0,z0,t0,
 
   The velocity field, "field", is passed as a truncated 4D field.
   
-  x,y,z,t are vectors of these dimensions in netcdf_filename.
+  x,y,z,t are vectors of these dimensions.
   """
 
   # These searchsorted calls are to check if the location has crossed a grid cell. 
   # With very small time steps they're probably irrelevant.
+  # The +2 is to make the index zero at the location of interest.
     
   # Compute indices at location
   x_index_shifted = np.searchsorted(x,x0) - x_index + 2
@@ -691,28 +692,30 @@ def indices_and_field(x,y,z,
             
             
 def extract_along_path4D(path_x,path_y,path_z,path_t,
-            t,x,y,z,
+            x_axis,y_axis,z_axis,t_axis,
             netcdf_filename='netcdf file with variable of interest',
             netcdf_variable='momVort3'):
     """!extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.
+
+    This can also be used to pull out values at specific locations and times.
     """
 
-    t_index = np.searchsorted(t,path_t[0])
-    t_index_new = np.searchsorted(t,path_t[0]) # this is later used to test if new data needs to be read in.
+    t_index = np.searchsorted(t_axis,path_t[0])
+    t_index_new = np.searchsorted(t_axis,path_t[0]) # this is later used to test if new data needs to be read in.
         
-    len_x = len(x)
-    len_y = len(y)
-    len_z = len(z)
-    len_t = len(t)
+    len_x = len(x_axis)
+    len_y = len(y_axis)
+    len_z = len(z_axis)
+    len_t = len(t_axis)
 
     
     netcdf_filehandle = netCDF4.Dataset(netcdf_filename)  
-    field,x_index,y_index,z_index = indices_and_field(x,y,z,
+    field,x_index,y_index,z_index = indices_and_field(x_axis,y_axis,z_axis,
                                             path_x[0],path_y[0],path_z[0],t_index,
                                             len_x,len_y,len_z,len_t,
                                             netcdf_filehandle,netcdf_variable)
 
-    field,x_index_new,y_index_new,z_index_new = indices_and_field(x,y,z,
+    field,x_index_new,y_index_new,z_index_new = indices_and_field(x_axis,y_axis,z_axis,
                                             path_x[0],path_y[0],path_z[0],t_index,
                                             len_x,len_y,len_z,len_t,
                                             netcdf_filehandle,netcdf_variable)   
@@ -748,7 +751,7 @@ def extract_along_path4D(path_x,path_y,path_z,path_t,
             elif t_index == len_t:
                 raise ValueError('Time value is outside the given variable field - too big')
 
-            field,x_index,y_index,z_index = indices_and_field(x,y,z,
+            field,x_index,y_index,z_index = indices_and_field(x_axis,y_axis,z_axis,
                                             path_x[i],path_y[i],path_z[i],t_index,
                                             len_x,len_y,len_z,len_t,
                                             netcdf_filehandle,netcdf_variable)
@@ -757,20 +760,20 @@ def extract_along_path4D(path_x,path_y,path_z,path_t,
         # Interpolate field to  location
         field_at_loc = quadralinear_interp(path_x[i],path_y[i],path_z[i],path_t[i],
                     field,
-                    x,y,z,t,
+                    x_axis,y_axis,z_axis,t_axis,
                     len_x,len_y,len_z,len_t,
                     x_index,y_index,z_index,t_index)
       
 
         path_variable[i] = field_at_loc
 
-        t_index_new = np.searchsorted(t,path_t[i])
-        x_index_new = np.searchsorted(x,path_x[i])
-        y_index_new = np.searchsorted(y,path_y[i])
+        t_index_new = np.searchsorted(t_axis,path_t[i])
+        x_index_new = np.searchsorted(x_axis,path_x[i])
+        y_index_new = np.searchsorted(y_axis,path_y[i])
         if path_z[i] < 0:
-            z_index_new = np.searchsorted(-z,-path_z[i])
+            z_index_new = np.searchsorted(-z_axis,-path_z[i])
         else:
-            z_index_new = np.searchsorted(z,path_z[i])
+            z_index_new = np.searchsorted(z_axis,path_z[i])
             
 
 
@@ -781,38 +784,38 @@ def extract_along_path4D(path_x,path_y,path_z,path_t,
 
 
 def extract_along_path3D(path_x,path_y,path_z,
-            x,y,z,field):
-    """!Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+            x_axis,y_axis,z_axis,field):
+    """!Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Time varying fields are not supported.
     """
         
-    len_x = len(x)
-    len_y = len(y)
-    len_z = len(z)
+    len_x = len(x_axis)
+    len_y = len(y_axis)
+    len_z = len(z_axis)
 
     path_variable = np.zeros((path_x.shape))
     
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = trilinear_interp(path_x[i],path_y[i],path_z[i],field,x,y,z,len_x,len_y,len_z)
+        path_variable[i] = trilinear_interp(path_x[i],path_y[i],path_z[i],field,x_axis,y_axis,z_axis,len_x,len_y,len_z)
                 
     return path_variable
 
 
 
 def extract_along_path2D(path_x,path_y,
-            x,y,field):
-    """!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Currently time varying fields are not supported.
+            x_axis,y_axis,field):
+    """!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Time varying fields are not supported.
     """
         
-    len_x = len(x)
-    len_y = len(y)
+    len_x = len(x_axis)
+    len_y = len(y_axis)
 
     path_variable = np.zeros((path_x.shape))
     
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x,y,len_x,len_y)
+        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x_axis,y_axis,len_x,len_y)
                 
     return path_variable

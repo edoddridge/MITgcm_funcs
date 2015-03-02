@@ -12,7 +12,7 @@ import numba
 
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
     """!Extract a surface (2 dimensions) from the input_field (3 dimensions). 
-    The surface represents the location at which input_field == hypersurface_value. 
+    The surface represents the location at which input_field == surface_value. 
     Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.
     
     The function returns output_array, a 2D array of axis values.
