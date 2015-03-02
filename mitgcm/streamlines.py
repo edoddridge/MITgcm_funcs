@@ -506,7 +506,8 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
     z_index =1 # a dirty hack to deal with streamlines coming near the surface
     #raise ValueError('z location ', str(z0), ' is outside the model grid - too small')
   elif z_index == len_z:
-    raise ValueError('z location ', str(z0), ' is outside the model grid - too big')
+    z_index = len_z - 1 # a dirty hack to deal with streamlines coming near the bottom
+    #raise ValueError('z location ', str(z0), ' is outside the model grid - too big')
 
   #print 'x index = ' + str(x_index)
   #print 'y index = ' + str(y_index)
@@ -650,27 +651,34 @@ def indices_and_field(x,y,z,
                         netcdf_filehandle,variable):
             """!A helper function to extract a small 4D hypercube of data from a netCDF file. This isn't intended to be used on its own."""
             
-            x_index = np.searchsorted(x,startx)
+            # Compute indices at location given
+            x_index = np.searchsorted(x,x0)
             if x_index == 0:
-                raise ValueError('Given x location is outside the model grid - too small')
+            x_index =1 # a dirty hack to deal with streamlines coming near the edge
+            #raise ValueError('x location ', str(x0), ' is outside the model grid - too small')
             elif x_index == len_x:
-                raise ValueError('Given x location is outside the model grid - too big')
+            x_index =len_x - 1 # a dirty hack to deal with streamlines coming near the edge
+            #raise ValueError('x location ', str(x0), ' is outside the model grid - too big')
 
-            y_index = np.searchsorted(y,starty)
+            y_index = np.searchsorted(y,y0)
             if y_index == 0:
-                raise ValueError('Given y location is outside the model grid - too small')
+            y_index =1 # a dirty hack to deal with streamlines coming near the edge
+            #raise ValueError('y location ', str(y0), ' is outside the model grid - too small')
             elif y_index == len_y:
-                raise ValueError('Given y location is outside the model grid - too big')
+            y_index =len_y - 1 # a dirty hack to deal with streamlines coming near the edge
+            #raise ValueError('y location ', str(y0), ' is outside the model grid - too big')
 
             # np.searchsorted only works for positive arrays :/
-            if startz < 0:
-                startz = -startz
+            if z0 < 0:
+                z0 = -z0
                 z = -z
-            z_index = np.searchsorted(z,startz)
+            z_index = np.searchsorted(z,z0)
             if z_index == 0:
-                raise ValueError('Given z location is outside the model grid - too small')
+            z_index =1 # a dirty hack to deal with streamlines coming near the surface
+            #raise ValueError('z location ', str(z0), ' is outside the model grid - too small')
             elif z_index == len_z:
-                raise ValueError('Given z location is outside the model grid - too big')
+            z_index = len_z - 1 # a dirty hack to deal with streamlines coming near the bottom
+            #raise ValueError('z location ', str(z0), ' is outside the model grid - too big')
 
 
 
