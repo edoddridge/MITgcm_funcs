@@ -10,6 +10,8 @@ import numpy as np
 import netCDF4
 import numba
 
+
+
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
     """!Extract a surface (2 dimensions) from the input_field (3 dimensions). 
     The surface represents the location at which input_field == surface_value. 
@@ -69,19 +71,8 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
         print "direction of decreasing values not defined properly. Should be 'down' or 'up'"
     
     ind = np.zeros((input_field.shape[1], input_field.shape[2]))
-
-    # Find the index at which the value becomes larger than surface_value.
-    #for i in xrange(0,input_field.shape[1]):
-    #    for j in xrange(0,input_field.shape[2]):            
-    #        ind[i,j] = dummy_direction*np.searchsorted(input_field[::dummy_direction,i,j],surface_value)
-            # Need to set nans if this happens at one of the extrema - the value 
-            # we're after doesn't exist in this vector
-            #if ind[i,j] == 0 or ind[i,j] == len(input_field[:,i,j]):
-            #    ind[i,j] = np.nan
-
-    #output_array[:] = np.NAN
-
     output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
+
     for i in xrange(0,input_field.shape[1]):
         for j in xrange(0,input_field.shape[2]):
             ind[i,j] = dummy_direction*np.searchsorted(input_field[::dummy_direction,i,j],surface_value)
@@ -89,33 +80,50 @@ def extract_surface(input_field,surface_value,axis_vector,direction='down',max_d
             if ind[i,j] == 0:
                 output_array[i,j] = 0#np.nan
             elif ind[i,j] == len(input_field[:,i,j]):
-		output_array[i,j] = max_depth
+                output_array[i,j] = max_depth
             else:
                 output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
                                      (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
                                      (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
                                      ) + axis_vector[ind[i,j]-1]
 
-    #output_array = linear_interp(input_field,surface_value,ind,axis_vector)
+
+    #output_array = linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction)
 
     return output_array
     
 @numba.jit
-def linear_interp(input_field,surface_value,ind,axis_vector):
-    """!Numba accelerated linear interpolation function. This was seperate from the extract_surface function, but is now superfluous - it's here just in case it's needed."""
-
+def linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction):
+    """!Numba accelerated linear interpolation function. This was seperate from the extract_surface function, to allow numba to work its magic. But now it's not being used."""
+    
     output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
+
     for i in xrange(0,input_field.shape[1]):
         for j in xrange(0,input_field.shape[2]):
+            ind[i,j] = dummy_direction*np.searchsorted(input_field[::dummy_direction,i,j],surface_value)
+        
             if ind[i,j] == 0:
                 output_array[i,j] = 0#np.nan
             elif ind[i,j] == len(input_field[:,i,j]):
-		output_array[i,j] = max_depth
+                output_array[i,j] = max_depth
             else:
                 output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
-                                     (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
-                                     (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
-                                     ) + axis_vector[ind[i,j]-1]
+                                 (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
+                                 (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
+                                 ) + axis_vector[ind[i,j]-1]
+
+  #   output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
+  #   for i in xrange(0,input_field.shape[1]):
+  #       for j in xrange(0,input_field.shape[2]):
+  #           if ind[i,j] == 0:
+  #               output_array[i,j] = 0#np.nan
+  #           elif ind[i,j] == len(input_field[:,i,j]):
+		# output_array[i,j] = max_depth
+  #           else:
+  #               output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
+  #                                    (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
+  #                                    (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
+  #                                    ) + axis_vector[ind[i,j]-1]
     return output_array
     
 

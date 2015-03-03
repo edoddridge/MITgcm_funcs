@@ -656,17 +656,6 @@ class Vorticitypoint_field(MITgcm_Simulation):
         return 
 
 
-class Vorticity(Vorticitypoint_field):
-    """!Class for vorticity fields"""
-    def __init__(self,model_instance,netcdf_filename = '3D_fields.all.nc',variable='momVort3',time_level=-1,empty=False):
-        if empty:
-            pass
-        else:
-            model_instance.vorticity = self.load_field(netcdf_filename,variable,time_level)
-        return
-
-
-
 class Grid(MITgcm_Simulation):
     """!This defines the class for the grid object. 
 
@@ -676,7 +665,55 @@ class Grid(MITgcm_Simulation):
     def __init__(self, grid_netcdf_filename):
         """!Define a single object that has all of the grid variables tucked away in it. 
         Each of the variables pulled directly from the netcdf file still has the 
-        original description attached to it. The 2D and 3D arrays do not."""
+        original description attached to it. The 2D and 3D arrays do not.
+
+        Variables imported are:
+        rAw
+        rAs
+        rA
+        HFacW
+        HFacS
+        HFacC
+        X
+        Xp1
+        dxF
+        dxC
+        dxV
+        Y
+        Yp1
+        dyU
+        dyC
+        dyF
+        Z
+        Zl
+        Zu
+        drC
+        drF
+        fCoriG
+        fCori
+
+
+        (Z_y,Y_z)
+        (X_y,Y_x)
+        (Z_x,X_z) 
+        (Z_3d,Y_3d,X_3d) 
+
+        (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
+
+        wet_mask_V
+        wet_mask_U 
+        wet_mask_TH 
+        wet_mask_W 
+
+        cell_volume
+
+        west_mask
+        east_mask
+        south_mask
+        north_mask
+        bottom_mask
+
+        """
         grid_netcdf_file = netCDF4.Dataset(grid_netcdf_filename)
         self['rAw'] = grid_netcdf_file.variables['rAw']
         self['rAs'] = grid_netcdf_file.variables['rAs']
@@ -700,6 +737,7 @@ class Grid(MITgcm_Simulation):
         self['drC'] = grid_netcdf_file.variables['drC']
         self['drF'] = grid_netcdf_file.variables['drF']
         self['fCoriG'] = grid_netcdf_file.variables['fCoriG']
+        self['fCori'] = grid_netcdf_file.variables['fCori']
 
         (self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'][:],indexing='ij')
         (self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'][:],indexing='ij')
@@ -896,6 +934,9 @@ def plt_mon_stats(netcdf_filename,
     * dynstat_sst_sd
     * dynstat_salt_max
     * dynstat_salt_min
+    * dynstat_uvel_mean
+    * dynstat_vvel_mean
+    * dynstat_wvel_mean
     * ...
     * and many others.
     

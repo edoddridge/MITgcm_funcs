@@ -655,19 +655,19 @@ def indices_and_field(x,y,z,
             # Compute indices at location given
             x_index = np.searchsorted(x,x0)
             if x_index == 0:
-            x_index =1 # a dirty hack to deal with streamlines coming near the edge
-            #raise ValueError('x location ', str(x0), ' is outside the model grid - too small')
+                x_index = 1 # a dirty hack to deal with streamlines coming near the edge
+                #raise ValueError('x location ', str(x0), ' is outside the model grid - too small')
             elif x_index == len_x:
-            x_index =len_x - 1 # a dirty hack to deal with streamlines coming near the edge
-            #raise ValueError('x location ', str(x0), ' is outside the model grid - too big')
+                x_index =len_x - 1 # a dirty hack to deal with streamlines coming near the edge
+                #raise ValueError('x location ', str(x0), ' is outside the model grid - too big')
 
             y_index = np.searchsorted(y,y0)
             if y_index == 0:
-            y_index =1 # a dirty hack to deal with streamlines coming near the edge
-            #raise ValueError('y location ', str(y0), ' is outside the model grid - too small')
+                y_index =1 # a dirty hack to deal with streamlines coming near the edge
+                #raise ValueError('y location ', str(y0), ' is outside the model grid - too small')
             elif y_index == len_y:
-            y_index =len_y - 1 # a dirty hack to deal with streamlines coming near the edge
-            #raise ValueError('y location ', str(y0), ' is outside the model grid - too big')
+                y_index =len_y - 1 # a dirty hack to deal with streamlines coming near the edge
+                #raise ValueError('y location ', str(y0), ' is outside the model grid - too big')
 
             # np.searchsorted only works for positive arrays :/
             if z0 < 0:
@@ -675,11 +675,11 @@ def indices_and_field(x,y,z,
                 z = -z
             z_index = np.searchsorted(z,z0)
             if z_index == 0:
-            z_index =1 # a dirty hack to deal with streamlines coming near the surface
-            #raise ValueError('z location ', str(z0), ' is outside the model grid - too small')
+                z_index =1 # a dirty hack to deal with streamlines coming near the surface
+                #raise ValueError('z location ', str(z0), ' is outside the model grid - too small')
             elif z_index == len_z:
-            z_index = len_z - 1 # a dirty hack to deal with streamlines coming near the bottom
-            #raise ValueError('z location ', str(z0), ' is outside the model grid - too big')
+                z_index = len_z - 1 # a dirty hack to deal with streamlines coming near the bottom
+                #raise ValueError('z location ', str(z0), ' is outside the model grid - too big')
 
 
 
