@@ -668,50 +668,50 @@ class Grid(MITgcm_Simulation):
         original description attached to it. The 2D and 3D arrays do not.
 
         Variables imported are:
-        rAw
-        rAs
-        rA
-        HFacW
-        HFacS
-        HFacC
-        X
-        Xp1
-        dxF
-        dxC
-        dxV
-        Y
-        Yp1
-        dyU
-        dyC
-        dyF
-        Z
-        Zl
-        Zu
-        drC
-        drF
-        fCoriG
-        fCori
+        * rAw
+        * rAs
+        * rA
+        * HFacW
+        * HFacS
+        * HFacC
+        * X
+        * Xp1
+        * dxF
+        * dxC
+        * dxV
+        * Y
+        * Yp1
+        * dyU
+        * dyC
+        * dyF
+        * Z
+        * Zl
+        * Zu
+        * drC
+        * drF
+        * fCoriG
+        * fCori
 
+        Variables computed and stored are:
+        * (Z_y,Y_z)
+        * (X_y,Y_x)
+        * (Z_x,X_z) 
+        * (Z_3d,Y_3d,X_3d) 
 
-        (Z_y,Y_z)
-        (X_y,Y_x)
-        (Z_x,X_z) 
-        (Z_3d,Y_3d,X_3d) 
+        * (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
 
-        (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
+        * wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.
+        * wet_mask_U 
+        * wet_mask_TH 
+        * wet_mask_W 
 
-        wet_mask_V
-        wet_mask_U 
-        wet_mask_TH 
-        wet_mask_W 
+        * cell_volume
 
-        cell_volume
-
-        west_mask
-        east_mask
-        south_mask
-        north_mask
-        bottom_mask
+        * west_mask : a 3d array that is one if the point has a boundary to the west
+        * east_mask
+        * south_mask
+        * north_mask
+        * bottom_mask
 
         """
         grid_netcdf_file = netCDF4.Dataset(grid_netcdf_filename)
