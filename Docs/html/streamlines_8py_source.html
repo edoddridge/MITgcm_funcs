@@ -45,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -599,328 +600,336 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    z_index =1 <span class="comment"># a dirty hack to deal with streamlines coming near the surface</span></div>
 <div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    <span class="comment">#raise ValueError(&#39;z location &#39;, str(z0), &#39; is outside the model grid - too small&#39;)</span></div>
 <div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;  <span class="keywordflow">elif</span> z_index == len_z:</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;z location &#39;</span>, str(z0), <span class="stringliteral">&#39; is outside the model grid - too big&#39;</span>)</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;  <span class="comment">#print &#39;x index = &#39; + str(x_index)</span></div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;  <span class="comment">#print &#39;y index = &#39; + str(y_index)</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    </div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;  field_interp = <a class="code" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">actual_trilinear_interp</a>(field,x0,y0,z0,x_index,y_index,z_index,x,y,z)</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;@numba.jit</div>
-<div class="line"><a name="l00519"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">  519</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">actual_trilinear_interp</a>(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span>   </div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    field_interp = ((field[z_index-1,y_index-1,x_index-1]*</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;        field[z_index,y_index-1,x_index-1]*</div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1]) + </div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        field[z_index,y_index,x_index-1]*</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + </div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        field[z_index-1,y_index,x_index-1]*</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0) + </div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        field[z_index-1,y_index-1,x_index]*</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0) + </div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        field[z_index,y_index-1,x_index]*</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1]) + </div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        field[z_index,y_index,x_index]*</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;        (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + </div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;        field[z_index-1,y_index,x_index]*</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0))/</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;      ((z[z_index] - z[z_index-1])*(y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) </div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordflow">return</span> field_interp</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">quadralinear_interp</a>(x0,y0,z0,t0,</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                        field,</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;                        x,y,z,t,</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                        len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00545"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">  545</a></span>&#160;                        x_index,y_index,z_index,t_index):</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;! Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</span></div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<span class="stringliteral">  x0,y0,z0, and t0 represent the point to interpolate to.</span></div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="stringliteral">  The velocity field, &quot;field&quot;, is passed as a truncated 4D field.</span></div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="stringliteral">  </span></div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;<span class="stringliteral">  x,y,z,t are vectors of these dimensions.</span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;  <span class="comment"># These searchsorted calls are to check if the location has crossed a grid cell. </span></div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;  <span class="comment"># With very small time steps they&#39;re probably irrelevant.</span></div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;  <span class="comment"># The +2 is to make the index zero at the location of interest.</span></div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;    </div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;  <span class="comment"># Compute indices at location</span></div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;  x_index_shifted = np.searchsorted(x,x0) - x_index + 2</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;  <span class="comment">#if x_index == 0:</span></div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given x location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;  <span class="comment">#elif x_index == 4:</span></div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given x location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    </div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;  y_index_shifted = np.searchsorted(y,y0) - y_index + 2</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;  <span class="comment">#if y_index_shifted == 0:</span></div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given y location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;  <span class="comment">#elif y_index_shifted == 4:</span></div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given y location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;  </div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;  <span class="comment"># np.searchsorted only works for positive arrays, so z needs to be positive :/</span></div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;  <span class="keywordflow">if</span> z0 &lt; 0:</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;        z0 = -z0</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;        z = -z</div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;  z_index_shifted = np.searchsorted(z,z0) - z_index + 2</div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;  <span class="comment">#if z_index_shifted == 0:</span></div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given z location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;  <span class="comment">#elif z_index_shifted == 4:</span></div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given z location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;</div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;  t_index_shifted = np.searchsorted(t,t0) - t_index + 2</div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;  <span class="comment">#if t_index_shifted == 0:</span></div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given t location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;  <span class="comment">#elif t_index_shifted == 3:</span></div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given t location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;  </div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;  field_interp = <a class="code" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">actual_quadralinear_interp</a>(field[t_index_shifted-1:t_index_shifted+1,</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                       z_index_shifted-1:z_index_shifted+1,</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                       y_index_shifted-1:y_index_shifted+1,</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                       x_index_shifted-1:x_index_shifted+1],</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                        x0,y0,z0,t0,</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                        x_index,y_index,z_index,t_index,</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                        x,y,z,t)</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;@numba.jit</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">actual_quadralinear_interp</a>(field,x0,y0,z0,t0,</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                               x_index,y_index,z_index,t_index,</div>
-<div class="line"><a name="l00602"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">  602</a></span>&#160;                               x,y,z,t):</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent</span></div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;<span class="stringliteral">  calls. </span></div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span>   </div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;  field_interp = ((field[0,0,0,0]*</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                field[0,1,0,0]*</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;                field[0,1,1,0]*</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                field[0,0,1,0]*</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0)*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                field[0,0,0,1]*</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                field[0,1,0,1]*</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1])*(t[t_index] - t0) +        </div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                field[0,1,1,1]*</div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                field[0,0,1,1]*</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0)*(t[t_index] - t0) +</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                    </div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                field[1,0,0,0]*</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                field[1,1,0,0]*</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;                field[1,1,1,0]*</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                field[1,0,1,0]*</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                field[1,0,0,1]*</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                field[1,1,0,1]*</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;                field[1,1,1,1]*</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;                field[1,0,1,1]*</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0)*(t0 - t[t_index-1]))/</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;             ((t[t_index] - t[t_index-1])*(z[z_index] - z[z_index-1])*</div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;              (y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1])))</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;    </div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    z_index = len_z - 1 <span class="comment"># a dirty hack to deal with streamlines coming near the bottom</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;    <span class="comment">#raise ValueError(&#39;z location &#39;, str(z0), &#39; is outside the model grid - too big&#39;)</span></div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;  <span class="comment">#print &#39;x index = &#39; + str(x_index)</span></div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;  <span class="comment">#print &#39;y index = &#39; + str(y_index)</span></div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    </div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;  field_interp = <a class="code" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">actual_trilinear_interp</a>(field,x0,y0,z0,x_index,y_index,z_index,x,y,z)</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;@numba.jit</div>
+<div class="line"><a name="l00520"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">  520</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">actual_trilinear_interp</a>(field,x0,y0,z0,x_index,y_index,z_index,x,y,z):</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!This is a numba accelerated trilinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </span></div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span>   </div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    field_interp = ((field[z_index-1,y_index-1,x_index-1]*</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;        (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0) + </div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        field[z_index,y_index-1,x_index-1]*</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1]) + </div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        field[z_index,y_index,x_index-1]*</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + </div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        field[z_index-1,y_index,x_index-1]*</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0) + </div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        field[z_index-1,y_index-1,x_index]*</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0) + </div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        field[z_index,y_index-1,x_index]*</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1]) + </div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;        field[z_index,y_index,x_index]*</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;        (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1]) + </div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        field[z_index-1,y_index,x_index]*</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;        (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0))/</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;      ((z[z_index] - z[z_index-1])*(y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1]))) </div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="keywordflow">return</span> field_interp</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">quadralinear_interp</a>(x0,y0,z0,t0,</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;                        field,</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                        x,y,z,t,</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                        len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00546"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">  546</a></span>&#160;                        x_index,y_index,z_index,t_index):</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;! Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dimension to get nice accurate streaklines. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</span></div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;<span class="stringliteral">  x0,y0,z0, and t0 represent the point to interpolate to.</span></div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="stringliteral">  The velocity field, &quot;field&quot;, is passed as a truncated 4D field.</span></div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;<span class="stringliteral">  </span></div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;<span class="stringliteral">  x,y,z,t are vectors of these dimensions.</span></div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;  <span class="comment"># These searchsorted calls are to check if the location has crossed a grid cell. </span></div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;  <span class="comment"># With very small time steps they&#39;re probably irrelevant.</span></div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;  <span class="comment"># The +2 is to make the index zero at the location of interest.</span></div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    </div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;  <span class="comment"># Compute indices at location</span></div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;  x_index_shifted = np.searchsorted(x,x0) - x_index + 2</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;  <span class="comment">#if x_index == 0:</span></div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given x location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;  <span class="comment">#elif x_index == 4:</span></div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given x location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    </div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;  y_index_shifted = np.searchsorted(y,y0) - y_index + 2</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;  <span class="comment">#if y_index_shifted == 0:</span></div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given y location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;  <span class="comment">#elif y_index_shifted == 4:</span></div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given y location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;  </div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;  <span class="comment"># np.searchsorted only works for positive arrays, so z needs to be positive :/</span></div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;  <span class="keywordflow">if</span> z0 &lt; 0:</div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;        z0 = -z0</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;        z = -z</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;  z_index_shifted = np.searchsorted(z,z0) - z_index + 2</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;  <span class="comment">#if z_index_shifted == 0:</span></div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given z location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;  <span class="comment">#elif z_index_shifted == 4:</span></div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given z location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;  t_index_shifted = np.searchsorted(t,t0) - t_index + 2</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;  <span class="comment">#if t_index_shifted == 0:</span></div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given t location is outside the truncated field - too small. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;  <span class="comment">#elif t_index_shifted == 3:</span></div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;  <span class="comment">#  raise ValueError(&#39;Given t location is outside the truncated field - too big. This error should never be seen.&#39;)</span></div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;  </div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;  field_interp = <a class="code" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">actual_quadralinear_interp</a>(field[t_index_shifted-1:t_index_shifted+1,</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                       z_index_shifted-1:z_index_shifted+1,</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                       y_index_shifted-1:y_index_shifted+1,</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                       x_index_shifted-1:x_index_shifted+1],</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                        x0,y0,z0,t0,</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                        x_index,y_index,z_index,t_index,</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                        x,y,z,t)</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;@numba.jit</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">actual_quadralinear_interp</a>(field,x0,y0,z0,t0,</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                               x_index,y_index,z_index,t_index,</div>
+<div class="line"><a name="l00603"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">  603</a></span>&#160;                               x,y,z,t):</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!This is a numba accelerated quadralinear interpolation. The @numba.jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent</span></div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;<span class="stringliteral">  calls. </span></div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span>   </div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;  field_interp = ((field[0,0,0,0]*</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                field[0,1,0,0]*</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                field[0,1,1,0]*</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                field[0,0,1,0]*</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0)*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                field[0,0,0,1]*</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0)*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                field[0,1,0,1]*</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1])*(t[t_index] - t0) +        </div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                field[0,1,1,1]*</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t[t_index] - t0) + </div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                field[0,0,1,1]*</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0)*(t[t_index] - t0) +</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                    </div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                field[1,0,0,0]*</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                field[1,1,0,0]*</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;                    (x[x_index] - x0)*(y[y_index] - y0)*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;                field[1,1,1,0]*</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                field[1,0,1,0]*</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                    (x[x_index] - x0)*(y0 - y[y_index-1])*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                field[1,0,0,1]*</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z[z_index] - z0)*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;                field[1,1,0,1]*</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;                    (x0 - x[x_index-1])*(y[y_index] - y0)*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;                field[1,1,1,1]*</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z0 - z[z_index-1])*(t0 - t[t_index-1]) + </div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                field[1,0,1,1]*</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;                    (x0 - x[x_index-1])*(y0 - y[y_index-1])*(z[z_index] - z0)*(t0 - t[t_index-1]))/</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;             ((t[t_index] - t[t_index-1])*(z[z_index] - z[z_index-1])*</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;              (y[y_index] - y[y_index-1])*(x[x_index] - x[x_index-1])))</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;    </div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;  <span class="keywordflow">return</span> field_interp</div>
 <div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;</div>
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;</div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x,y,z,</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;                        startx,starty,startz,t_index,</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;                        len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00651"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">  651</a></span>&#160;                        netcdf_filehandle,variable):</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;            <span class="stringliteral">&quot;&quot;&quot;!A helper function to extract a small 4D hypercube of data from a netCDF file. This isn&#39;t intended to be used on its own.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;            </div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;            x_index = np.searchsorted(x,startx)</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            <span class="keywordflow">if</span> x_index == 0:</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given x location is outside the model grid - too small&#39;</span>)</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            <span class="keywordflow">elif</span> x_index == len_x:</div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given x location is outside the model grid - too big&#39;</span>)</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;</div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;            y_index = np.searchsorted(y,starty)</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;            <span class="keywordflow">if</span> y_index == 0:</div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given y location is outside the model grid - too small&#39;</span>)</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;            <span class="keywordflow">elif</span> y_index == len_y:</div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given y location is outside the model grid - too big&#39;</span>)</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;            <span class="comment"># np.searchsorted only works for positive arrays :/</span></div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            <span class="keywordflow">if</span> startz &lt; 0:</div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;                startz = -startz</div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;                z = -z</div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;            z_index = np.searchsorted(z,startz)</div>
-<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;            <span class="keywordflow">if</span> z_index == 0:</div>
-<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given z location is outside the model grid - too small&#39;</span>)</div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;            <span class="keywordflow">elif</span> z_index == len_z:</div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given z location is outside the model grid - too big&#39;</span>)</div>
-<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;</div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;</div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;            field = netcdf_filehandle.variables[variable][t_index-2:t_index+3,</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;                           z_index-2:z_index+3,</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;                           y_index-2:y_index+3,</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                           x_index-2:x_index+3]</div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;            </div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;            <span class="keywordflow">return</span> field,x_index,y_index,z_index</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;            </div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;            </div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">extract_along_path4D</a>(path_x,path_y,path_z,path_t,</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;            x_axis,y_axis,z_axis,t_axis,</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;            netcdf_filename=<span class="stringliteral">&#39;netcdf file with variable of interest&#39;</span>,</div>
-<div class="line"><a name="l00689"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">  689</a></span>&#160;            netcdf_variable=<span class="stringliteral">&#39;momVort3&#39;</span>):</div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.</span></div>
-<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;<span class="stringliteral">    This can also be used to pull out values at specific locations and times.</span></div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;</div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;    t_index = np.searchsorted(t_axis,path_t[0])</div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;    t_index_new = np.searchsorted(t_axis,path_t[0]) <span class="comment"># this is later used to test if new data needs to be read in.</span></div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;        </div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    len_x = len(x_axis)</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    len_y = len(y_axis)</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    len_z = len(z_axis)</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;    len_t = len(t_axis)</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x,y,z,</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;                        startx,starty,startz,t_index,</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;                        len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00652"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">  652</a></span>&#160;                        netcdf_filehandle,variable):</div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;            <span class="stringliteral">&quot;&quot;&quot;!A helper function to extract a small 4D hypercube of data from a netCDF file. This isn&#39;t intended to be used on its own.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;            </div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            <span class="comment"># Compute indices at location given</span></div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            x_index = np.searchsorted(x,x0)</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            <span class="keywordflow">if</span> x_index == 0:</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;                x_index = 1 <span class="comment"># a dirty hack to deal with streamlines coming near the edge</span></div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;                <span class="comment">#raise ValueError(&#39;x location &#39;, str(x0), &#39; is outside the model grid - too small&#39;)</span></div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;            <span class="keywordflow">elif</span> x_index == len_x:</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;                x_index =len_x - 1 <span class="comment"># a dirty hack to deal with streamlines coming near the edge</span></div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;                <span class="comment">#raise ValueError(&#39;x location &#39;, str(x0), &#39; is outside the model grid - too big&#39;)</span></div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;            y_index = np.searchsorted(y,y0)</div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            <span class="keywordflow">if</span> y_index == 0:</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;                y_index =1 <span class="comment"># a dirty hack to deal with streamlines coming near the edge</span></div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;                <span class="comment">#raise ValueError(&#39;y location &#39;, str(y0), &#39; is outside the model grid - too small&#39;)</span></div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;            <span class="keywordflow">elif</span> y_index == len_y:</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;                y_index =len_y - 1 <span class="comment"># a dirty hack to deal with streamlines coming near the edge</span></div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;                <span class="comment">#raise ValueError(&#39;y location &#39;, str(y0), &#39; is outside the model grid - too big&#39;)</span></div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;</div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;            <span class="comment"># np.searchsorted only works for positive arrays :/</span></div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;            <span class="keywordflow">if</span> z0 &lt; 0:</div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;                z0 = -z0</div>
+<div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;                z = -z</div>
+<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;            z_index = np.searchsorted(z,z0)</div>
+<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;            <span class="keywordflow">if</span> z_index == 0:</div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;                z_index =1 <span class="comment"># a dirty hack to deal with streamlines coming near the surface</span></div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;                <span class="comment">#raise ValueError(&#39;z location &#39;, str(z0), &#39; is outside the model grid - too small&#39;)</span></div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            <span class="keywordflow">elif</span> z_index == len_z:</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                z_index = len_z - 1 <span class="comment"># a dirty hack to deal with streamlines coming near the bottom</span></div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;                <span class="comment">#raise ValueError(&#39;z location &#39;, str(z0), &#39; is outside the model grid - too big&#39;)</span></div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;</div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;</div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;            field = netcdf_filehandle.variables[variable][t_index-2:t_index+3,</div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;                           z_index-2:z_index+3,</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;                           y_index-2:y_index+3,</div>
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;                           x_index-2:x_index+3]</div>
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;            </div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;            <span class="keywordflow">return</span> field,x_index,y_index,z_index</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            </div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;            </div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">extract_along_path4D</a>(path_x,path_y,path_z,path_t,</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;            x_axis,y_axis,z_axis,t_axis,</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;            netcdf_filename=<span class="stringliteral">&#39;netcdf file with variable of interest&#39;</span>,</div>
+<div class="line"><a name="l00697"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">  697</a></span>&#160;            netcdf_variable=<span class="stringliteral">&#39;momVort3&#39;</span>):</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!extract the value of a field along a path through a time varying, 3 dimensional field. The field must be in a NetCDF file, since it is assumed to be 4D and very large.</span></div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;<span class="stringliteral">    This can also be used to pull out values at specific locations and times.</span></div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    </div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    netcdf_filehandle = netCDF4.Dataset(netcdf_filename)  </div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    field,x_index,y_index,z_index = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                                            path_x[0],path_y[0],path_z[0],t_index,</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;                                            netcdf_filehandle,netcdf_variable)</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;</div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;    field,x_index_new,y_index_new,z_index_new = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                                            path_x[0],path_y[0],path_z[0],t_index,</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                                            netcdf_filehandle,netcdf_variable)   </div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;</div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;</div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;</div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    </div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;    i=0</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    </div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;</div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    <span class="keywordflow">if</span> t_index == 0:</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given start time is outside the given variable field - too small&#39;</span>)</div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    <span class="keywordflow">elif</span> t_index == len_t:</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given start time is outside the given variable field - too big&#39;</span>)</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;    t_index = np.searchsorted(t_axis,path_t[0])</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;    t_index_new = np.searchsorted(t_axis,path_t[0]) <span class="comment"># this is later used to test if new data needs to be read in.</span></div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;        </div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;    len_x = len(x_axis)</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;    len_y = len(y_axis)</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    len_z = len(z_axis)</div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    len_t = len(t_axis)</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    </div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    netcdf_filehandle = netCDF4.Dataset(netcdf_filename)  </div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    field,x_index,y_index,z_index = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                                            path_x[0],path_y[0],path_z[0],t_index,</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                                            netcdf_filehandle,netcdf_variable)</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;    field,x_index_new,y_index_new,z_index_new = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                                            path_x[0],path_y[0],path_z[0],t_index,</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                                            netcdf_filehandle,netcdf_variable)   </div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
 <div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;    </div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    </div>
-<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_t)):</div>
-<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;        </div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;        <span class="keywordflow">if</span> (y_index_new==y_index <span class="keywordflow">and</span> </div>
-<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;            x_index_new==x_index <span class="keywordflow">and</span> </div>
-<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;            z_index_new==z_index <span class="keywordflow">and</span></div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;            t_index_new == t_index):</div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;            <span class="comment"># the particle hasn&#39;t moved out of the grid cell it was in.</span></div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;            <span class="comment"># So the loaded field is fine; there&#39;s no need to reload it.</span></div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;            <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;            t_index = np.searchsorted(t,path_t[i])</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;            <span class="keywordflow">if</span> t_index == 0:</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Time value is outside the given variable field - too small&#39;</span>)</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;            <span class="keywordflow">elif</span> t_index == len_t:</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Time value is outside the given variable field - too big&#39;</span>)</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;            field,x_index,y_index,z_index = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                                            path_x[i],path_y[i],path_z[i],t_index,</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                                            netcdf_filehandle,netcdf_variable)</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;</div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        field_at_loc = <a class="code" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">quadralinear_interp</a>(path_x[i],path_y[i],path_z[i],path_t[i],</div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                    field,</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                    x_axis,y_axis,z_axis,t_axis,</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                    len_x,len_y,len_z,len_t,</div>
-<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                    x_index,y_index,z_index,t_index)</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;      </div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    i=0</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    </div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;    <span class="keywordflow">if</span> t_index == 0:</div>
+<div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given start time is outside the given variable field - too small&#39;</span>)</div>
+<div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    <span class="keywordflow">elif</span> t_index == len_t:</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Given start time is outside the given variable field - too big&#39;</span>)</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;    </div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;    </div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_t)):</div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;        </div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;        <span class="keywordflow">if</span> (y_index_new==y_index <span class="keywordflow">and</span> </div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;            x_index_new==x_index <span class="keywordflow">and</span> </div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;            z_index_new==z_index <span class="keywordflow">and</span></div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;            t_index_new == t_index):</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;            <span class="comment"># the particle hasn&#39;t moved out of the grid cell it was in.</span></div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;            <span class="comment"># So the loaded field is fine; there&#39;s no need to reload it.</span></div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;            <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;            t_index = np.searchsorted(t,path_t[i])</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            <span class="keywordflow">if</span> t_index == 0:</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Time value is outside the given variable field - too small&#39;</span>)</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            <span class="keywordflow">elif</span> t_index == len_t:</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;Time value is outside the given variable field - too big&#39;</span>)</div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;            field,x_index,y_index,z_index = <a class="code" href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">indices_and_field</a>(x_axis,y_axis,z_axis,</div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;                                            path_x[i],path_y[i],path_z[i],t_index,</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;                                            len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;                                            netcdf_filehandle,netcdf_variable)</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;</div>
 <div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;</div>
-<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;        path_variable[i] = field_at_loc</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;</div>
-<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;        t_index_new = np.searchsorted(t_axis,path_t[i])</div>
-<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;        x_index_new = np.searchsorted(x_axis,path_x[i])</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;        y_index_new = np.searchsorted(y_axis,path_y[i])</div>
-<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;        <span class="keywordflow">if</span> path_z[i] &lt; 0:</div>
-<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;            z_index_new = np.searchsorted(-z_axis,-path_z[i])</div>
-<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;            z_index_new = np.searchsorted(z_axis,path_z[i])</div>
-<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;            </div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;</div>
-<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;    netcdf_filehandle.close()</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;    </div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
-<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;</div>
-<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;</div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">extract_along_path3D</a>(path_x,path_y,path_z,</div>
-<div class="line"><a name="l00779"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">  779</a></span>&#160;            x_axis,y_axis,z_axis,field):</div>
-<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Time varying fields are not supported.</span></div>
-<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;        </div>
-<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    len_x = len(x_axis)</div>
-<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;    len_y = len(y_axis)</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;    len_z = len(z_axis)</div>
-<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
-<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    </div>
-<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_x)):</div>
-<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;</div>
-<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
-<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;        path_variable[i] = <a class="code" href="namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac">trilinear_interp</a>(path_x[i],path_y[i],path_z[i],field,x_axis,y_axis,z_axis,len_x,len_y,len_z)</div>
-<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                </div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;</div>
-<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;</div>
-<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;</div>
-<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">extract_along_path2D</a>(path_x,path_y,</div>
-<div class="line"><a name="l00799"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">  799</a></span>&#160;            x_axis,y_axis,field):</div>
-<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Time varying fields are not supported.</span></div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;        </div>
-<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;    len_x = len(x_axis)</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    len_y = len(y_axis)</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        field_at_loc = <a class="code" href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">quadralinear_interp</a>(path_x[i],path_y[i],path_z[i],path_t[i],</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;                    field,</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;                    x_axis,y_axis,z_axis,t_axis,</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;                    len_x,len_y,len_z,len_t,</div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;                    x_index,y_index,z_index,t_index)</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;      </div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;        path_variable[i] = field_at_loc</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        t_index_new = np.searchsorted(t_axis,path_t[i])</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        x_index_new = np.searchsorted(x_axis,path_x[i])</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        y_index_new = np.searchsorted(y_axis,path_y[i])</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        <span class="keywordflow">if</span> path_z[i] &lt; 0:</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;            z_index_new = np.searchsorted(-z_axis,-path_z[i])</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;            z_index_new = np.searchsorted(z_axis,path_z[i])</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;            </div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    netcdf_filehandle.close()</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    </div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;</div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">extract_along_path3D</a>(path_x,path_y,path_z,</div>
+<div class="line"><a name="l00787"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">  787</a></span>&#160;            x_axis,y_axis,z_axis,field):</div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Extract the value of a field along a path through a 3 dimensional field. The field must be passed as an array. Time varying fields are not supported.</span></div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;        </div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;    len_x = len(x_axis)</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    len_y = len(y_axis)</div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;    len_z = len(z_axis)</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;    </div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_x)):</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        path_variable[i] = <a class="code" href="namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac">trilinear_interp</a>(path_x[i],path_y[i],path_z[i],field,x_axis,y_axis,z_axis,len_x,len_y,len_z)</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;                </div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;</div>
 <div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;    </div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_x)):</div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;</div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
-<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        path_variable[i] = <a class="code" href="namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702">bilinear_interp</a>(path_x[i],path_y[i],field,x_axis,y_axis,len_x,len_y)</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;                </div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a71006df0268068f667797deefae99b73"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">mitgcm.streamlines.quadralinear_interp</a></div><div class="ttdeci">def quadralinear_interp(x0, y0, z0, t0, field, x, y, z, t, len_x, len_y, len_z, len_t, x_index, y_index, z_index, t_index)</div><div class="ttdoc">Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dime...</div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00545">streamlines.py:545</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_aa84595e731400d5c213a2cf663ed833d"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">mitgcm.streamlines.actual_trilinear_interp</a></div><div class="ttdeci">def actual_trilinear_interp(field, x0, y0, z0, x_index, y_index, z_index, x, y, z)</div><div class="ttdoc">This is a numba accelerated trilinear interpolation. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00519">streamlines.py:519</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a290cc434dcffbedea22dcc00c75713dc"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">mitgcm.streamlines.extract_along_path4D</a></div><div class="ttdeci">def extract_along_path4D</div><div class="ttdoc">extract the value of a field along a path through a time varying, 3 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00689">streamlines.py:689</a></div></div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">extract_along_path2D</a>(path_x,path_y,</div>
+<div class="line"><a name="l00807"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">  807</a></span>&#160;            x_axis,y_axis,field):</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Time varying fields are not supported.</span></div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        </div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    len_x = len(x_axis)</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    len_y = len(y_axis)</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    path_variable = np.zeros((path_x.shape))</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    </div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(0,len(path_x)):</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        <span class="comment"># Interpolate field to  location</span></div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;        path_variable[i] = <a class="code" href="namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702">bilinear_interp</a>(path_x[i],path_y[i],field,x_axis,y_axis,len_x,len_y)</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;                </div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;    <span class="keywordflow">return</span> path_variable</div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a71006df0268068f667797deefae99b73"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73">mitgcm.streamlines.quadralinear_interp</a></div><div class="ttdeci">def quadralinear_interp(x0, y0, z0, t0, field, x, y, z, t, len_x, len_y, len_z, len_t, x_index, y_index, z_index, t_index)</div><div class="ttdoc">Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dime...</div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00546">streamlines.py:546</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_aa84595e731400d5c213a2cf663ed833d"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d">mitgcm.streamlines.actual_trilinear_interp</a></div><div class="ttdeci">def actual_trilinear_interp(field, x0, y0, z0, x_index, y_index, z_index, x, y, z)</div><div class="ttdoc">This is a numba accelerated trilinear interpolation. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00520">streamlines.py:520</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a290cc434dcffbedea22dcc00c75713dc"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">mitgcm.streamlines.extract_along_path4D</a></div><div class="ttdeci">def extract_along_path4D</div><div class="ttdoc">extract the value of a field along a path through a time varying, 3 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00697">streamlines.py:697</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_ab47d978fd4c41aa2c413b3f97fc7a7ac"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac">mitgcm.streamlines.trilinear_interp</a></div><div class="ttdeci">def trilinear_interp(x0, y0, z0, field, x, y, z, len_x, len_y, len_z)</div><div class="ttdoc">Do trilinear interpolation of the field in three spatial dimensions. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00477">streamlines.py:477</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_ad194702b26f7e8aa7eeceeeb987a6d29"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">mitgcm.streamlines.extract_along_path2D</a></div><div class="ttdeci">def extract_along_path2D(path_x, path_y, x_axis, y_axis, field)</div><div class="ttdoc">Extract the value of a field along a path through a 2 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00799">streamlines.py:799</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_ad194702b26f7e8aa7eeceeeb987a6d29"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ad194702b26f7e8aa7eeceeeb987a6d29">mitgcm.streamlines.extract_along_path2D</a></div><div class="ttdeci">def extract_along_path2D(path_x, path_y, x_axis, y_axis, field)</div><div class="ttdoc">Extract the value of a field along a path through a 2 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00807">streamlines.py:807</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_a38690a408e43bb899018203363da090d"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a38690a408e43bb899018203363da090d">mitgcm.streamlines.stream3</a></div><div class="ttdeci">def stream3</div><div class="ttdoc">A three-dimensional streamline solver. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00087">streamlines.py:87</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_aac1a8a54def68d4a7f0698c9809db4ef"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">mitgcm.streamlines.actual_quadralinear_interp</a></div><div class="ttdeci">def actual_quadralinear_interp(field, x0, y0, z0, t0, x_index, y_index, z_index, t_index, x, y, z, t)</div><div class="ttdoc">This is a numba accelerated quadralinear interpolation. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00602">streamlines.py:602</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a8280cf3b53590039168174aa93a0e4c5"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">mitgcm.streamlines.extract_along_path3D</a></div><div class="ttdeci">def extract_along_path3D(path_x, path_y, path_z, x_axis, y_axis, z_axis, field)</div><div class="ttdoc">Extract the value of a field along a path through a 3 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00779">streamlines.py:779</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_aac1a8a54def68d4a7f0698c9809db4ef"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">mitgcm.streamlines.actual_quadralinear_interp</a></div><div class="ttdeci">def actual_quadralinear_interp(field, x0, y0, z0, t0, x_index, y_index, z_index, t_index, x, y, z, t)</div><div class="ttdoc">This is a numba accelerated quadralinear interpolation. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00603">streamlines.py:603</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_a8280cf3b53590039168174aa93a0e4c5"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5">mitgcm.streamlines.extract_along_path3D</a></div><div class="ttdeci">def extract_along_path3D(path_x, path_y, path_z, x_axis, y_axis, z_axis, field)</div><div class="ttdoc">Extract the value of a field along a path through a 3 dimensional field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00787">streamlines.py:787</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_a4522067d3d52d4fc38a5ec611d776702"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702">mitgcm.streamlines.bilinear_interp</a></div><div class="ttdeci">def bilinear_interp(x0, y0, field, x, y, len_x, len_y)</div><div class="ttdoc">Do bilinear interpolation of a field. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00436">streamlines.py:436</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_a493dab136e4b63582d7f6b77e7a9c644"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#a493dab136e4b63582d7f6b77e7a9c644">mitgcm.streamlines.streaklines</a></div><div class="ttdeci">def streaklines</div><div class="ttdoc">A three-dimensional lagrangian particle tracker. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00176">streamlines.py:176</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1streamlines_html_ac29e083c45617ad0be326a556c549187"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">mitgcm.streamlines.indices_and_field</a></div><div class="ttdeci">def indices_and_field(x, y, z, startx, starty, startz, t_index, len_x, len_y, len_z, len_t, netcdf_filehandle, variable)</div><div class="ttdoc">A helper function to extract a small 4D hypercube of data from a netCDF file. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00651">streamlines.py:651</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1streamlines_html_ac29e083c45617ad0be326a556c549187"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187">mitgcm.streamlines.indices_and_field</a></div><div class="ttdeci">def indices_and_field(x, y, z, startx, starty, startz, t_index, len_x, len_y, len_z, len_t, netcdf_filehandle, variable)</div><div class="ttdoc">A helper function to extract a small 4D hypercube of data from a netCDF file. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00652">streamlines.py:652</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_af0379625b51f588355836dd3711aae7c"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#af0379625b51f588355836dd3711aae7c">mitgcm.streamlines.actual_bilinear_interp</a></div><div class="ttdeci">def actual_bilinear_interp(field, x0, y0, x, y, len_x, len_y, x_index, y_index)</div><div class="ttdoc">This is a numba accelerated bilinear interpolation. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00466">streamlines.py:466</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1streamlines_html_ac4d6c763bdac75600b3778f4e0ea3a31"><div class="ttname"><a href="namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31">mitgcm.streamlines.stream2</a></div><div class="ttdeci">def stream2</div><div class="ttdoc">A two-dimensional streamline solver. </div><div class="ttdef"><b>Definition:</b> <a href="streamlines_8py_source.html#l00023">streamlines.py:23</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 28 2015 13:17:59 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2015 16:07:13 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

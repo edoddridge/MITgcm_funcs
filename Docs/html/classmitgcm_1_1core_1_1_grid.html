@@ -45,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -153,7 +154,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>This defines the class for the grid object. </p>
 <p>This object holds all the information about the grid on which the simulation was run. It also holds masks for selecting only the boundary values of fields on the tracer points. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00670">670</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00659">659</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a79af97fd15b63db33ac352236168d38b"></a>
 <div class="memitem">
@@ -180,9 +181,51 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Define a single object that has all of the grid variables tucked away in it. </p>
-<p>Each of the variables pulled directly from the netcdf file still has the original description attached to it. The 2D and 3D arrays do not. </p>
+<p>Each of the variables pulled directly from the netcdf file still has the original description attached to it. The 2D and 3D arrays do not.</p>
+<p>Variables imported are:</p><ul>
+<li>rAw</li>
+<li>rAs</li>
+<li>rA</li>
+<li>HFacW</li>
+<li>HFacS</li>
+<li>HFacC</li>
+<li>X</li>
+<li>Xp1</li>
+<li>dxF</li>
+<li>dxC</li>
+<li>dxV</li>
+<li>Y</li>
+<li>Yp1</li>
+<li>dyU</li>
+<li>dyC</li>
+<li>dyF</li>
+<li>Z</li>
+<li>Zl</li>
+<li>Zu</li>
+<li>drC</li>
+<li>drF</li>
+<li>fCoriG</li>
+<li>fCori</li>
+</ul>
+<p>Variables computed and stored are:</p><ul>
+<li>(Z_y,Y_z)</li>
+<li>(X_y,Y_x)</li>
+<li>(Z_x,X_z)</li>
+<li>(Z_3d,Y_3d,X_3d)</li>
+<li>(DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF</li>
+<li>wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.</li>
+<li>wet_mask_U</li>
+<li>wet_mask_TH</li>
+<li>wet_mask_W</li>
+<li>cell_volume</li>
+<li>west_mask : a 3d array that is one if the point has a boundary to the west</li>
+<li>east_mask</li>
+<li>south_mask</li>
+<li>north_mask</li>
+<li>bottom_mask </li>
+</ul>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00676">676</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00665">665</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -214,7 +257,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. </p>
 <p>This function is accelerated by numba, making it about 100 times faster. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00727">727</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00765">765</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -224,7 +267,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 28 2015 13:17:59 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2015 16:07:13 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
