@@ -13,7 +13,7 @@ import copy
 import os
 import numba
 import matplotlib.pyplot as plt
-
+import glob
     
 class MITgcm_Simulation(dict):
     """!The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
@@ -713,8 +713,13 @@ class Grid(MITgcm_Simulation):
         * north_mask
         * bottom_mask
 
+        -----
+        Notes: uses glob to expand wildcards in the file name. BUT, it will only use the first file that matches.
+
         """
-        grid_netcdf_file = netCDF4.Dataset(grid_netcdf_filename)
+        grid_netcdf_file_list = glob.glob(grid_netcdf_filename)
+        grid_netcdf_file = netCDF4.Dataset(grid_netcdf_file_list[0])
+
         self['rAw'] = grid_netcdf_file.variables['rAw']
         self['rAs'] = grid_netcdf_file.variables['rAs']
         self['rA'] = grid_netcdf_file.variables['rA']
