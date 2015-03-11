@@ -961,7 +961,7 @@ class Bernoulli(Tracerpoint_field):
         BP_v = (model_instance.meridional_velocity[VVEL_field][:,1:,:]*model_instance.meridional_velocity[VVEL_field][:,1:,:] + 
                  model_instance.meridional_velocity[VVEL_field][:,:-1,:]*model_instance.meridional_velocity[VVEL_field][:,:-1,:])/2
 
-        self['BP'] = model_instance.grid['wet_mask_TH'][:]*(BP_pressure + (BP_u + BP_v)/2)
+        self['BP'] = BP_pressure + (BP_u + BP_v)/2
         # decomposition into three components suggested by Craig.
         
 class Pressure(Tracerpoint_field):
