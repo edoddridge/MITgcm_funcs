@@ -145,6 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a975760ba1406c74ad06af11ca3925397 inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a975760ba1406c74ad06af11ca3925397">load_field</a></td></tr>
 <tr class="memdesc:a975760ba1406c74ad06af11ca3925397 inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a model field from NetCDF output.  <a href="#a975760ba1406c74ad06af11ca3925397">More...</a><br /></td></tr>
 <tr class="separator:a975760ba1406c74ad06af11ca3925397 inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221664aee712e417ef67c7a20ea5923a inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a221664aee712e417ef67c7a20ea5923a">load_from_file</a> (self, model_instance, file_list, variable, time_levels, grid_loc)</td></tr>
+<tr class="memdesc:a221664aee712e417ef67c7a20ea5923a inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal function to pull the data from the file(s).  <a href="#a221664aee712e417ef67c7a20ea5923a">More...</a><br /></td></tr>
+<tr class="separator:a221664aee712e417ef67c7a20ea5923a inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">__add__</a> (self, other)</td></tr>
 <tr class="memdesc:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be added together.  <a href="#ad87c2a60ef71c33a8a8bcbb7b7f8564b">More...</a><br /></td></tr>
 <tr class="separator:ad87c2a60ef71c33a8a8bcbb7b7f8564b inherit pub_methods_classmitgcm_1_1core_1_1_m_i_tgcm___simulation"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,7 +171,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>This is the base class for all model fields on the tracer points. </p>
 <p>It includes definitions for taking derivatives. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00442">442</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00513">513</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a71960ccda494c5844ef01526a32bed1e"></a>
 <div class="memitem">
@@ -179,6 +182,12 @@ Additional Inherited Members</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>model_instance</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -202,7 +211,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>empty</em> = <code>False</code>&#160;</td>
+          <td class="paramname"><em>empty</em> = <code>False</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>field_name</em> = <code>None</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -212,7 +227,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00444">444</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00515">515</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -253,7 +268,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00469">469</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00540">540</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -296,7 +311,7 @@ Additional Inherited Members</h2></td></tr>
 <p>The numerical bit of taking the y derivative. </p>
 <p>This has been separated out so that it can be accelerated with numba, but that isn't working yet. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00505">505</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00576">576</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -339,7 +354,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the x derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00451">451</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00522">522</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -382,7 +397,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the y derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00489">489</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00560">560</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -425,7 +440,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the z derivative of the field given on tracer-points, using the spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00526">526</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00597">597</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -435,7 +450,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 6 2015 16:07:13 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 12 2015 09:43:55 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -134,6 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a975760ba1406c74ad06af11ca3925397"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a975760ba1406c74ad06af11ca3925397">load_field</a></td></tr>
 <tr class="memdesc:a975760ba1406c74ad06af11ca3925397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a model field from NetCDF output.  <a href="#a975760ba1406c74ad06af11ca3925397">More...</a><br /></td></tr>
 <tr class="separator:a975760ba1406c74ad06af11ca3925397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221664aee712e417ef67c7a20ea5923a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a221664aee712e417ef67c7a20ea5923a">load_from_file</a> (self, model_instance, file_list, variable, time_levels, grid_loc)</td></tr>
+<tr class="memdesc:a221664aee712e417ef67c7a20ea5923a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal function to pull the data from the file(s).  <a href="#a221664aee712e417ef67c7a20ea5923a">More...</a><br /></td></tr>
+<tr class="separator:a221664aee712e417ef67c7a20ea5923a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87c2a60ef71c33a8a8bcbb7b7f8564b"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#ad87c2a60ef71c33a8a8bcbb7b7f8564b">__add__</a> (self, other)</td></tr>
 <tr class="memdesc:ad87c2a60ef71c33a8a8bcbb7b7f8564b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that allows model objects to be added together.  <a href="#ad87c2a60ef71c33a8a8bcbb7b7f8564b">More...</a><br /></td></tr>
 <tr class="separator:ad87c2a60ef71c33a8a8bcbb7b7f8564b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +159,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>The simulation class is the main class of this package, and an instance of this class is a model object. </p>
 <p>All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00018">18</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00019">19</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aac012c75a0f5dce8bbc4b00422a12444"></a>
 <div class="memitem">
@@ -190,7 +193,19 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>g</em> = <code>9.8</code>&#160;</td>
+          <td class="paramname"><em>g</em> = <code>9.8</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>ntiles_x</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>ntiles_y</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -202,7 +217,7 @@ Public Attributes</h2></td></tr>
 
 <p>Instantiate an MITgcm model instance. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00022">22</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00024">24</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -234,7 +249,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be added together. </p>
 <p>It does element wise addition for each of the fields. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00061">61</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00136">136</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -264,7 +279,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be divided by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00070">70</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00145">145</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -294,7 +309,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00077">77</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00152">152</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -324,7 +339,7 @@ Public Attributes</h2></td></tr>
 
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00084">84</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00159">159</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -337,6 +352,12 @@ Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>model_instance</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -360,7 +381,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>field_name</em> = <code>None</code>&#160;</td>
+          <td class="paramname"><em>field_name</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_loc</em> = <code>'T'</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -372,9 +399,65 @@ Public Attributes</h2></td></tr>
 
 <p>Load a model field from NetCDF output. </p>
 <p>This function associates the field with the object it is called on.</p>
-<p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array. </p>
+<p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</p>
+<p>netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would <em>strongly</em> recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00037">37</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00041">41</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a221664aee712e417ef67c7a20ea5923a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.core.MITgcm_Simulation.load_from_file </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>model_instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>file_list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>variable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>time_levels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_loc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Internal function to pull the data from the file(s). </p>
+<p>It is called by "load_field", and probably shouldn't be used independently. </p>
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00069">69</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -389,7 +472,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00028">28</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00030">30</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -399,7 +482,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 6 2015 16:07:13 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 12 2015 09:43:55 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
