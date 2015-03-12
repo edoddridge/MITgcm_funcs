@@ -53,7 +53,7 @@ class MITgcm_Simulation(dict):
         if time_level == 'All':
             print 'Loading all available time levels in ' + str(variable) + '. This could take a while.'
 
-            netcdf_file = netCDF4.Dataset(files)
+            netcdf_file = netCDF4.Dataset(file_list[0])
             time_levels = netcdf_file.variables[variable][...].shape[0]
             netcdf_file.close()
 
