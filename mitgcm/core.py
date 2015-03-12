@@ -95,39 +95,41 @@ class MITgcm_Simulation(dict):
             data[tile] = netcdf_file.variables[variable][time_levels,...]
             netcdf_file.close()
 
-        data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
+        if model_instance['ntiles_x'] == 1 and model_instance['ntiles_y'] == 1:
+            output_field = data[tile]
 
-        del data #since the fields can be big, might as well get rid of the duplicate.
-
-        # for tile in data2.keys():
-        #     data2[tile] = 0*data2[tile] + float(tile)
-
-        strip_x = {}
-        tiles = data2.keys()
-
-        if model_instance['ntiles_x'] > 1:
-
-            for i in xrange(0,model_instance['ntiles_y']):
-                strip_x[i] = np.concatenate([data2[tiles[n]][...,:clip_x]
-                                    for n in xrange(i*model_instance['ntiles_x'],
-                                    (i+1)*model_instance['ntiles_x'] - 1) ],axis=-1)
-
-                strip_x[i] = np.concatenate((strip_x[i],data2[tiles[n+1]][...,:,:]),axis=-1)
         else:
-            strip_x = data2
+            data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
 
-        del data2 # again remove the duplicate
+            del data #since the fields can be big, might as well get rid of the duplicate.
 
-        strip_x_keys = strip_x.keys()
+            # for tile in data2.keys():
+            #     data2[tile] = 0*data2[tile] + float(tile)
 
-        if model_instance['ntiles_y'] > 1:
+            strip_x = {}
+            tiles = data2.keys()
 
-            loaded_field = np.concatenate([strip_x[strip_x_keys[n]][...,:clip_y,:] 
-                                    for n in xrange(0,len(strip_x_keys)-1)],axis=-2)
+            if model_instance['ntiles_x'] > 1:
 
-            loaded_field = np.concatenate((loaded_field,strip_x[strip_x_keys[n+1]][...]),axis=-2)
-        else:
-            loaded_field = strip_x[strip_x_keys[0]]
+                for i in xrange(0,model_instance['ntiles_y']):
+                    strip_x[i] = np.concatenate([data2[tiles[n]][...,:clip_x]
+                                        for n in xrange(i*model_instance['ntiles_x'],
+                                        (i+1)*model_instance['ntiles_x'] - 1) ],axis=-1)
+
+                    strip_x[i] = np.concatenate((strip_x[i],data2[tiles[n+1]][...,:,:]),axis=-1)
+            else:
+                strip_x = data2
+
+            strip_x_keys = strip_x.keys()
+
+            if model_instance['ntiles_y'] > 1:
+
+                loaded_field = np.concatenate([strip_x[strip_x_keys[n]][...,:clip_y,:] 
+                                        for n in xrange(0,len(strip_x_keys)-1)],axis=-2)
+
+                loaded_field = np.concatenate((loaded_field,strip_x[strip_x_keys[n+1]][...]),axis=-2)
+            else:
+                loaded_field = strip_x[strip_x_keys[0]]
 
 
         return loaded_field
