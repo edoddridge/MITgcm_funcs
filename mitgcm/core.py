@@ -838,7 +838,7 @@ class Grid(MITgcm_Simulation):
         self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
                                     self['drF'][:].reshape((len(self['drF'][:]),1,1)))
 
-        self.compute_masks(self['wet_mask_TH'][:])
+        self.compute_masks(self,self['wet_mask_TH'][:])
                         
         return
         
