@@ -95,6 +95,7 @@ class MITgcm_Simulation(dict):
             data[tile] = netcdf_file.variables[variable][time_levels,...]
             netcdf_file.close()
 
+
         data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
 
         del data #since the fields can be big, might as well get rid of the duplicate.
@@ -115,8 +116,6 @@ class MITgcm_Simulation(dict):
                 strip_x[i] = np.concatenate((strip_x[i],data2[tiles[n+1]][...,:,:]),axis=-1)
         else:
             strip_x = data2
-
-        del data2 # again remove the duplicate
 
         strip_x_keys = strip_x.keys()
 
