@@ -781,6 +781,7 @@ class Grid(MITgcm_Simulation):
 
         * cell_volume
 
+        **These boundary masks can be computed with the compute_masks function**
         * west_mask : a 3d array that is one if the point has a boundary to the west
         * east_mask
         * south_mask
@@ -838,13 +839,14 @@ class Grid(MITgcm_Simulation):
         self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
                                     self['drF'][:].reshape((len(self['drF'][:]),1,1)))
 
-        self.compute_masks(self['wet_mask_TH'][:])
+        #self.compute_masks(self['wet_mask_TH'][:])
+        # this isn't automatically done, since it's expensive, and only needed when computing boundary fluxes.
                         
         return
         
     @numba.jit        
     def compute_masks(self,wet_mask_TH):
-        """!This function does the compuationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
+        """!This function does the computationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
         west_mask = np.zeros((wet_mask_TH.shape))
         east_mask = np.zeros((wet_mask_TH.shape))
         south_mask = np.zeros((wet_mask_TH.shape))
