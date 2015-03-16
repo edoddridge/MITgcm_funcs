@@ -119,9 +119,9 @@ Functions</h2></td></tr>
 <tr class="separator:ab26c3c96d103e888d18a0378ebd78355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">test_layer_integrate</a> ()</td></tr>
 <tr class="separator:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ab8482ced74cb5d400c096aaa770127"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a0ab8482ced74cb5d400c096aaa770127">interp_field</a> (field, mask, zoom, order)</td></tr>
-<tr class="memdesc:a0ab8482ced74cb5d400c096aaa770127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolate a given field onto a different grid.  <a href="#a0ab8482ced74cb5d400c096aaa770127">More...</a><br /></td></tr>
-<tr class="separator:a0ab8482ced74cb5d400c096aaa770127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f06f38a8d0f42f618efa9a8c5baa051"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a1f06f38a8d0f42f618efa9a8c5baa051">interp_field</a> (field, zoom, interp_order)</td></tr>
+<tr class="memdesc:a1f06f38a8d0f42f618efa9a8c5baa051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolate a given field onto a different grid.  <a href="#a1f06f38a8d0f42f618efa9a8c5baa051">More...</a><br /></td></tr>
+<tr class="separator:a1f06f38a8d0f42f618efa9a8c5baa051"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">export_binary</a></td></tr>
 <tr class="memdesc:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export binary files that can be imported into the MITgcm.  <a href="#a79d214026dcd3ed31e27a1d2c9249cd5">More...</a><br /></td></tr>
 <tr class="separator:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,9 +162,10 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Export binary files that can be imported into the MITgcm. </p>
-<p>The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision). </p>
+<p>The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision).</p>
+<p>Might not work for very large datasets. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00294">294</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00302">302</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -208,7 +209,7 @@ Functions</h2></td></tr>
 <p>This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the values of input_field at the location specified by surf_loc_array along the third dimension using the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.</p>
 <p>direction: optional argument to specify which direction the axis increases in. Default is up </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00134">134</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00133">133</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -279,11 +280,11 @@ print depth_temp_10point2
 &gt; [[ nan     1.8         nan]
 &gt;  [ 1.8     1.8  4.26666667]
 &gt;  [ 2.4     1.8         nan]]</pre> 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00017">17</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00016">16</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0ab8482ced74cb5d400c096aaa770127"></a>
+<a class="anchor" id="a1f06f38a8d0f42f618efa9a8c5baa051"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -297,19 +298,13 @@ print depth_temp_10point2
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>zoom</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>order</em>&#160;</td>
+          <td class="paramname"><em>interp_order</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -327,10 +322,10 @@ print depth_temp_10point2
 <li>field - the variable to be interpolated</li>
 <li>mask - a field that zero in the fluid and one outside of it. This is used to fill all the gaps with the average value to reduce ringing in higher order interpolation operations.</li>
 <li>zoom - the factor by which the input field is scaled. zoom = 2 means halving the horizontal resolution, e.g. from 10 km to 5 km.</li>
-<li>order - the order of the interpolation function. 1 -&gt; linear, 3 -&gt; cubic, &amp;c.. </li>
+<li>interp_order - the order of the interpolation function. 1 -&gt; linear, 3 -&gt; cubic, &amp;c.. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00268">268</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00267">267</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -399,7 +394,7 @@ print np.sum(test)
 &gt; 16.1
 print np.sum(upper - lower)
 &gt; 16.1</pre> 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00184">184</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00183">183</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -448,7 +443,7 @@ print np.sum(upper - lower)
 <p>Numba accelerated linear interpolation function. </p>
 <p>This was seperate from the extract_surface function, to allow numba to work its magic. But now it's not being used. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00098">98</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00097">97</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -465,14 +460,14 @@ print np.sum(upper - lower)
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00255">255</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00254">254</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 15 2015 13:02:12 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 16 2015 09:10:47 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
