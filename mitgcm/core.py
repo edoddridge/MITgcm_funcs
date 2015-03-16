@@ -50,23 +50,13 @@ class MITgcm_Simulation(dict):
 
         file_list = glob.glob(netcdf_filename)
 
-        if time_level == 'All':
-            print 'Loading all available time levels in ' + str(variable) + '. This could take a while.'
-
-            netcdf_file = netCDF4.Dataset(file_list[0])
-            time_levels = netcdf_file.variables[variable][...].shape[0]
-            netcdf_file.close()
-
-            time_levels = np.arange(0,time_levels)
-        else:
-            time_levels = time_level
 
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_levels,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
 
         return 
 
-    def load_from_file(self,model_instance, file_list,variable,time_levels,grid_loc):
+    def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc):
         """!Internal function to pull the data from the file(s). It is called by "load_field", and probably shouldn't be used independently."""
 
         # remove overlapping regions from tiles
@@ -87,46 +77,61 @@ class MITgcm_Simulation(dict):
             clip_y = -1
 
         data = {}
-        for files in file_list:
 
-            netcdf_file = netCDF4.Dataset(files)
-            index = files.find('.t')
-            tile = files[index+2:-3]
-            data[tile] = netcdf_file.variables[variable][time_levels,...]
-            netcdf_file.close()
+        if time_level == 'All':
+            print 'Loading all available time levels in ' + str(variable) + '. This could take a while.'
 
+            for files in file_list:
+                netcdf_file = netCDF4.Dataset(files)
+                index = files.find('.t')
+                tile = files[index+2:-3]
+                data[tile] = netcdf_file.variables[variable][:]
+                netcdf_file.close()
 
-        data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
-
-        del data #since the fields can be big, might as well get rid of the duplicate.
-
-        # for tile in data2.keys():
-        #     data2[tile] = 0*data2[tile] + float(tile)
-
-        strip_x = {}
-        tiles = data2.keys()
-
-        if model_instance['ntiles_x'] > 1:
-
-            for i in xrange(0,model_instance['ntiles_y']):
-                strip_x[i] = np.concatenate([data2[tiles[n]][...,:clip_x]
-                                    for n in xrange(i*model_instance['ntiles_x'],
-                                    (i+1)*model_instance['ntiles_x'] - 1) ],axis=-1)
-
-                strip_x[i] = np.concatenate((strip_x[i],data2[tiles[n+1]][...,:,:]),axis=-1)
         else:
-            strip_x = data2
+            for files in file_list:
+                netcdf_file = netCDF4.Dataset(files)
+                index = files.find('.t')
+                tile = files[index+2:-3]
+                data[tile] = netcdf_file.variables[variable][time_level,...]
+                netcdf_file.close()
 
-        strip_x_keys = strip_x.keys()
 
-        if model_instance['ntiles_y'] > 1:
+        if len(file_list) == 1:
+            loaded_field = data[tile]
 
-            loaded_field = np.concatenate([strip_x[strip_x_keys[n]][...,:clip_y,:] 
-                                    for n in xrange(0,len(strip_x_keys)-1)],axis=-2)
-
-            loaded_field = np.concatenate((loaded_field,strip_x[strip_x_keys[n+1]][...]),axis=-2)
         else:
-            loaded_field = strip_x[strip_x_keys[0]]
+            data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
+
+            del data #since the fields can be big, might as well get rid of the duplicate.
+
+            # for tile in data2.keys():
+            #     data2[tile] = 0*data2[tile] + float(tile)
+
+            strip_x = {}
+            tiles = data2.keys()
+
+            if model_instance['ntiles_x'] > 1:
+
+                for i in xrange(0,model_instance['ntiles_y']):
+                    strip_x[i] = np.concatenate([data2[tiles[n]][...,:clip_x]
+                                        for n in xrange(i*model_instance['ntiles_x'],
+                                        (i+1)*model_instance['ntiles_x'] - 1) ],axis=-1)
+
+                    strip_x[i] = np.concatenate((strip_x[i],data2[tiles[n+1]][...,:,:]),axis=-1)
+            else:
+                strip_x = data2
+
+            strip_x_keys = strip_x.keys()
+
+            if model_instance['ntiles_y'] > 1:
+
+                loaded_field = np.concatenate([strip_x[strip_x_keys[n]][...,:clip_y,:] 
+                                        for n in xrange(0,len(strip_x_keys)-1)],axis=-2)
+
+                loaded_field = np.concatenate((loaded_field,strip_x[strip_x_keys[n+1]][...]),axis=-2)
+            else:
+                loaded_field = strip_x[strip_x_keys[0]]
 
 
         return loaded_field
@@ -399,13 +404,15 @@ class Wpoint_field(MITgcm_Simulation):
         if field_name == None:
             field_name = variable
 
+
         file_list = glob.glob(netcdf_filename)
+
 
         loaded_field = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
 
 
-        if hasattr(time_level, '__len__'):
-                self[field_name] = np.append(loaded_field,np.zeros((len(time_level),1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
+        if len(loaded_field.shape) == 4:
+                self[field_name] = np.append(loaded_field,np.zeros((loaded_field.shape[0],1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=1)
         else:
                 self[field_name] = np.append(loaded_field,np.zeros((1,loaded_field.shape[-2],loaded_field.shape[-1])),axis=0)
 
