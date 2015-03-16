@@ -851,8 +851,11 @@ class Grid(MITgcm_Simulation):
         return
         
     @numba.jit        
-    def compute_masks(self,wet_mask_TH):
+    def compute_boundary_masks(self):
         """!This function does the computationally heavy job of looping through each dimension and creating masks that are one if the boundary is next to the grid point in the specified direction. This function is accelerated by numba, making it about 100 times faster."""
+
+        wet_mask_TH = self['wet_mask_TH'][:]
+
         west_mask = np.zeros((wet_mask_TH.shape))
         east_mask = np.zeros((wet_mask_TH.shape))
         south_mask = np.zeros((wet_mask_TH.shape))
