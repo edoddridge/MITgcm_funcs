@@ -9,6 +9,7 @@ Each function has a detailed docstring.
 import numpy as np
 import netCDF4
 import numba
+import sys
 
 
 
@@ -256,3 +257,59 @@ def test_layer_integrate():
     lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
     axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
     assert layer_integrate(upper,lower,axis,integrand=integrand) == np.sum(upper - lower)
+
+
+
+
+
+
+
+def interp_field(field,zoom,interp_order):
+    """!Interpolate a given field onto a different grid. Only performs interpolation in the horizontal directions.
+    
+    None of the grids need to be specified - the zoom factor determines the resolution of the returned field.
+    
+    ----
+    ##Parameters##
+    * field - the variable to be interpolated
+    * mask - a field that zero in the fluid and one outside of it. This is used to fill all the gaps with the average value to reduce ringing in higher order interpolation operations.
+    * zoom - the factor by which the input field is scaled. zoom = 2 means halving the horizontal resolution, e.g. from 10 km to 5 km.
+    * interp_order - the order of the interpolation function. 1 -> linear, 3 -> cubic, &c.."""
+
+    try:
+        import scipy.ndimage
+    except ImportError:
+        print "Couldn't find the scipy.ndimage module - terminating interpolation."
+        return
+
+
+    mask = np.ones((np.shape(field)))
+    mask[field == 0.] = 0.
+
+    field_interp = np.zeros((field.shape[0],
+                     field.shape[1]*zoom,
+                     field.shape[2]*zoom))
+    
+    for k in xrange(0,field.shape[0]):
+        field_interp[k,:,:] = scipy.ndimage.zoom(field[k,:,:] + 
+                                         (1-mask[k,:,:])*
+                                         np.mean(field[k,:,:]),
+                                                 zoom,order=interp_order)
+    return field_interp
+
+
+
+def export_binary(filename,field,dtype='float64'):
+    """!Export binary files that can be imported into the MITgcm.
+    The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision).
+
+    Might not work for very large datasets."""
+    
+    data = np.array(field,dtype=dtype) # with defined precision, either float32 or float64
+    if sys.byteorder == 'little': data.byteswap(True)
+    fid = open(filename,"wb")
+    data.tofile(fid) # this does not work for very large data sets
+    fid.close()
+
+
+
