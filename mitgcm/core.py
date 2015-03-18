@@ -85,7 +85,13 @@ class MITgcm_Simulation(dict):
                 netcdf_file = netCDF4.Dataset(files)
                 index = files.find('.t')
                 tile = files[index+2:-3]
-                data[tile] = netcdf_file.variables[variable][:]
+                if variable in netcdf_file.variables.keys():
+                    data[tile] = netcdf_file.variables[variable][:]
+                else:
+                    print variable, 'not in', files, 'Aborting import'
+                    netcdf_file.close()
+                    return
+
                 netcdf_file.close()
 
         else:
@@ -93,7 +99,12 @@ class MITgcm_Simulation(dict):
                 netcdf_file = netCDF4.Dataset(files)
                 index = files.find('.t')
                 tile = files[index+2:-3]
-                data[tile] = netcdf_file.variables[variable][time_level,...]
+                if variable in netcdf_file.variables.keys():
+                    data[tile] = netcdf_file.variables[variable][time_level,:]
+                else:
+                    print variable, 'not in', files, 'Aborting import'
+                    netcdf_file.close()
+                    return
                 netcdf_file.close()
 
 
@@ -939,7 +950,7 @@ class Density(Tracerpoint_field):
           raise ValueError('Only linear EOS supported at the moment. Sorry.')
 
     def calculate_TotRhoTend(self,model_instance):
-        """!Calculate time rate of change of the Density field from the temperature tendency and the linear equation of state.
+        """!Calculate time rate of change of the Density field from the temperature tendency and the linear equation of state. Returned as 'TotRhoTend' associated with the density object.
 
         Differentiating the linear equation of state with respect to temperature, and assuming \f$ \beta_{S} \f$ equals zero, gives
         \f[
@@ -1001,48 +1012,4 @@ class Potential_vorticity(Tracerpoint_field):
     def __init__(self,model_instance,density_field='RhoNil',density_deriv_field='dRHO_dz',vort_field='omega_a'):
         self['Q'] = -model_instance.vorticity[vort_field]*model_instance.density[density_deriv_field]/model_instance.density[density_field]
 
-        
-def show_variables(netcdf_filename):
-    """!A shortcut function to display all of the variables contained within a netcdf file."""
-    netcdf_file = netCDF4.Dataset(netcdf_filename)
-    print netcdf_file.variables.keys()
-    netcdf_file.close()
-
-
-  
-  
-def plt_mon_stats(netcdf_filename,
-                    variables=['advcfl_uvel_max','advcfl_vvel_max','advcfl_wvel_max'],
-                    time_units='days'):
-    """!Plot some monitor file variables. 
-    
-    Options include:
-    * advcfl_uvel_max
-    * advcfl_vvel_max
-    * advcfl_wvel_max
-    * ke_mean
-    * dynstat_theta_mean
-    * dynstat_sst_mean
-    * dynstat_sst_sd
-    * dynstat_salt_max
-    * dynstat_salt_min
-    * dynstat_uvel_mean
-    * dynstat_vvel_mean
-    * dynstat_wvel_mean
-    * ...
-    * and many others.
-    
-    """
-    monitor_output = netCDF4.MFDataset(netcdf_filename)
-    
-    if time_units == 'days':
-        time = monitor_output.variables['time_secondsf'][:]/(86400)
-    elif time_units == 'years':
-        time = monitor_output.variables['time_secondsf'][:]/(86400*365)
-    else:
-        raise ValueError(str(time_units) + ' is not a valid option for time_units')
-
-    for stat in variables:
-        plt.plot(time,monitor_output.variables[stat][:],label=stat)
-    plt.xlabel('Model '+ time_units)
-    plt.legend()
+   
