@@ -330,7 +330,7 @@ def show_variables(netcdf_filename):
 def plt_mon_stats(netcdf_filename,
                     variables=['advcfl_uvel_max','advcfl_vvel_max','advcfl_wvel_max'],
                     time_units='days'):
-    """!Plot some monitor file variables. 
+    """!Plot some monitor file variables. 'netcdf_filename' can contain shell wild cards, but only the first matching file will be used.
     
     Options include:
     * advcfl_uvel_max
