@@ -10,6 +10,8 @@ import numpy as np
 import netCDF4
 import numba
 import sys
+import matplotlib.pyplot as plt
+import glob
 
 
 
@@ -311,5 +313,55 @@ def export_binary(filename,field,dtype='float64'):
     data.tofile(fid) # this does not work for very large data sets
     fid.close()
 
+
+     
+def show_variables(netcdf_filename):
+    """!A shortcut function to display all of the variables contained within a netcdf file.
+
+    If the filename contains wildcards, they'll be expanded and only the first file used."""
+    filse = glob.glob(filename)
+    netcdf_file = netCDF4.Dataset(files[0])
+    print netcdf_file.variables.keys()
+    netcdf_file.close()
+
+
+  
+  
+def plt_mon_stats(netcdf_filename,
+                    variables=['advcfl_uvel_max','advcfl_vvel_max','advcfl_wvel_max'],
+                    time_units='days'):
+    """!Plot some monitor file variables. 
+    
+    Options include:
+    * advcfl_uvel_max
+    * advcfl_vvel_max
+    * advcfl_wvel_max
+    * ke_mean
+    * dynstat_theta_mean
+    * dynstat_sst_mean
+    * dynstat_sst_sd
+    * dynstat_salt_max
+    * dynstat_salt_min
+    * dynstat_uvel_mean
+    * dynstat_vvel_mean
+    * dynstat_wvel_mean
+    * ...
+    * and many others.
+    
+    """
+    files = glob.glob(netcdf_filename)
+    monitor_output = netCDF4.Dataset(files[0])
+    
+    if time_units == 'days':
+        time = monitor_output.variables['time_secondsf'][:]/(86400)
+    elif time_units == 'years':
+        time = monitor_output.variables['time_secondsf'][:]/(86400*365)
+    else:
+        raise ValueError(str(time_units) + ' is not a valid option for time_units')
+
+    for stat in variables:
+        plt.plot(time,monitor_output.variables[stat][:],label=stat)
+    plt.xlabel('Model '+ time_units)
+    plt.legend()
 
 
