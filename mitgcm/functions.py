@@ -358,10 +358,13 @@ def plt_mon_stats(netcdf_filename,
         time = monitor_output.variables['time_secondsf'][:]/(86400*365)
     else:
         raise ValueError(str(time_units) + ' is not a valid option for time_units')
-
+    data = {}
     for stat in variables:
-        plt.plot(time,monitor_output.variables[stat][:],label=stat)
+        data[stat] = monitor_output.variables[stat][:]
+        plt.plot(time,data[stat],label=stat)
     plt.xlabel('Model '+ time_units)
     plt.legend()
+
+    return data
 
 
