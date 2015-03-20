@@ -319,7 +319,7 @@ def show_variables(netcdf_filename):
     """!A shortcut function to display all of the variables contained within a netcdf file.
 
     If the filename contains wildcards, they'll be expanded and only the first file used."""
-    filse = glob.glob(filename)
+    files = glob.glob(netcdf_filename)
     netcdf_file = netCDF4.Dataset(files[0])
     print netcdf_file.variables.keys()
     netcdf_file.close()
