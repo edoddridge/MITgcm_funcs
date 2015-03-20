@@ -4,7 +4,7 @@ The main file with the class definitions
 Core
 ==============
 
-This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons. It also has some functions that might be of use.
+This file contains all of the classes for the module. It has the base MITgcm_Simulation class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulations. It also has some functions that might be of use.
 """
 
 import numpy as np
@@ -22,7 +22,18 @@ class MITgcm_Simulation(dict):
     """
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8,
                     ntiles_x=1,ntiles_y=1):
-        """!Instantiate an MITgcm model instance."""
+        """!Instantiate an MITgcm model instance.
+
+        ----
+        # Parameters #
+
+        * output_dir - the location in which the grid netcdf file is, and the rest of the data can be found
+        * grid_netcdf_filename - name of the grid file
+        * EOS_type - the equation of state used. 'linear' is the only supported equation of state at the moment
+        * g - gravity
+        * ntiles_x - number of tiles in the x direction (nPx in MITgcm speak)
+        * ntiles_y - number of tiles in the y direction (nPy in MITgcm speak)
+        """
         
         os.chdir(output_dir)
         self['output_dir'] = output_dir
