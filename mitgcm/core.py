@@ -99,7 +99,7 @@ class MITgcm_Simulation(dict):
                 if variable in netcdf_file.variables.keys():
                     data[tile] = netcdf_file.variables[variable][:]
                 else:
-                    print variable, 'not in', files, 'Aborting import'
+                    print variable, 'not in', files, '- aborting import'
                     netcdf_file.close()
                     return
 
@@ -111,9 +111,9 @@ class MITgcm_Simulation(dict):
                 index = files.find('.t')
                 tile = files[index+2:-3]
                 if variable in netcdf_file.variables.keys():
-                    data[tile] = netcdf_file.variables[variable][time_level,:]
+                    data[tile] = netcdf_file.variables[variable][time_level,...]
                 else:
-                    print variable, 'not in', files, 'Aborting import'
+                    print variable, 'not in', files, '- aborting import'
                     netcdf_file.close()
                     return
                 netcdf_file.close()
@@ -169,21 +169,21 @@ class MITgcm_Simulation(dict):
         return me
 
     def __div__(self,other):
-        """!A method that allows model objects to be divided by floating point numbers."""
+        """!A method that allows model objects to be divided by floating point numbers. Each field is divided by a floating point number."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value/float(other))
         return me
 
     def __mul__(self, other):
-        """! A method that allows model objects to be multiplied by floating point numbers."""
+        """! A method that allows model objects to be multiplied by floating point numbers. Each field is multiplied by a floating point number."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
         return me
 
     def __rmul__(self, other):
-        """! A method that allows model objects to be multiplied by floating point numbers."""
+        """! A method that allows model objects to be multiplied by floating point numbers. Each field is multiplied by a floating point number."""
         me = copy.deepcopy(self)
         for key, value in me.__dict__.iteritems():
                 setattr(me, key, value * float(other))
@@ -759,7 +759,6 @@ class Grid(MITgcm_Simulation):
     """!This defines the class for the grid object. 
 
     Currently requires a single grid file.
-    \todo allow one grid file per tile.
 
     This object holds all the information about the grid on which the simulation was run. It also holds masks for selecting only the boundary values of fields on the tracer points. 
     """
@@ -809,7 +808,7 @@ class Grid(MITgcm_Simulation):
 
         * cell_volume
 
-        **These boundary masks can be computed with the compute_masks function**
+        **These boundary masks can be computed with the compute_boundary_masks function**
         * west_mask : a 3d array that is one if the point has a boundary to the west
         * east_mask
         * south_mask
