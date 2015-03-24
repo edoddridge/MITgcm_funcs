@@ -15,7 +15,8 @@ streaklines are defined as the path that a parcel of fluid would follow in the a
 import numpy as np
 import netCDF4
 import numba
-
+import scipy.interpolate
+from . import functions
 
 def stream2(u,v,
             startx,starty,
@@ -430,9 +431,6 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
 
 
-
-
-
 def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   """!Do bilinear interpolation of a field. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
@@ -794,6 +792,14 @@ def extract_along_path3D(path_x,path_y,path_z,
 
     path_variable = np.zeros((path_x.shape))
     
+    #if np.min(path_z) == np.max(path_z):
+        # the path is along a 2D depth surface
+    #    surf_loc_array = path_z[0]*np.ones((field.shape))
+    #    field_at_depth = functions.extract_on_surface(field,surf_loc_array,z_axis,direction='up')
+
+
+        # FINISH THIS
+
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
@@ -804,18 +810,34 @@ def extract_along_path3D(path_x,path_y,path_z,
 
 
 def extract_along_path2D(path_x,path_y,
-            x_axis,y_axis,field):
+            x_axis,y_axis,field,order=3):
     """!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Time varying fields are not supported.
+    
+    ------
+    ##Parameters##
+    * path_x - x-coordinate of the path.
+    * path_y - y-coordinate of the path.
+    x_axis - vector of the x-coordinate of the input field.
+    y_axis - vector of the y-coordinate of the input field.
+    field - the input field, the values of which will be extracted along the path.
+    order - the order for the interpolation function, must be between 1 and 5 inclusive. 1 -> linear, 3 -> cubic. 
     """
         
-    len_x = len(x_axis)
-    len_y = len(y_axis)
+    #len_x = len(x_axis)
+    #len_y = len(y_axis)
 
     path_variable = np.zeros((path_x.shape))
     
+    kx = order
+    ky = order
+
+    interp_field = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx,ky)
+
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x_axis,y_axis,len_x,len_y)
-                
+        path_variable[i] = interp_field(path_y[i],path_x[i])
+
     return path_variable
+
+
