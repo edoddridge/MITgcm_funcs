@@ -12,7 +12,7 @@ import numba
 import sys
 import matplotlib.pyplot as plt
 import glob
-
+import scipy.interpolate
 
 
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
@@ -179,7 +179,24 @@ def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
     return value_on_surf
 
 
+@numba.jit
+def numerics_extract_on_surface(input_field,surf_loc_array,axis_values,dummy_direction,value_on_surf):
 
+    for i in xrange(0,surf_loc_array.shape[0]):
+        for j in xrange(0,surf_loc_array.shape[1]):
+            if np.isnan(surf_loc_array[i,j]):
+                value_on_surf[i,j] = np.nan
+            elif surf_loc_array[i,j] == 0:
+                value_on_surf[i,j] = np.nan
+            else:
+                k = dummy_direction*np.searchsorted(axis_values[::dummy_direction],surf_loc_array[i,j]) - 1
+                
+                value_on_surf[i,j] = (input_field[k,i,j] + 
+                                      ((surf_loc_array[i,j] - axis_values[k])/
+                                      (axis_values[k] - axis_values[k+1]))*
+                                      (input_field[k,i,j] - input_field[k+1,i,j])
+                                      )
+    return value_on_surf
 
 
 def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none', axis_sign = 'negative'): 
@@ -266,7 +283,7 @@ def test_layer_integrate():
 
 
 
-def interp_field(field,zoom,interp_order):
+def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
     """!Interpolate a given field onto a different grid. Only performs interpolation in the horizontal directions.
     
     None of the grids need to be specified - the zoom factor determines the resolution of the returned field.
@@ -274,30 +291,30 @@ def interp_field(field,zoom,interp_order):
     ----
     ##Parameters##
     * field - the variable to be interpolated
-    * mask - a field that zero in the fluid and one outside of it. This is used to fill all the gaps with the average value to reduce ringing in higher order interpolation operations.
-    * zoom - the factor by which the input field is scaled. zoom = 2 means halving the horizontal resolution, e.g. from 10 km to 5 km.
-    * interp_order - the order of the interpolation function. 1 -> linear, 3 -> cubic, &c.."""
-
-    try:
-        import scipy.ndimage
-    except ImportError:
-        print "Couldn't find the scipy.ndimage module - terminating interpolation."
-        return
+    * old_x, old_y - the axis on which the original field is defined.
+    * new_x, new_y - the axis onto which the field will be interpolated.
+    * interp_order - the order of the interpolation function, integer between 0 and 5 inclusive. 1 -> linear, 3 -> cubic, &c.."""
 
 
     mask = np.ones((np.shape(field)))
     mask[field == 0.] = 0.
 
     field_interp = np.zeros((field.shape[0],
-                     field.shape[1]*zoom,
-                     field.shape[2]*zoom))
-    
+                     len(new_y),
+                     len(new_x)))
+
+    kx = order
+    ky = order
+
+    interp_object = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx,ky)
+
+
     for k in xrange(0,field.shape[0]):
-        field_interp[k,:,:] = scipy.ndimage.zoom(field[k,:,:] + 
-                                         (1-mask[k,:,:])*
-                                         np.mean(field[k,:,:]),
-                                                 zoom,order=interp_order)
+        field_interp[k,:,:] = interp_object(new_y,new_x)
+
+
     return field_interp
+
 
 
 
