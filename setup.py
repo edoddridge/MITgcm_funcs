@@ -12,5 +12,6 @@ setup(name='mitgcm',
           'numpy',
 	  'netCDF4',
 	  'numba',
+        'scipy',
       ],
       zip_safe=False)
