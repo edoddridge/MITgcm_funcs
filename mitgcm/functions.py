@@ -132,10 +132,10 @@ def linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction):
 
 
 
-def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
+def extract_on_surface(input_field,surface_values,axis_values,direction='up'):
     """!Extract the value of a 3D field on a 2D surface.
     This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
-    matrix 'surf_loc_array' and returns a 2 dimensional matrix that contains the
+    matrix 'surface_values' and returns a 2 dimensional matrix that contains the
     values of input_field at the location specified by surf_loc_array along the third dimension using
     the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.
     
@@ -158,9 +158,18 @@ def extract_on_surface(input_field,surf_loc_array,axis_values,direction='up'):
         dummy_direction = -1
     else:
         print "direction of decreasing values not defined properly. Should be 'down' or 'up'"
-    
+
+    # broadcast depth to the shape of the field
+    try:
+        surf_loc_array = (surface_values*
+                    np.ones((input_field.shape[1],input_field.shape[2])))
+    except ValueError:
+        print "input_field and surface_values have incompatible shapes"
+        return
+   
     value_on_surf = np.zeros((surf_loc_array.shape))
     value_on_surf[:] = np.nan
+
 
     for i in xrange(0,surf_loc_array.shape[0]):
         for j in xrange(0,surf_loc_array.shape[1]):
