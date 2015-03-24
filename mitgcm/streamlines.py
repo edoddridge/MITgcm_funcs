@@ -810,17 +810,18 @@ def extract_along_path3D(path_x,path_y,path_z,
 
 
 def extract_along_path2D(path_x,path_y,
-            x_axis,y_axis,field,order=3):
+            x_axis,y_axis,field,order=3,dx=0,dy=0):
     """!Extract the value of a field along a path through a 2 dimensional field. The field must be passed as an array. Time varying fields are not supported.
     
     ------
     ##Parameters##
     * path_x - x-coordinate of the path.
     * path_y - y-coordinate of the path.
-    x_axis - vector of the x-coordinate of the input field.
-    y_axis - vector of the y-coordinate of the input field.
-    field - the input field, the values of which will be extracted along the path.
-    order - the order for the interpolation function, must be between 1 and 5 inclusive. 1 -> linear, 3 -> cubic. 
+    * x_axis - vector of the x-coordinate of the input field.
+    * y_axis - vector of the y-coordinate of the input field.
+    * field - the input field, the values of which will be extracted along the path.
+    * order - the order for the interpolation function, must be between 1 and 5 inclusive. 1 -> linear, 3 -> cubic. 
+    * dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function.
     """
         
     #len_x = len(x_axis)
@@ -831,12 +832,12 @@ def extract_along_path2D(path_x,path_y,
     kx = order
     ky = order
 
-    interp_field = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx,ky)
+    interp_field = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx=kx,ky=ky)
 
     for i in xrange(0,len(path_x)):
 
         # Interpolate field to  location
-        path_variable[i] = interp_field(path_y[i],path_x[i])
+        path_variable[i] = interp_field(path_y[i],path_x[i],dx=dx,dy=dy)
 
     return path_variable
 
