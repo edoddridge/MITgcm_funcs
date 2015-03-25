@@ -391,6 +391,8 @@ def plt_mon_stats(netcdf_filename,
     plt.xlabel('Model '+ time_units)
     plt.legend()
 
+    data['time'] = time
+
     return data
 
 
