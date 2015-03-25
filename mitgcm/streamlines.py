@@ -824,20 +824,26 @@ def extract_along_path2D(path_x,path_y,
     * dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function.
     """
         
-    #len_x = len(x_axis)
-    #len_y = len(y_axis)
+
 
     path_variable = np.zeros((path_x.shape))
-    
-    kx = order
-    ky = order
 
-    interp_field = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx=kx,ky=ky)
+    if order == 1:
+        len_x = len(x_axis)
+        len_y = len(y_axis)
+        # use linear interpolation function from this module
+        
+        for i in xrange(0,len(path_x)):
+            # Interpolate field to  location
+            path_variable[i] = bilinear_interp(path_x[i],path_y[i],field,x_axis,y_axis,len_x,len_y)
 
-    for i in xrange(0,len(path_x)):
+    else:
+        interp_field = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx=order,ky=order)
 
-        # Interpolate field to  location
-        path_variable[i] = interp_field(path_y[i],path_x[i],dx=dx,dy=dy)
+        for i in xrange(0,len(path_x)):
+
+            # Interpolate field to  location
+            path_variable[i] = interp_field(path_y[i],path_x[i],dx=dx,dy=dy)
 
     return path_variable
 
