@@ -58,13 +58,9 @@ class MITgcm_Simulation(dict):
         if field_name == None:
             field_name = variable
 
-
         file_list = glob.glob(netcdf_filename)
 
-
-
         self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
-
         return 
 
     def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc):
@@ -74,7 +70,7 @@ class MITgcm_Simulation(dict):
         if grid_loc == 'T':
             clip_x = None
             clip_y = None
-        if grid_loc == 'W':
+        elif grid_loc == 'W':
             clip_x = None
             clip_y = None
         elif grid_loc == 'V':
@@ -86,6 +82,9 @@ class MITgcm_Simulation(dict):
         elif grid_loc == 'Zeta':
             clip_x = -1
             clip_y = -1
+        else:
+            print "grid_loc variable not set correctly"
+            return
 
         data = {}
 
@@ -199,6 +198,20 @@ class Upoint_field(MITgcm_Simulation):
             self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='U')
 
         return
+
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='U'):
+        """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
+
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
+
+        netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would *strongly* recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis."""
+        if field_name == None:
+            field_name = variable
+
+        file_list = glob.glob(netcdf_filename)
+
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        return 
     
     ### Derivatives of model fields    
     def take_d_dx(self,model_instance,input_field = 'UVEL',output_field='dU_dx'):
@@ -315,7 +328,21 @@ class Vpoint_field(MITgcm_Simulation):
 
         return
     
-    
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='V'):
+        """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
+
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
+
+        netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would *strongly* recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis."""
+        if field_name == None:
+            field_name = variable
+
+        file_list = glob.glob(netcdf_filename)
+
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        return 
+
+
     def take_d_dx(self,model_instance,input_field = 'VVEL',output_field='dV_dx'):
         """!Take the x derivative of the field on v points using the spacings in model_instance.grid object.
         
@@ -546,7 +573,23 @@ class Tracerpoint_field(MITgcm_Simulation):
         else:
             self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='T')
         return
-        
+
+
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T'):
+        """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
+
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
+
+        netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would *strongly* recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis."""
+        if field_name == None:
+            field_name = variable
+
+        file_list = glob.glob(netcdf_filename)
+
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        return 
+
+
     def take_d_dx(self,model_instance,input_field = 'RHO',output_field='dRHO_dx'):
         """!Take the x derivative of the field on tracer points, using spacings in grid object.
 
@@ -663,7 +706,21 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
         return
 
-        
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='Zeta'):
+        """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
+
+        time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
+
+        netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would *strongly* recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis."""
+        if field_name == None:
+            field_name = variable
+
+        file_list = glob.glob(netcdf_filename)
+
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        return 
+
+
     def take_d_dx(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dx'):
         """! Take the x derivative of the field given on vorticity-points, using the spacings in grid object.
 
