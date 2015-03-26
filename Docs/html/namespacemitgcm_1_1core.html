@@ -94,8 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">mitgcm.core Namespace Reference</div>  </div>
 </div><!--header-->
@@ -139,109 +138,15 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_wpoint__field.html">Wpoint_field</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the class for all fields on vertical velocity points.  <a href="classmitgcm_1_1core_1_1_wpoint__field.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a27a0189528ab26e550791d3f0d85142c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1core.html#a27a0189528ab26e550791d3f0d85142c">show_variables</a> (netcdf_filename)</td></tr>
-<tr class="memdesc:a27a0189528ab26e550791d3f0d85142c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A shortcut function to display all of the variables contained within a netcdf file.  <a href="#a27a0189528ab26e550791d3f0d85142c">More...</a><br /></td></tr>
-<tr class="separator:a27a0189528ab26e550791d3f0d85142c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84cb1c1515c236e37c08e6b3e413e313"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1core.html#a84cb1c1515c236e37c08e6b3e413e313">plt_mon_stats</a></td></tr>
-<tr class="memdesc:a84cb1c1515c236e37c08e6b3e413e313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plot some monitor file variables.  <a href="#a84cb1c1515c236e37c08e6b3e413e313">More...</a><br /></td></tr>
-<tr class="separator:a84cb1c1515c236e37c08e6b3e413e313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main file with the class definitions. </p>
 <h1>Core </h1>
-<p>This file contains all of the classes for the module. It has the base <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje...">MITgcm_Simulation</a> class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulaitons. It also has some functions that might be of use. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a84cb1c1515c236e37c08e6b3e413e313"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.core.plt_mon_stats </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>variables</em> = <code>['advcfl_uvel_max'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>advcfl_vvel_max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>advcfl_wvel_max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>time_units</em> = <code>'days'</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Plot some monitor file variables. </p>
-<p>Options include:</p><ul>
-<li>advcfl_uvel_max</li>
-<li>advcfl_vvel_max</li>
-<li>advcfl_wvel_max</li>
-<li>ke_mean</li>
-<li>dynstat_theta_mean</li>
-<li>dynstat_sst_mean</li>
-<li>dynstat_sst_sd</li>
-<li>dynstat_salt_max</li>
-<li>dynstat_salt_min</li>
-<li>dynstat_uvel_mean</li>
-<li>dynstat_vvel_mean</li>
-<li>dynstat_wvel_mean</li>
-<li>...</li>
-<li>and many others. </li>
-</ul>
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l01016">1016</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a27a0189528ab26e550791d3f0d85142c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.core.show_variables </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>netcdf_filename</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A shortcut function to display all of the variables contained within a netcdf file. </p>
-
-<p>Definition at line <a class="el" href="core_8py_source.html#l01005">1005</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>This file contains all of the classes for the module. It has the base <a class="el" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje...">MITgcm_Simulation</a> class, and all of the subclasses for different types of fields. Each class has methods for taking derivatives and doing useful manipulations. It also has some functions that might be of use. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 16 2015 09:10:46 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 26 2015 10:34:27 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

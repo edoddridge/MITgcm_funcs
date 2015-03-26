@@ -120,6 +120,9 @@ Inheritance diagram for mitgcm.core.Upoint_field:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab4adbcfd61c7b303b8499a5228cd6f77"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#ab4adbcfd61c7b303b8499a5228cd6f77">__init__</a></td></tr>
 <tr class="separator:ab4adbcfd61c7b303b8499a5228cd6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab77f9dfae2bdb0d190af8d916ba410a9"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#ab77f9dfae2bdb0d190af8d916ba410a9">load_field</a></td></tr>
+<tr class="memdesc:ab77f9dfae2bdb0d190af8d916ba410a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a model field from NetCDF output.  <a href="#ab77f9dfae2bdb0d190af8d916ba410a9">More...</a><br /></td></tr>
+<tr class="separator:ab77f9dfae2bdb0d190af8d916ba410a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40c4ea3c2527688e8419c0a276e27d5c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmitgcm_1_1core_1_1_upoint__field.html#a40c4ea3c2527688e8419c0a276e27d5c">take_d_dx</a></td></tr>
 <tr class="memdesc:a40c4ea3c2527688e8419c0a276e27d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Derivatives of model fields.  <a href="#a40c4ea3c2527688e8419c0a276e27d5c">More...</a><br /></td></tr>
 <tr class="separator:a40c4ea3c2527688e8419c0a276e27d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,7 +164,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the class for all fields on zonal velocity points. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00170">170</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00191">191</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab4adbcfd61c7b303b8499a5228cd6f77"></a>
 <div class="memitem">
@@ -217,11 +220,74 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00173">173</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00194">194</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ab77f9dfae2bdb0d190af8d916ba410a9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.core.Upoint_field.load_field </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>model_instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>netcdf_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>variable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>time_level</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>field_name</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_loc</em> = <code>'U'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load a model field from NetCDF output. </p>
+<p>This function associates the field with the object it is called on.</p>
+<p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</p>
+<p>netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would <em>strongly</em> recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis. </p>
+
+<p>Definition at line <a class="el" href="core_8py_source.html#l00202">202</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a40c4ea3c2527688e8419c0a276e27d5c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -262,7 +328,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the x derivative of the field given on u-points, using the spacings in grid object.</p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00182">182</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00217">217</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -305,7 +371,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the y derivative of the field on u points, using the spacings provided. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00216">216</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00251">251</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -348,7 +414,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the z derivative of the field given on u-points, using the spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00255">255</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00290">290</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -358,7 +424,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 16 2015 09:10:46 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 26 2015 10:34:27 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
