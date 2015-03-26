@@ -20,7 +20,7 @@ class MITgcm_Simulation(dict):
     """!The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
 
     """
-    def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8,
+    def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.81,
                     ntiles_x=1,ntiles_y=1):
         """!Instantiate an MITgcm model instance.
 
