@@ -60,6 +60,7 @@ class MITgcm_Simulation(dict):
 
         file_list = glob.glob(netcdf_filename)
 
+
         self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
         return 
 
@@ -84,6 +85,10 @@ class MITgcm_Simulation(dict):
             clip_y = -1
         else:
             print "grid_loc variable not set correctly"
+            return
+
+        if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
+            print "Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of" + variable
             return
 
         data = {}
