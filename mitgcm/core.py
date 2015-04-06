@@ -88,7 +88,7 @@ class MITgcm_Simulation(dict):
             return
 
         if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            print "Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of" + variable
+            print "Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable
             return
 
         data = {}
@@ -407,7 +407,7 @@ class Vpoint_field(MITgcm_Simulation):
 
             self[output_field] = dV_dy
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
     
