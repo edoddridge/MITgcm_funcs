@@ -1060,20 +1060,23 @@ class Bernoulli(Tracerpoint_field):
         
 class Pressure(Tracerpoint_field):
     """!Calculates the pressure field from the density field using the hydrostatic approximation."""
-    def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN'):
+    def __init__(self,model_instance,density_field='RHO',ETAN_field='ETAN',empty=False):
 
-        # derive the hydrostatic pressure
-        delta_P = np.zeros((np.shape(model_instance.density[density_field])))
-        delta_P[:,:,:] = (model_instance['g']*model_instance.density[density_field][:,:,:]*
-                            model_instance.grid['drF'][:].reshape(len(model_instance.grid['drF'][:]),1,1))
+        if empty:
+            pass
+        else:
+            # derive the hydrostatic pressure
+            delta_P = np.zeros((np.shape(model_instance.density[density_field])))
+            delta_P[:,:,:] = (model_instance['g']*model_instance.density[density_field][:,:,:]*
+                                model_instance.grid['drF'][:].reshape(len(model_instance.grid['drF'][:]),1,1))
+            
         
-    
-        # add free surface contribution
-        delta_P[0,:,:] = (delta_P[0,:,:] + 
-                          model_instance.free_surface[ETAN_field]*model_instance['g']*model_instance.density[density_field][0,:,:])
-    
-        self['delta_P'] = delta_P
-        self['P'] = np.cumsum(delta_P,0)
+            # add free surface contribution
+            delta_P[0,:,:] = (delta_P[0,:,:] + 
+                              model_instance.free_surface[ETAN_field]*model_instance['g']*model_instance.density[density_field][0,:,:])
+        
+            self['delta_P'] = delta_P
+            self['P'] = np.cumsum(delta_P,0)
         
         return
     
