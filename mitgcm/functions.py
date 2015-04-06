@@ -312,13 +312,13 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
                      len(new_y),
                      len(new_x)))
 
-    kx = order
-    ky = order
+    kx = interp_order
+    ky = interp_order
 
-    interp_object = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx,ky)
 
 
     for k in xrange(0,field.shape[0]):
+        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field[k,:,:],kx=kx,ky=ky)
         field_interp[k,:,:] = interp_object(new_y,new_x)
 
 
@@ -390,6 +390,8 @@ def plt_mon_stats(netcdf_filename,
         plt.plot(time,data[stat],label=stat)
     plt.xlabel('Model '+ time_units)
     plt.legend()
+
+    data['time'] = time
 
     return data
 

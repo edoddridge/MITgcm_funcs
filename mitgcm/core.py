@@ -20,7 +20,7 @@ class MITgcm_Simulation(dict):
     """!The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
 
     """
-    def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.8,
+    def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.81,
                     ntiles_x=1,ntiles_y=1):
         """!Instantiate an MITgcm model instance.
 
@@ -60,6 +60,7 @@ class MITgcm_Simulation(dict):
 
         file_list = glob.glob(netcdf_filename)
 
+
         self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
         return 
 
@@ -84,6 +85,10 @@ class MITgcm_Simulation(dict):
             clip_y = -1
         else:
             print "grid_loc variable not set correctly"
+            return
+
+        if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
+            print "Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable
             return
 
         data = {}
@@ -402,7 +407,7 @@ class Vpoint_field(MITgcm_Simulation):
 
             self[output_field] = dV_dy
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
     
