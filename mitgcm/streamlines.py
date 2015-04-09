@@ -6,6 +6,8 @@ Streamlines
 
 Functions for creating and analysing streamlines.
 
+These currently only work on cartesian grids.
+
 Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.
 
 streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time.
