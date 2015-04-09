@@ -294,15 +294,13 @@ def test_layer_integrate():
 
 def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
     """!Interpolate a given field onto a different grid. Only performs interpolation in the horizontal directions.
-    
-    None of the grids need to be specified - the zoom factor determines the resolution of the returned field.
-    
+        
     ----
     ##Parameters##
     * field - the variable to be interpolated
     * old_x, old_y - the axis on which the original field is defined.
     * new_x, new_y - the axis onto which the field will be interpolated.
-    * interp_order - the order of the interpolation function, integer between 0 and 5 inclusive. 1 -> linear, 3 -> cubic, &c.."""
+    * interp_order - the order of the interpolation function, integer between 1 and 5 inclusive. 1 -> linear, 3 -> cubic, &c.."""
 
 
     mask = np.ones((np.shape(field)))
@@ -312,13 +310,10 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
                      len(new_y),
                      len(new_x)))
 
-    kx = interp_order
-    ky = interp_order
-
-
+    
 
     for k in xrange(0,field.shape[0]):
-        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field[k,:,:],kx=kx,ky=ky)
+        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field[k,:,:],kx=interp_order,ky=interp_order)
         field_interp[k,:,:] = interp_object(new_y,new_x)
 
 
