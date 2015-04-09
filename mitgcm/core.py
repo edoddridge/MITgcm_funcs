@@ -21,7 +21,7 @@ class MITgcm_Simulation(dict):
 
     """
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.81,
-                    ntiles_x=1,ntiles_y=1):
+                    ntiles_x=1,ntiles_y=1,grid_type='cartesian'):
         """!Instantiate an MITgcm model instance.
 
         ----
@@ -33,13 +33,15 @@ class MITgcm_Simulation(dict):
         * g - gravity
         * ntiles_x - number of tiles in the x direction (nPx in MITgcm speak)
         * ntiles_y - number of tiles in the y direction (nPy in MITgcm speak)
+        * grid_type - cartesian or polar. Fancy grids like cubed sphere aren't supported at the moment.
         """
         
         os.chdir(output_dir)
         self['output_dir'] = output_dir
 
         self.grid = Grid(grid_netcdf_filename)
-        
+        if grid_type == 'polar':
+            print 'Streamlines functions are not currently supported on polr grid.'
 
         self['g'] = g
         self['EOS_type'] = EOS_type
