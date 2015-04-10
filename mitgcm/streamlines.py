@@ -138,7 +138,7 @@ def stream3(u,v,w,
         x_u = grid_object['X'][:]
         y_u = grid_object['Y'][:]  
         z_u = grid_object['Z'][:]
-   elif u_grid_loc == 'Zeta':
+    elif u_grid_loc == 'Zeta':
         x_u = grid_object['Xp1'][:]
         y_u = grid_object['Yp1'][:]
         z_u = grid_object['Z'][:]
@@ -162,7 +162,7 @@ def stream3(u,v,w,
         x_v = grid_object['X'][:]
         y_v = grid_object['Y'][:]  
         z_v = grid_object['Z'][:]
-   elif v_grid_loc == 'Zeta':
+    elif v_grid_loc == 'Zeta':
         x_v = grid_object['Xp1'][:]
         y_v = grid_object['Yp1'][:]
         z_v = grid_object['Z'][:]
@@ -186,7 +186,7 @@ def stream3(u,v,w,
         x_w = grid_object['X'][:]
         y_w = grid_object['Y'][:]  
         z_w = grid_object['Z'][:]
-   elif w_grid_loc == 'Zeta':
+    elif w_grid_loc == 'Zeta':
         x_w = grid_object['Xp1'][:]
         y_w = grid_object['Yp1'][:]
         z_w = grid_object['Z'][:]
