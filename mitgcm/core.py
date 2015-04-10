@@ -40,6 +40,8 @@ class MITgcm_Simulation(dict):
         self['output_dir'] = output_dir
 
         self.grid = Grid(grid_netcdf_filename)
+        self.grid['grid_type'] = grid_type
+        
         if grid_type == 'polar':
             print 'Streamlines functions are not currently supported on polr grid.'
 
