@@ -137,7 +137,7 @@ def calc_iso_surface(my_array, my_value, zs, interp_order=6, power_parameter=0.5
     arg = np.argsort(dist,axis=2)
     dist.sort(axis=2)
     w_total = 0.
-    z = zeros(my_array.shape[:2], dtype=float)
+    z = np.zeros(my_array.shape[:2], dtype=float)
     for i in xrange(int(interp_order)):
         zi = np.take(zs, arg[:,:,i])
         valuei = dist[:,:,i]
