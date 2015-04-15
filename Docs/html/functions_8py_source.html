@@ -406,13 +406,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                     len(new_y),</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                     len(new_x)))</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    kx = order</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    ky = order</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    kx = interp_order</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    ky = interp_order</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    interp_object = scipy.interpolate.RectBivariateSpline(y_axis,x_axis,field,kx,ky)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordflow">for</span> k <span class="keywordflow">in</span> xrange(0,field.shape[0]):</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keywordflow">for</span> k <span class="keywordflow">in</span> xrange(0,field.shape[0]):</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field[k,:,:],kx=kx,ky=ky)</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        field_interp[k,:,:] = interp_object(new_y,new_x)</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
@@ -449,53 +449,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  </div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">plt_mon_stats</a>(netcdf_filename,</div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                    variables=[<span class="stringliteral">&#39;advcfl_uvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_vvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_wvel_max&#39;</span>],</div>
-<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">  358</a></span>&#160;                    time_units=<span class="stringliteral">&#39;days&#39;</span>):</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Plot some monitor file variables. &#39;netcdf_filename&#39; can contain shell wild cards, but only the first matching file will be used.</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="stringliteral">    Options include:</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="stringliteral">    * advcfl_uvel_max</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="stringliteral">    * advcfl_vvel_max</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="stringliteral">    * advcfl_wvel_max</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="stringliteral">    * ke_mean</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="stringliteral">    * dynstat_theta_mean</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="stringliteral">    * dynstat_sst_mean</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="stringliteral">    * dynstat_sst_sd</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="stringliteral">    * dynstat_salt_max</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="stringliteral">    * dynstat_salt_min</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="stringliteral">    * dynstat_uvel_mean</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="stringliteral">    * dynstat_vvel_mean</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="stringliteral">    * dynstat_wvel_mean</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="stringliteral">    * ...</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="stringliteral">    * and many others.</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    files = glob.glob(netcdf_filename)</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    monitor_output = netCDF4.Dataset(files[0])</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keywordflow">if</span> time_units == <span class="stringliteral">&#39;days&#39;</span>:</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400)</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">elif</span> time_units == <span class="stringliteral">&#39;years&#39;</span>:</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400*365)</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">raise</span> ValueError(str(time_units) + <span class="stringliteral">&#39; is not a valid option for time_units&#39;</span>)</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    data = {}</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">for</span> stat <span class="keywordflow">in</span> variables:</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        data[stat] = monitor_output.variables[stat][:]</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        plt.plot(time,data[stat],label=stat)</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    plt.xlabel(<span class="stringliteral">&#39;Model &#39;</span>+ time_units)</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    plt.legend()</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    data[<span class="stringliteral">&#39;time&#39;</span>] = time</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keywordflow">return</span> data</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                    time_units=<span class="stringliteral">&#39;days&#39;</span>,</div>
+<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">  359</a></span>&#160;                    output_filename=<span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Plot some monitor file variables. &#39;netcdf_filename&#39; can contain shell wild cards, but only the first matching file will be used.</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="stringliteral">    Options include:</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="stringliteral">    * advcfl_uvel_max</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="stringliteral">    * advcfl_vvel_max</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="stringliteral">    * advcfl_wvel_max</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="stringliteral">    * ke_mean</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="stringliteral">    * dynstat_theta_mean</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="stringliteral">    * dynstat_sst_mean</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="stringliteral">    * dynstat_sst_sd</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="stringliteral">    * dynstat_salt_max</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="stringliteral">    * dynstat_salt_min</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="stringliteral">    * dynstat_uvel_mean</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="stringliteral">    * dynstat_vvel_mean</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="stringliteral">    * dynstat_wvel_mean</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="stringliteral">    * ...</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="stringliteral">    * and many others.</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    files = glob.glob(netcdf_filename)</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    monitor_output = netCDF4.Dataset(files[0])</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    </div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordflow">if</span> time_units == <span class="stringliteral">&#39;days&#39;</span>:</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400)</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordflow">elif</span> time_units == <span class="stringliteral">&#39;years&#39;</span>:</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400*365)</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">raise</span> ValueError(str(time_units) + <span class="stringliteral">&#39; is not a valid option for time_units&#39;</span>)</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    data = {}</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">for</span> stat <span class="keywordflow">in</span> variables:</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        data[stat] = monitor_output.variables[stat][:]</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        plt.plot(time,data[stat],label=stat)</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    plt.xlabel(<span class="stringliteral">&#39;Model &#39;</span>+ time_units)</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    plt.legend()</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    data[<span class="stringliteral">&#39;time&#39;</span>] = time</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="keywordflow">if</span> output_filename != <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        plt.savefig(output_filename)</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordflow">return</span> data</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a2d72c796ab146c41133b6cd0234bb00f"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a2d72c796ab146c41133b6cd0234bb00f">mitgcm.functions.numerics_extract_on_surface</a></div><div class="ttdeci">def numerics_extract_on_surface(input_field, surf_loc_array, axis_values, dummy_direction, value_on_surf)</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00192">functions.py:192</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a6d06ae144c28912dbb835243a7b196da"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a6d06ae144c28912dbb835243a7b196da">mitgcm.functions.linear_interp</a></div><div class="ttdeci">def linear_interp(input_field, surface_value, ind, axis_vector, dummy_direction)</div><div class="ttdoc">Numba accelerated linear interpolation function. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00099">functions.py:99</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a539ca097560b6ffa61386bdc6a2dc6f7"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a539ca097560b6ffa61386bdc6a2dc6f7">mitgcm.functions.interp_field</a></div><div class="ttdeci">def interp_field(field, old_x, old_y, new_x, new_y, interp_order)</div><div class="ttdoc">Interpolate a given field onto a different grid. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00295">functions.py:295</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_ab197f4884fc8a0ab7d38dc5a5cfd5eb2"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">mitgcm.functions.show_variables</a></div><div class="ttdeci">def show_variables(netcdf_filename)</div><div class="ttdoc">A shortcut function to display all of the variables contained within a netcdf file. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00344">functions.py:344</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_ab12baa939c3055bc4c9bceb54da9f16e"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">mitgcm.functions.test_layer_integrate</a></div><div class="ttdeci">def test_layer_integrate()</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00282">functions.py:282</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_a6070f3c37fd5bc2f9f9e5c53dbd2d986"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">mitgcm.functions.plt_mon_stats</a></div><div class="ttdeci">def plt_mon_stats</div><div class="ttdoc">Plot some monitor file variables. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00358">functions.py:358</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a6070f3c37fd5bc2f9f9e5c53dbd2d986"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">mitgcm.functions.plt_mon_stats</a></div><div class="ttdeci">def plt_mon_stats</div><div class="ttdoc">Plot some monitor file variables. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00359">functions.py:359</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a0c92a8395bc703865868e6b0a2a35e49"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a0c92a8395bc703865868e6b0a2a35e49">mitgcm.functions.extract_surface</a></div><div class="ttdeci">def extract_surface</div><div class="ttdoc">Extract a surface (2 dimensions) from the input_field (3 dimensions). </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00018">functions.py:18</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a79d214026dcd3ed31e27a1d2c9249cd5"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">mitgcm.functions.export_binary</a></div><div class="ttdeci">def export_binary</div><div class="ttdoc">Export binary files that can be imported into the MITgcm. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00330">functions.py:330</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_ab26c3c96d103e888d18a0378ebd78355"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">mitgcm.functions.layer_integrate</a></div><div class="ttdeci">def layer_integrate</div><div class="ttdoc">Integrate between two non-trivial surfaces, &#39;upper_contour&#39; and &#39;lower_contour&#39;. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00211">functions.py:211</a></div></div>
@@ -503,7 +507,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 26 2015 10:34:26 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 9 2015 10:37:09 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

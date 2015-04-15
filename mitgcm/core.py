@@ -15,13 +15,14 @@ import numba
 import matplotlib.pyplot as plt
 import glob
 import collections
+import warnings
     
 class MITgcm_Simulation(dict):
     """!The simulation class is the main class of this package, and an instance of this class is a model object. All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts).
 
     """
     def __init__(self,output_dir,grid_netcdf_filename,EOS_type='linear',g=9.81,
-                    ntiles_x=1,ntiles_y=1):
+                    ntiles_x=1,ntiles_y=1,grid_type='cartesian'):
         """!Instantiate an MITgcm model instance.
 
         ----
@@ -33,18 +34,22 @@ class MITgcm_Simulation(dict):
         * g - gravity
         * ntiles_x - number of tiles in the x direction (nPx in MITgcm speak)
         * ntiles_y - number of tiles in the y direction (nPy in MITgcm speak)
+        * grid_type - cartesian or polar. Fancy grids like cubed sphere aren't supported at the moment.
         """
         
         os.chdir(output_dir)
         self['output_dir'] = output_dir
 
         self.grid = Grid(grid_netcdf_filename)
-        
+        self.grid['grid_type'] = grid_type
+
+        if grid_type == 'polar':
+            print 'Warning! Streamlines functions are not currently supported on polar grid.'
 
         self['g'] = g
         self['EOS_type'] = EOS_type
         if EOS_type != 'linear':
-            raise ValueError('Only linear equation of state is currently supported')
+            raise NotImplementedError('Only linear equation of state is currently supported')
             
         self['ntiles_x'] = ntiles_x
         self['ntiles_y'] = ntiles_y
@@ -88,7 +93,7 @@ class MITgcm_Simulation(dict):
             return
 
         if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            print "Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable
+            raise RuntimeError("Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable)
             return
 
         data = {}
@@ -103,8 +108,8 @@ class MITgcm_Simulation(dict):
                 if variable in netcdf_file.variables.keys():
                     data[tile] = netcdf_file.variables[variable][:]
                 else:
-                    print variable, 'not in', files, '- aborting import'
                     netcdf_file.close()
+                    raise KeyError(variable, 'not in', files, '- aborting import')
                     return
 
                 netcdf_file.close()
@@ -117,8 +122,8 @@ class MITgcm_Simulation(dict):
                 if variable in netcdf_file.variables.keys():
                     data[tile] = netcdf_file.variables[variable][time_level,...]
                 else:
-                    print variable, 'not in', files, '- aborting import'
                     netcdf_file.close()
+                    raise KeyError(variable, 'not in', files, '- aborting import')
                     return
                 netcdf_file.close()
 
@@ -246,7 +251,7 @@ class Upoint_field(MITgcm_Simulation):
 
             self[output_field] = dU_dx
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
             
         return 
 
@@ -286,7 +291,7 @@ class Upoint_field(MITgcm_Simulation):
 
             self[output_field] = np.nan_to_num(dU_dy)
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
             
         return 
     
@@ -318,7 +323,7 @@ class Upoint_field(MITgcm_Simulation):
 
             self[output_field] = d_dz
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
 class Vpoint_field(MITgcm_Simulation):
@@ -377,7 +382,7 @@ class Vpoint_field(MITgcm_Simulation):
 
             self[output_field] = dV_dx
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
 
     def take_d_dy(self,model_instance,input_field = 'VVEL',output_field='dV_dy'):
@@ -437,7 +442,7 @@ class Vpoint_field(MITgcm_Simulation):
 
             self[output_field] = d_dz
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
 class Wpoint_field(MITgcm_Simulation):
@@ -502,7 +507,7 @@ class Wpoint_field(MITgcm_Simulation):
             self[output_field] = d_dx
 
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
 
 
@@ -534,7 +539,7 @@ class Wpoint_field(MITgcm_Simulation):
             self[output_field] = dW_dy
        
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
     def take_d_dz(self,model_instance,input_field = 'WVEL',output_field='dW_dz'):
@@ -565,7 +570,7 @@ class Wpoint_field(MITgcm_Simulation):
 
             self[output_field] = dWVEL_dz
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
 
@@ -610,7 +615,7 @@ class Tracerpoint_field(MITgcm_Simulation):
                                             model_instance.grid['dxC'][:],))
             self[output_field] = np.nan_to_num(d_dx)
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
     
     def numerics_take_d_dx(self,rho,wet_mask_TH,dxC):
@@ -643,10 +648,10 @@ class Tracerpoint_field(MITgcm_Simulation):
         if input_field in self:
         #np.seterr(divide='ignore')
 
-            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(self[input_field][:],model_instance.grid['wet_mask_TH'][:],
-                                                 model_instance.grid['dyC'][:]))
+            self[output_field] = np.nan_to_num(self.numerics_take_d_dy(self[input_field][:],
+                model_instance.grid['wet_mask_TH'][:],model_instance.grid['dyC'][:]))
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return  
         
     def numerics_take_d_dy(self,rho,wet_mask_TH,dyC):
@@ -696,7 +701,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
             self[output_field] = np.nan_to_num(d_dz)
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
 
@@ -753,7 +758,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
             self[output_field] = dmomVort3_dx
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
             
         return 
 
@@ -784,7 +789,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
             self[output_field] = dmomVort3_dy
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
 
     def take_d_dz(self,model_instance,input_field = 'momVort3',output_field='dmomVort3_dz'):
@@ -813,7 +818,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
             self[output_field] = d_dz
         else:
-            raise ValueError('Chosen input array ' + str(input_field) + ' is not defined')
+            raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
 
@@ -1019,7 +1024,7 @@ class Density(Tracerpoint_field):
                 + RhoNil)
                 print 'Warning: Linear equation of state with salinity is currently untested. Proceed with caution.'
         else:
-          raise ValueError('Only linear EOS supported at the moment. Sorry.')
+          raise NotImplementedError('Only linear EOS supported at the moment. Sorry.')
 
     def calculate_TotRhoTend(self,model_instance):
         """!Calculate time rate of change of the Density field from the temperature tendency and the linear equation of state. Returned as 'TotRhoTend' associated with the density object.
@@ -1033,9 +1038,9 @@ class Density(Tracerpoint_field):
             if self['Sbeta'] == 0:
                 self['TotRhoTend'] = (-self['RhoNil']*self['Talpha']*model_instance.temperature['TOTTTEND'])
             else:
-                raise ValueError('This operator only supports temperature variations at the moment. Sorry.') 
+                raise NotImplementedError('This function only supports temperature variations at the moment. Sorry.') 
         else:    
-            raise ValueError('Only liner EOS supported at the moment.')
+            raise NotImplementedError('Only liner EOS supported at the moment.')
 
             
     

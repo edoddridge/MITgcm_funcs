@@ -6,6 +6,8 @@ Streamlines
 
 Functions for creating and analysing streamlines.
 
+These currently only work on cartesian grids.
+
 Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.
 
 streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time.
@@ -21,14 +23,44 @@ from . import functions
 def stream2(u,v,
             startx,starty,
             grid_object,
-            t_int=2592000,delta_t=3600):
+            t_int=2592000,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V'):
     """!A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
+    X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, T and Zeta.
     """
-    x_u = grid_object['Xp1'][:]
-    y_u = grid_object['Y'][:]
 
-    x_v = grid_object['X'][:]
-    y_v = grid_object['Yp1'][:]
+    if u_grid_loc == 'U':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Y'][:]
+    elif u_grid_loc == 'V':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Yp1'][:]  
+    elif u_grid_loc == 'T':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+    elif u_grid_loc == 'Zeta':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Yp1'][:]
+    else:
+        print 'u_grid_loc not set correctly. Possible options are: U,V,T, Zeta'
+        return
+
+    if v_grid_loc == 'U':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Y'][:]
+    elif v_grid_loc == 'V':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Yp1'][:]  
+    elif v_grid_loc == 'T':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+    elif v_grid_loc == 'Zeta':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Yp1'][:]
+    else:
+        print 'v_grid_loc not set correctly. Possible options are: U,V,T, Zeta'
+        return
+
 
     len_x_u = len(x_u)
     len_y_u = len(y_u)
@@ -85,20 +117,83 @@ def stream3(u,v,w,
             grid_object,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
-            t_int=2592000,delta_t=3600):
+            t_int=2592000,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
     """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
-    """
-    x_u = grid_object['Xp1'][:]
-    y_u = grid_object['Y'][:]
-    z_u = grid_object['Z'][:]
+        X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
+"""
+    if u_grid_loc == 'U':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Y'][:]
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'V':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Yp1'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'W':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Zl'][:]
+    elif u_grid_loc == 'T':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'Zeta':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Yp1'][:]
+        z_u = grid_object['Z'][:]
+    else:
+        print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
 
-    x_v = grid_object['X'][:]
-    y_v = grid_object['Yp1'][:]
-    z_v = grid_object['Z'][:]
+    if v_grid_loc == 'U':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Y'][:]
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'V':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Yp1'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'W':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Zl'][:]
+    elif v_grid_loc == 'T':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'Zeta':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Yp1'][:]
+        z_v = grid_object['Z'][:]
+    else:
+        print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
 
-    x_w = grid_object['X'][:]
-    y_w = grid_object['Y'][:]
-    z_w = grid_object['Zl'][:]
+    if w_grid_loc == 'U':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Y'][:]
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'V':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Yp1'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'W':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Zl'][:]
+    elif w_grid_loc == 'T':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'Zeta':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Yp1'][:]
+        z_w = grid_object['Z'][:]
+    else:
+        print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
+
         
     len_x_u = len(x_u)
     len_y_u = len(y_u)
@@ -174,7 +269,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_netcdf_variable='UVEL',
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
-            t_int=3.1e5,delta_t=3600):
+            t_int=3.1e5,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
     """!A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been tested yet.
     
@@ -188,19 +284,80 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
     * t_int = length of time to track particles for, in seconds
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
+    * X_grid_loc = where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
     """
 
-    x_u = grid_object['Xp1'][:]
-    y_u = grid_object['Y'][:]
-    z_u = grid_object['Z'][:]
+    if u_grid_loc == 'U':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Y'][:]
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'V':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Yp1'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'W':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Zl'][:]
+    elif u_grid_loc == 'T':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'Zeta':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Yp1'][:]
+        z_u = grid_object['Z'][:]
+    else:
+        print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
 
-    x_v = grid_object['X'][:]
-    y_v = grid_object['Yp1'][:]
-    z_v = grid_object['Z'][:]
+    if v_grid_loc == 'U':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Y'][:]
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'V':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Yp1'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'W':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Zl'][:]
+    elif v_grid_loc == 'T':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'Zeta':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Yp1'][:]
+        z_v = grid_object['Z'][:]
+    else:
+        print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
 
-    x_w = grid_object['X'][:]
-    y_w = grid_object['Y'][:]
-    z_w = grid_object['Zl'][:]
+    if w_grid_loc == 'U':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Y'][:]
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'V':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Yp1'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'W':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Zl'][:]
+    elif w_grid_loc == 'T':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'Zeta':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Yp1'][:]
+        z_w = grid_object['Z'][:]
+    else:
+        print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
 
     len_x_u = len(x_u)
     len_y_u = len(y_u)
