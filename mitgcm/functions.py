@@ -134,13 +134,13 @@ def calc_iso_surface(my_array, my_value, zs, interp_order=6, power_parameter=0.5
     """Function from http://stackoverflow.com/questions/13627104/using-numpy-scipy-to-calculate-iso-surface-from-3d-array"""
     if interp_order < 1: interp_order = 1
     dist = (my_array - my_value)**2
-    arg = np.argsort(dist,axis=2)
-    dist.sort(axis=2)
+    arg = np.argsort(dist,axis=0)
+    dist.sort(axis=0)
     w_total = 0.
-    z = np.zeros(my_array.shape[:2], dtype=float)
+    z = np.zeros(my_array.shape[1:], dtype=float)
     for i in xrange(int(interp_order)):
-        zi = np.take(zs, arg[:,:,i])
-        valuei = dist[:,:,i]
+        zi = np.take(zs, arg[i,:,:])
+        valuei = dist[i,:,:]
         wi = 1/valuei
         np.clip(wi, 0, 1.e6, out=wi) # avoiding overflows
         w_total += wi**power_parameter
