@@ -208,26 +208,26 @@ def numerics_extract_on_surface(input_field,surf_loc_array,axis_values,dummy_dir
     return value_on_surf
 
 
-def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none', axis_sign = 'negative'): 
-    """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. The arrays ind_upper and ind_lower come from the function extract_surface.
+def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none'): 
+    """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
     At the moment this only works if all the inputs are defined at the same location.
     
     In MITgcm world, the axis needs to be Zl - 'the lower interface locations'. It needs to include the surface, but the lowest grid face is not required.
 
-    The input array 'integrand' is optional. If it is not included then the output is the volume (per unit area) between the two surfaces at each grid point, 
+    The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, 
 
     ##Examples:##
 
-        contour_10375, ind_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
-        contour_1038, ind_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
+        contour_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
+        contour_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
 
     Volume between two stratification surfaces. In this case the optional argument 'integrand' is not required.
     
-        volume = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:])
+        volume = integrate_layerwise(contour_10375,contour_1038,grid.Zl[:])
 
     Kinetic energy between two stratification surfaces. The integrand is the kinetic energy.
     
-        EKE_10375_1038 = integrate_layerwise(contour_10375, ind_10375,contour_1038, ind_1038,grid.Z[:],EKE)
+        EKE_10375_1038 = integrate_layerwise(contour_10375,contour_1038,grid.Zl[:],EKE)
 
 
         upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
@@ -243,39 +243,55 @@ def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none', axis
         print np.sum(upper - lower)
         > 16.1
     """
-
-    if axis_sign == 'positive':
-        dummy_sign = 1
-    elif axis_sign =='negative':
-        dummy_sign = -1
-    else:
-        print "axis_sign not specified correctly. Should be 'positive' or 'negative'."
+    # np.searchsorted only works for positive arrays :/
     
     total = np.zeros((upper_contour.shape))
     
     
     if integrand == 'none':
-        total = (upper_contour - lower_contour)
+        total = np.absolute(upper_contour - lower_contour)
 
     else:
         for i in xrange(0,upper_contour.shape[1]):
             for j in xrange(0,upper_contour.shape[0]):
-                ind_upper = np.searchsorted(dummy_sign*axis[:],dummy_sign*upper_contour[j,i],side='right')
-
-                ind_lower = np.searchsorted(dummy_sign*axis[:],dummy_sign*lower_contour[j,i],side='right')
-
-                if ind_lower == ind_upper:
-                    total[j,i] = (upper_contour[j,i] - lower_contour[j,i])*integrand[ind_upper-1,j,i]
-                    #print 'equal indicies, contribution is ', total[j,i]
+                if upper_contour[j,i] < 0:
+                    ind_upper = np.searchsorted(-axis[:],-upper_contour[j,i],side='right')
+                    ind_lower = np.searchsorted(-axis[:],-lower_contour[j,i],side='left')
                 else:
-                    total[j,i] = ((upper_contour[j,i] - axis[ind_upper])*integrand[ind_upper-1,j,i] + #upper partial
-                                 (axis[ind_lower-1] - lower_contour[j,i])*integrand[ind_lower-1,j,i]) # lower partial
+                    ind_upper = np.searchsorted(axis[:],upper_contour[j,i],side='right')
+                    ind_lower = np.searchsorted(axis[:],lower_contour[j,i],side='left')
+
+                upper_value = mitgcm.functions.extract_on_surface(integrand,upper_contour[j,i],axis[:])
+                lower_value = mitgcm.functions.extract_on_surface(integrand,lower_contour[j,i],axis[:])
+                
+                if ind_lower == ind_upper: 
+                    #both surfaces in the same level. Compute the value of stuff between them, using linear interpolation
+                    total[j,i] = np.absolute(upper_contour[j,i] - lower_contour[j,i])*(upper_value+lower_value)/2
+                    #print 'equal indicies, contribution is ', total[j,i]
+                
+                elif (ind_lower == ind_upper + 1) or (ind_lower == ind_upper - 1): 
+                    #surfaces in adjoining levels. Have an upper fraction and a lower fraction to compute
+                    upper_partial = np.absolute(upper_contour[j,i] - axis[ind_upper])*(upper_value + integrand[ind_upper,j,i])/2
+                    lower_partial = np.absolute(axis[ind_lower-1] - lower_contour[j,i])*(lower_value + integrand[ind_lower-1,j,i])/2
+
+                    total[j,i] = upper_partial + lower_partial
+
+                else:
+                    # There are multiple cells inbetween the two surfaces. Now have an
+                    # upper partial, a lower partial and the interveening complete cells
+                    upper_partial = np.absolute(upper_contour[j,i] - axis[ind_upper])*(upper_value + integrand[ind_upper,j,i])/2
+                    lower_partial = np.absolute(axis[ind_lower] - lower_contour[j,i])*(lower_value + integrand[ind_lower,j,i])/2
+
+                    total[j,i] = upper_partial + lower_partial
+
+                    #sum the full cells in between
+                    for k in xrange(ind_upper,ind_lower-1): #goes up to the (ind_lower-2 to ind_lower-1) cell
+                        total[j,i] += np.absolute(axis[k] - axis[k+1]) * (integrand[k,j,i] + integrand[k+1,j,i])/2
+
                     #print 'uuper partial = ', (upper_contour[j,i] - axis[ind_upper])*integrand[ind_upper-1,j,i]
                     #print 'lower partial = ', (axis[ind_lower-1] - lower_contour[j,i])*integrand[ind_lower-1,j,i]
 
-                    #sum the full cells in between
-                    for k in xrange(ind_upper,ind_lower-1): #goes up to the ind_lower-2 to ind_lower-1 cell
-                        total[j,i] += (axis[k] - axis[k+1]) * integrand[k,j,i]
+
     return total
     
     
