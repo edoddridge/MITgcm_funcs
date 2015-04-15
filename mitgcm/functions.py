@@ -130,6 +130,23 @@ def linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction):
     return output_array
     
 
+def calc_iso_surface(my_array, my_value, zs, interp_order=6, power_parameter=0.5):
+    """Function from http://stackoverflow.com/questions/13627104/using-numpy-scipy-to-calculate-iso-surface-from-3d-array"""
+    if interp_order < 1: interp_order = 1
+    dist = (my_array - my_value)**2
+    arg = np.argsort(dist,axis=2)
+    dist.sort(axis=2)
+    w_total = 0.
+    z = zeros(my_array.shape[:2], dtype=float)
+    for i in xrange(int(interp_order)):
+        zi = np.take(zs, arg[:,:,i])
+        valuei = dist[:,:,i]
+        wi = 1/valuei
+        np.clip(wi, 0, 1.e6, out=wi) # avoiding overflows
+        w_total += wi**power_parameter
+        z += zi*wi**power_parameter
+    z /= w_total
+    return z
 
 
 def extract_on_surface(input_field,surface_values,axis_values,direction='up'):
@@ -212,7 +229,7 @@ def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none'):
     """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
     At the moment this only works if all the inputs are defined at the same location.
     
-    In MITgcm world, the axis needs to be Zl - 'the lower interface locations'. It needs to include the surface, but the lowest grid face is not required.
+    In MITgcm world, the axis needs to be Z - the tracer levels.
 
     The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, 
 
