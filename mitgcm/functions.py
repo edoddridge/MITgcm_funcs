@@ -13,140 +13,85 @@ import sys
 import matplotlib.pyplot as plt
 import glob
 import scipy.interpolate
-
-
-def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
-    """!Extract a surface (2 dimensions) from the input_field (3 dimensions). 
-    The surface represents the location at which input_field == surface_value. 
-    Specifying an axis_vector means that it is possible to use this function with non-uniform spaced grids.
-    
-    The function returns output_array, a 2D array of axis values.
-    
-    The values of input_field *must* be monotonic in the specified dimension.
-    
-    input_field: 3 dimensional matrix
-    output_array: 2 dimensional hypersurface
-    surface_value: value of input_field on the extracted surface
-    axis_vector: one dimensional vector specifying the distance between elements of input_field
-    direction: optional argument to specify which direction the field increases in. Default is down
-
-    ----------------------
-
-    ##Oceanography example:##
-    extract depths for a given temperature.
+import warnings
 
     
-    Some arbitrary surface temperatures
+def calc_surface(input_array,surface_value,axis_values,method='linear'):
+    """ nearest finds the index jusut before the search value. linear uses linear interpolation to find the location between grid points.
+    May give silly answers if the input_array is not monotonic in the search direction."""
 
-        temp = np.array([[10,11,10],[11,11,13],[12,11,10]])
-        input_field = np.zeros((temp.shape[0],temp.shape[1],4))
+    axis=0
+    monoton_test = np.diff(input_array,axis=axis)
     
-    Make them decrease with depth
-
-        for i in xrange(0,4):
-            input_field[:,:,i] = temp - i
-        
-        print input_field[:,:,0]
-        > [[ 10.  11.  10.]
-        >  [ 11.  11.  13.]
-        >  [ 12.  11.  10.]]
-
-    Define a depth axis
-
-        axis_vector = np.array([1,2,4,7])
-    
-    Pick out the depth at which the temperature should be 10.2
-
-        surface_value = 10.2
-    
-        depth_temp_10point2 = extract_surface(input_field, surface_value,axis_vector)
-    
-        print depth_temp_10point2
-        > [[ nan     1.8         nan]
-        >  [ 1.8     1.8  4.26666667]
-        >  [ 2.4     1.8         nan]]
-    """
-    if direction == 'down':
-        dummy_direction = 1
-    elif direction =='up':
-        dummy_direction = -1
+    if np.all(monoton_test <= 0) or np.all(monoton_test >= 0):
+        pass
     else:
-        print "direction of decreasing values not defined properly. Should be 'down' or 'up'"
+        warnings.warn("input field is not strictly monotonic in search direction. Strange results may occur.", RuntimeWarning)
     
-    ind = np.zeros((input_field.shape[1], input_field.shape[2]))
-    output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
-
-    for i in xrange(0,input_field.shape[1]):
-        for j in xrange(0,input_field.shape[2]):
-            ind[i,j] = dummy_direction*np.searchsorted(input_field[::dummy_direction,i,j],surface_value)
-            
-            if ind[i,j] == 0:
-                output_array[i,j] = 0#np.nan
-            elif ind[i,j] == len(input_field[:,i,j]):
-                output_array[i,j] = max_depth
-            else:
-                output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
-                                     (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
-                                     (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
-                                     ) + axis_vector[ind[i,j]-1]
-
-
-    #output_array = linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction)
-
-    return output_array
+    dist = (input_array - surface_value)
     
-@numba.jit
-def linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction):
-    """!Numba accelerated linear interpolation function. This was seperate from the extract_surface function, to allow numba to work its magic. But now it's not being used."""
-    
-    output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
+    indsz = np.repeat(np.arange(input_array.shape[0]-1).reshape((input_array.shape[0]-1,1,1)),input_array.shape[1],axis=1)
+    indsz = np.repeat(indsz.reshape((input_array.shape[0]-1,input_array.shape[1],1)),input_array.shape[2],axis=2)
 
-    for i in xrange(0,input_field.shape[1]):
-        for j in xrange(0,input_field.shape[2]):
-            ind[i,j] = dummy_direction*np.searchsorted(input_field[::dummy_direction,i,j],surface_value)
+    sign= np.sign(dist)  
+    sign[sign==0] = -1     # replace zeros with -1  
+    indices_min = np.where(np.diff(sign,axis=axis),indsz,0)
+    indices_min = (np.argmax(indices_min,axis=axis))#/np.sum(np.diff(sign,axis=axis),axis=axis))
+    #indices_min.astype('int64')
+
+    if method =='nearest':
+        z_surface = np.take(axis_values,indices_min[:,:])
+
+    elif method == 'linear':
+        z_nearest = np.take(axis_values,indices_min[:,:])
+
+        indsy = np.repeat(np.arange(indices_min.shape[0]).reshape((indices_min.shape[0],1)),indices_min.shape[1],axis=1)
+        indsx = np.repeat(np.arange(indices_min.shape[1]).reshape((1,indices_min.shape[1])),indices_min.shape[0],axis=0)
+
+        above = input_array[indices_min[:,:]-1,indsy,indsx]
+        nearest = input_array[indices_min[:,:],indsy,indsx]
+        below = input_array[indices_min[:,:]+1,indsy,indsx]
+
+        direction = np.zeros(indices_min.shape,dtype='int64')
+
+        # python refuses to index with a two-component conditional, so it needs to be done in two parts.
+        test1 = above > surface_value
+        test2 = surface_value > nearest
+        direction[test1 == test2] = -1 
+
+        test1 = above < surface_value
+        test2 = surface_value < nearest
+        direction[test1 == test2] = -1
         
-            if ind[i,j] == 0:
-                output_array[i,j] = 0#np.nan
-            elif ind[i,j] == len(input_field[:,i,j]):
-                output_array[i,j] = max_depth
-            else:
-                output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
-                                 (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
-                                 (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
-                                 ) + axis_vector[ind[i,j]-1]
+        test1 = nearest > surface_value
+        test2 = surface_value > below
+        direction[test1 == test2] = 1
+        
+        test1 = nearest < surface_value
+        test2 = surface_value < below
+        direction[test1 == test2] = 1
 
-  #   output_array = np.zeros((input_field.shape[1], input_field.shape[2]))
-  #   for i in xrange(0,input_field.shape[1]):
-  #       for j in xrange(0,input_field.shape[2]):
-  #           if ind[i,j] == 0:
-  #               output_array[i,j] = 0#np.nan
-  #           elif ind[i,j] == len(input_field[:,i,j]):
-		# output_array[i,j] = max_depth
-  #           else:
-  #               output_array[i,j] = ((surface_value - input_field[ind[i,j]-1,i,j])*
-  #                                    (axis_vector[ind[i,j]] - axis_vector[ind[i,j]-1])/
-  #                                    (input_field[ind[i,j],i,j] - input_field[ind[i,j]-1,i,j])
-  #                                    ) + axis_vector[ind[i,j]-1]
-    return output_array
+
+
+        z_surface =  np.take(axis_values,indices_min[:,:] + direction) + np.nan_to_num(
+                                    ((z_nearest - np.take(axis_values,indices_min[:,:] + direction))/
+                                 (input_array[indices_min[:,:],indsy,indsx] - 
+                                    input_array[indices_min[:,:] + direction,indsy,indsx]))*
+                                 (surface_value - input_array[indices_min[:,:] + direction,indsy,indsx]))
+
+
+
+    input_array_masked = np.ma.masked_where(input_array==0,input_array)
     
 
-def calc_iso_surface(my_array, my_value, zs, interp_order=6, power_parameter=0.5):
-    """Function from http://stackoverflow.com/questions/13627104/using-numpy-scipy-to-calculate-iso-surface-from-3d-array"""
-    if interp_order < 1: interp_order = 1
-    dist = (my_array - my_value)**2
-    arg = np.argsort(dist,axis=0)
-    dist.sort(axis=0)
-    w_total = 0.
-    z = np.zeros(my_array.shape[1:], dtype=float)
-    for i in xrange(int(interp_order)):
-        zi = np.take(zs, arg[i,:,:])
-        valuei = dist[i,:,:]
-        wi = 1/valuei
-        np.clip(wi, 0, 1.e6, out=wi) # avoiding overflows
-        w_total += wi**power_parameter
-        z += zi*wi**power_parameter
-    z /= w_total
-    return z
+    test1 = np.nanmax(input_array_masked,axis=0) < surface_value
+    test2 = np.nanmin(input_array_masked,axis=0) > surface_value
+
+    mask_condition = test1 + test2
+
+    z_surface = np.ma.masked_where(mask_condition, z_surface)
+
+    return z_surface
 
 
 def extract_on_surface(input_field,surface_values,axis_values,direction='up'):
