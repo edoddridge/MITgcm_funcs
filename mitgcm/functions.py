@@ -13,6 +13,7 @@ import sys
 import matplotlib.pyplot as plt
 import glob
 import scipy.interpolate
+import warnings
 
 
 def extract_surface(input_field,surface_value,axis_vector,direction='down',max_depth=-4000):
@@ -129,6 +130,82 @@ def linear_interp(input_field,surface_value,ind,axis_vector,dummy_direction):
   #                                    ) + axis_vector[ind[i,j]-1]
     return output_array
     
+def calc_surface(input_array,surface_value,axis_values,method='linear'):
+    """ nearest finds the index jusut before the search value. linear uses linear interpolation to find the location between grid points.
+    May give silly answers if the input_array is not monotonic in the search direction."""
+
+    axis=0
+    monoton_test = np.diff(input_array,axis=axis)
+    
+    if np.all(monoton_test <= 0) or np.all(monoton_test >= 0):
+        pass
+    else:
+        warnings.warn("input field is not strictly monotonic in search direction. Strange results may occur.", RuntimeWarning)
+    
+    dist = (input_array - surface_value)
+    
+    indsz = np.repeat(np.arange(input_array.shape[0]-1).reshape((input_array.shape[0]-1,1,1)),input_array.shape[1],axis=1)
+    indsz = np.repeat(indsz.reshape((input_array.shape[0]-1,input_array.shape[1],1)),input_array.shape[2],axis=2)
+
+    sign= np.sign(dist)  
+    sign[sign==0] = -1     # replace zeros with -1  
+    indices_min = np.where(np.diff(sign,axis=axis),indsz,0)
+    indices_min = (np.argmax(indices_min,axis=axis))#/np.sum(np.diff(sign,axis=axis),axis=axis))
+    #indices_min.astype('int64')
+
+    if method =='nearest':
+        z_surface = np.take(axis_values,indices_min[:,:])
+
+    elif method == 'linear':
+        z_nearest = np.take(axis_values,indices_min[:,:])
+
+        indsy = np.repeat(np.arange(indices_min.shape[0]).reshape((indices_min.shape[0],1)),indices_min.shape[1],axis=1)
+        indsx = np.repeat(np.arange(indices_min.shape[1]).reshape((1,indices_min.shape[1])),indices_min.shape[0],axis=0)
+
+        above = input_array[indices_min[:,:]-1,indsy,indsx]
+        nearest = input_array[indices_min[:,:],indsy,indsx]
+        below = input_array[indices_min[:,:]+1,indsy,indsx]
+
+        direction = np.zeros(indices_min.shape,dtype='int64')
+
+        # python refuses to index with a two-component conditional, so it needs to be done in two parts.
+        test1 = above > surface_value
+        test2 = surface_value > nearest
+        direction[test1 == test2] = -1 
+
+        test1 = above < surface_value
+        test2 = surface_value < nearest
+        direction[test1 == test2] = -1
+        
+        test1 = nearest > surface_value
+        test2 = surface_value > below
+        direction[test1 == test2] = 1
+        
+        test1 = nearest < surface_value
+        test2 = surface_value < below
+        direction[test1 == test2] = 1
+
+
+
+        z_surface =  np.take(axis_values,indices_min[:,:] + direction) + np.nan_to_num(
+                                    ((z_nearest - np.take(axis_values,indices_min[:,:] + direction))/
+                                 (input_array[indices_min[:,:],indsy,indsx] - 
+                                    input_array[indices_min[:,:] + direction,indsy,indsx]))*
+                                 (surface_value - input_array[indices_min[:,:] + direction,indsy,indsx]))
+
+
+
+    input_array_masked = np.ma.masked_where(input_array==0,input_array)
+    
+
+    test1 = np.nanmax(input_array_masked,axis=0) < surface_value
+    test2 = np.nanmin(input_array_masked,axis=0) > surface_value
+
+    mask_condition = test1 + test2
+
+    z_surface = np.ma.masked_where(mask_condition, z_surface)
+
+    return z_surface
 
 def calc_iso_surface(my_array, my_value, zs, interp_order=6, power_parameter=0.5):
     """Function from http://stackoverflow.com/questions/13627104/using-numpy-scipy-to-calculate-iso-surface-from-3d-array"""
