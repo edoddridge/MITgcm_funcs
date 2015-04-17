@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import glob
 import scipy.interpolate
 import warnings
+import mitgcm
 
     
 def calc_surface(input_array,surface_value,axis_values,method='linear'):
@@ -36,8 +37,7 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
     sign= np.sign(dist)  
     sign[sign==0] = -1     # replace zeros with -1  
     indices_min = np.where(np.diff(sign,axis=axis),indsz,0)
-    indices_min = (np.argmax(indices_min,axis=axis))#/np.sum(np.diff(sign,axis=axis),axis=axis))
-    #indices_min.astype('int64')
+    indices_min = (np.argmax(indices_min,axis=axis)) # to deal with multiple crossings
 
     if method =='nearest':
         z_surface = np.take(axis_values,indices_min[:,:])
@@ -94,175 +94,112 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
     return z_surface
 
 
-def extract_on_surface(input_field,surface_values,axis_values,direction='up'):
+def extract_on_surface(input_array,surface_locations,axis_values):
     """!Extract the value of a 3D field on a 2D surface.
-    This function takes an 3 dimensional matrix 'input_field' and an 2 dimensional
-    matrix 'surface_values' and returns a 2 dimensional matrix that contains the
-    values of input_field at the location specified by surf_loc_array along the third dimension using
+    This function takes an 3 dimensional matrix 'input_array' and an 2 dimensional
+    matrix 'surface_locations' and returns a 2 dimensional matrix that contains the
+    values of input_array at the location specified by surface_locations along the third dimension using
     the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.
     
-    direction: optional argument to specify which direction the axis increases in. Default is up
-
     """
     
-    #if np.max(surf_loc_array) > np.max(axis_values):
-    #    print 'At least one value in surf_loc_array is larger than the largest value in axis_values'
-        
-    #if np.min(surf_loc_array) < np.min(axis_values):
-    #    print 'At least one value in surf_loc_array is smaller than the smallest value in axis_values'
-        
-    if not (all(np.diff(axis_values))<0 or all(np.diff(axis_values))>0):
-        print 'axis_vector is not monotonic. This is a problem.'
-        
-    if direction == 'down':
-        dummy_direction = 1
-    elif direction =='up':
-        dummy_direction = -1
-    else:
-        print "direction of decreasing values not defined properly. Should be 'down' or 'up'"
-
-    # broadcast depth to the shape of the field
-    try:
-        surf_loc_array = (surface_values*
-                    np.ones((input_field.shape[1],input_field.shape[2])))
-    except ValueError:
-        print "input_field and surface_values have incompatible shapes"
-        return
-   
-    value_on_surf = np.zeros((surf_loc_array.shape))
-    value_on_surf[:] = np.nan
-
-
-    for i in xrange(0,surf_loc_array.shape[0]):
-        for j in xrange(0,surf_loc_array.shape[1]):
-            if np.isnan(surf_loc_array[i,j]):
-                value_on_surf[i,j] = np.nan
-            elif surf_loc_array[i,j] == 0:
-                value_on_surf[i,j] = np.nan
-            else:
-                k = dummy_direction*np.searchsorted(axis_values[::dummy_direction],surf_loc_array[i,j]) - 1
-                
-                value_on_surf[i,j] = (input_field[k,i,j] + 
-                                      ((surf_loc_array[i,j] - axis_values[k])/
-                                      (axis_values[k] - axis_values[k+1]))*
-                                      (input_field[k,i,j] - input_field[k+1,i,j])
-                                      )
-    return value_on_surf
-
-
-@numba.jit
-def numerics_extract_on_surface(input_field,surf_loc_array,axis_values,dummy_direction,value_on_surf):
-
-    for i in xrange(0,surf_loc_array.shape[0]):
-        for j in xrange(0,surf_loc_array.shape[1]):
-            if np.isnan(surf_loc_array[i,j]):
-                value_on_surf[i,j] = np.nan
-            elif surf_loc_array[i,j] == 0:
-                value_on_surf[i,j] = np.nan
-            else:
-                k = dummy_direction*np.searchsorted(axis_values[::dummy_direction],surf_loc_array[i,j]) - 1
-                
-                value_on_surf[i,j] = (input_field[k,i,j] + 
-                                      ((surf_loc_array[i,j] - axis_values[k])/
-                                      (axis_values[k] - axis_values[k+1]))*
-                                      (input_field[k,i,j] - input_field[k+1,i,j])
-                                      )
-    return value_on_surf
-
-
-def layer_integrate(upper_contour, lower_contour, axis, integrand = 'none'): 
-    """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
-    At the moment this only works if all the inputs are defined at the same location.
+    axis_array = np.repeat(axis_values.reshape((axis_values.shape[0],1,1)),surface_locations.shape[0],axis=1)
+    axis_array = np.repeat(axis_array.reshape((axis_array.shape[0],axis_array.shape[1],1)),surface_locations.shape[1],axis=2)
     
-    In MITgcm world, the axis needs to be Z - the tracer levels.
+    indsz = np.repeat(np.arange(input_array.shape[0]-1).reshape((input_array.shape[0]-1,1,1)),input_array.shape[1],axis=1)
+    indsz = np.repeat(indsz.reshape((input_array.shape[0]-1,input_array.shape[1],1)),input_array.shape[2],axis=2)
+
+    dist = (axis_array - surface_locations)
+
+    sign= np.sign(dist)  
+    sign[sign==0] = -1     # replace zeros with -1  
+    indices_above = np.where(np.diff(sign,axis=0),indsz,0)
+    indices_above = (np.nanmax(indices_above,axis=0)) # to deal with multiple crossings (shouldn't be needed)
+
+    indsy = np.repeat(np.arange(indices_above.shape[0]).reshape((indices_above.shape[0],1)),indices_above.shape[1],axis=1)
+    indsx = np.repeat(np.arange(indices_above.shape[1]).reshape((1,indices_above.shape[1])),indices_above.shape[0],axis=0)
+
+    values_above = input_array[indices_above[:,:],indsy,indsx]
+    values_below = input_array[indices_above[:,:]+1,indsy,indsx]
+
+    axis_above = axis_array[indices_above[:,:],indsy,indsx]
+    axis_below = axis_array[indices_above[:,:]+1,indsy,indsx]
+
+    surface_values = values_above + ((values_below - values_above)/(axis_below - axis_above))*(surface_locations - axis_above)
+    # value above + linear interpolation of final partial cell.
+
+    return surface_values
+
+
+def layer_integrate(upper_contour, lower_contour, axis_values, integrand = 'none'): 
+    """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
+    At the moment this only works if all the inputs are defined at the same grid location.
+    
+    In MITgcm world, the axis_values needs to be Z - the tracer levels.
 
     The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, 
-
-    ##Examples:##
-
-        contour_10375 = extract_surface(density_diags_mean.rho[:],1037.5,grid.Z[:])
-        contour_1038 = extract_surface(density_diags_mean.rho[:],1038,grid.Z[:])
-
-    Volume between two stratification surfaces. In this case the optional argument 'integrand' is not required.
-    
-        volume = integrate_layerwise(contour_10375,contour_1038,grid.Zl[:])
-
-    Kinetic energy between two stratification surfaces. The integrand is the kinetic energy.
-    
-        EKE_10375_1038 = integrate_layerwise(contour_10375,contour_1038,grid.Zl[:],EKE)
-
-
-        upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
-        lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
-        axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
-        test = layer_integrate(upper,lower,axis)
-        print test
-        > [[ 0.1  2.   2. ]
-        >  [ 2.   2.   2. ]
-        >  [ 2.   2.   2. ]]
-        print np.sum(test)
-        > 16.1
-        print np.sum(upper - lower)
-        > 16.1
     """
-    # np.searchsorted only works for positive arrays :/
     
     total = np.zeros((upper_contour.shape))
-    
+
     
     if integrand == 'none':
         total = np.absolute(upper_contour - lower_contour)
 
     else:
-        for i in xrange(0,upper_contour.shape[1]):
-            for j in xrange(0,upper_contour.shape[0]):
-                if upper_contour[j,i] < 0:
-                    ind_upper = np.searchsorted(-axis[:],-upper_contour[j,i],side='right')
-                    ind_lower = np.searchsorted(-axis[:],-lower_contour[j,i],side='left')
-                else:
-                    ind_upper = np.searchsorted(axis[:],upper_contour[j,i],side='right')
-                    ind_lower = np.searchsorted(axis[:],lower_contour[j,i],side='left')
+        axis_array = np.repeat(axis_values.reshape((axis_values.shape[0],1,1)),upper_contour.shape[0],axis=1)
+        axis_array = np.repeat(axis_array.reshape((axis_array.shape[0],axis_array.shape[1],1)),upper_contour.shape[1],axis=2)
+        
+        indsz = np.repeat(np.arange(integrand.shape[0]-1).reshape((integrand.shape[0]-1,1,1)),integrand.shape[1],axis=1)
+        indsz = np.repeat(indsz.reshape((integrand.shape[0]-1,integrand.shape[1],1)),integrand.shape[2],axis=2)
 
-                upper_value = mitgcm.functions.extract_on_surface(integrand,upper_contour[j,i],axis[:])
-                lower_value = mitgcm.functions.extract_on_surface(integrand,lower_contour[j,i],axis[:])
-                
-                if ind_lower == ind_upper: 
-                    #both surfaces in the same level. Compute the value of stuff between them, using linear interpolation
-                    total[j,i] = np.absolute(upper_contour[j,i] - lower_contour[j,i])*(upper_value+lower_value)/2
-                    #print 'equal indicies, contribution is ', total[j,i]
-                
-                elif (ind_lower == ind_upper + 1) or (ind_lower == ind_upper - 1): 
-                    #surfaces in adjoining levels. Have an upper fraction and a lower fraction to compute
-                    upper_partial = np.absolute(upper_contour[j,i] - axis[ind_upper])*(upper_value + integrand[ind_upper,j,i])/2
-                    lower_partial = np.absolute(axis[ind_lower-1] - lower_contour[j,i])*(lower_value + integrand[ind_lower-1,j,i])/2
+        dist = (axis_array - upper_contour)
+        sign= np.sign(dist)  
+        sign[sign==0] = -1     # replace zeros with -1  
+        indices_upper = np.where(np.diff(sign,axis=0),indsz,0)
+        indices_upper = (np.nanmax(indices_upper,axis=0)) # to flatten array and deal with multiple crossings
 
-                    total[j,i] = upper_partial + lower_partial
+        dist = (axis_array - lower_contour)
+        sign= np.sign(dist)  
+        sign[sign==0] = -1     # replace zeros with -1  
+        indices_lower = np.where(np.diff(sign,axis=0),indsz,0)
+        indices_lower = (np.nanmax(indices_lower,axis=0)) # to flatten array and deal with multiple crossings
 
-                else:
-                    # There are multiple cells inbetween the two surfaces. Now have an
-                    # upper partial, a lower partial and the interveening complete cells
-                    upper_partial = np.absolute(upper_contour[j,i] - axis[ind_upper])*(upper_value + integrand[ind_upper,j,i])/2
-                    lower_partial = np.absolute(axis[ind_lower] - lower_contour[j,i])*(lower_value + integrand[ind_lower,j,i])/2
+        values_upper = mitgcm.functions.extract_on_surface(integrand,upper_contour,axis_values)
+        values_lower = mitgcm.functions.extract_on_surface(integrand,lower_contour,axis_values)
 
-                    total[j,i] = upper_partial + lower_partial
+        for j in xrange(0,upper_contour.shape[0]):
+            for i in xrange(0,upper_contour.shape[1]):
+                if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
+                    if indices_upper[j,i] == indices_lower[j,i]:
+                        # in the same cell. find midvalue and mulitply by thickness
+                        total[j,i] = (values_upper[j,i] + values_lower[j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
+                    else:
+                        # not in the same cell. Have at least an upper and lower partial cell to compute
+                        upper_partial = ((values_upper[j,i] + integrand[indices_upper[j,i]+1,j,i])*
+                                        (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))/2
+                        lower_partial = ((values_lower[j,i] + integrand[indices_lower[j,i],j,i])*
+                                        (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
 
-                    #sum the full cells in between
-                    for k in xrange(ind_upper,ind_lower-1): #goes up to the (ind_lower-2 to ind_lower-1) cell
-                        total[j,i] += np.absolute(axis[k] - axis[k+1]) * (integrand[k,j,i] + integrand[k+1,j,i])/2
+                        total[j,i] = upper_partial + lower_partial
 
-                    #print 'uuper partial = ', (upper_contour[j,i] - axis[ind_upper])*integrand[ind_upper-1,j,i]
-                    #print 'lower partial = ', (axis[ind_lower-1] - lower_contour[j,i])*integrand[ind_lower-1,j,i]
-
+                        if indices_lower[j,i] - indices_upper[j,i] > 1:
+                             # have at least one whole cell between them (the same cell case has already been captured)
+                            for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
+                                total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 #
 
     return total
-    
+
+
+
     
 def test_layer_integrate():
-    integrand = np.ones((len(axis),upper_contour.shape[0],upper_contour.shape[1]))
+    """Test function to check that the layer integrate function is working correctly."""
     upper = -1 * np.array([[1,1,1],[1,1,1],[1,1,1]])
     lower = -1 * (np.array([[-0.9,1,1],[1,1,1],[1,1,1]]) + 2)
     axis = -1 * np.array([0.5,1.2,1.6,2.1,2.6,3.1])
-    assert layer_integrate(upper,lower,axis,integrand=integrand) == np.sum(upper - lower)
+    integrand = np.ones((len(axis),upper.shape[0],upper.shape[1]))
+    assert np.sum(layer_integrate(upper,lower,axis,integrand=integrand)) == np.sum(upper - lower)
 
 
 
