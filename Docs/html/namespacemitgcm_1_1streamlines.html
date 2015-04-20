@@ -149,6 +149,7 @@ Functions</h2></td></tr>
 <div class="textblock"><p>A collection of functions for streamlines and related shennanigans. </p>
 <h1>Streamlines </h1>
 <p>Functions for creating and analysing streamlines.</p>
+<p>These currently only work on cartesian grids.</p>
 <p>Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.</p>
 <p>streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -221,7 +222,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated bilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00619">619</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00621">621</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -318,7 +319,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated quadralinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00756">756</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00758">758</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -397,7 +398,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated trilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00673">673</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00675">675</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -459,7 +460,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</p>
 <p>x0,y0 are the points to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00589">589</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00591">591</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -536,7 +537,7 @@ Functions</h2></td></tr>
 <li>dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00968">968</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00970">970</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -597,7 +598,7 @@ Functions</h2></td></tr>
 <p>Extract the value of a field along a path through a 3 dimensional field. </p>
 <p>The field must be passed as an array. Time varying fields are not supported. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00940">940</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00942">942</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -677,7 +678,7 @@ Functions</h2></td></tr>
 <p>The field must be in a NetCDF file, since it is assumed to be 4D and very large.</p>
 <p>This can also be used to pull out values at specific locations and times. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00850">850</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00852">852</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -774,7 +775,7 @@ Functions</h2></td></tr>
 <p>A helper function to extract a small 4D hypercube of data from a netCDF file. </p>
 <p>This isn't intended to be used on its own. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00805">805</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00807">807</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -898,7 +899,7 @@ Functions</h2></td></tr>
 <p>The velocity field, "field", is passed as a truncated 4D field.</p>
 <p>x,y,z,t are vectors of these dimensions. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00699">699</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00701">701</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1031,7 @@ Functions</h2></td></tr>
 <li>X_grid_loc = where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00271">271</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00273">273</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1103,7 +1104,7 @@ Functions</h2></td></tr>
 <p>A two-dimensional streamline solver. </p>
 <p>The velocity fields <em>must</em> be two dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, T and Zeta. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00025">25</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00027">27</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1230,7 +1231,7 @@ Functions</h2></td></tr>
 <p>A three-dimensional streamline solver. </p>
 <p>The velocity fields must be three dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00119">119</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00121">121</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1310,14 +1311,14 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00630">630</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00632">632</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2015 10:37:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 20 2015 17:16:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

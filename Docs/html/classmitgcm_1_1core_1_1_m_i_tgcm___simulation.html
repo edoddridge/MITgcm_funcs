@@ -159,7 +159,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>The simulation class is the main class of this package, and an instance of this class is a model object. </p>
 <p>All fields are associated with the model object - either directly (it is a dict), or indirectly through one of its subobjects (which are also dicts). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00019">19</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00020">20</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aac012c75a0f5dce8bbc4b00422a12444"></a>
 <div class="memitem">
@@ -205,7 +205,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>ntiles_y</em> = <code>1</code>&#160;</td>
+          <td class="paramname"><em>ntiles_y</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_type</em> = <code>'cartesian'</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -224,10 +230,11 @@ Public Attributes</h2></td></tr>
 <li>EOS_type - the equation of state used. 'linear' is the only supported equation of state at the moment</li>
 <li>g - gravity</li>
 <li>ntiles_x - number of tiles in the x direction (nPx in MITgcm speak)</li>
-<li>ntiles_y - number of tiles in the y direction (nPy in MITgcm speak) </li>
+<li>ntiles_y - number of tiles in the y direction (nPy in MITgcm speak)</li>
+<li>grid_type - cartesian or polar. Fancy grids like cubed sphere aren't supported at the moment. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00024">24</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00025">25</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -259,7 +266,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be added together. </p>
 <p>It does element wise addition for each of the fields. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00166">166</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00171">171</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -290,7 +297,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be divided by floating point numbers. </p>
 <p>Each field is divided by a floating point number. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00175">175</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00180">180</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -321,7 +328,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 <p>Each field is multiplied by a floating point number. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00182">182</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00187">187</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -352,7 +359,7 @@ Public Attributes</h2></td></tr>
 <p>A method that allows model objects to be multiplied by floating point numbers. </p>
 <p>Each field is multiplied by a floating point number. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00189">189</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00194">194</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -415,7 +422,7 @@ Public Attributes</h2></td></tr>
 <p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</p>
 <p>netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would <em>strongly</em> recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00052">52</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00057">57</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -470,7 +477,7 @@ Public Attributes</h2></td></tr>
 <p>Internal function to pull the data from the file(s). </p>
 <p>It is called by "load_field", and probably shouldn't be used independently. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00067">67</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00072">72</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -485,7 +492,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00041">41</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00043">43</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -495,7 +502,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2015 10:37:09 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 20 2015 17:16:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
