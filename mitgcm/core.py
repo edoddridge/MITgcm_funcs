@@ -915,12 +915,12 @@ class Grid(MITgcm_Simulation):
         self['fCoriG'] = grid_netcdf_file.variables['fCoriG']
         self['fCori'] = grid_netcdf_file.variables['fCori']
 
-        (self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'][:],indexing='ij')
-        (self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'][:],indexing='ij')
-        (self['Z_x'],self['X_z']) = np.meshgrid(self['Z'],self['X'][:],indexing='ij')
-        (self['Z_3d'],self['Y_3d'],self['X_3d']) = np.meshgrid(self['Z'][:],self['Y'][:],self['X'][:],indexing='ij')
+        #(self['Z_y'],self['Y_z']) = np.meshgrid(self['Z'][:],self['Y'][:],indexing='ij')
+        #(self['X_y'],self['Y_x']) = np.meshgrid(self['X'],self['Y'][:],indexing='ij')
+        #(self['Z_x'],self['X_z']) = np.meshgrid(self['Z'],self['X'][:],indexing='ij')
+        #(self['Z_3d'],self['Y_3d'],self['X_3d']) = np.meshgrid(self['Z'][:],self['Y'][:],self['X'][:],indexing='ij')
 
-        (self['DZF'],self['DYF'], self['DXF']) = np.meshgrid(self['drF'][:],self['dyF'][0,:],self['dxF'][:,0],indexing='ij')
+        #(self['DZF'],self['DYF'], self['DXF']) = np.meshgrid(self['drF'][:],self['dyF'][0,:],self['dxF'][:,0],indexing='ij')
 
         self['wet_mask_V'] = np.ones((np.shape(self['HFacS'][:])))
         self['wet_mask_V'][self['HFacS'][:] == 0.] = 0.
@@ -930,8 +930,7 @@ class Grid(MITgcm_Simulation):
         self['wet_mask_TH'][self['HFacC'][:] == 0.] = 0.
         self['wet_mask_W'] = np.append(self['wet_mask_TH'],np.ones((1,len(self['Y'][:]),len(self['X'][:]))),axis=0)
 
-        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
-                                    self['drF'][:].reshape((len(self['drF'][:]),1,1)))
+
 
         #self.compute_masks(self['wet_mask_TH'][:])
         # this isn't automatically done, since it's expensive, and only needed when computing boundary fluxes.
@@ -984,6 +983,10 @@ class Grid(MITgcm_Simulation):
         self['north_mask'] = north_mask
         self['bottom_mask'] = bottom_mask
         return
+    def compute_cell_volume(self):
+        """Compute a 3D array that contains the volume of each tracer cell."""
+        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
+                                    self['drF'][:].reshape((len(self['drF'][:]),1,1)))
         
         
 
