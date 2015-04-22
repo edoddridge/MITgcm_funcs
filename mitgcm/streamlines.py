@@ -61,7 +61,11 @@ def stream2(u,v,
         print 'v_grid_loc not set correctly. Possible options are: U,V,T, Zeta'
         return
 
+    if grid_object['grid_type']=='polar':
+        # use degrees per metre and convert all the velocities to degrees / second
 
+
+        
     len_x_u = len(x_u)
     len_y_u = len(y_u)
     
