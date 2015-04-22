@@ -43,8 +43,6 @@ class MITgcm_Simulation(dict):
         self.grid = Grid(grid_netcdf_filename)
         self.grid['grid_type'] = grid_type
 
-        if grid_type == 'polar':
-            print 'Warning! Streamlines functions are not currently supported on polar grid.'
 
         self['g'] = g
         self['EOS_type'] = EOS_type

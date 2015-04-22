@@ -23,7 +23,7 @@ from . import functions
 def stream2(u,v,
             startx,starty,
             grid_object,
-            t_int=2592000,delta_t=3600,
+            t_max=2592000,delta_t=3600,
             u_grid_loc='U',v_grid_loc='V'):
     """!A two-dimensional streamline solver. The velocity fields *must* be two dimensional and not vary in time.
     X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, T and Zeta.
@@ -61,57 +61,70 @@ def stream2(u,v,
         print 'v_grid_loc not set correctly. Possible options are: U,V,T, Zeta'
         return
 
-    if grid_object['grid_type']=='polar':
-        # use degrees per metre and convert all the velocities to degrees / second
 
 
-        
+
+
     len_x_u = len(x_u)
     len_y_u = len(y_u)
     
     len_x_v = len(x_v)
     len_y_v = len(y_v)
     
-    x_stream = np.ones((int(t_int/delta_t)+2))*startx
-    y_stream = np.ones((int(t_int/delta_t)+2))*starty
-    t_stream = np.zeros((int(t_int/delta_t)+2))
+    x_stream = np.ones((int(t_max/delta_t)+2))*startx
+    y_stream = np.ones((int(t_max/delta_t)+2))*starty
+    t_stream = np.zeros((int(t_max/delta_t)+2))
 
     t = 0 #set the initial time to be zero
     i=0
 
+    deg_per_m = np.array([1,1])
+
     # Runge-Kutta fourth order method to estimate next position.
-    while t < t_int:
-      # Interpolate velocities to initial location
-      u_loc = bilinear_interp(startx,starty,u,x_u,y_u,len_x_u,len_y_u)
-      v_loc = bilinear_interp(startx,starty,v,x_v,y_v,len_x_v,len_y_v)
-      dx1 = delta_t*u_loc
-      dy1 = delta_t*v_loc
+    while t < t_max:
+        if grid_object['grid_type']=='polar':
+            # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
+            deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])
 
-      u_loc1 = bilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,u,x_u,y_u,len_x_u,len_y_u)
-      v_loc1 = bilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,v,x_v,y_v,len_x_v,len_y_v)
-      dx2 = delta_t*u_loc1
-      dy2 = delta_t*v_loc1
+        # Interpolate velocities to initial location
+        u_loc = bilinear_interp(startx,starty,u,x_u,y_u,len_x_u,len_y_u)
+        v_loc = bilinear_interp(startx,starty,v,x_v,y_v,len_x_v,len_y_v)
+        u_loc = u_loc*deg_per_m[1]
+        v_loc = v_loc*deg_per_m[0]
+        dx1 = delta_t*u_loc
+        dy1 = delta_t*v_loc
 
-      u_loc2 = bilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,u,x_u,y_u,len_x_u,len_y_u)
-      v_loc2 = bilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,v,x_v,y_v,len_x_v,len_y_v)
-      dx3 = delta_t*u_loc2
-      dy3 = delta_t*v_loc2
+        u_loc1 = bilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,u,x_u,y_u,len_x_u,len_y_u)
+        v_loc1 = bilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,v,x_v,y_v,len_x_v,len_y_v)
+        u_loc1 = u_loc1*deg_per_m[1]
+        v_loc1 = v_loc1*deg_per_m[0]
+        dx2 = delta_t*u_loc1
+        dy2 = delta_t*v_loc1
 
-      u_loc3 = bilinear_interp(startx + dx3,starty + dy3,u,x_u,y_u,len_x_u,len_y_u)
-      v_loc3 = bilinear_interp(startx + dx3,starty + dy3,v,x_v,y_v,len_x_v,len_y_v)
-      dx4 = delta_t*u_loc3
-      dy4 = delta_t*v_loc3
+        u_loc2 = bilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,u,x_u,y_u,len_x_u,len_y_u)
+        v_loc2 = bilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,v,x_v,y_v,len_x_v,len_y_v)
+        u_loc2 = u_loc2*deg_per_m[1]
+        v_loc2 = v_loc2*deg_per_m[0]
+        dx3 = delta_t*u_loc2
+        dy3 = delta_t*v_loc2
 
-      startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
-      starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
+        u_loc3 = bilinear_interp(startx + dx3,starty + dy3,u,x_u,y_u,len_x_u,len_y_u)
+        v_loc3 = bilinear_interp(startx + dx3,starty + dy3,v,x_v,y_v,len_x_v,len_y_v)
+        u_loc3 = u_loc3*deg_per_m[1]
+        v_loc3 = v_loc3*deg_per_m[0]
+        dx4 = delta_t*u_loc3
+        dy4 = delta_t*v_loc3
 
-      t += delta_t
-      i += 1
+        startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
+        starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
 
-      x_stream[i] = startx
-      y_stream[i] = starty
-      t_stream[i] = t
-      
+        t += delta_t
+        i += 1
+
+        x_stream[i] = startx
+        y_stream[i] = starty
+        t_stream[i] = t
+
       
     return x_stream,y_stream,t_stream
 
@@ -121,7 +134,7 @@ def stream3(u,v,w,
             grid_object,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
-            t_int=2592000,delta_t=3600,
+            t_max=2592000,delta_t=3600,
             u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
     """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
         X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
@@ -211,59 +224,73 @@ def stream3(u,v,w,
     len_y_w = len(y_w)
     len_z_w = len(z_w)
 
-    x_stream = np.ones((int(t_int/delta_t)+2))*startx
-    y_stream = np.ones((int(t_int/delta_t)+2))*starty
-    z_stream = np.ones((int(t_int/delta_t)+2))*startz
-    t_stream = np.zeros((int(t_int/delta_t)+2))
+    x_stream = np.ones((int(t_max/delta_t)+2))*startx
+    y_stream = np.ones((int(t_max/delta_t)+2))*starty
+    z_stream = np.ones((int(t_max/delta_t)+2))*startz
+    t_stream = np.zeros((int(t_max/delta_t)+2))
 
     t = 0 #set the initial time to be zero
     i=0
+
+    deg_per_m = np.array([1,1])
+
     
     # Runge-Kutta fourth order method to estimate next position.
-    while t < t_int:
-      # Interpolate velocities to initial location
-      u_loc = trilinear_interp(startx,starty,startz,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-      v_loc = trilinear_interp(startx,starty,startz,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-      w_loc = trilinear_interp(startx,starty,startz,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-    
-      dx1 = delta_t*u_loc
-      dy1 = delta_t*v_loc
-      dz1 = delta_t*w_loc
+    while t < t_max:
+        if grid_object['grid_type']=='polar':
+            # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
+            deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])
 
-      u_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-      v_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-      w_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-      dx2 = delta_t*u_loc1
-      dy2 = delta_t*v_loc1
-      dz2 = delta_t*w_loc1
+        # Interpolate velocities to initial location
+        u_loc = trilinear_interp(startx,starty,startz,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc = trilinear_interp(startx,starty,startz,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc = trilinear_interp(startx,starty,startz,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc = u_loc*deg_per_m[1]
+        v_loc = v_loc*deg_per_m[0]
+        dx1 = delta_t*u_loc
+        dy1 = delta_t*v_loc
+        dz1 = delta_t*w_loc
 
-      u_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-      v_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-      w_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-      dx3 = delta_t*u_loc2
-      dy3 = delta_t*v_loc2
-      dz3 = delta_t*w_loc2
+        u_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc1 = u_loc1*deg_per_m[1]
+        v_loc1 = v_loc1*deg_per_m[0]
+        dx2 = delta_t*u_loc1
+        dy2 = delta_t*v_loc1
+        dz2 = delta_t*w_loc1
 
-      u_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-      v_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-      w_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-      dx4 = delta_t*u_loc3
-      dy4 = delta_t*v_loc3
-      dz4 = delta_t*w_loc3
+        u_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc2 = u_loc2*deg_per_m[1]
+        v_loc2 = v_loc2*deg_per_m[0]
+        dx3 = delta_t*u_loc2
+        dy3 = delta_t*v_loc2
+        dz3 = delta_t*w_loc2
 
-      #recycle the "start_" variables to keep the code clean
-      startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
-      starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
-      startz = startz + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
-      t += delta_t
-      i += 1
+        u_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc3 = u_loc3*deg_per_m[1]
+        v_loc3 = v_loc3*deg_per_m[0]
+        dx4 = delta_t*u_loc3
+        dy4 = delta_t*v_loc3
+        dz4 = delta_t*w_loc3
 
-      x_stream[i] = startx
-      y_stream[i] = starty
-      z_stream[i] = startz
-      t_stream[i] = t
-      
-      
+        #recycle the "start_" variables to keep the code clean
+        startx = startx + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
+        starty = starty + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
+        startz = startz + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
+        t += delta_t
+        i += 1
+
+        x_stream[i] = startx
+        y_stream[i] = starty
+        z_stream[i] = startz
+        t_stream[i] = t
+
+
     return x_stream,y_stream,z_stream,t_stream
 
 def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
@@ -273,7 +300,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_netcdf_variable='UVEL',
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
-            t_int=3.1e5,delta_t=3600,
+            t_max=3.1e5,delta_t=3600,
             u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
     """!A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been tested yet.
@@ -286,7 +313,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     * t = vector of time levels that are contained in the velocity data.
     * grid_object is m.grid if you followed the standard naming conventions.
     * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
-    * t_int = length of time to track particles for, in seconds
+    * t_max = length of time to track particles for, in seconds
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     * X_grid_loc = where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
     """
@@ -377,10 +404,10 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     
     len_t = len(t)
 
-    x_stream = np.ones((int(t_int/delta_t)+2))*startx
-    y_stream = np.ones((int(t_int/delta_t)+2))*starty
-    z_stream = np.ones((int(t_int/delta_t)+2))*startz
-    t_stream = np.ones((int(t_int/delta_t)+2))*startt
+    x_stream = np.ones((int(t_max/delta_t)+2))*startx
+    y_stream = np.ones((int(t_max/delta_t)+2))*starty
+    z_stream = np.ones((int(t_max/delta_t)+2))*startz
+    t_stream = np.ones((int(t_max/delta_t)+2))*startt
 
     t_RK = startt #set the initial time to be the given start time
     z_RK = startz
@@ -433,11 +460,16 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                                                 w_netcdf_filehandle,w_netcdf_variable)
     
     
+    # Prepare for spherical polar grids
+    deg_per_m = np.array([1,1])
+
     # Runge-Kutta fourth order method to estimate next position.
-    while i < np.fabs(t_int/delta_t):
-    #t_RK < t_int + startt:
+    while i < np.fabs(t_max/delta_t):
+    #t_RK < t_max + startt:
         
-        # Compute indices at location given
+        if grid_object['grid_type']=='polar':
+            # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
+            deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])# Compute indices at location given
         
         if (y_index_u_new==y_index_u and 
             x_index_u_new==x_index_u and 
@@ -497,6 +529,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
+        u_loc = u_loc*deg_per_m[1]
+        v_loc = v_loc*deg_per_m[0]
         dx1 = delta_t*u_loc
         dy1 = delta_t*v_loc
         dz1 = delta_t*w_loc
@@ -513,6 +547,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
+        u_loc1 = u_loc1*deg_per_m[1]
+        v_loc1 = v_loc1*deg_per_m[0]
         dx2 = delta_t*u_loc1
         dy2 = delta_t*v_loc1
         dz2 = delta_t*w_loc1
@@ -529,6 +565,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
+        u_loc2 = u_loc2*deg_per_m[1]
+        v_loc2 = v_loc2*deg_per_m[0]
         dx3 = delta_t*u_loc2
         dy3 = delta_t*v_loc2
         dz3 = delta_t*w_loc2
@@ -545,6 +583,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                     w_field,
                     x_w,y_w,z_w,t,len_x_w,len_y_w,len_z_w,len_t,
                     x_index_w,y_index_w,z_index_w,t_index)
+        u_loc3 = u_loc3*deg_per_m[1]
+        v_loc3 = v_loc3*deg_per_m[0]
         dx4 = delta_t*u_loc3
         dy4 = delta_t*v_loc3
         dz4 = delta_t*w_loc3
