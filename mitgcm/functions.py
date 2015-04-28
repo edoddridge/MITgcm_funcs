@@ -207,7 +207,7 @@ def test_layer_integrate():
 
 
 
-def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
+def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_its=5):
     """!Interpolate a given field onto a different grid. Only performs interpolation in the horizontal directions.
         
     ----
@@ -215,20 +215,27 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order):
     * field - the variable to be interpolated
     * old_x, old_y - the axis on which the original field is defined.
     * new_x, new_y - the axis onto which the field will be interpolated.
-    * interp_order - the order of the interpolation function, integer between 1 and 5 inclusive. 1 -> linear, 3 -> cubic, &c.."""
-
-
-    mask = np.ones((np.shape(field)))
-    mask[field == 0.] = 0.
+    * interp_order - the order of the interpolation function, integer between 1 and 5 inclusive. 1 -> linear, 3 -> cubic, &c..
+    * fill_nans - if 'no' values in field are not altered. If 'yes', then NaNs in 'field'
+    are replace with the mean of surrounding non-NaNs.
+    * max_its - maximum number of iterations to perform when healing NaNs in field."""
 
     field_interp = np.zeros((field.shape[0],
                      len(new_y),
                      len(new_x)))
 
-    
-
     for k in xrange(0,field.shape[0]):
-        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field[k,:,:],kx=interp_order,ky=interp_order)
+        if fill_nans == 'yes':
+            field_slice = replace_nans(field[k,:,:], max_its,0.5,1,'localmean')
+            if (field_slice != field_slice).any():
+                    field_slice = replace_nans(field_slice[:,:], max_its,0.5,1,'localmean')
+                    # repeat the replace_nans call since it can sometimes miss ones in the corners.
+        elif fill_nans == 'no':
+            field_slice = field[k,:,:]
+        else:
+            raise ValueError(str(fill_nans), 'not set correctly. Should be "yes" or "no".')
+
+        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field_slice,kx=interp_order,ky=interp_order)
         field_interp[k,:,:] = interp_object(new_y,new_x)
 
 
@@ -309,4 +316,131 @@ def plt_mon_stats(netcdf_filename,
 
     return data
 
+
+def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
+    """!Replace NaN elements in an array using an iterative image inpainting algorithm.
+    
+    The algorithm is the following:
+    
+    1) For each element in the input array, replace it by a weighted average
+       of the neighbouring elements which are not NaN themselves. The weights depends
+       of the method type. If ``method=localmean`` weight are equal to 1/( (2*kernel_size+1)**2 -1 )
+       
+    2) Several iterations are needed if there are adjacent NaN elements.
+       If this is the case, information is "spread" from the edges of the missing
+       regions iteratively, until the variation is below a certain threshold. 
+    
+    Parameters
+    ----------
+    
+    array : 2d np.ndarray
+        an array containing NaN elements that have to be replaced
+    
+    max_iter : int
+        the number of iterations
+
+    tol: float
+        the difference between subsequent iterations for stopping the algorithm
+    
+    kernel_size : int
+        the size of the kernel, default is 1
+        
+    method : str
+        the method used to replace invalid values. Valid options are
+        `localmean`.
+        
+    Returns
+    --------
+    
+    filled : 2d np.ndarray
+        a copy of the input array, where NaN elements have been replaced.
+
+
+
+    ---------
+    Acknowledgements
+    Code for this function is (very slightly modified) from 
+    https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217
+    which is part of the OpenPIV project.
+    * docs here: http://alexlib.github.io/openpiv-python/index.html 
+    * code here: https://github.com/gasagna/openpiv-python
+        
+    """
+
+    filled = np.empty( [array.shape[0], array.shape[1]], dtype=np.float64)
+    kernel = np.empty( (2*kernel_size+1, 2*kernel_size+1), dtype=np.float64 ) 
+
+    # indices where array is NaN
+    inans, jnans = np.nonzero( np.isnan(array) )
+    
+    # number of NaN elements
+    n_nans = len(inans)
+    
+    # arrays which contain replaced values to check for convergence
+    replaced_new = np.zeros( n_nans, dtype=np.float64)
+    replaced_old = np.zeros( n_nans, dtype=np.float64)
+    
+    # depending on kernel type, fill kernel array
+    if method == 'localmean':
+        for i in range(2*kernel_size+1):
+            for j in range(2*kernel_size+1):
+                kernel[i,j] = 1.0
+    else:
+        raise ValueError( 'method not valid. Should be one of `localmean`.')
+    
+    # fill new array with input elements
+    for i in range(array.shape[0]):
+        for j in range(array.shape[1]):
+            filled[i,j] = array[i,j]
+
+    # make several passes
+    # until we reach convergence
+    for it in range(max_iter):
+        
+        # for each NaN element
+        for k in range(n_nans):
+            i = inans[k]
+            j = jnans[k]
+            
+            # initialize to zero
+            filled[i,j] = 0.0
+            n = 0
+            
+            # loop over the kernel
+            for I in range(2*kernel_size+1):
+                for J in range(2*kernel_size+1):
+                   
+                    # if we are not out of the boundaries
+                    if i+I-kernel_size < array.shape[0] and i+I-kernel_size >= 0:
+                        if j+J-kernel_size < array.shape[1] and j+J-kernel_size >= 0:
+                                                
+                            # if the neighbour element is not NaN itself.
+                            if filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :
+                                
+                                # do not sum itself
+                                if I-kernel_size != 0 and J-kernel_size != 0:
+                                    
+                                    # convolve kernel with original array
+                                    filled[i,j] = filled[i,j] + filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]
+                                    n = n + 1
+
+            # divide value by effective number of added elements
+            if n != 0:
+                filled[i,j] = filled[i,j] / n
+                replaced_new[k] = filled[i,j]
+            else:
+                filled[i,j] = np.nan
+                
+        # check if mean square difference between values of replaced 
+        #elements is below a certain tolerance
+        if np.mean( (replaced_new-replaced_old)**2 ) < tol:
+            break
+        else:
+            for l in range(n_nans):
+                replaced_old[l] = replaced_new[l]
+
+    # now go around the edge and fill in any nans found there
+
+    
+    return filled
 
