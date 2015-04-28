@@ -91,7 +91,7 @@ class MITgcm_Simulation(dict):
             return
 
         if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            raise RuntimeError("Warning! the number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable)
+            raise RuntimeError("The number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable)
             return
 
         data = {}
