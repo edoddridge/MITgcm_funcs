@@ -131,13 +131,21 @@ def extract_on_surface(input_array,surface_locations,axis_values):
     return surface_values
 
 
-def layer_integrate(upper_contour, lower_contour, axis_values, integrand = 'none'): 
+def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='none',integrand = 'none'): 
     """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
     At the moment this only works if all the inputs are defined at the same grid location.
     
-    In MITgcm world, the axis_values needs to be Z - the tracer levels.
-
     The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, 
+
+    -------------------
+    ## Parameters
+    * upper_contour - the higher surface
+    * lower_contour - the lower surface
+    * axis_values - the vertical axis.
+      ** defined at the cell centres if using interp_method = 'linear'
+      ** defined at the cell faces if using interp_method = 'none'
+    * interp_method - defines whether the function interpolates values of the integrand. Possible options are 'none' or 'linear'.
+    * integrand - the field to be integrated between the contours
     """
     
     total = np.zeros((upper_contour.shape))
@@ -165,28 +173,54 @@ def layer_integrate(upper_contour, lower_contour, axis_values, integrand = 'none
         indices_lower = np.where(np.diff(sign,axis=0),indsz,0)
         indices_lower = (np.nanmax(indices_lower,axis=0)) # to flatten array and deal with multiple crossings
 
-        values_upper = mitgcm.functions.extract_on_surface(integrand,upper_contour,axis_values)
-        values_lower = mitgcm.functions.extract_on_surface(integrand,lower_contour,axis_values)
 
-        for j in xrange(0,upper_contour.shape[0]):
-            for i in xrange(0,upper_contour.shape[1]):
-                if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
-                    if indices_upper[j,i] == indices_lower[j,i]:
-                        # in the same cell. find midvalue and mulitply by thickness
-                        total[j,i] = (values_upper[j,i] + values_lower[j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
-                    else:
-                        # not in the same cell. Have at least an upper and lower partial cell to compute
-                        upper_partial = ((values_upper[j,i] + integrand[indices_upper[j,i]+1,j,i])*
-                                        (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))/2
-                        lower_partial = ((values_lower[j,i] + integrand[indices_lower[j,i],j,i])*
-                                        (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
 
-                        total[j,i] = upper_partial + lower_partial
+        if interp_method == 'none':
+            for j in xrange(0,upper_contour.shape[0]):
+                for i in xrange(0,upper_contour.shape[1]):
+                    if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
+                        if indices_upper[j,i] == indices_lower[j,i]:
+                            # in the same cell. find midvalue and mulitply by thickness
+                            total[j,i] = (integrand[indices_upper[j,i],j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
+                        else:
+                            # not in the same cell. Have at least an upper and lower partial cell to compute
+                            upper_partial = (integrand[indices_upper[j,i],j,i]*
+                                            (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))
+                            lower_partial = (integrand[indices_lower[j,i],j,i]*
+                                            (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
 
-                        if indices_lower[j,i] - indices_upper[j,i] > 1:
-                             # have at least one whole cell between them (the same cell case has already been captured)
-                            for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
-                                total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 #
+                            total[j,i] = upper_partial + lower_partial
+
+                            if indices_lower[j,i] - indices_upper[j,i] > 1:
+                                 # have at least one whole cell between them (the same cell case has already been captured)
+                                for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
+                                    total[j,i] += integrand[k,j,i]*(axis_values[k] - axis_values[k+1]) #
+        
+        elif interp_method == 'linear':
+            values_upper = mitgcm.functions.extract_on_surface(integrand,upper_contour,axis_values)
+            values_lower = mitgcm.functions.extract_on_surface(integrand,lower_contour,axis_values)
+            for j in xrange(0,upper_contour.shape[0]):
+                for i in xrange(0,upper_contour.shape[1]):
+                    if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
+                        if indices_upper[j,i] == indices_lower[j,i]:
+                            # in the same cell. find midvalue and mulitply by thickness
+                            total[j,i] = (values_upper[j,i] + values_lower[j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
+                        else:
+                            # not in the same cell. Have at least an upper and lower partial cell to compute
+                            upper_partial = ((values_upper[j,i] + integrand[indices_upper[j,i]+1,j,i])*
+                                            (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))/2
+                            lower_partial = ((values_lower[j,i] + integrand[indices_lower[j,i],j,i])*
+                                            (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
+
+                            total[j,i] = upper_partial + lower_partial
+
+                            if indices_lower[j,i] - indices_upper[j,i] > 1:
+                                 # have at least one whole cell between them (the same cell case has already been captured)
+                                for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
+                                    total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 #
+        
+
+
 
     return total
 
