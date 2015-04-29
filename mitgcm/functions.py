@@ -224,12 +224,17 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
                      len(new_y),
                      len(new_x)))
 
-    for k in xrange(0,field.shape[0]):
+    for k in xrange(field.shape[0]):
         if fill_nans == 'yes':
-            field_slice = replace_nans(field[k,:,:], max_its,0.5,1,'localmean')
-            if (field_slice != field_slice).any():
-                    field_slice = replace_nans(field_slice[:,:], max_its,0.5,1,'localmean')
+            field_slice = replace_nans(field[k,:,:], 8,0.5,1,'localmean')
+            n = 0
+            while (field_slice != field_slice).any():
+                    field_slice = replace_nans(field_slice[:,:], 8,0.5,1,'localmean')
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
+                    if n > max_its:
+                        raise RuntimeError('Tried ',str(max_its), ' iterations to heal NaNs in the input field, and failed.')
+                        # need a way to prevent hanging in the while loop
+                    n += 1
         elif fill_nans == 'no':
             field_slice = field[k,:,:]
         else:
