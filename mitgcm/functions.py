@@ -21,6 +21,7 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
     """ nearest finds the index jusut before the search value. linear uses linear interpolation to find the location between grid points.
     May give silly answers if the input_array is not monotonic in the search direction."""
 
+
     axis=0
     monoton_test = np.diff(input_array,axis=axis)
     
@@ -29,10 +30,10 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
     else:
         warnings.warn("input field is not strictly monotonic in search direction. Strange results may occur.", RuntimeWarning)
     
-    dist = (input_array - surface_value)
-    
     indsz = np.repeat(np.arange(input_array.shape[0]-1).reshape((input_array.shape[0]-1,1,1)),input_array.shape[1],axis=1)
     indsz = np.repeat(indsz.reshape((input_array.shape[0]-1,input_array.shape[1],1)),input_array.shape[2],axis=2)
+
+    dist = (input_array - surface_value)
 
     sign= np.sign(dist)  
     sign[sign==0] = -1     # replace zeros with -1  
@@ -78,7 +79,8 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
                                  (input_array[indices_min[:,:],indsy,indsx] - 
                                     input_array[indices_min[:,:] + direction,indsy,indsx]))*
                                  (surface_value - input_array[indices_min[:,:] + direction,indsy,indsx]))
-
+    else:
+        raise RuntimeError(str(method), ' not set correctly. Must be "nearest" or "linear".')
 
 
     input_array_masked = np.ma.masked_where(input_array==0,input_array)
@@ -90,6 +92,8 @@ def calc_surface(input_array,surface_value,axis_values,method='linear'):
     mask_condition = test1 + test2
 
     z_surface = np.ma.masked_where(mask_condition, z_surface)
+
+
 
     return z_surface
 
@@ -131,7 +135,7 @@ def extract_on_surface(input_array,surface_locations,axis_values):
     return surface_values
 
 
-def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='none',integrand = 'none'): 
+def layer_integrate(upper_contour, lower_contour, grid_obect, integrand = 'none', interp_method='none'): 
     """!Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. 
     At the moment this only works if all the inputs are defined at the same grid location.
     
@@ -147,8 +151,13 @@ def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='no
     * interp_method - defines whether the function interpolates values of the integrand. Possible options are 'none' or 'linear'.
     * integrand - the field to be integrated between the contours
     """
-    
-    total = np.zeros((upper_contour.shape))
+
+    if interp_method == 'none':
+        axis_values = grid_obect['Zl'][:]
+    elif interp_method == 'linear':
+        axis_values = grid_obect['Z'][:]
+
+    total = np.ma.zeros((upper_contour.shape))
 
     
     if integrand == 'none':
@@ -161,6 +170,7 @@ def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='no
         indsz = np.repeat(np.arange(integrand.shape[0]-1).reshape((integrand.shape[0]-1,1,1)),integrand.shape[1],axis=1)
         indsz = np.repeat(indsz.reshape((integrand.shape[0]-1,integrand.shape[1],1)),integrand.shape[2],axis=2)
 
+        # these code blocks always return the index of the cell above the zero crossing
         dist = (axis_array - upper_contour)
         sign= np.sign(dist)  
         sign[sign==0] = -1     # replace zeros with -1  
@@ -173,6 +183,8 @@ def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='no
         indices_lower = np.where(np.diff(sign,axis=0),indsz,0)
         indices_lower = (np.nanmax(indices_lower,axis=0)) # to flatten array and deal with multiple crossings
 
+        values_upper = mitgcm.functions.extract_on_surface(integrand,upper_contour,axis_values)
+        values_lower = mitgcm.functions.extract_on_surface(integrand,lower_contour,axis_values)
 
 
         if interp_method == 'none':
@@ -181,27 +193,31 @@ def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='no
                     if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
                         if indices_upper[j,i] == indices_lower[j,i]:
                             # in the same cell. find midvalue and mulitply by thickness
-                            total[j,i] = (integrand[indices_upper[j,i],j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
+                            total[j,i] = (integrand[indices_upper[j,i],j,i])*(upper_contour[j,i] - lower_contour[j,i])
+                            #if total[j,i]<0:
+                            #    print 'Problem! total less than zero from same cell'
                         else:
                             # not in the same cell. Have at least an upper and lower partial cell to compute
                             upper_partial = (integrand[indices_upper[j,i],j,i]*
                                             (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))
                             lower_partial = (integrand[indices_lower[j,i],j,i]*
-                                            (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
+                                            (axis_values[indices_lower[j,i]] - lower_contour[j,i]))
 
                             total[j,i] = upper_partial + lower_partial
+                            #if total[j,i]<0:
+                            #    print 'Problem! value less than zero from two partials'
 
                             if indices_lower[j,i] - indices_upper[j,i] > 1:
                                  # have at least one whole cell between them (the same cell case has already been captured)
-                                for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
+                                for k in xrange(indices_upper[j,i],indices_lower[j,i]-1):
                                     total[j,i] += integrand[k,j,i]*(axis_values[k] - axis_values[k+1]) #
-        
+                                    #if (integrand[k,j,i]*(axis_values[k] - axis_values[k+1]))<0:
+                                    #    print 'Problem! intermediate cell contribution is less than zero.'
         elif interp_method == 'linear':
-            values_upper = mitgcm.functions.extract_on_surface(integrand,upper_contour,axis_values)
-            values_lower = mitgcm.functions.extract_on_surface(integrand,lower_contour,axis_values)
             for j in xrange(0,upper_contour.shape[0]):
                 for i in xrange(0,upper_contour.shape[1]):
                     if (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
+                        # both contours defined at this location
                         if indices_upper[j,i] == indices_lower[j,i]:
                             # in the same cell. find midvalue and mulitply by thickness
                             total[j,i] = (values_upper[j,i] + values_lower[j,i])*(upper_contour[j,i] - lower_contour[j,i])/2
@@ -218,9 +234,34 @@ def layer_integrate(upper_contour, lower_contour, axis_values, interp_method='no
                                  # have at least one whole cell between them (the same cell case has already been captured)
                                 for k in xrange(indices_upper[j,i]+1,indices_lower[j,i]):
                                     total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 #
-        
+                    
+                    elif (values_upper[j,i] is  np.ma.masked) and (values_lower[j,i] is not np.ma.masked):
+                        # upper contour undefined at this location (has outcropped)
+
+                        total[j,i] += integrand[0,j,i]*grid_obect['drF'][0]/2 # surface half-cell
+
+                        lower_partial = ((values_lower[j,i] + integrand[indices_lower[j,i],j,i])*
+                                        (axis_values[indices_lower[j,i]] - lower_contour[j,i]))/2
+
+                        total[j,i] += lower_partial
+                            
+                        for k in xrange(indices_lower[j,i]):
+                            # whole cells
+                            total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 
 
 
+                    elif (values_upper[j,i] is not np.ma.masked) and (values_lower[j,i] is np.ma.masked):
+                        # lower contour is undefined at this location (has incropped)
+                        total[j,i] += integrand[-1,j,i]*grid_obect['drF'][-1]/2 # bottom half-cell
+
+
+                        upper_partial = ((values_upper[j,i] + integrand[indices_upper[j,i]+1,j,i])*
+                                        (upper_contour[j,i] - axis_values[indices_upper[j,i]+1]))/2
+
+                        total[j,i] += upper_partial
+
+                        for k in xrange(indices_upper[j,i],len(axis_values)-1):
+                            total[j,i] += (integrand[k,j,i] + integrand[k+1,j,i])*(axis_values[k] - axis_values[k+1])/2 
 
     return total
 
