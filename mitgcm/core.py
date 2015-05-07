@@ -886,6 +886,9 @@ class Grid(MITgcm_Simulation):
         """
         grid_netcdf_file_list = glob.glob(grid_netcdf_filename)
 
+        if not grid_netcdf_file_list:
+            raise RuntimeError('Grid file not found.')
+
         #print grid_netcdf_file_list
         grid_netcdf_file = netCDF4.Dataset(grid_netcdf_file_list[0])
 
