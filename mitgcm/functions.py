@@ -18,7 +18,7 @@ import mitgcm
 
     
 def calc_surface(input_array,surface_value,axis_values,method='linear'):
-    """ nearest finds the index jusut before the search value. linear uses linear interpolation to find the location between grid points.
+    """ nearest finds the index just before the search value. linear uses linear interpolation to find the location between grid points.
     May give silly answers if the input_array is not monotonic in the search direction."""
 
 
