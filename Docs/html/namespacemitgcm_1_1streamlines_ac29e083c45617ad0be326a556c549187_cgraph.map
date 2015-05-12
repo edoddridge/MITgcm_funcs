@@ -1,0 +1,13 @@
+<map id="mitgcm.streamlines.indices_and_field" name="mitgcm.streamlines.indices_and_field">
+<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc" title="extract the value of a field along a path through a time varying, 3 dimensional field. " alt="" coords="236,69,416,110"/>
+<area shape="rect" id="node3" href="$namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73" title="Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dime..." alt="" coords="1156,35,1371,77"/>
+<area shape="rect" id="node5" href="$namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5" title="Extract the value of a field along a path through a 3 dimensional field. " alt="" coords="464,69,644,110"/>
+<area shape="rect" id="node4" href="$namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef" title="This is a numba accelerated quadralinear interpolation. " alt="" coords="1419,130,1595,171"/>
+<area shape="rect" id="node6" href="$namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac" title="Do trilinear interpolation of the field in three spatial dimensions. " alt="" coords="692,35,876,77"/>
+<area shape="rect" id="node8" href="$namespacemitgcm_1_1streamlines.html#a2e9f5324faa650d831d5b679e4301b2f" title="Extract the value of a field along a path through a 2 dimensional field. " alt="" coords="694,101,874,142"/>
+<area shape="rect" id="node7" href="$namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d" title="This is a numba accelerated trilinear interpolation. " alt="" coords="928,35,1104,77"/>
+<area shape="rect" id="node9" href="$namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702" title="Do bilinear interpolation of a field. " alt="" coords="924,101,1108,142"/>
+<area shape="rect" id="node11" href="$namespacemitgcm_1_1functions.html#a4027a61553c5b8f04b4fcb335224b30e" title="Interpolate a given field onto a different grid. " alt="" coords="937,166,1095,207"/>
+<area shape="rect" id="node10" href="$namespacemitgcm_1_1streamlines.html#af0379625b51f588355836dd3711aae7c" title="This is a numba accelerated bilinear interpolation. " alt="" coords="1175,101,1351,142"/>
+<area shape="rect" id="node12" href="$namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792" title="Replace NaN elements in an array using an iterative image inpainting algorithm. " alt="" coords="1161,173,1366,200"/>
+</map>

@@ -125,7 +125,11 @@ def stream2(u,v,
         y_stream[i] = starty
         t_stream[i] = t
 
-      
+    # if x_stream[0] == x_stream[-1]:
+    #     x_stream = np.delete(x_stream,-1) 
+    #     y_stream = np.delete(y_stream,-1) 
+    #     t_stream = np.delete(t_stream,-1) 
+
     return x_stream,y_stream,t_stream
 
 

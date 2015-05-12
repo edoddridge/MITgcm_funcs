@@ -1,0 +1,7 @@
+<map id="mitgcm.core.MITgcm_Simulation.load_field" name="mitgcm.core.MITgcm_Simulation.load_field">
+<area shape="rect" id="node2" href="$classmitgcm_1_1core_1_1_upoint__field.html#ab4adbcfd61c7b303b8499a5228cd6f77" title="mitgcm.core.Upoint\l_field.__init__" alt="" coords="224,5,361,47"/>
+<area shape="rect" id="node3" href="$classmitgcm_1_1core_1_1_vpoint__field.html#a1ffd906684a51a4045b0b02092fab5ec" title="Instantiate a field on the meridional velocity points. " alt="" coords="225,71,361,112"/>
+<area shape="rect" id="node4" href="$classmitgcm_1_1core_1_1_wpoint__field.html#a5149dd8a1c832999bdbcd60b4abc3b14" title="mitgcm.core.Wpoint\l_field.__init__" alt="" coords="223,136,363,177"/>
+<area shape="rect" id="node5" href="$classmitgcm_1_1core_1_1_tracerpoint__field.html#a71960ccda494c5844ef01526a32bed1e" title="mitgcm.core.Tracerpoint\l_field.__init__" alt="" coords="210,201,375,243"/>
+<area shape="rect" id="node6" href="$classmitgcm_1_1core_1_1_vorticitypoint__field.html#ad66ee0e21b3b64b6263d322c7d28a0d1" title="mitgcm.core.Vorticitypoint\l_field.__init__" alt="" coords="205,267,380,308"/>
+</map>

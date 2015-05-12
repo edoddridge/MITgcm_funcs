@@ -115,9 +115,9 @@ Functions</h2></td></tr>
 <tr class="separator:ab26c3c96d103e888d18a0378ebd78355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">test_layer_integrate</a> ()</td></tr>
 <tr class="separator:ab12baa939c3055bc4c9bceb54da9f16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a539ca097560b6ffa61386bdc6a2dc6f7"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a539ca097560b6ffa61386bdc6a2dc6f7">interp_field</a> (field, old_x, old_y, new_x, new_y, interp_order)</td></tr>
-<tr class="memdesc:a539ca097560b6ffa61386bdc6a2dc6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolate a given field onto a different grid.  <a href="#a539ca097560b6ffa61386bdc6a2dc6f7">More...</a><br /></td></tr>
-<tr class="separator:a539ca097560b6ffa61386bdc6a2dc6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4027a61553c5b8f04b4fcb335224b30e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a4027a61553c5b8f04b4fcb335224b30e">interp_field</a></td></tr>
+<tr class="memdesc:a4027a61553c5b8f04b4fcb335224b30e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolate a given field onto a different grid.  <a href="#a4027a61553c5b8f04b4fcb335224b30e">More...</a><br /></td></tr>
+<tr class="separator:a4027a61553c5b8f04b4fcb335224b30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">export_binary</a></td></tr>
 <tr class="memdesc:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export binary files that can be imported into the MITgcm.  <a href="#a79d214026dcd3ed31e27a1d2c9249cd5">More...</a><br /></td></tr>
 <tr class="separator:a79d214026dcd3ed31e27a1d2c9249cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +127,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6070f3c37fd5bc2f9f9e5c53dbd2d986"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">plt_mon_stats</a></td></tr>
 <tr class="memdesc:a6070f3c37fd5bc2f9f9e5c53dbd2d986"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plot some monitor file variables.  <a href="#a6070f3c37fd5bc2f9f9e5c53dbd2d986">More...</a><br /></td></tr>
 <tr class="separator:a6070f3c37fd5bc2f9f9e5c53dbd2d986"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc175fb281b4d8b8ffa973260d0b792"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">replace_nans</a></td></tr>
+<tr class="memdesc:accc175fb281b4d8b8ffa973260d0b792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace NaN elements in an array using an iterative image inpainting algorithm.  <a href="#accc175fb281b4d8b8ffa973260d0b792">More...</a><br /></td></tr>
+<tr class="separator:accc175fb281b4d8b8ffa973260d0b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Useful functions that don't belong elsewhere. </p>
@@ -208,7 +211,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision).</p>
 <p>Might not work for very large datasets. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00240">240</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00331">331</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -245,11 +248,11 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>Extract the value of a 3D field on a 2D surface. </p>
 <p>This function takes an 3 dimensional matrix 'input_array' and an 2 dimensional matrix 'surface_locations' and returns a 2 dimensional matrix that contains the values of input_array at the location specified by surface_locations along the third dimension using the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00097">97</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00101">101</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a539ca097560b6ffa61386bdc6a2dc6f7"></a>
+<a class="anchor" id="a4027a61553c5b8f04b4fcb335224b30e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -287,7 +290,19 @@ May give silly answers if the input_array is not monotonic in the search directi
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>interp_order</em>&#160;</td>
+          <td class="paramname"><em>interp_order</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>fill_nans</em> = <code>'no'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>max_its</em> = <code>5</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -304,10 +319,12 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>field - the variable to be interpolated</li>
 <li>old_x, old_y - the axis on which the original field is defined.</li>
 <li>new_x, new_y - the axis onto which the field will be interpolated.</li>
-<li>interp_order - the order of the interpolation function, integer between 1 and 5 inclusive. 1 -&gt; linear, 3 -&gt; cubic, &amp;c.. </li>
+<li>interp_order - the order of the interpolation function, integer between 1 and 5 inclusive. 1 -&gt; linear, 3 -&gt; cubic, &amp;c..</li>
+<li>fill_nans - if 'no' values in field are not altered. If 'yes', then NaNs in 'field' are replace with the mean of surrounding non-NaNs.</li>
+<li>max_its - maximum number of iterations to perform when healing NaNs in field. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00210">210</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00289">289</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -331,13 +348,19 @@ May give silly answers if the input_array is not monotonic in the search directi
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>axis_values</em>, </td>
+          <td class="paramname"><em>grid_obect</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>integrand</em> = <code>'none'</code>&#160;</td>
+          <td class="paramname"><em>integrand</em> = <code>'none'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>interp_method</em> = <code>'none'</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -349,10 +372,17 @@ May give silly answers if the input_array is not monotonic in the search directi
 
 <p>Integrate between two non-trivial surfaces, 'upper_contour' and 'lower_contour'. </p>
 <p>At the moment this only works if all the inputs are defined at the same grid location.</p>
-<p>In MITgcm world, the axis_values needs to be Z - the tracer levels.</p>
-<p>The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, </p>
+<p>The input array 'integrand' is optional. If it is not included then the output is the volume per unit area (difference in depth) between the two surfaces at each grid point, </p><hr/>
+ <h2>Parameters</h2>
+<ul>
+<li>upper_contour - the higher surface</li>
+<li>lower_contour - the lower surface</li>
+<li>axis_values - the vertical axis. ** defined at the cell centres if using interp_method = 'linear' ** defined at the cell faces if using interp_method = 'none'</li>
+<li>interp_method - defines whether the function interpolates values of the integrand. Possible options are 'none' or 'linear'.</li>
+<li>integrand - the field to be integrated between the contours </li>
+</ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00134">134</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00142">142</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -423,7 +453,72 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>and many others. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00269">269</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00360">360</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="accc175fb281b4d8b8ffa973260d0b792"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.functions.replace_nans </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>max_iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>tol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>kernel_size</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>method</em> = <code>'localmean'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replace NaN elements in an array using an iterative image inpainting algorithm. </p>
+<p>The algorithm is the following:</p>
+<p>1) For each element in the input array, replace it by a weighted average of the neighbouring elements which are not NaN themselves. The weights depends of the method type. If <code>method=localmean</code> weight are equal to 1/( (2*kernel_size+1)**2 -1 )</p>
+<p>2) Several iterations are needed if there are adjacent NaN elements. If this is the case, information is "spread" from the edges of the missing regions iteratively, until the variation is below a certain threshold.</p>
+<h2>Parameters </h2>
+<p>array : 2d np.ndarray an array containing NaN elements that have to be replaced</p>
+<p>max_iter : int the number of iterations</p>
+<p>tol: float the difference between subsequent iterations for stopping the algorithm</p>
+<p>kernel_size : int the size of the kernel, default is 1</p>
+<p>method : str the method used to replace invalid values. Valid options are <code>localmean</code>.</p>
+<h2>Returns </h2>
+<p>filled : 2d np.ndarray a copy of the input array, where NaN elements have been replaced.</p>
+<hr/>
+ <h2>Acknowledgements</h2>
+<p>Code for this function is (very slightly modified) from <a href="https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217">https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217</a> which is part of the OpenPIV project.</p><ul>
+<li>docs here: <a href="http://alexlib.github.io/openpiv-python/index.html">http://alexlib.github.io/openpiv-python/index.html</a></li>
+<li>code here: <a href="https://github.com/gasagna/openpiv-python">https://github.com/gasagna/openpiv-python</a> </li>
+</ul>
+
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00404">404</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -444,7 +539,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>A shortcut function to display all of the variables contained within a netcdf file. </p>
 <p>If the filename contains wildcards, they'll be expanded and only the first file used. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00254">254</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00345">345</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -461,14 +556,14 @@ May give silly answers if the input_array is not monotonic in the search directi
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Test function to check that the layer integrate function is working correctly.</pre> 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00196">196</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00275">275</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 20 2015 17:16:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 12 2015 12:02:33 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

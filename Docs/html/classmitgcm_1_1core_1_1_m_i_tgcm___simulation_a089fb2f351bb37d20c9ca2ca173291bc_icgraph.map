@@ -1,0 +1,13 @@
+<map id="mitgcm.core.MITgcm_Simulation.load_from_file" name="mitgcm.core.MITgcm_Simulation.load_from_file">
+<area shape="rect" id="node2" href="$classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html#a975760ba1406c74ad06af11ca3925397" title="Load a model field from NetCDF output. " alt="" coords="243,136,395,177"/>
+<area shape="rect" id="node8" href="$classmitgcm_1_1core_1_1_upoint__field.html#ab77f9dfae2bdb0d190af8d916ba410a9" title="Load a model field from NetCDF output. " alt="" coords="251,201,388,243"/>
+<area shape="rect" id="node9" href="$classmitgcm_1_1core_1_1_vpoint__field.html#a7a5042c3e43097dd9c5cca005528e6bf" title="Load a model field from NetCDF output. " alt="" coords="251,267,387,308"/>
+<area shape="rect" id="node10" href="$classmitgcm_1_1core_1_1_wpoint__field.html#abc10b27c7fc6fd59b2e525485242d4c1" title="Load a model field from NetCDF output. " alt="" coords="249,332,389,373"/>
+<area shape="rect" id="node11" href="$classmitgcm_1_1core_1_1_tracerpoint__field.html#a2568046fff395dbaa49d4d79c6252552" title="Load a model field from NetCDF output. " alt="" coords="237,397,402,439"/>
+<area shape="rect" id="node12" href="$classmitgcm_1_1core_1_1_vorticitypoint__field.html#a3343891be95fb9535cd7028d9ad6e804" title="Load a model field from NetCDF output. " alt="" coords="232,463,407,504"/>
+<area shape="rect" id="node3" href="$classmitgcm_1_1core_1_1_upoint__field.html#ab4adbcfd61c7b303b8499a5228cd6f77" title="mitgcm.core.Upoint\l_field.__init__" alt="" coords="473,5,611,47"/>
+<area shape="rect" id="node4" href="$classmitgcm_1_1core_1_1_vpoint__field.html#a1ffd906684a51a4045b0b02092fab5ec" title="Instantiate a field on the meridional velocity points. " alt="" coords="474,71,610,112"/>
+<area shape="rect" id="node5" href="$classmitgcm_1_1core_1_1_wpoint__field.html#a5149dd8a1c832999bdbcd60b4abc3b14" title="mitgcm.core.Wpoint\l_field.__init__" alt="" coords="472,136,612,177"/>
+<area shape="rect" id="node6" href="$classmitgcm_1_1core_1_1_tracerpoint__field.html#a71960ccda494c5844ef01526a32bed1e" title="mitgcm.core.Tracerpoint\l_field.__init__" alt="" coords="459,201,625,243"/>
+<area shape="rect" id="node7" href="$classmitgcm_1_1core_1_1_vorticitypoint__field.html#ad66ee0e21b3b64b6263d322c7d28a0d1" title="mitgcm.core.Vorticitypoint\l_field.__init__" alt="" coords="455,267,629,308"/>
+</map>
