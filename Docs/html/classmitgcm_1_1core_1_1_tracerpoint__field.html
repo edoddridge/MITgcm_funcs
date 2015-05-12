@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -108,17 +108,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for mitgcm.core.Tracerpoint_field:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classmitgcm_1_1core_1_1_tracerpoint__field.png" usemap="#mitgcm.core.Tracerpoint_field_map" alt=""/>
-  <map id="mitgcm.core.Tracerpoint_field_map" name="mitgcm.core.Tracerpoint_field_map">
-<area href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje..." alt="mitgcm.core.MITgcm_Simulation" shape="rect" coords="303,56,495,80"/>
-<area href="classdict.html" alt="dict" shape="rect" coords="303,0,495,24"/>
-<area href="classmitgcm_1_1core_1_1_bernoulli.html" title="The Bernoulli field, evaluated from velocity, Pressure and Density. " alt="mitgcm.core.Bernoulli" shape="rect" coords="0,168,192,192"/>
-<area href="classmitgcm_1_1core_1_1_density.html" title="A tracer point field that contains methods for density fields. " alt="mitgcm.core.Density" shape="rect" coords="202,168,394,192"/>
-<area href="classmitgcm_1_1core_1_1_potential__vorticity.html" title="Evaluate the potential vorticity on the tracer points. " alt="mitgcm.core.Potential_vorticity" shape="rect" coords="404,168,596,192"/>
-<area href="classmitgcm_1_1core_1_1_pressure.html" title="Calculates the pressure field from the density field using the hydrostatic approximation. " alt="mitgcm.core.Pressure" shape="rect" coords="606,168,798,192"/>
-</map>
- </div></div>
+<div class="center"><img src="classmitgcm_1_1core_1_1_tracerpoint__field__inherit__graph.png" border="0" usemap="#mitgcm_8core_8_tracerpoint__field_inherit__map" alt="Inheritance graph"/></div>
+<map name="mitgcm_8core_8_tracerpoint__field_inherit__map" id="mitgcm_8core_8_tracerpoint__field_inherit__map">
+<area shape="rect" id="node4" href="classmitgcm_1_1core_1_1_bernoulli.html" title="The Bernoulli field, evaluated from velocity, Pressure and Density. " alt="" coords="505,5,655,32"/><area shape="rect" id="node5" href="classmitgcm_1_1core_1_1_density.html" title="A tracer point field that contains methods for density fields. " alt="" coords="509,56,651,83"/><area shape="rect" id="node6" href="classmitgcm_1_1core_1_1_potential__vorticity.html" title="Evaluate the potential vorticity on the tracer points. " alt="" coords="505,107,655,149"/><area shape="rect" id="node7" href="classmitgcm_1_1core_1_1_pressure.html" title="Calculates the pressure field from the density field using the hydrostatic approximation. " alt="" coords="504,173,656,200"/><area shape="rect" id="node2" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje..." alt="" coords="96,78,243,119"/><area shape="rect" id="node3" href="classdict.html" title="dict" alt="" coords="5,85,48,112"/></map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -174,7 +167,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>This is the base class for all model fields on the tracer points. </p>
 <p>It includes definitions for taking derivatives. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00578">578</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00576">576</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a71960ccda494c5844ef01526a32bed1e"></a>
 <div class="memitem">
@@ -230,7 +223,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00580">580</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00578">578</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -294,7 +287,7 @@ Additional Inherited Members</h2></td></tr>
 <p>time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.</p>
 <p>netcdf_filename can be a string with shell wildcards - they'll be expanded and all of the files loaded. BUT, this is intended as a way to take a quick look at the model. I would <em>strongly</em> recommend using something like "gluemncbig" to join the multiple tiles into one file before doing proper analysis. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00588">588</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00586">586</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -334,7 +327,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00621">621</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00619">619</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -377,7 +370,7 @@ Additional Inherited Members</h2></td></tr>
 <p>The numerical bit of taking the y derivative. </p>
 <p>This has been separated out so that it can be accelerated with numba, but that isn't working yet. </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00657">657</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00655">655</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -420,7 +413,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the x derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00603">603</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00601">601</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -463,7 +456,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the y derivative of the field on tracer points, using spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00641">641</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00639">639</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -506,7 +499,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Take the z derivative of the field given on tracer-points, using the spacings in grid object. </p>
 <p>Performs centred second-order differencing everywhere except next to boundaries. First order is used there (meaning the gradients at the boundary are evaluated half a grid point away from where they should be). </p>
 
-<p>Definition at line <a class="el" href="core_8py_source.html#l00678">678</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
+<p>Definition at line <a class="el" href="core_8py_source.html#l00676">676</a> of file <a class="el" href="core_8py_source.html">core.py</a>.</p>
 
 </div>
 </div>
@@ -516,7 +509,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 20 2015 17:16:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 12 2015 12:02:33 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

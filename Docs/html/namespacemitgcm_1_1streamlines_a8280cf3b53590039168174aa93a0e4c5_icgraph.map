@@ -1,0 +1,12 @@
+<map id="mitgcm.streamlines.extract_along_path3D" name="mitgcm.streamlines.extract_along_path3D">
+<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc" title="extract the value of a field along a path through a time varying, 3 dimensional field. " alt="" coords="233,55,413,96"/>
+<area shape="rect" id="node3" href="$namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187" title="A helper function to extract a small 4D hypercube of data from a netCDF file. " alt="" coords="461,29,644,71"/>
+<area shape="rect" id="node4" href="$namespacemitgcm_1_1streamlines.html#a493dab136e4b63582d7f6b77e7a9c644" title="A three&#45;dimensional lagrangian particle tracker. " alt="" coords="1179,17,1383,43"/>
+<area shape="rect" id="node8" href="$namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef" title="This is a numba accelerated quadralinear interpolation. " alt="" coords="692,29,868,71"/>
+<area shape="rect" id="node5" href="$namespacemitgcm_1_1streamlines.html#a38690a408e43bb899018203363da090d" title="A three&#45;dimensional streamline solver. " alt="" coords="1663,46,1852,73"/>
+<area shape="rect" id="node6" href="$namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="1900,46,2089,73"/>
+<area shape="rect" id="node7" href="$namespacemitgcm_1_1visualisation.html#a4a8d8d30eab01905b7f6061e1f92021c" title="Line integral convolution with a sparse noise field. " alt="" coords="2137,39,2311,80"/>
+<area shape="rect" id="node9" href="$namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73" title="Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dime..." alt="" coords="916,55,1131,96"/>
+<area shape="rect" id="node10" href="$namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d" title="This is a numba accelerated trilinear interpolation. " alt="" coords="1193,68,1369,109"/>
+<area shape="rect" id="node11" href="$namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac" title="Do trilinear interpolation of the field in three spatial dimensions. " alt="" coords="1431,68,1615,109"/>
+</map>

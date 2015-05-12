@@ -106,7 +106,11 @@ def extract_on_surface(input_array,surface_locations,axis_values):
     the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values.
     
     """
-    
+    if hasattr(surface_locations, "__len__"):
+        pass
+    else:
+        surface_locations = surface_locations*np.ones((input_array.shape[1],input_array.shape[2]))
+
     axis_array = np.repeat(axis_values.reshape((axis_values.shape[0],1,1)),surface_locations.shape[0],axis=1)
     axis_array = np.repeat(axis_array.reshape((axis_array.shape[0],axis_array.shape[1],1)),surface_locations.shape[1],axis=2)
     
@@ -438,7 +442,8 @@ def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
 
 
     ---------
-    Acknowledgements
+    ##Acknowledgements
+    
     Code for this function is (very slightly modified) from 
     https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217
     which is part of the OpenPIV project.

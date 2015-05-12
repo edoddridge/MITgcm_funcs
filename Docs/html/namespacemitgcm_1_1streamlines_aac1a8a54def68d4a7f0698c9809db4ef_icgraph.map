@@ -1,0 +1,12 @@
+<map id="mitgcm.streamlines.actual_quadralinear_interp" name="mitgcm.streamlines.actual_quadralinear_interp">
+<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#a71006df0268068f667797deefae99b73" title="Do quadralinear interpolation of the velocity field in three spatial dimensions and one temporal dime..." alt="" coords="229,133,444,174"/>
+<area shape="rect" id="node3" href="$namespacemitgcm_1_1streamlines.html#a493dab136e4b63582d7f6b77e7a9c644" title="A three&#45;dimensional lagrangian particle tracker. " alt="" coords="1635,5,1839,32"/>
+<area shape="rect" id="node7" href="$namespacemitgcm_1_1streamlines.html#aa84595e731400d5c213a2cf663ed833d" title="This is a numba accelerated trilinear interpolation. " alt="" coords="492,107,668,149"/>
+<area shape="rect" id="node10" href="$namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc" title="extract the value of a field along a path through a time varying, 3 dimensional field. " alt="" coords="1176,133,1356,174"/>
+<area shape="rect" id="node4" href="$namespacemitgcm_1_1streamlines.html#a38690a408e43bb899018203363da090d" title="A three&#45;dimensional streamline solver. " alt="" coords="1887,31,2076,57"/>
+<area shape="rect" id="node5" href="$namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="2124,31,2313,57"/>
+<area shape="rect" id="node6" href="$namespacemitgcm_1_1visualisation.html#a4a8d8d30eab01905b7f6061e1f92021c" title="Line integral convolution with a sparse noise field. " alt="" coords="2361,23,2535,65"/>
+<area shape="rect" id="node8" href="$namespacemitgcm_1_1streamlines.html#ab47d978fd4c41aa2c413b3f97fc7a7ac" title="Do trilinear interpolation of the field in three spatial dimensions. " alt="" coords="716,107,900,149"/>
+<area shape="rect" id="node9" href="$namespacemitgcm_1_1streamlines.html#a8280cf3b53590039168174aa93a0e4c5" title="Extract the value of a field along a path through a 3 dimensional field. " alt="" coords="948,107,1128,149"/>
+<area shape="rect" id="node11" href="$namespacemitgcm_1_1streamlines.html#ac29e083c45617ad0be326a556c549187" title="A helper function to extract a small 4D hypercube of data from a netCDF file. " alt="" coords="1404,133,1587,174"/>
+</map>

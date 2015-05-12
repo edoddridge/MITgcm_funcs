@@ -1,0 +1,5 @@
+<map id="mitgcm.core.Bernoulli" name="mitgcm.core.Bernoulli">
+<area shape="rect" id="node2" href="$classmitgcm_1_1core_1_1_tracerpoint__field.html" title="This is the base class for all model fields on the tracer points. " alt="" coords="5,169,171,211"/>
+<area shape="rect" id="node3" href="$classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html" title="The simulation class is the main class of this package, and an instance of this class is a model obje..." alt="" coords="15,80,161,121"/>
+<area shape="rect" id="node4" href="$classdict.html" title="dict" alt="" coords="67,5,109,32"/>
+</map>
