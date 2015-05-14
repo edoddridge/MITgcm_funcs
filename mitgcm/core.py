@@ -91,7 +91,7 @@ class MITgcm_Simulation(dict):
             return
 
         if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            raise RuntimeError("The number of tiles found isn't equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of " + variable)
+            raise RuntimeError("The number of tiles found (" + str(len(file_list)) + ") isn't equal to ntiles_x*ntiles_y (" + str(model_instance['ntiles_x']*model_instance['ntiles_y']) + "). You should check this. \n Aborting import of " + variable)
             return
 
         data = {}
@@ -867,7 +867,7 @@ class Grid(MITgcm_Simulation):
         * (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
 
         * wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.
-        * wet_mask_U 
+        * wet_mask_U
         * wet_mask_TH 
         * wet_mask_W 
 
