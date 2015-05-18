@@ -834,43 +834,37 @@ class Grid(MITgcm_Simulation):
         original description attached to it. The 2D and 3D arrays do not.
 
         Variables imported are:
-        * rAw
-        * rAs
-        * rA
-        * HFacW
-        * HFacS
-        * HFacC
-        * X
-        * Xp1
-        * dxF
-        * dxC
-        * dxV
-        * Y
-        * Yp1
-        * dyU
-        * dyC
-        * dyF
-        * Z
-        * Zl
-        * Zu
-        * drC
-        * drF
-        * fCoriG
-        * fCori
+        * rAw: r-face area at U point
+        * rAs: r-face area at V point
+        * rA: r-face area at cell center
+        * HFacW: vertical fraction of open cell at West face
+        * HFacS: vertical fraction of open cell at South face
+        * HFacC: vertical fraction of open cell at cell center
+        * X: longitude of cell center
+        * Xp1: longitude of cell corner
+        * dxF: x cell face separation
+        * dxC: x cell center separation
+        * dxV: x v-velocity separation
+        * Y: latitude of cell center
+        * Yp1: latitude of cell corner
+        * dyU: y u-velocity separation
+        * dyC: y cell center separation
+        * dyF: y cell face separation
+        * Z: vertical coordinate of cell center
+        * Zl: vertical coordinate of upper cell interface
+        * Zu: vertical coordinate of lower cell interface
+        * drC: r cell center separation
+        * drF: r cell face separation
+        * fCoriG: Coriolis f at cell corner
+        * fCori: Coriolis f at cell center
 
         Variables computed and stored are:
-        * (Z_y,Y_z)
-        * (X_y,Y_x)
-        * (Z_x,X_z) 
-        * (Z_3d,Y_3d,X_3d) 
-
-        * (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
-
         * wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.
         * wet_mask_U
         * wet_mask_TH 
         * wet_mask_W 
 
+        **Cell volumes can be calculated and stored with the compute_cell_volume function**
         * cell_volume
 
         **These boundary masks can be computed with the compute_boundary_masks function**
@@ -884,6 +878,13 @@ class Grid(MITgcm_Simulation):
         Notes: uses glob to expand wildcards in the file name. BUT, it will only use the first file that matches.
 
         """
+        # * (Z_y,Y_z)
+        # * (X_y,Y_x)
+        # * (Z_x,X_z) 
+        # * (Z_3d,Y_3d,X_3d) 
+
+        # * (DZF,DYF, DXF): a 3d array of dxF,dyF and dzF 
+
         grid_netcdf_file_list = glob.glob(grid_netcdf_filename)
 
         if not grid_netcdf_file_list:
@@ -984,9 +985,17 @@ class Grid(MITgcm_Simulation):
         self['north_mask'] = north_mask
         self['bottom_mask'] = bottom_mask
         return
+
     def compute_cell_volume(self):
         """Compute a 3D array that contains the volume of each tracer cell."""
-        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
+
+        self['U_cell_volume'] = copy.deepcopy(self['rAw'][:].reshape((1,self['rAw'][:].shape[0],self['rAw'][:].shape[1]))*
+                        self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
+
+        self['V_cell_volume'] = copy.deepcopy(self['rAs'][:].reshape((1,self['rAs'][:].shape[0],self['rAs'][:].shape[1]))*
+                            self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
+        
+        self['T_cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
                                     self['drF'][:].reshape((len(self['drF'][:]),1,1)))
         
         
