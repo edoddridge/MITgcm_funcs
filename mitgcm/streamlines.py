@@ -135,7 +135,7 @@ def stream2(u,v,
 
 def stream3(u,v,w,
             startx,starty,startz,
-            grid_object,
+            grid_object=None,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
             t_max=2592000,delta_t=3600,
@@ -143,77 +143,78 @@ def stream3(u,v,w,
     """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
         X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
 """
-    if u_grid_loc == 'U':
-        x_u = grid_object['Xp1'][:]
-        y_u = grid_object['Y'][:]
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'V':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Yp1'][:]  
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'W':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Y'][:]  
-        z_u = grid_object['Zl'][:]
-    elif u_grid_loc == 'T':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Y'][:]  
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'Zeta':
-        x_u = grid_object['Xp1'][:]
-        y_u = grid_object['Yp1'][:]
-        z_u = grid_object['Z'][:]
-    else:
-        print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+    if grid_object:
+        if u_grid_loc == 'U':
+            x_u = grid_object['Xp1'][:]
+            y_u = grid_object['Y'][:]
+            z_u = grid_object['Z'][:]
+        elif u_grid_loc == 'V':
+            x_u = grid_object['X'][:]
+            y_u = grid_object['Yp1'][:]  
+            z_u = grid_object['Z'][:]
+        elif u_grid_loc == 'W':
+            x_u = grid_object['X'][:]
+            y_u = grid_object['Y'][:]  
+            z_u = grid_object['Zl'][:]
+        elif u_grid_loc == 'T':
+            x_u = grid_object['X'][:]
+            y_u = grid_object['Y'][:]  
+            z_u = grid_object['Z'][:]
+        elif u_grid_loc == 'Zeta':
+            x_u = grid_object['Xp1'][:]
+            y_u = grid_object['Yp1'][:]
+            z_u = grid_object['Z'][:]
+        else:
+            print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
-    if v_grid_loc == 'U':
-        x_v = grid_object['Xp1'][:]
-        y_v = grid_object['Y'][:]
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'V':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Yp1'][:]  
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'W':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Y'][:]  
-        z_v = grid_object['Zl'][:]
-    elif v_grid_loc == 'T':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Y'][:]  
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'Zeta':
-        x_v = grid_object['Xp1'][:]
-        y_v = grid_object['Yp1'][:]
-        z_v = grid_object['Z'][:]
-    else:
-        print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+        if v_grid_loc == 'U':
+            x_v = grid_object['Xp1'][:]
+            y_v = grid_object['Y'][:]
+            z_v = grid_object['Z'][:]
+        elif v_grid_loc == 'V':
+            x_v = grid_object['X'][:]
+            y_v = grid_object['Yp1'][:]  
+            z_v = grid_object['Z'][:]
+        elif v_grid_loc == 'W':
+            x_v = grid_object['X'][:]
+            y_v = grid_object['Y'][:]  
+            z_v = grid_object['Zl'][:]
+        elif v_grid_loc == 'T':
+            x_v = grid_object['X'][:]
+            y_v = grid_object['Y'][:]  
+            z_v = grid_object['Z'][:]
+        elif v_grid_loc == 'Zeta':
+            x_v = grid_object['Xp1'][:]
+            y_v = grid_object['Yp1'][:]
+            z_v = grid_object['Z'][:]
+        else:
+            print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
-    if w_grid_loc == 'U':
-        x_w = grid_object['Xp1'][:]
-        y_w = grid_object['Y'][:]
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'V':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Yp1'][:]  
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'W':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Y'][:]  
-        z_w = grid_object['Zl'][:]
-    elif w_grid_loc == 'T':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Y'][:]  
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'Zeta':
-        x_w = grid_object['Xp1'][:]
-        y_w = grid_object['Yp1'][:]
-        z_w = grid_object['Z'][:]
-    else:
-        print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+        if w_grid_loc == 'U':
+            x_w = grid_object['Xp1'][:]
+            y_w = grid_object['Y'][:]
+            z_w = grid_object['Z'][:]
+        elif w_grid_loc == 'V':
+            x_w = grid_object['X'][:]
+            y_w = grid_object['Yp1'][:]  
+            z_w = grid_object['Z'][:]
+        elif w_grid_loc == 'W':
+            x_w = grid_object['X'][:]
+            y_w = grid_object['Y'][:]  
+            z_w = grid_object['Zl'][:]
+        elif w_grid_loc == 'T':
+            x_w = grid_object['X'][:]
+            y_w = grid_object['Y'][:]  
+            z_w = grid_object['Z'][:]
+        elif w_grid_loc == 'Zeta':
+            x_w = grid_object['Xp1'][:]
+            y_w = grid_object['Yp1'][:]
+            z_w = grid_object['Z'][:]
+        else:
+            print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
         
     len_x_u = len(x_u)
