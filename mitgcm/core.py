@@ -131,7 +131,6 @@ class MITgcm_Simulation(dict):
 
         else:
             data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
-
             del data #since the fields can be big, might as well get rid of the duplicate.
 
             # for tile in data2.keys():
