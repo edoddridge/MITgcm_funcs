@@ -17,6 +17,7 @@ streaklines are defined as the path that a parcel of fluid would follow in the a
 import numpy as np
 import netCDF4
 import numba
+import copy
 import scipy.interpolate
 from . import functions
 
@@ -145,73 +146,73 @@ def stream3(u,v,w,
 """
     if grid_object:
         if u_grid_loc == 'U':
-            x_u = grid_object['Xp1'][:]
-            y_u = grid_object['Y'][:]
-            z_u = grid_object['Z'][:]
+            x_u = copy.deepcopy(grid_object['Xp1'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:])
+            z_u = copy.deepcopy(grid_object['Z'][:])
         elif u_grid_loc == 'V':
-            x_u = grid_object['X'][:]
-            y_u = grid_object['Yp1'][:]  
-            z_u = grid_object['Z'][:]
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_u = copy.deepcopy(grid_object['Z'][:])
         elif u_grid_loc == 'W':
-            x_u = grid_object['X'][:]
-            y_u = grid_object['Y'][:]  
-            z_u = grid_object['Zl'][:]
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:]) 
+            z_u = copy.deepcopy(grid_object['Zl'][:])
         elif u_grid_loc == 'T':
-            x_u = grid_object['X'][:]
-            y_u = grid_object['Y'][:]  
-            z_u = grid_object['Z'][:]
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:]) 
+            z_u = copy.deepcopy(grid_object['Z'][:])
         elif u_grid_loc == 'Zeta':
-            x_u = grid_object['Xp1'][:]
-            y_u = grid_object['Yp1'][:]
-            z_u = grid_object['Z'][:]
+            x_u = copy.deepcopy(grid_object['Xp1'][:])
+            y_u = copy.deepcopy(grid_object['Yp1'][:])
+            z_u = copy.deepcopy(grid_object['Z'][:])
         else:
             print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
             return
 
         if v_grid_loc == 'U':
-            x_v = grid_object['Xp1'][:]
-            y_v = grid_object['Y'][:]
-            z_v = grid_object['Z'][:]
+            x_v = copy.deepcopy(grid_object['Xp1'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:])
+            z_v = copy.deepcopy(grid_object['Z'][:])
         elif v_grid_loc == 'V':
-            x_v = grid_object['X'][:]
-            y_v = grid_object['Yp1'][:]  
-            z_v = grid_object['Z'][:]
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_v = copy.deepcopy(grid_object['Z'][:])
         elif v_grid_loc == 'W':
-            x_v = grid_object['X'][:]
-            y_v = grid_object['Y'][:]  
-            z_v = grid_object['Zl'][:]
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:]) 
+            z_v = copy.deepcopy(grid_object['Zl'][:])
         elif v_grid_loc == 'T':
-            x_v = grid_object['X'][:]
-            y_v = grid_object['Y'][:]  
-            z_v = grid_object['Z'][:]
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:]) 
+            z_v = copy.deepcopy(grid_object['Z'][:])
         elif v_grid_loc == 'Zeta':
-            x_v = grid_object['Xp1'][:]
-            y_v = grid_object['Yp1'][:]
-            z_v = grid_object['Z'][:]
+            x_v = copy.deepcopy(grid_object['Xp1'][:])
+            y_v = copy.deepcopy(grid_object['Yp1'][:])
+            z_v = copy.deepcopy(grid_object['Z'][:])
         else:
             print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
             return
 
         if w_grid_loc == 'U':
-            x_w = grid_object['Xp1'][:]
-            y_w = grid_object['Y'][:]
-            z_w = grid_object['Z'][:]
+            x_w = copy.deepcopy(grid_object['Xp1'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:])
+            z_w = copy.deepcopy(grid_object['Z'][:])
         elif w_grid_loc == 'V':
-            x_w = grid_object['X'][:]
-            y_w = grid_object['Yp1'][:]  
-            z_w = grid_object['Z'][:]
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_w = copy.deepcopy(grid_object['Z'][:])
         elif w_grid_loc == 'W':
-            x_w = grid_object['X'][:]
-            y_w = grid_object['Y'][:]  
-            z_w = grid_object['Zl'][:]
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:])
+            z_w = copy.deepcopy(grid_object['Zl'][:])
         elif w_grid_loc == 'T':
-            x_w = grid_object['X'][:]
-            y_w = grid_object['Y'][:]  
-            z_w = grid_object['Z'][:]
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:]) 
+            z_w = copy.deepcopy(grid_object['Z'][:])
         elif w_grid_loc == 'Zeta':
-            x_w = grid_object['Xp1'][:]
-            y_w = grid_object['Yp1'][:]
-            z_w = grid_object['Z'][:]
+            x_w = copy.deepcopy(grid_object['Xp1'][:])
+            y_w = copy.deepcopy(grid_object['Yp1'][:])
+            z_w = copy.deepcopy(grid_object['Z'][:])
         else:
             print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
             return
