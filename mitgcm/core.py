@@ -954,7 +954,7 @@ class Grid(MITgcm_Simulation):
         for k in xrange(0,wet_mask_TH.shape[0]):
             for j in xrange(0,wet_mask_TH.shape[1]):
                 for i in xrange(0,wet_mask_TH.shape[2]):
-                    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
+                    # find points with boundary to the west.
                     if wet_mask_TH[k,j,i] - wet_mask_TH[k,j,i-1] == 1:
                         west_mask[k,j,i] = 1
 
@@ -986,14 +986,14 @@ class Grid(MITgcm_Simulation):
         return
 
     def compute_cell_volume(self):
-        """Compute a 3D array that contains the volume of each tracer cell."""
+        """Compute a 3D array that contains the volume of each cell."""
 
         self['U_cell_volume'] = copy.deepcopy(self['rAw'][:].reshape((1,self['rAw'][:].shape[0],self['rAw'][:].shape[1]))*
                         self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
 
         self['V_cell_volume'] = copy.deepcopy(self['rAs'][:].reshape((1,self['rAs'][:].shape[0],self['rAs'][:].shape[1]))*
                             self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
-        
+
         self['T_cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
                                     self['drF'][:].reshape((len(self['drF'][:]),1,1)))
         
