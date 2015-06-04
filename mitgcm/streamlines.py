@@ -686,7 +686,7 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
   """
 
   # Compute indices at location given
-  x_index = np.searchsorted(x,x0)
+  x_index = x.searchsorted(x0)
   if x_index == 0:
     x_index =1 # a dirty hack to deal with streamlines coming near the edge
     #raise ValueError('x location ', str(x0), ' is outside the model grid - too small')
@@ -694,7 +694,7 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
     x_index =len_x - 1 # a dirty hack to deal with streamlines coming near the edge
     #raise ValueError('x location ', str(x0), ' is outside the model grid - too big')
     
-  y_index = np.searchsorted(y,y0)
+  y_index = y.searchsorted(y0)
   if y_index == 0:
     y_index =1 # a dirty hack to deal with streamlines coming near the edge
     #raise ValueError('y location ', str(y0), ' is outside the model grid - too small')
@@ -706,7 +706,7 @@ def trilinear_interp(x0,y0,z0,field,x,y,z,len_x,len_y,len_z):
   if z0 < 0:
         z0 = -z0
         z = -z
-  z_index = np.searchsorted(z,z0)
+  z_index = z.searchsorted(z0)
   if z_index == 0:
     z_index =1 # a dirty hack to deal with streamlines coming near the surface
     #raise ValueError('z location ', str(z0), ' is outside the model grid - too small')
