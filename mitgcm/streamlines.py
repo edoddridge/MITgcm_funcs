@@ -324,7 +324,8 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
     * t_max = length of time to track particles for, in seconds. This is always positive
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
-    * X_grid_loc = where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
+    * ?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
+    * ?_bias_field = bias to add to that velocity field omponent. If set to -mean(velocity component), then only the time varying portion of that field will be used.
     """
 
     if u_grid_loc == 'U':
@@ -896,7 +897,7 @@ def indices_and_field(x,y,z,
                            x_index-2:x_index+3]
 
             if bias_field:
-                field = (field - 
+                field = (field + 
                         bias_field[np.newaxis,z_index-2:z_index+3,y_index-2:y_index+3,x_index-2:x_index+3])
             
             return field,x_index,y_index,z_index
