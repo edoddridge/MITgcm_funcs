@@ -413,7 +413,7 @@ def stream3_many(u,v,w,
     while t < t_max:
         if grid_object['grid_type']=='polar':
             # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
-            deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])
+            deg_per_m[:,1] = np.cos(starty*np.pi/180.)/(1852.*60.)# multiplier for u
 
         # Interpolate velocities to initial location
         u_loc = trilinear_interp_arrays(startx,starty,startz,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
@@ -645,7 +645,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
                                                 len_x_w,len_y_w,len_z_w,len_t,
                                                 w_netcdf_filehandle,w_netcdf_variable,w_bias_field)
     
-    
+
     # Prepare for spherical polar grids
     deg_per_m = np.array([1,1])
 
