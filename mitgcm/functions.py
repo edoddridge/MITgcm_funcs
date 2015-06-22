@@ -311,13 +311,13 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
                     field_slice = replace_nans(field_slice[:,:], 8,0.5,1,'localmean')
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
                     if n > max_its:
-                        raise RuntimeError('Tried ',str(max_its), ' iterations to heal NaNs in the input field, and failed.')
+                        raise RuntimeError('Tried ' + str(max_its) + ' iterations to heal NaNs in the input field, and failed.')
                         # need a way to prevent hanging in the while loop
                     n += 1
         elif fill_nans == 'no':
             field_slice = field[k,:,:]
         else:
-            raise ValueError(str(fill_nans), 'not set correctly. Should be "yes" or "no".')
+            raise ValueError('fill_nans not set correctly. Should be "yes" or "no". You gave "' + str(fill_nans) + '"')
 
         interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field_slice,kx=interp_order,ky=interp_order)
         field_interp[k,:,:] = interp_object(new_y,new_x)
