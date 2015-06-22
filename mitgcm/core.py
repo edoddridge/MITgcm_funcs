@@ -52,7 +52,8 @@ class MITgcm_Simulation(dict):
         self['ntiles_x'] = ntiles_x
         self['ntiles_y'] = ntiles_y
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,
+                                field_name=None,grid_loc='T',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -64,7 +65,7 @@ class MITgcm_Simulation(dict):
         file_list = glob.glob(netcdf_filename)
 
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
     def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc):
@@ -90,9 +91,10 @@ class MITgcm_Simulation(dict):
             print "grid_loc variable not set correctly"
             return
 
-        if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            raise RuntimeError("The number of tiles found (" + str(len(file_list)) + ") isn't equal to ntiles_x*ntiles_y (" + str(model_instance['ntiles_x']*model_instance['ntiles_y']) + "). You should check this. \n Aborting import of " + variable)
-            return
+        if not single_file:
+            if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
+                raise RuntimeError("The number of tiles found (" + str(len(file_list)) + ") isn't equal to ntiles_x*ntiles_y (" + str(model_instance['ntiles_x']*model_instance['ntiles_y']) + "). You should check this. \n Aborting import of " + variable)
+                return
 
         data = {}
 
@@ -198,15 +200,15 @@ class MITgcm_Simulation(dict):
 class Upoint_field(MITgcm_Simulation):
     """! This is the class for all fields on zonal velocity points."""
     
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='U')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='U',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='U'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='U',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -217,7 +219,7 @@ class Upoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
     
     ### Derivatives of model fields    
@@ -331,11 +333,11 @@ class Vpoint_field(MITgcm_Simulation):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='V')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='V',single_file=False)
 
         return
     
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='V'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='V',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -346,7 +348,7 @@ class Vpoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 
@@ -445,15 +447,15 @@ class Vpoint_field(MITgcm_Simulation):
 class Wpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on vertical velocity points."""
 
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='W')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='W',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='W'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='W',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
@@ -464,7 +466,7 @@ class Wpoint_field(MITgcm_Simulation):
         file_list = glob.glob(netcdf_filename)
 
 
-        loaded_field = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        loaded_field = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
 
 
         if len(loaded_field.shape) == 4:
@@ -574,15 +576,15 @@ class Wpoint_field(MITgcm_Simulation):
 
 class Tracerpoint_field(MITgcm_Simulation):  
     """!This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='T')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='T',single_file=False)
         return
 
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -593,7 +595,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 
@@ -705,15 +707,15 @@ class Tracerpoint_field(MITgcm_Simulation):
     
 class Vorticitypoint_field(MITgcm_Simulation):  
     """!A class for fields on vorticity points."""
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='Zeta')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='Zeta',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='Zeta'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='Zeta',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -724,7 +726,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 

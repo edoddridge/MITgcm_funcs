@@ -396,16 +396,18 @@ def stream3_many(u,v,w,
     len_y_w = len(y_w)
     len_z_w = len(z_w)
 
-    x_stream = np.ones((int(t_max/delta_t)+2))*startx
-    y_stream = np.ones((int(t_max/delta_t)+2))*starty
-    z_stream = np.ones((int(t_max/delta_t)+2))*startz
+    x_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startx[:,np.newaxis]
+    y_stream = np.ones((len(startx),int(t_max/delta_t)+2))*starty[:,np.newaxis]
+    z_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startz[:,np.newaxis]
     t_stream = np.zeros((int(t_max/delta_t)+2))
 
     t = 0 #set the initial time to be zero
     i=0
 
-    deg_per_m = np.array([1,1])
-
+    # Prepare for spherical polar grids
+    deg_per_m = np.ones((len(startx),2),dtype=float)
+    if grid_object['grid_type']=='polar':
+        deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
     
     # Runge-Kutta fourth order method to estimate next position.
     while t < t_max:
@@ -414,38 +416,38 @@ def stream3_many(u,v,w,
             deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])
 
         # Interpolate velocities to initial location
-        u_loc = trilinear_interp(startx,starty,startz,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-        v_loc = trilinear_interp(startx,starty,startz,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-        w_loc = trilinear_interp(startx,starty,startz,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-        u_loc = u_loc*deg_per_m[1]
-        v_loc = v_loc*deg_per_m[0]
+        u_loc = trilinear_interp_arrays(startx,starty,startz,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc = trilinear_interp_arrays(startx,starty,startz,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc = trilinear_interp_arrays(startx,starty,startz,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc = u_loc*deg_per_m[:,1]
+        v_loc = v_loc*deg_per_m[:,0]
         dx1 = delta_t*u_loc
         dy1 = delta_t*v_loc
         dz1 = delta_t*w_loc
 
-        u_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-        v_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-        w_loc1 = trilinear_interp(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-        u_loc1 = u_loc1*deg_per_m[1]
-        v_loc1 = v_loc1*deg_per_m[0]
+        u_loc1 = trilinear_interp_arrays(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc1 = trilinear_interp_arrays(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc1 = trilinear_interp_arrays(startx + 0.5*dx1,starty + 0.5*dy1,startz + 0.5*dz1,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc1 = u_loc1*deg_per_m[:,1]
+        v_loc1 = v_loc1*deg_per_m[:,0]
         dx2 = delta_t*u_loc1
         dy2 = delta_t*v_loc1
         dz2 = delta_t*w_loc1
 
-        u_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-        v_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-        w_loc2 = trilinear_interp(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-        u_loc2 = u_loc2*deg_per_m[1]
-        v_loc2 = v_loc2*deg_per_m[0]
+        u_loc2 = trilinear_interp_arrays(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc2 = trilinear_interp_arrays(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc2 = trilinear_interp_arrays(startx + 0.5*dx2,starty + 0.5*dy2,startz + 0.5*dz2,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc2 = u_loc2*deg_per_m[:,1]
+        v_loc2 = v_loc2*deg_per_m[:,0]
         dx3 = delta_t*u_loc2
         dy3 = delta_t*v_loc2
         dz3 = delta_t*w_loc2
 
-        u_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-        v_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-        w_loc3 = trilinear_interp(startx + dx3,starty + dy3,startz + dz3,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
-        u_loc3 = u_loc3*deg_per_m[1]
-        v_loc3 = v_loc3*deg_per_m[0]
+        u_loc3 = trilinear_interp_arrays(startx + dx3,starty + dy3,startz + dz3,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc3 = trilinear_interp_arrays(startx + dx3,starty + dy3,startz + dz3,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc3 = trilinear_interp_arrays(startx + dx3,starty + dy3,startz + dz3,w,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc3 = u_loc3*deg_per_m[:,1]
+        v_loc3 = v_loc3*deg_per_m[:,0]
         dx4 = delta_t*u_loc3
         dy4 = delta_t*v_loc3
         dz4 = delta_t*w_loc3
@@ -457,9 +459,9 @@ def stream3_many(u,v,w,
         t += delta_t
         i += 1
 
-        x_stream[i] = startx
-        y_stream[i] = starty
-        z_stream[i] = startz
+        x_stream[:,i] = startx
+        y_stream[:,i] = starty
+        z_stream[:,i] = startz
         t_stream[i] = t
 
 
@@ -987,8 +989,9 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     
     
     # Prepare for spherical polar grids
-    deg_per_m = np.ndarray((len(startx),2),dtype=float)
-    deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
+    deg_per_m = np.ones((len(startx),2),dtype=float)
+    if grid_object['grid_type']=='polar':
+        deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
 
     # Runge-Kutta fourth order method to estimate next position.
     while i < np.fabs(t_max/delta_t):
@@ -1025,10 +1028,10 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             w_field = (w_field_before + ((w_field_before - w_field_after)*
                                 (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - w_bias_field)
 
-        # Interpolate velocities at initial location
-	u_loc = np.ones_like(startx)
-	v_loc = np.ones_like(startx)
-	w_loc = np.ones_like(startx)
+            # Interpolate velocities at initial location        
+        u_loc = np.ones_like(startx)        
+        v_loc = np.ones_like(startx)
+        w_loc = np.ones_like(startx)
 
         u_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
         v_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
@@ -1040,17 +1043,11 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dx1 = delta_t*u_loc
         dy1 = delta_t*v_loc
         dz1 = delta_t*w_loc
+        
+        u_loc1 = np.ones_like(startx)       
+        v_loc1 = np.ones_like(startx)   
+        w_loc1 = np.ones_like(startx)
 
-	u_loc1 = np.ones_like(startx)
-	v_loc1 = np.ones_like(startx)
-	w_loc1 = np.ones_like(startx)
-        #for i in xrange(len(startx)):
-        #    u_loc1[i] = trilinear_interp(x_RK[i] + 0.5*dx1[i],y_RK[i] + 0.5*dy1[i],z_RK[i] + 0.5*dz1[i],
-        #            u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
-        #    v_loc1[i] = trilinear_interp(x_RK[i] + 0.5*dx1[i],y_RK[i] + 0.5*dy1[i],z_RK[i] + 0.5*dz1[i],
-        #            v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
-        #    w_loc1[i] = trilinear_interp(x_RK[i] + 0.5*dx1[i],y_RK[i] + 0.5*dy1[i],z_RK[i] + 0.5*dz1[i],
-        #            w_field,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
         u_loc1 = trilinear_interp_arrays(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,
                     u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
         v_loc1 = trilinear_interp_arrays(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,
@@ -1062,10 +1059,10 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dx2 = delta_t*u_loc1
         dy2 = delta_t*v_loc1
         dz2 = delta_t*w_loc1
-        
-	u_loc2 = np.ones_like(startx)
-	v_loc2 = np.ones_like(startx)
-	w_loc2 = np.ones_like(startx)
+                    
+        u_loc2 = np.ones_like(startx)       
+        v_loc2 = np.ones_like(startx)   
+        w_loc2 = np.ones_like(startx)
         u_loc2 = trilinear_interp_arrays(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,
                     u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
         v_loc2 = trilinear_interp_arrays(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,
@@ -1079,9 +1076,9 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         dy3 = delta_t*v_loc2
         dz3 = delta_t*w_loc2
 
-	u_loc3 = np.ones_like(startx)
-	v_loc3 = np.ones_like(startx)
-	w_loc3 = np.ones_like(startx)
+        u_loc3 = np.ones_like(startx)
+        v_loc3 = np.ones_like(startx)
+        w_loc3 = np.ones_like(startx)
         u_loc3 = trilinear_interp_arrays(x_RK + dx3,y_RK + dy3,z_RK + dz3,
                     u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
         v_loc3 = trilinear_interp_arrays(x_RK + dx3,y_RK + dy3,z_RK + dz3,
