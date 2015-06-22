@@ -68,7 +68,7 @@ class MITgcm_Simulation(dict):
         self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
-    def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc):
+    def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc,single_file):
         """!Internal function to pull the data from the file(s). It is called by "load_field", and probably shouldn't be used independently."""
 
         # remove overlapping regions from tiles
