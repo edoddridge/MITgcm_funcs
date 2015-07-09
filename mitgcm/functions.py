@@ -305,14 +305,15 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
 
     for k in xrange(field.shape[0]):
         if fill_nans == 'yes':
-            field_slice = replace_nans(field[k,:,:], 8,0.5,1,'localmean')
+            field_slice = replace_nans(field[k,:,:], max_its,0.5,1,'localmean')
             n = 0
             while (field_slice != field_slice).any():
                     field_slice = replace_nans(field_slice[:,:], 8,0.5,1,'localmean')
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
+                    # need a way to prevent hanging in the while loop
                     if n > max_its:
                         raise RuntimeError('Tried ' + str(max_its) + ' iterations to heal NaNs in the input field, and failed.')
-                        # need a way to prevent hanging in the while loop
+
                     n += 1
         elif fill_nans == 'no':
             field_slice = field[k,:,:]
@@ -524,8 +525,65 @@ def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
             for l in range(n_nans):
                 replaced_old[l] = replaced_new[l]
 
-    # now go around the edge and fill in any nans found there
 
-    
+    # replace remaining nans with global mean
+    inans, jnans = np.nonzero( np.isnan(filled) )
+    n_nans = len(inans)
+    # for each NaN element
+    for k in range(n_nans):
+        i = inans[k]
+        j = jnans[k]
+            
+        filled[i,j] = np.nanmean(filled)
+
+
+
+
+    # Check the corners - these are the tricky bits
+    #if np.nonzero(np.isnan(filled[0,0])):
+    #    filled[0,0] = (filled[0,1] + filled[1,0] + filled[1,1])/3
+
+    #if np.nonzero(np.isnan(filled[0,-1])):
+    #    filled[0,-1] = (filled[0,-2] + filled[1,-1] + filled[1,-2])/3
+
+    #if np.nonzero(np.isnan(filled[0,0])):
+    #    filled[-1,0] = (filled[-1,1] + filled[-2,0] + filled[-2,1])/3
+
+    #if np.nonzero(np.isnan(filled[0,0])):
+    #    filled[-1,-1] = (filled[-1,-2] + filled[-2,-1] + filled[-2,-2])/3
+
+
+    # now go around the edge and fill in any nans found there
+    # indices where array is NaN
+    #jnans = np.nonzero( np.isnan(filled[0,:]) )
+    # number of NaN elements
+    #n_nans = len(jnans)
+    # for each NaN element
+    #for k in range(n_nans):
+    #    j = jnans[k]
+    #    filled[0,j] = np.nanmean(filled[0,j-1:j+2])
+
+    #jnans = np.nonzero( np.isnan(filled[-1,:]) )
+    #n_nans = len(jnans)
+    #for k in range(n_nans):
+    #    j = jnans[k]
+    #    filled[-1,j] = np.nanmean(filled[-1,j-1:j+2])
+
+    #inans = np.nonzero( np.isnan(filled[:,0]) )
+    # number of NaN elements
+    #n_nans = len(inans)
+    # for each NaN element
+    #for k in range(n_nans):
+    #    i = inans[k]
+    #    filled[i,0] = np.nanmean(filled[i-1:i+2,0])
+
+    #inans = np.nonzero( np.isnan(filled[:,-1]) )
+    # number of NaN elements
+    #n_nans = len(inans)
+    # for each NaN element
+    #for k in range(n_nans):
+    #    i = inans[k]
+    #    filled[i,-1] = np.nanmean(filled[i-1:i+2,-1])
+
     return filled
 
