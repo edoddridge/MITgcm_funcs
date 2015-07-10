@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import glob
 import scipy.interpolate
 import warnings
+import copy
 import mitgcm
 
     
@@ -308,11 +309,11 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
             field_slice = replace_nans(field[k,:,:], max_its,0.5,1,'localmean')
             n = 0
             while (field_slice != field_slice).any():
-                    field_slice = replace_nans(field_slice[:,:], 8,0.5,1,'localmean')
+                    field_slice = replace_nans(field_slice[:,:], max_its,0.5,1,'localmean')
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
                     # need a way to prevent hanging in the while loop
-                    if n > max_its:
-                        raise RuntimeError('Tried ' + str(max_its) + ' iterations to heal NaNs in the input field, and failed.')
+                    if n > 3:#max_its:
+                        raise RuntimeError('Tried 3 iterations to heal NaNs in the input field, and failed.')
 
                     n += 1
         elif fill_nans == 'no':
@@ -402,7 +403,7 @@ def plt_mon_stats(netcdf_filename,
     return data
 
 
-def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
+def replace_nans(array, max_iter, tol, kernel_size, method='localmean'):
     """!Replace NaN elements in an array using an iterative image inpainting algorithm.
     
     The algorithm is the following:
@@ -467,6 +468,7 @@ def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
     replaced_old = np.zeros( n_nans, dtype=np.float64)
     
     # depending on kernel type, fill kernel array
+
     if method == 'localmean':
         for i in range(2*kernel_size+1):
             for j in range(2*kernel_size+1):
@@ -479,62 +481,19 @@ def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
         for j in range(array.shape[1]):
             filled[i,j] = array[i,j]
 
-    # make several passes
-    # until we reach convergence
-    for it in range(max_iter):
-        
-        # for each NaN element
-        for k in range(n_nans):
-            i = inans[k]
-            j = jnans[k]
-            
-            # initialize to zero
-            filled[i,j] = 0.0
-            n = 0
-            
-            # loop over the kernel
-            for I in range(2*kernel_size+1):
-                for J in range(2*kernel_size+1):
-                   
-                    # if we are not out of the boundaries
-                    if i+I-kernel_size < array.shape[0] and i+I-kernel_size >= 0:
-                        if j+J-kernel_size < array.shape[1] and j+J-kernel_size >= 0:
-                                                
-                            # if the neighbour element is not NaN itself.
-                            if filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :
-                                
-                                # do not sum itself
-                                if I-kernel_size != 0 and J-kernel_size != 0:
-                                    
-                                    # convolve kernel with original array
-                                    filled[i,j] = filled[i,j] + filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]
-                                    n = n + 1
 
-            # divide value by effective number of added elements
-            if n != 0:
-                filled[i,j] = filled[i,j] / n
-                replaced_new[k] = filled[i,j]
-            else:
-                filled[i,j] = np.nan
-                
-        # check if mean square difference between values of replaced 
-        #elements is below a certain tolerance
-        if np.mean( (replaced_new-replaced_old)**2 ) < tol:
-            break
-        else:
-            for l in range(n_nans):
-                replaced_old[l] = replaced_new[l]
-
+    filled = numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old)
 
     # replace remaining nans with global mean
     inans, jnans = np.nonzero( np.isnan(filled) )
     n_nans = len(inans)
     # for each NaN element
+    fill_value = np.nanmean(filled)
     for k in range(n_nans):
         i = inans[k]
         j = jnans[k]
             
-        filled[i,j] = np.nanmean(filled)
+        filled[i,j] = fill_value
 
 
 
@@ -584,6 +543,56 @@ def replace_nans(array, max_iter, tol, kernel_size=1, method='localmean'):
     #for k in range(n_nans):
     #    i = inans[k]
     #    filled[i,-1] = np.nanmean(filled[i-1:i+2,-1])
+
+    return filled
+
+@numba.jit
+def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old):
+    # make several passes
+    # until we reach convergence
+    for it in range(max_iter):
+        
+        # for each NaN element
+        for k in range(n_nans):
+            i = inans[k]
+            j = jnans[k]
+            
+            # initialize to zero
+            filled[i,j] = 0.0
+            n = 0
+            
+            # loop over the kernel
+            for I in range(2*kernel_size+1):
+                for J in range(2*kernel_size+1):
+                   
+                    # if we are not out of the boundaries
+                    if i+I-kernel_size < filled.shape[0] and i+I-kernel_size >= 0:
+                        if j+J-kernel_size < filled.shape[1] and j+J-kernel_size >= 0:
+                                                
+                            # if the neighbour element is not NaN itself.
+                            if filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :
+                                
+                                # do not sum itself
+                                if I-kernel_size != 0 and J-kernel_size != 0:
+                                    
+                                    # convolve kernel with original array
+                                    filled[i,j] += filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]
+                                    n = n + 1
+
+            # divide value by effective number of added elements
+            if n != 0:
+                filled[i,j] = filled[i,j] / n
+                replaced_new[k] = filled[i,j]
+            else:
+                filled[i,j] = np.nan
+                
+        # check if mean square difference between values of replaced 
+        #elements is below a certain tolerance
+        if np.mean( (replaced_new-replaced_old)**2 ) < tol:
+            break
+        else:
+            for l in range(n_nans):
+                replaced_old[l] = replaced_new[l]
 
     return filled
 
