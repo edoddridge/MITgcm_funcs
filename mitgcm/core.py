@@ -325,6 +325,12 @@ class Upoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1] + self[field_name][...,1:])/2
+
+        return shifted
+
 class Vpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on meridional velocity points."""
 
@@ -444,6 +450,12 @@ class Vpoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1,:] + self[field_name][...,1:,:])/2
+
+        return shifted
+
 class Wpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on vertical velocity points."""
 
@@ -572,7 +584,11 @@ class Wpoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1,:,:] + self[field_name][...,1:,:,:])/2
 
+        return shifted
 
 class Tracerpoint_field(MITgcm_Simulation):  
     """!This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
@@ -819,6 +835,14 @@ class Vorticitypoint_field(MITgcm_Simulation):
         else:
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
+
+
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1] + self[field_name][...,1:])/2
+        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
+
+        return shifted
 
 
 class Grid(MITgcm_Simulation):

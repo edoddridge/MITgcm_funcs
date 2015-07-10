@@ -495,9 +495,6 @@ def replace_nans(array, max_iter, tol, kernel_size, method='localmean'):
             
         filled[i,j] = fill_value
 
-
-
-
     # Check the corners - these are the tricky bits
     #if np.nonzero(np.isnan(filled[0,0])):
     #    filled[0,0] = (filled[0,1] + filled[1,0] + filled[1,1])/3
@@ -545,6 +542,7 @@ def replace_nans(array, max_iter, tol, kernel_size, method='localmean'):
     #    filled[i,-1] = np.nanmean(filled[i-1:i+2,-1])
 
     return filled
+
 
 @numba.jit
 def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old):
@@ -595,4 +593,30 @@ def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,
                 replaced_old[l] = replaced_new[l]
 
     return filled
+
+
+    def shift_vort_to_T(array):
+        """! Shift the array from vorticity points to the corresponding tracer point."""
+        shifted = (array[...,0:-1] + array[...,1:])/2
+        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
+
+        return shifted
+
+    def shift_U_to_T(array):
+        """! Shift the array from UVEL points to the corresponding tracer point."""
+        shifted = (array[...,0:-1] + array[...,1:])/2
+
+        return shifted
+
+    def shift_V_to_T(array):
+        """! Shift the array from VVEL points to the corresponding tracer point."""
+        shifted = (array[...,0:-1,:] + array[...,1:,:])/2
+
+        return shifted
+
+    def shift_W_to_T(array):
+        """! Shift the array from WVEL points to the corresponding tracer point."""
+        shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2
+
+        return shifted
 
