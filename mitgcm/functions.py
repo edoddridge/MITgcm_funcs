@@ -544,7 +544,7 @@ def replace_nans(array, max_iter, tol, kernel_size, method='localmean'):
     return filled
 
 
-@numba.jit
+#@numba.jit
 def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old):
     # make several passes
     # until we reach convergence
@@ -595,28 +595,28 @@ def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,
     return filled
 
 
-    def shift_vort_to_T(array):
-        """! Shift the array from vorticity points to the corresponding tracer point."""
-        shifted = (array[...,0:-1] + array[...,1:])/2
-        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
+def shift_vort_to_T(array):
+    """! Shift the array from vorticity points to the corresponding tracer point."""
+    shifted = (array[...,0:-1] + array[...,1:])/2
+    shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
 
-        return shifted
+    return shifted
 
-    def shift_U_to_T(array):
-        """! Shift the array from UVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1] + array[...,1:])/2
+def shift_U_to_T(array):
+    """! Shift the array from UVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1] + array[...,1:])/2
 
-        return shifted
+    return shifted
 
-    def shift_V_to_T(array):
-        """! Shift the array from VVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1,:] + array[...,1:,:])/2
+def shift_V_to_T(array):
+    """! Shift the array from VVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1,:] + array[...,1:,:])/2
 
-        return shifted
+    return shifted
 
-    def shift_W_to_T(array):
-        """! Shift the array from WVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2
+def shift_W_to_T(array):
+    """! Shift the array from WVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2
 
-        return shifted
+    return shifted
 
