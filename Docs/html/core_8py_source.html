@@ -185,7 +185,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span></div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">if</span> len(file_list) != model_instance[<span class="stringliteral">&#39;ntiles_x&#39;</span>]*model_instance[<span class="stringliteral">&#39;ntiles_y&#39;</span>]:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;The number of tiles found isn&#39;t equal to ntiles_x*ntiles_y. You should check this. \n Aborting import of &quot;</span> + variable)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&quot;The number of tiles found (&quot;</span> + str(len(file_list)) + <span class="stringliteral">&quot;) isn&#39;t equal to ntiles_x*ntiles_y (&quot;</span> + str(model_instance[<span class="stringliteral">&#39;ntiles_x&#39;</span>]*model_instance[<span class="stringliteral">&#39;ntiles_y&#39;</span>]) + <span class="stringliteral">&quot;). You should check this. \n Aborting import of &quot;</span> + variable)</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">return</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        data = {}</div>
@@ -961,7 +961,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;<span class="stringliteral">        * (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF </span></div>
 <div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;<span class="stringliteral">        * wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.</span></div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="stringliteral">        * wet_mask_U </span></div>
+<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;<span class="stringliteral">        * wet_mask_U</span></div>
 <div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;<span class="stringliteral">        * wet_mask_TH </span></div>
 <div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;<span class="stringliteral">        * wet_mask_W </span></div>
 <div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;<span class="stringliteral"></span></div>
@@ -1250,7 +1250,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 12 2015 12:02:33 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 25 2015 01:02:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
