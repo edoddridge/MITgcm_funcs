@@ -52,7 +52,8 @@ class MITgcm_Simulation(dict):
         self['ntiles_x'] = ntiles_x
         self['ntiles_y'] = ntiles_y
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,
+                                field_name=None,grid_loc='T',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -64,10 +65,10 @@ class MITgcm_Simulation(dict):
         file_list = glob.glob(netcdf_filename)
 
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
-    def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc):
+    def load_from_file(self,model_instance, file_list,variable,time_level,grid_loc,single_file):
         """!Internal function to pull the data from the file(s). It is called by "load_field", and probably shouldn't be used independently."""
 
         # remove overlapping regions from tiles
@@ -90,9 +91,10 @@ class MITgcm_Simulation(dict):
             print "grid_loc variable not set correctly"
             return
 
-        if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
-            raise RuntimeError("The number of tiles found (" + str(len(file_list)) + ") isn't equal to ntiles_x*ntiles_y (" + str(model_instance['ntiles_x']*model_instance['ntiles_y']) + "). You should check this. \n Aborting import of " + variable)
-            return
+        if not single_file:
+            if len(file_list) != model_instance['ntiles_x']*model_instance['ntiles_y']:
+                raise RuntimeError("The number of tiles found (" + str(len(file_list)) + ") isn't equal to ntiles_x*ntiles_y (" + str(model_instance['ntiles_x']*model_instance['ntiles_y']) + "). You should check this. \n Aborting import of " + variable)
+                return
 
         data = {}
 
@@ -131,7 +133,6 @@ class MITgcm_Simulation(dict):
 
         else:
             data2 = collections.OrderedDict(sorted(data.items(), key=lambda t: t[0]))
-
             del data #since the fields can be big, might as well get rid of the duplicate.
 
             # for tile in data2.keys():
@@ -199,15 +200,15 @@ class MITgcm_Simulation(dict):
 class Upoint_field(MITgcm_Simulation):
     """! This is the class for all fields on zonal velocity points."""
     
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='U')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='U',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='U'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='U',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -218,7 +219,7 @@ class Upoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
     
     ### Derivatives of model fields    
@@ -324,6 +325,12 @@ class Upoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1] + self[field_name][...,1:])/2
+
+        return shifted
+
 class Vpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on meridional velocity points."""
 
@@ -332,11 +339,11 @@ class Vpoint_field(MITgcm_Simulation):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='V')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='V',single_file=False)
 
         return
     
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='V'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='V',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -347,7 +354,7 @@ class Vpoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 
@@ -443,18 +450,24 @@ class Vpoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return
     
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1,:] + self[field_name][...,1:,:])/2
+
+        return shifted
+
 class Wpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on vertical velocity points."""
 
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='W')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='W',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='W'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='W',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array."""
@@ -465,7 +478,7 @@ class Wpoint_field(MITgcm_Simulation):
         file_list = glob.glob(netcdf_filename)
 
 
-        loaded_field = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        loaded_field = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
 
 
         if len(loaded_field.shape) == 4:
@@ -571,19 +584,23 @@ class Wpoint_field(MITgcm_Simulation):
             raise KeyError('Chosen input array ' + str(input_field) + ' is not defined')
         return 
 
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1,:,:] + self[field_name][...,1:,:,:])/2
 
+        return shifted
 
 class Tracerpoint_field(MITgcm_Simulation):  
     """!This is the base class for all model fields on the tracer points. It includes definitions for taking derivatives."""
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='T')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='T',single_file=False)
         return
 
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='T',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -594,7 +611,7 @@ class Tracerpoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 
@@ -706,15 +723,15 @@ class Tracerpoint_field(MITgcm_Simulation):
     
 class Vorticitypoint_field(MITgcm_Simulation):  
     """!A class for fields on vorticity points."""
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         if empty:
             pass
         else:
-            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='Zeta')
+            self.load_field(model_instance,netcdf_filename,variable,time_level,field_name,grid_loc='Zeta',single_file=False)
 
         return
 
-    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='Zeta'):
+    def load_field(self,model_instance, netcdf_filename,variable,time_level=-1,field_name=None,grid_loc='Zeta',single_file=False):
         """!Load a model field from NetCDF output. This function associates the field with the object it is called on.
 
         time_level can be an integer or an array of integers. If it's an array, then multiple time levels will be returned as a higher dimensional array.
@@ -725,7 +742,7 @@ class Vorticitypoint_field(MITgcm_Simulation):
 
         file_list = glob.glob(netcdf_filename)
 
-        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc)
+        self[field_name] = self.load_from_file(model_instance,file_list,variable,time_level,grid_loc,single_file)
         return 
 
 
@@ -820,6 +837,14 @@ class Vorticitypoint_field(MITgcm_Simulation):
         return 
 
 
+    def shift_to_tracer(self,field_name):
+        """! Shift the array on to the corresponding tracer point."""
+        shifted = (self[field_name][...,0:-1] + self[field_name][...,1:])/2
+        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
+
+        return shifted
+
+
 class Grid(MITgcm_Simulation):
     """!This defines the class for the grid object. 
 
@@ -834,43 +859,37 @@ class Grid(MITgcm_Simulation):
         original description attached to it. The 2D and 3D arrays do not.
 
         Variables imported are:
-        * rAw
-        * rAs
-        * rA
-        * HFacW
-        * HFacS
-        * HFacC
-        * X
-        * Xp1
-        * dxF
-        * dxC
-        * dxV
-        * Y
-        * Yp1
-        * dyU
-        * dyC
-        * dyF
-        * Z
-        * Zl
-        * Zu
-        * drC
-        * drF
-        * fCoriG
-        * fCori
+        * rAw: r-face area at U point
+        * rAs: r-face area at V point
+        * rA: r-face area at cell center
+        * HFacW: vertical fraction of open cell at West face
+        * HFacS: vertical fraction of open cell at South face
+        * HFacC: vertical fraction of open cell at cell center
+        * X: longitude of cell center
+        * Xp1: longitude of cell corner
+        * dxF: x cell face separation
+        * dxC: x cell center separation
+        * dxV: x v-velocity separation
+        * Y: latitude of cell center
+        * Yp1: latitude of cell corner
+        * dyU: y u-velocity separation
+        * dyC: y cell center separation
+        * dyF: y cell face separation
+        * Z: vertical coordinate of cell center
+        * Zl: vertical coordinate of upper cell interface
+        * Zu: vertical coordinate of lower cell interface
+        * drC: r cell center separation
+        * drF: r cell face separation
+        * fCoriG: Coriolis f at cell corner
+        * fCori: Coriolis f at cell center
 
         Variables computed and stored are:
-        * (Z_y,Y_z)
-        * (X_y,Y_x)
-        * (Z_x,X_z) 
-        * (Z_3d,Y_3d,X_3d) 
-
-        * (DZF,DYF, DXF): a 3d array of dxF,dyF adn dzF 
-
         * wet_mask_V : a 3d array that is one if the point is in the fluid, zero otherwise.
         * wet_mask_U
         * wet_mask_TH 
         * wet_mask_W 
 
+        **Cell volumes can be calculated and stored with the compute_cell_volume function**
         * cell_volume
 
         **These boundary masks can be computed with the compute_boundary_masks function**
@@ -884,6 +903,13 @@ class Grid(MITgcm_Simulation):
         Notes: uses glob to expand wildcards in the file name. BUT, it will only use the first file that matches.
 
         """
+        # * (Z_y,Y_z)
+        # * (X_y,Y_x)
+        # * (Z_x,X_z) 
+        # * (Z_3d,Y_3d,X_3d) 
+
+        # * (DZF,DYF, DXF): a 3d array of dxF,dyF and dzF 
+
         grid_netcdf_file_list = glob.glob(grid_netcdf_filename)
 
         if not grid_netcdf_file_list:
@@ -954,7 +980,7 @@ class Grid(MITgcm_Simulation):
         for k in xrange(0,wet_mask_TH.shape[0]):
             for j in xrange(0,wet_mask_TH.shape[1]):
                 for i in xrange(0,wet_mask_TH.shape[2]):
-                    # find points with boundary to the west. In the simplest shelf configuration this is the only tricky boundary to find.
+                    # find points with boundary to the west.
                     if wet_mask_TH[k,j,i] - wet_mask_TH[k,j,i-1] == 1:
                         west_mask[k,j,i] = 1
 
@@ -984,9 +1010,17 @@ class Grid(MITgcm_Simulation):
         self['north_mask'] = north_mask
         self['bottom_mask'] = bottom_mask
         return
+
     def compute_cell_volume(self):
-        """Compute a 3D array that contains the volume of each tracer cell."""
-        self['cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
+        """Compute a 3D array that contains the volume of each cell."""
+
+        self['U_cell_volume'] = copy.deepcopy(self['rAw'][:].reshape((1,self['rAw'][:].shape[0],self['rAw'][:].shape[1]))*
+                        self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
+
+        self['V_cell_volume'] = copy.deepcopy(self['rAs'][:].reshape((1,self['rAs'][:].shape[0],self['rAs'][:].shape[1]))*
+                            self['drF'][:].reshape((self['drF'][:].shape[0],1,1)))
+
+        self['T_cell_volume'] = copy.deepcopy(self['dxF'][:]*self['dyF'][:]*
                                     self['drF'][:].reshape((len(self['drF'][:]),1,1)))
         
         

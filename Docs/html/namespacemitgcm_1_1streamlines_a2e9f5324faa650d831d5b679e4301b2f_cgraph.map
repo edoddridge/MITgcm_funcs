@@ -1,6 +1,0 @@
-<map id="mitgcm.streamlines.extract_along_path2D" name="mitgcm.streamlines.extract_along_path2D">
-<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702" title="Do bilinear interpolation of a field. " alt="" coords="233,5,417,47"/>
-<area shape="rect" id="node4" href="$namespacemitgcm_1_1functions.html#a4027a61553c5b8f04b4fcb335224b30e" title="Interpolate a given field onto a different grid. " alt="" coords="246,71,405,112"/>
-<area shape="rect" id="node3" href="$namespacemitgcm_1_1streamlines.html#af0379625b51f588355836dd3711aae7c" title="This is a numba accelerated bilinear interpolation. " alt="" coords="480,5,656,47"/>
-<area shape="rect" id="node5" href="$namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792" title="Replace NaN elements in an array using an iterative image inpainting algorithm. " alt="" coords="465,78,671,105"/>
-</map>
