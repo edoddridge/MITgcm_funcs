@@ -17,6 +17,7 @@ streaklines are defined as the path that a parcel of fluid would follow in the a
 import numpy as np
 import netCDF4
 import numba
+import copy
 import scipy.interpolate
 from . import functions
 
@@ -135,7 +136,7 @@ def stream2(u,v,
 
 def stream3(u,v,w,
             startx,starty,startz,
-            grid_object,
+            grid_object=None,
             x_v='None',y_v='None',z_v='None',
             x_w='None',y_w='None',z_w='None',
             t_max=2592000,delta_t=3600,
@@ -143,77 +144,78 @@ def stream3(u,v,w,
     """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
         X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
 """
-    if u_grid_loc == 'U':
-        x_u = grid_object['Xp1'][:]
-        y_u = grid_object['Y'][:]
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'V':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Yp1'][:]  
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'W':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Y'][:]  
-        z_u = grid_object['Zl'][:]
-    elif u_grid_loc == 'T':
-        x_u = grid_object['X'][:]
-        y_u = grid_object['Y'][:]  
-        z_u = grid_object['Z'][:]
-    elif u_grid_loc == 'Zeta':
-        x_u = grid_object['Xp1'][:]
-        y_u = grid_object['Yp1'][:]
-        z_u = grid_object['Z'][:]
-    else:
-        print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+    if grid_object:
+        if u_grid_loc == 'U':
+            x_u = copy.deepcopy(grid_object['Xp1'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:])
+            z_u = copy.deepcopy(grid_object['Z'][:])
+        elif u_grid_loc == 'V':
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_u = copy.deepcopy(grid_object['Z'][:])
+        elif u_grid_loc == 'W':
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:]) 
+            z_u = copy.deepcopy(grid_object['Zl'][:])
+        elif u_grid_loc == 'T':
+            x_u = copy.deepcopy(grid_object['X'][:])
+            y_u = copy.deepcopy(grid_object['Y'][:]) 
+            z_u = copy.deepcopy(grid_object['Z'][:])
+        elif u_grid_loc == 'Zeta':
+            x_u = copy.deepcopy(grid_object['Xp1'][:])
+            y_u = copy.deepcopy(grid_object['Yp1'][:])
+            z_u = copy.deepcopy(grid_object['Z'][:])
+        else:
+            print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
-    if v_grid_loc == 'U':
-        x_v = grid_object['Xp1'][:]
-        y_v = grid_object['Y'][:]
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'V':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Yp1'][:]  
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'W':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Y'][:]  
-        z_v = grid_object['Zl'][:]
-    elif v_grid_loc == 'T':
-        x_v = grid_object['X'][:]
-        y_v = grid_object['Y'][:]  
-        z_v = grid_object['Z'][:]
-    elif v_grid_loc == 'Zeta':
-        x_v = grid_object['Xp1'][:]
-        y_v = grid_object['Yp1'][:]
-        z_v = grid_object['Z'][:]
-    else:
-        print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+        if v_grid_loc == 'U':
+            x_v = copy.deepcopy(grid_object['Xp1'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:])
+            z_v = copy.deepcopy(grid_object['Z'][:])
+        elif v_grid_loc == 'V':
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_v = copy.deepcopy(grid_object['Z'][:])
+        elif v_grid_loc == 'W':
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:]) 
+            z_v = copy.deepcopy(grid_object['Zl'][:])
+        elif v_grid_loc == 'T':
+            x_v = copy.deepcopy(grid_object['X'][:])
+            y_v = copy.deepcopy(grid_object['Y'][:]) 
+            z_v = copy.deepcopy(grid_object['Z'][:])
+        elif v_grid_loc == 'Zeta':
+            x_v = copy.deepcopy(grid_object['Xp1'][:])
+            y_v = copy.deepcopy(grid_object['Yp1'][:])
+            z_v = copy.deepcopy(grid_object['Z'][:])
+        else:
+            print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
-    if w_grid_loc == 'U':
-        x_w = grid_object['Xp1'][:]
-        y_w = grid_object['Y'][:]
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'V':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Yp1'][:]  
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'W':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Y'][:]  
-        z_w = grid_object['Zl'][:]
-    elif w_grid_loc == 'T':
-        x_w = grid_object['X'][:]
-        y_w = grid_object['Y'][:]  
-        z_w = grid_object['Z'][:]
-    elif w_grid_loc == 'Zeta':
-        x_w = grid_object['Xp1'][:]
-        y_w = grid_object['Yp1'][:]
-        z_w = grid_object['Z'][:]
-    else:
-        print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
-        return
+        if w_grid_loc == 'U':
+            x_w = copy.deepcopy(grid_object['Xp1'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:])
+            z_w = copy.deepcopy(grid_object['Z'][:])
+        elif w_grid_loc == 'V':
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Yp1'][:]) 
+            z_w = copy.deepcopy(grid_object['Z'][:])
+        elif w_grid_loc == 'W':
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:])
+            z_w = copy.deepcopy(grid_object['Zl'][:])
+        elif w_grid_loc == 'T':
+            x_w = copy.deepcopy(grid_object['X'][:])
+            y_w = copy.deepcopy(grid_object['Y'][:]) 
+            z_w = copy.deepcopy(grid_object['Z'][:])
+        elif w_grid_loc == 'Zeta':
+            x_w = copy.deepcopy(grid_object['Xp1'][:])
+            y_w = copy.deepcopy(grid_object['Yp1'][:])
+            z_w = copy.deepcopy(grid_object['Z'][:])
+        else:
+            print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+            return
 
         
     len_x_u = len(x_u)
@@ -305,9 +307,12 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
             t_max=3.1e5,delta_t=3600,
-            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None):
     """!A three-dimensional lagrangian particle tracker. The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
-    It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been tested yet.
+    It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
     
     Because this is a very large amount of data, the fields are passed as netcdffile handles.
     
@@ -317,7 +322,7 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     * t = vector of time levels that are contained in the velocity data.
     * grid_object is m.grid if you followed the standard naming conventions.
     * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
-    * t_max = length of time to track particles for, in seconds
+    * t_max = length of time to track particles for, in seconds. This is always positive
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     * X_grid_loc = where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
     """
@@ -437,31 +442,30 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_u,len_y_u,len_z_u,len_t,
-                                                u_netcdf_filehandle,u_netcdf_variable)
+                                                u_netcdf_filehandle,u_netcdf_variable,u_bias_field)
     u_field,x_index_u_new,y_index_u_new,z_index_u_new = indices_and_field(x_u,y_u,z_u,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_u,len_y_u,len_z_u,len_t,
-                                                u_netcdf_filehandle,u_netcdf_variable)
+                                                u_netcdf_filehandle,u_netcdf_variable,u_bias_field)
     #  v
     v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_v,len_y_v,len_z_v,len_t,
-                                                v_netcdf_filehandle,v_netcdf_variable)
+                                                v_netcdf_filehandle,v_netcdf_variable,v_bias_field)
     v_field,x_index_v_new,y_index_v_new,z_index_v_new = indices_and_field(x_v,y_v,z_v,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_v,len_y_v,len_z_v,len_t,
-                                                v_netcdf_filehandle,v_netcdf_variable)
+                                                v_netcdf_filehandle,v_netcdf_variable,v_bias_field)
 
     #  w
     w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_w,len_y_w,len_z_w,len_t,
-                                                w_netcdf_filehandle,w_netcdf_variable)
-    
+                                                w_netcdf_filehandle,w_netcdf_variable,w_bias_field)
     w_field,x_index_w_new,y_index_w_new,z_index_w_new = indices_and_field(x_w,y_w,z_w,
                                                 x_RK,y_RK,z_RK,t_index,
                                                 len_x_w,len_y_w,len_z_w,len_t,
-                                                w_netcdf_filehandle,w_netcdf_variable)
+                                                w_netcdf_filehandle,w_netcdf_variable,w_bias_field)
     
     
     # Prepare for spherical polar grids
@@ -504,18 +508,18 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_field,x_index_u,y_index_u,z_index_u = indices_and_field(x_u,y_u,z_u,
                                                         x_RK,y_RK,z_RK,t_index,
                                                         len_x_u,len_y_u,len_z_u,len_t,
-                                                        u_netcdf_filehandle,u_netcdf_variable)
+                                                        u_netcdf_filehandle,u_netcdf_variable,u_bias_field)
             # for v
             v_field,x_index_v,y_index_v,z_index_v = indices_and_field(x_v,y_v,z_v,
                                                         x_RK,y_RK,z_RK,t_index,
                                                         len_x_v,len_y_v,len_z_v,len_t,
-                                                        v_netcdf_filehandle,v_netcdf_variable)
+                                                        v_netcdf_filehandle,v_netcdf_variable,v_bias_field)
 
             # for w
             w_field,x_index_w,y_index_w,z_index_w = indices_and_field(x_w,y_w,z_w,
                                                         x_RK,y_RK,z_RK,t_index,
                                                         len_x_w,len_y_w,len_z_w,len_t,
-                                                        w_netcdf_filehandle,w_netcdf_variable)
+                                                        w_netcdf_filehandle,w_netcdf_variable,w_bias_field)
 
 
 
@@ -852,7 +856,7 @@ def actual_quadralinear_interp(field,x0,y0,z0,t0,
 def indices_and_field(x,y,z,
                         startx,starty,startz,t_index,
                         len_x,len_y,len_z,len_t,
-                        netcdf_filehandle,variable):
+                        netcdf_filehandle,variable, bias_field=None):
             """!A helper function to extract a small 4D hypercube of data from a netCDF file. This isn't intended to be used on its own."""
             
             # Compute indices at location given
@@ -890,6 +894,10 @@ def indices_and_field(x,y,z,
                            z_index-2:z_index+3,
                            y_index-2:y_index+3,
                            x_index-2:x_index+3]
+
+            if bias_field:
+                field = (field - 
+                        bias_field[np.newaxis,z_index-2:z_index+3,y_index-2:y_index+3,x_index-2:x_index+3])
             
             return field,x_index,y_index,z_index
             
