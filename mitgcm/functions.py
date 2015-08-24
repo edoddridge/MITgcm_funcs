@@ -312,8 +312,9 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
                     field_slice = replace_nans(field_slice[:,:], max_its,0.5,1,'localmean')
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
                     # need a way to prevent hanging in the while loop
-                    if n > 3:#max_its:
-                        raise RuntimeError('Tried 3 iterations to heal NaNs in the input field, and failed.')
+                    if n > max_its:
+                        error_message = 'Tried' + str(max_its) +   'iterations to heal NaNs in the input field, and failed.'
+                        raise RuntimeError(error_message)
 
                     n += 1
         elif fill_nans == 'no':
@@ -482,7 +483,53 @@ def replace_nans(array, max_iter, tol, kernel_size, method='localmean'):
             filled[i,j] = array[i,j]
 
 
-    filled = numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old)
+    #filled = numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old)
+    # make several passes
+    # until we reach convergence
+    for it in range(max_iter):
+        
+        # for each NaN element
+        for k in range(n_nans):
+            i = inans[k]
+            j = jnans[k]
+            
+            # initialize to zero
+            filled[i,j] = 0.0
+            n = 0
+            
+            # loop over the kernel
+            for I in range(2*kernel_size+1):
+                for J in range(2*kernel_size+1):
+                   
+                    # if we are not out of the boundaries
+                    if i+I-kernel_size < filled.shape[0] and i+I-kernel_size >= 0:
+                        if j+J-kernel_size < filled.shape[1] and j+J-kernel_size >= 0:
+                                                
+                            # if the neighbour element is not NaN itself.
+                            if filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :
+                                
+                                # do not sum itself
+                                if I-kernel_size != 0 and J-kernel_size != 0:
+                                    
+                                    # convolve kernel with original array
+                                    filled[i,j] += filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]
+                                    n = n + 1
+
+            # divide value by effective number of added elements
+            if n != 0:
+                filled[i,j] = filled[i,j] / n
+                replaced_new[k] = filled[i,j]
+            else:
+                filled[i,j] = np.nan
+                
+        # check if mean square difference between values of replaced 
+        #elements is below a certain tolerance
+        if np.mean( (replaced_new-replaced_old)**2 ) < tol:
+            break
+        else:
+            for l in range(n_nans):
+                replaced_old[l] = replaced_new[l]
+
 
     # replace remaining nans with global mean
     inans, jnans = np.nonzero( np.isnan(filled) )
@@ -595,28 +642,29 @@ def numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,
     return filled
 
 
-    def shift_vort_to_T(array):
-        """! Shift the array from vorticity points to the corresponding tracer point."""
-        shifted = (array[...,0:-1] + array[...,1:])/2
-        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
 
-        return shifted
+def shift_vort_to_T(array):
+    """! Shift the array from vorticity points to the corresponding tracer point."""
+    shifted = (array[...,0:-1] + array[...,1:])/2
+    shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2
 
-    def shift_U_to_T(array):
-        """! Shift the array from UVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1] + array[...,1:])/2
+    return shifted
 
-        return shifted
+def shift_U_to_T(array):
+    """! Shift the array from UVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1] + array[...,1:])/2
 
-    def shift_V_to_T(array):
-        """! Shift the array from VVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1,:] + array[...,1:,:])/2
+    return shifted
 
-        return shifted
+def shift_V_to_T(array):
+    """! Shift the array from VVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1,:] + array[...,1:,:])/2
 
-    def shift_W_to_T(array):
-        """! Shift the array from WVEL points to the corresponding tracer point."""
-        shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2
+    return shifted
 
-        return shifted
+def shift_W_to_T(array):
+    """! Shift the array from WVEL points to the corresponding tracer point."""
+    shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2
+
+    return shifted
 
