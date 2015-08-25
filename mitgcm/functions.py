@@ -313,7 +313,7 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
                     # repeat the replace_nans call since it can sometimes miss ones in the corners.
                     # need a way to prevent hanging in the while loop
                     if n > max_its:
-                        error_message = 'Tried' + str(max_its) +   'iterations to heal NaNs in the input field, and failed.'
+                        error_message = 'Tried ' + str(max_its) +   ' iterations to heal NaNs in the input field, and failed.'
                         raise RuntimeError(error_message)
 
                     n += 1
