@@ -850,7 +850,7 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     
     ## The variables are:
     * ?_netcdf_filename = name of the netcdf file with ?'s data in it.
-    * start? = (nx1) arrays of intial values for x, y, or z.
+    * start? = (nx1) arrays of initial values for x, y, or z.
     * startt = start time
     * t = vector of time levels that are contained in the velocity data.
     * grid_object is m.grid if you followed the standard naming conventions.
@@ -858,7 +858,7 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     * t_max = length of time to track particles for, in seconds. This is always positive
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
     * ?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
-    * ?_bias_field = bias to add to that velocity field omponent. If set to -mean(velocity component), then only the time varying portion of that field will be used.
+    * ?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used.
     """
 
     if u_grid_loc == 'U':
