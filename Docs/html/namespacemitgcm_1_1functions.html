@@ -132,6 +132,18 @@ Functions</h2></td></tr>
 <tr class="separator:accc175fb281b4d8b8ffa973260d0b792"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f5e2c48ffb91f133837e5fcae1eb143"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">numerics_replace_nans</a> (max_iter, n_nans, inans, jnans, filled, kernel, kernel_size, tol, replaced_new, replaced_old)</td></tr>
 <tr class="separator:a4f5e2c48ffb91f133837e5fcae1eb143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed1104c67878e97d1fce0640dfd0bb26"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#aed1104c67878e97d1fce0640dfd0bb26">shift_vort_to_T</a> (array)</td></tr>
+<tr class="memdesc:aed1104c67878e97d1fce0640dfd0bb26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the array from vorticity points to the corresponding tracer point.  <a href="#aed1104c67878e97d1fce0640dfd0bb26">More...</a><br /></td></tr>
+<tr class="separator:aed1104c67878e97d1fce0640dfd0bb26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4080d0c45351dcd041bf1c77e26f42f4"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a4080d0c45351dcd041bf1c77e26f42f4">shift_U_to_T</a> (array)</td></tr>
+<tr class="memdesc:a4080d0c45351dcd041bf1c77e26f42f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the array from UVEL points to the corresponding tracer point.  <a href="#a4080d0c45351dcd041bf1c77e26f42f4">More...</a><br /></td></tr>
+<tr class="separator:a4080d0c45351dcd041bf1c77e26f42f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26bab479bedecc18aa830eda439ab9b7"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a26bab479bedecc18aa830eda439ab9b7">shift_V_to_T</a> (array)</td></tr>
+<tr class="memdesc:a26bab479bedecc18aa830eda439ab9b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the array from VVEL points to the corresponding tracer point.  <a href="#a26bab479bedecc18aa830eda439ab9b7">More...</a><br /></td></tr>
+<tr class="separator:a26bab479bedecc18aa830eda439ab9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53542e46800d54165cbda624b24a1d83"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a53542e46800d54165cbda624b24a1d83">shift_W_to_T</a> (array)</td></tr>
+<tr class="memdesc:a53542e46800d54165cbda624b24a1d83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the array from WVEL points to the corresponding tracer point.  <a href="#a53542e46800d54165cbda624b24a1d83">More...</a><br /></td></tr>
+<tr class="separator:a53542e46800d54165cbda624b24a1d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Useful functions that don't belong elsewhere. </p>
@@ -213,7 +225,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision).</p>
 <p>Might not work for very large datasets. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00333">333</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00334">334</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -460,7 +472,7 @@ May give silly answers if the input_array is not monotonic in the search directi
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00548">548</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00595">595</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -531,7 +543,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>and many others. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00362">362</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00363">363</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -596,7 +608,87 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>code here: <a href="https://github.com/gasagna/openpiv-python">https://github.com/gasagna/openpiv-python</a> </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00406">406</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00407">407</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4080d0c45351dcd041bf1c77e26f42f4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.functions.shift_U_to_T </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shift the array from UVEL points to the corresponding tracer point. </p>
+
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00653">653</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26bab479bedecc18aa830eda439ab9b7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.functions.shift_V_to_T </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shift the array from VVEL points to the corresponding tracer point. </p>
+
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00659">659</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aed1104c67878e97d1fce0640dfd0bb26"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.functions.shift_vort_to_T </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shift the array from vorticity points to the corresponding tracer point. </p>
+
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00647">647</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53542e46800d54165cbda624b24a1d83"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.functions.shift_W_to_T </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shift the array from WVEL points to the corresponding tracer point. </p>
+
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00665">665</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -617,7 +709,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>A shortcut function to display all of the variables contained within a netcdf file. </p>
 <p>If the filename contains wildcards, they'll be expanded and only the first file used. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00347">347</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00348">348</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -641,7 +733,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 28 2015 11:12:54 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Aug 28 2015 16:27:01 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
