@@ -309,6 +309,10 @@ def stream3_many(u,v,w,
             u_grid_loc='U',v_grid_loc='V',w_grid_loc='W'):
     """!A three-dimensional streamline solver. The velocity fields must be three dimensional and not vary in time.
         X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
+
+        Returns:
+        * x_stream, y_stream, z_stream - all with dimensions (particle,time_level)
+        * t_stream - with dimensions (time_level)
 """
     if grid_object:
         if u_grid_loc == 'U':
@@ -838,8 +842,13 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
     
     Because this is a very large amount of data, the fields are passed as netcdffile handles.
+
+
+    ## Returns:
+    * x_stream, y_stream, z_stream - all with dimensions (particle,time_level)
+    * t_stream - with dimensions (time_level)
     
-    The variables are:
+    ## The variables are:
     * ?_netcdf_filename = name of the netcdf file with ?'s data in it.
     * start? = (nx1) arrays of intial values for x, y, or z.
     * startt = start time
