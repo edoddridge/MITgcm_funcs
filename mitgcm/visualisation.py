@@ -16,7 +16,7 @@ import mitgcm
 
 
 def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',delta_t=3600.):
-    """!Line integral convolution with a sparse noise field.
+    """!Line integral convolution with a sparse noise field. This produces discrete points that flow around the visualisation.
 
     LIC is a method for visualising flow fields.
     
@@ -127,21 +127,23 @@ def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',
 
 def LIC2_sparse_animate(u,v,points,grid_object,animation_length,trace_length,kernel='anisotropic_linear',
                  delta_t=3600.):
-    """!Line integral convolution with a sparse noise field. This function produces data that can be used to animate a static flow field.
+    """!Line integral convolution with a sparse noise field. The sparse noise field produces discrete points that travel around with the flow field.
+
+    This function produces data that can be used to animate a static flow field.
 
     LIC is a method for visualising flow fields.
     
     returns:
 
-    * output_matrix = [variable (x,y,intensity_ramp),trace,time]
-	* intensity = vector caontaining the convolved kernel and noise field
+    * output_matrix = [Variables (this axis has three values: x,y,intensity_ramp),trace_number ,time]
+	* intensity = vector containing the convolved kernel and noise field
 
 
     -------------
     ##Parameters
     * kernel - the convolution kernel. Options are: 
-      * 'box'
-      * 'anisotropic_linear'
+      * 'box' - same intensity for the entire trace
+      * 'anisotropic_linear' - intensity ramps up over the trace
 
 
     ------------
