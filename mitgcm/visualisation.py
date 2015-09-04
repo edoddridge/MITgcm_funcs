@@ -9,9 +9,11 @@ import netCDF4
 import numba
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.colors
 import glob
 import scipy.interpolate
 import warnings
+import copy
 import mitgcm
 
 
@@ -262,5 +264,21 @@ def LIC2_sparse_animate(u,v,points,grid_object,animation_length,trace_length,ker
     return output[:,:,steps_per_trace:-steps_per_trace],intensity[:steps_per_kernel],newCM
 
 
+def create_cmap_vary_alpha(colour='white'):
+    """create a colour map with variable alpha. This can be used to sketch out particles as they move.
 
+    The only input variable 'coour' defines the colour that is used to create the colour map. It can be any colour code that matplotlib recognises: single letter codes, hex colour string, a standard colour name, or a string representation of a float (e.g. '0.4') for gray on a 0-1 scale."""
+    
+    rgb = matplotlib.colors.colorConverter.to_rgb(colour) # convert the input colour to an rgb tuple
 
+    # take a predefined colour map and hack it.
+    newCM = copy.deepcopy(plt.cm.get_cmap('bone_r'))
+    newCM._init()
+
+    alphas = np.abs(np.linspace(0, 1.0, newCM.N))
+    newCM._lut[:-3,-1] = alphas
+    newCM._lut[:,0] = rgb[0]            
+    newCM._lut[:,1] = rgb[1]        
+    newCM._lut[:,2] = rgb[2]
+
+    return newCM
