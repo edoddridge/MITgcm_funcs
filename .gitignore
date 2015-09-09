@@ -17,5 +17,8 @@
 # Doxygen binary
 mitgcm/doxygen
 
+# interpolated files from the interpolation example
+examples/data/1_deg_spherical_sector/interpolated_fields/*
+
 # ipython checkpoints
 *-checkpoint.ipynb
