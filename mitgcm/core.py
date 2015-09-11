@@ -334,7 +334,7 @@ class Upoint_field(MITgcm_Simulation):
 class Vpoint_field(MITgcm_Simulation):
     """! This is the class for all fields on meridional velocity points."""
 
-    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None):
+    def __init__(self,model_instance,netcdf_filename,variable,time_level=-1,empty=False,field_name=None,single_file=False):
         """!Instantiate a field on the meridional velocity points."""
         if empty:
             pass
