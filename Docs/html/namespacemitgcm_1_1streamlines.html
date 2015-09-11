@@ -141,8 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aac1a8a54def68d4a7f0698c9809db4ef"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#aac1a8a54def68d4a7f0698c9809db4ef">actual_quadralinear_interp</a> (field, x0, y0, z0, t0, x_index, y_index, z_index, t_index, x, y, z, t)</td></tr>
 <tr class="memdesc:aac1a8a54def68d4a7f0698c9809db4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a numba accelerated quadralinear interpolation.  <a href="#aac1a8a54def68d4a7f0698c9809db4ef">More...</a><br /></td></tr>
 <tr class="separator:aac1a8a54def68d4a7f0698c9809db4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0999e36574643a8ab149aef0fe3b283"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#ab0999e36574643a8ab149aef0fe3b283">indices_and_field</a></td></tr>
-<tr class="separator:ab0999e36574643a8ab149aef0fe3b283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82e608a4e8893f6d85468d3f3a21b5b1"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a82e608a4e8893f6d85468d3f3a21b5b1">indices_and_field</a> (x, y, z, x0, y0, z0, t_index, len_x, len_y, len_z, len_t, netcdf_filehandle, variable, bias_field)</td></tr>
+<tr class="memdesc:a82e608a4e8893f6d85468d3f3a21b5b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A helper function to extract a small 4D hypercube of data from a netCDF file.  <a href="#a82e608a4e8893f6d85468d3f3a21b5b1">More...</a><br /></td></tr>
+<tr class="separator:a82e608a4e8893f6d85468d3f3a21b5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a290cc434dcffbedea22dcc00c75713dc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a290cc434dcffbedea22dcc00c75713dc">extract_along_path4D</a></td></tr>
 <tr class="memdesc:a290cc434dcffbedea22dcc00c75713dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">extract the value of a field along a path through a time varying, 3 dimensional field.  <a href="#a290cc434dcffbedea22dcc00c75713dc">More...</a><br /></td></tr>
 <tr class="separator:a290cc434dcffbedea22dcc00c75713dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,9 +158,9 @@ Functions</h2></td></tr>
 <div class="textblock"><p>A collection of functions for streamlines and related shennanigans. </p>
 <h1>Streamlines </h1>
 <p>Functions for creating and analysing streamlines.</p>
-<p>These currently only work on cartesian grids.</p>
+<p>These functions work on cartesian and spherical polar grids - other grids, such as cubed sphere, are not supported.</p>
 <p>Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.</p>
-<p>streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time. </p>
+<p>Streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="af0379625b51f588355836dd3711aae7c"></a>
 <div class="memitem">
@@ -230,7 +231,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated bilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01151">1151</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01156">1156</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -327,7 +328,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated quadralinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01294">1294</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01299">1299</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -406,7 +407,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated trilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01248">1248</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01253">1253</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -468,7 +469,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</p>
 <p>x0,y0 are the points to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01121">1121</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01126">1126</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -545,7 +546,7 @@ Functions</h2></td></tr>
 <li>dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01511">1511</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01501">1501</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -606,7 +607,7 @@ Functions</h2></td></tr>
 <p>Extract the value of a field along a path through a 3 dimensional field. </p>
 <p>The field must be passed as an array. Time varying fields are not supported. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01483">1483</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01473">1473</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -686,11 +687,11 @@ Functions</h2></td></tr>
 <p>The field must be in a NetCDF file, since it is assumed to be 4D and very large.</p>
 <p>This can also be used to pull out values at specific locations and times. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01393">1393</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01383">1383</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab0999e36574643a8ab149aef0fe3b283"></a>
+<a class="anchor" id="a82e608a4e8893f6d85468d3f3a21b5b1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -764,12 +765,6 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>HEAD</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>netcdf_filehandle</em>, </td>
         </tr>
         <tr>
@@ -782,7 +777,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>bias_field</em> = <code>None</code>&#160;</td>
+          <td class="paramname"><em>bias_field</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -792,7 +787,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01344">1344</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>A helper function to extract a small 4D hypercube of data from a netCDF file. </p>
+<p>This isn't intended to be used on its own. </p>
+
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01348">1348</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -916,7 +914,7 @@ Functions</h2></td></tr>
 <p>The velocity field, "field", is passed as a truncated 4D field.</p>
 <p>x,y,z,t are vectors of these dimensions. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01274">1274</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01279">1279</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1067,7 +1065,7 @@ Functions</h2></td></tr>
 <li>?_bias_field = bias to add to that velocity field omponent. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00483">483</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00487">487</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1207,9 +1205,15 @@ Functions</h2></td></tr>
 <p>If you're tracking fewer than O(10) - use the streaklines function.</p>
 <p>The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s. It should work to track particles forwards or backwards in time (set delta_t &lt;0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.</p>
 <p>Because this is a very large amount of data, the fields are passed as netcdffile handles.</p>
-<p>The variables are:</p><ul>
+<h2>Returns:</h2>
+<ul>
+<li>x_stream, y_stream, z_stream - all with dimensions (particle,time_level)</li>
+<li>t_stream - with dimensions (time_level)</li>
+</ul>
+<h2>The variables are:</h2>
+<ul>
 <li>?_netcdf_filename = name of the netcdf file with ?'s data in it.</li>
-<li>start? = (nx1) arrays of intial values for x, y, or z.</li>
+<li>start? = (nx1) arrays of initial values for x, y, or z.</li>
 <li>startt = start time</li>
 <li>t = vector of time levels that are contained in the velocity data.</li>
 <li>grid_object is m.grid if you followed the standard naming conventions.</li>
@@ -1217,7 +1221,7 @@ Functions</h2></td></tr>
 <li>t_max = length of time to track particles for, in seconds. This is always positive</li>
 <li>delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.</li>
 <li>?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.</li>
-<li>?_bias_field = bias to add to that velocity field omponent. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
+<li>?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
 </ul>
 
 <p>Definition at line <a class="el" href="streamlines_8py_source.html#l00838">838</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
@@ -1545,7 +1549,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>A three-dimensional streamline solver. </p>
-<p>The velocity fields must be three dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta. </p>
+<p>The velocity fields must be three dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.</p>
+<p>Returns:</p><ul>
+<li>x_stream, y_stream, z_stream - all with dimensions (particle,time_level)</li>
+<li>t_stream - with dimensions (time_level) </li>
+</ul>
 
 <p>Definition at line <a class="el" href="streamlines_8py_source.html#l00309">309</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
@@ -1627,7 +1635,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01161">1161</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01166">1166</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1707,14 +1715,14 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01205">1205</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01210">1210</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 28 2015 11:12:54 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 4 2015 17:34:24 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

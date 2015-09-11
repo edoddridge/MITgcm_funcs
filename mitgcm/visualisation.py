@@ -9,14 +9,16 @@ import netCDF4
 import numba
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.colors
 import glob
 import scipy.interpolate
 import warnings
+import copy
 import mitgcm
 
 
 def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',delta_t=3600.):
-    """!Line integral convolution with a sparse noise field.
+    """!Line integral convolution with a sparse noise field. This produces discrete points that flow around the visualisation.
 
     LIC is a method for visualising flow fields.
     
@@ -127,21 +129,23 @@ def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',
 
 def LIC2_sparse_animate(u,v,points,grid_object,animation_length,trace_length,kernel='anisotropic_linear',
                  delta_t=3600.):
-    """!Line integral convolution with a sparse noise field. This function produces data that can be used to animate a static flow field.
+    """!Line integral convolution with a sparse noise field. The sparse noise field produces discrete points that travel around with the flow field.
+
+    This function produces data that can be used to animate a static flow field.
 
     LIC is a method for visualising flow fields.
     
     returns:
 
-    * output_matrix = [variable (x,y,intensity_ramp),trace,time]
-	* intensity = vector caontaining the convolved kernel and noise field
+    * output_matrix = [Variables (this axis has three values: x,y,intensity_ramp),trace_number ,time]
+	* intensity = vector containing the convolved kernel and noise field
 
 
     -------------
     ##Parameters
     * kernel - the convolution kernel. Options are: 
-      * 'box'
-      * 'anisotropic_linear'
+      * 'box' - same intensity for the entire trace
+      * 'anisotropic_linear' - intensity ramps up over the trace
 
 
     ------------
@@ -260,5 +264,21 @@ def LIC2_sparse_animate(u,v,points,grid_object,animation_length,trace_length,ker
     return output[:,:,steps_per_trace:-steps_per_trace],intensity[:steps_per_kernel],newCM
 
 
+def create_cmap_vary_alpha(colour='white'):
+    """create a colour map with variable alpha. This can be used to sketch out particles as they move.
 
+    The only input variable 'coour' defines the colour that is used to create the colour map. It can be any colour code that matplotlib recognises: single letter codes, hex colour string, a standard colour name, or a string representation of a float (e.g. '0.4') for gray on a 0-1 scale."""
+    
+    rgb = matplotlib.colors.colorConverter.to_rgb(colour) # convert the input colour to an rgb tuple
 
+    # take a predefined colour map and hack it.
+    newCM = copy.deepcopy(plt.cm.get_cmap('bone_r'))
+    newCM._init()
+
+    alphas = np.abs(np.linspace(0, 1.0, newCM.N))
+    newCM._lut[:-3,-1] = alphas
+    newCM._lut[:,0] = rgb[0]            
+    newCM._lut[:,1] = rgb[1]        
+    newCM._lut[:,2] = rgb[2]
+
+    return newCM

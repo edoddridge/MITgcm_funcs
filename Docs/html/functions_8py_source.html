@@ -406,328 +406,380 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                    field_slice = <a class="code" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">replace_nans</a>(field_slice[:,:], max_its,0.5,1,<span class="stringliteral">&#39;localmean&#39;</span>)</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                    <span class="comment"># repeat the replace_nans call since it can sometimes miss ones in the corners.</span></div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                    <span class="comment"># need a way to prevent hanging in the while loop</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                    <span class="keywordflow">if</span> n &gt; 3:<span class="comment">#max_its:</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                        <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&#39;Tried 3 iterations to heal NaNs in the input field, and failed.&#39;</span>)</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                    n += 1</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keywordflow">elif</span> fill_nans == <span class="stringliteral">&#39;no&#39;</span>:</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            field_slice = field[k,:,:]</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;fill_nans not set correctly. Should be &quot;yes&quot; or &quot;no&quot;. You gave &quot;&#39;</span> + str(fill_nans) + <span class="stringliteral">&#39;&quot;&#39;</span>)</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field_slice,kx=interp_order,ky=interp_order)</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        field_interp[k,:,:] = interp_object(new_y,new_x)</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                    <span class="keywordflow">if</span> n &gt; max_its:</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                        error_message = <span class="stringliteral">&#39;Tried &#39;</span> + str(max_its) +   <span class="stringliteral">&#39; iterations to heal NaNs in the input field, and failed.&#39;</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                        <span class="keywordflow">raise</span> RuntimeError(error_message)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                    n += 1</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordflow">elif</span> fill_nans == <span class="stringliteral">&#39;no&#39;</span>:</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            field_slice = field[k,:,:]</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;fill_nans not set correctly. Should be &quot;yes&quot; or &quot;no&quot;. You gave &quot;&#39;</span> + str(fill_nans) + <span class="stringliteral">&#39;&quot;&#39;</span>)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        interp_object = scipy.interpolate.RectBivariateSpline(old_y,old_x,field_slice,kx=interp_order,ky=interp_order)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        field_interp[k,:,:] = interp_object(new_y,new_x)</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">return</span> field_interp</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordflow">return</span> field_interp</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
-<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">  333</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">export_binary</a>(filename,field,dtype=&#39;float64&#39;):</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Export binary files that can be imported into the MITgcm.</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="stringliteral">    The files are big endian, and the datatype can either be &#39;float64&#39; (= double precision), or &#39;float32&#39; (=single precision).</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="stringliteral">    Might not work for very large datasets.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    </div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    data = np.array(field,dtype=dtype) <span class="comment"># with defined precision, either float32 or float64</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordflow">if</span> sys.byteorder == <span class="stringliteral">&#39;little&#39;</span>: data.byteswap(<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    fid = open(filename,<span class="stringliteral">&quot;wb&quot;</span>)</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    data.tofile(fid) <span class="comment"># this does not work for very large data sets</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    fid.close()</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">  334</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">export_binary</a>(filename,field,dtype=&#39;float64&#39;):</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Export binary files that can be imported into the MITgcm.</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="stringliteral">    The files are big endian, and the datatype can either be &#39;float64&#39; (= double precision), or &#39;float32&#39; (=single precision).</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="stringliteral">    Might not work for very large datasets.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    </div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    data = np.array(field,dtype=dtype) <span class="comment"># with defined precision, either float32 or float64</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keywordflow">if</span> sys.byteorder == <span class="stringliteral">&#39;little&#39;</span>: data.byteswap(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    fid = open(filename,<span class="stringliteral">&quot;wb&quot;</span>)</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    data.tofile(fid) <span class="comment"># this does not work for very large data sets</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    fid.close()</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;     </div>
-<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">  347</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">show_variables</a>(netcdf_filename):</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!A shortcut function to display all of the variables contained within a netcdf file.</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="stringliteral">    If the filename contains wildcards, they&#39;ll be expanded and only the first file used.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    files = glob.glob(netcdf_filename)</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    netcdf_file = netCDF4.Dataset(files[0])</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordflow">print</span> netcdf_file.variables.keys()</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    netcdf_file.close()</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;     </div>
+<div class="line"><a name="l00348"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">  348</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">show_variables</a>(netcdf_filename):</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!A shortcut function to display all of the variables contained within a netcdf file.</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="stringliteral">    If the filename contains wildcards, they&#39;ll be expanded and only the first file used.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    files = glob.glob(netcdf_filename)</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    netcdf_file = netCDF4.Dataset(files[0])</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keywordflow">print</span> netcdf_file.variables.keys()</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    netcdf_file.close()</div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  </div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">plt_mon_stats</a>(netcdf_filename,</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                    variables=[<span class="stringliteral">&#39;advcfl_uvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_vvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_wvel_max&#39;</span>],</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                    time_units=<span class="stringliteral">&#39;days&#39;</span>,</div>
-<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">  362</a></span>&#160;                    output_filename=<span class="keywordtype">None</span>):</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Plot some monitor file variables. &#39;netcdf_filename&#39; can contain shell wild cards, but only the first matching file will be used.</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="stringliteral">    Options include:</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="stringliteral">    * advcfl_uvel_max</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="stringliteral">    * advcfl_vvel_max</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="stringliteral">    * advcfl_wvel_max</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="stringliteral">    * ke_mean</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="stringliteral">    * dynstat_theta_mean</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="stringliteral">    * dynstat_sst_mean</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="stringliteral">    * dynstat_sst_sd</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="stringliteral">    * dynstat_salt_max</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="stringliteral">    * dynstat_salt_min</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="stringliteral">    * dynstat_uvel_mean</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="stringliteral">    * dynstat_vvel_mean</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="stringliteral">    * dynstat_wvel_mean</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="stringliteral">    * ...</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="stringliteral">    * and many others.</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    files = glob.glob(netcdf_filename)</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    monitor_output = netCDF4.Dataset(files[0])</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">if</span> time_units == <span class="stringliteral">&#39;days&#39;</span>:</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400)</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordflow">elif</span> time_units == <span class="stringliteral">&#39;years&#39;</span>:</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400*365)</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">raise</span> ValueError(str(time_units) + <span class="stringliteral">&#39; is not a valid option for time_units&#39;</span>)</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    data = {}</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="keywordflow">for</span> stat <span class="keywordflow">in</span> variables:</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        data[stat] = monitor_output.variables[stat][:]</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        plt.plot(time,data[stat],label=stat)</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    plt.xlabel(<span class="stringliteral">&#39;Model &#39;</span>+ time_units)</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    plt.legend()</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    data[<span class="stringliteral">&#39;time&#39;</span>] = time</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordflow">if</span> output_filename != <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        plt.savefig(output_filename)</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">return</span> data</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  </div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">plt_mon_stats</a>(netcdf_filename,</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                    variables=[<span class="stringliteral">&#39;advcfl_uvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_vvel_max&#39;</span>,<span class="stringliteral">&#39;advcfl_wvel_max&#39;</span>],</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                    time_units=<span class="stringliteral">&#39;days&#39;</span>,</div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">  363</a></span>&#160;                    output_filename=<span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Plot some monitor file variables. &#39;netcdf_filename&#39; can contain shell wild cards, but only the first matching file will be used.</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="stringliteral">    Options include:</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="stringliteral">    * advcfl_uvel_max</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="stringliteral">    * advcfl_vvel_max</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="stringliteral">    * advcfl_wvel_max</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="stringliteral">    * ke_mean</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="stringliteral">    * dynstat_theta_mean</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="stringliteral">    * dynstat_sst_mean</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="stringliteral">    * dynstat_sst_sd</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="stringliteral">    * dynstat_salt_max</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="stringliteral">    * dynstat_salt_min</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="stringliteral">    * dynstat_uvel_mean</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="stringliteral">    * dynstat_vvel_mean</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="stringliteral">    * dynstat_wvel_mean</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="stringliteral">    * ...</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="stringliteral">    * and many others.</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    files = glob.glob(netcdf_filename)</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    monitor_output = netCDF4.Dataset(files[0])</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    </div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordflow">if</span> time_units == <span class="stringliteral">&#39;days&#39;</span>:</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400)</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">elif</span> time_units == <span class="stringliteral">&#39;years&#39;</span>:</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        time = monitor_output.variables[<span class="stringliteral">&#39;time_secondsf&#39;</span>][:]/(86400*365)</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">raise</span> ValueError(str(time_units) + <span class="stringliteral">&#39; is not a valid option for time_units&#39;</span>)</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    data = {}</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">for</span> stat <span class="keywordflow">in</span> variables:</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        data[stat] = monitor_output.variables[stat][:]</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        plt.plot(time,data[stat],label=stat)</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    plt.xlabel(<span class="stringliteral">&#39;Model &#39;</span>+ time_units)</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    plt.legend()</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    data[<span class="stringliteral">&#39;time&#39;</span>] = time</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keywordflow">if</span> output_filename != <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        plt.savefig(output_filename)</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    <span class="keywordflow">return</span> data</div>
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;</div>
-<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">  406</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">replace_nans</a>(array, max_iter, tol, kernel_size, method=&#39;localmean&#39;):</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Replace NaN elements in an array using an iterative image inpainting algorithm.</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="stringliteral">    The algorithm is the following:</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="stringliteral">    1) For each element in the input array, replace it by a weighted average</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="stringliteral">       of the neighbouring elements which are not NaN themselves. The weights depends</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="stringliteral">       of the method type. If ``method=localmean`` weight are equal to 1/( (2*kernel_size+1)**2 -1 )</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="stringliteral">       </span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="stringliteral">    2) Several iterations are needed if there are adjacent NaN elements.</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="stringliteral">       If this is the case, information is &quot;spread&quot; from the edges of the missing</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="stringliteral">       regions iteratively, until the variation is below a certain threshold. </span></div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;<span class="stringliteral">    Parameters</span></div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="stringliteral">    ----------</span></div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="stringliteral">    array : 2d np.ndarray</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;<span class="stringliteral">        an array containing NaN elements that have to be replaced</span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="stringliteral">    max_iter : int</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="stringliteral">        the number of iterations</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="stringliteral">    tol: float</span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="stringliteral">        the difference between subsequent iterations for stopping the algorithm</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="stringliteral">    kernel_size : int</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="stringliteral">        the size of the kernel, default is 1</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="stringliteral">        </span></div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="stringliteral">    method : str</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="stringliteral">        the method used to replace invalid values. Valid options are</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="stringliteral">        `localmean`.</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="stringliteral">        </span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="stringliteral">    Returns</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="stringliteral">    --------</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="stringliteral">    filled : 2d np.ndarray</span></div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="stringliteral">        a copy of the input array, where NaN elements have been replaced.</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
+<div class="line"><a name="l00407"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">  407</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">replace_nans</a>(array, max_iter, tol, kernel_size, method=&#39;localmean&#39;):</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!Replace NaN elements in an array using an iterative image inpainting algorithm.</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="stringliteral">    The algorithm is the following:</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="stringliteral">    1) For each element in the input array, replace it by a weighted average</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="stringliteral">       of the neighbouring elements which are not NaN themselves. The weights depends</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="stringliteral">       of the method type. If ``method=localmean`` weight are equal to 1/( (2*kernel_size+1)**2 -1 )</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="stringliteral">       </span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="stringliteral">    2) Several iterations are needed if there are adjacent NaN elements.</span></div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="stringliteral">       If this is the case, information is &quot;spread&quot; from the edges of the missing</span></div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="stringliteral">       regions iteratively, until the variation is below a certain threshold. </span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<span class="stringliteral">    Parameters</span></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="stringliteral">    ----------</span></div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;<span class="stringliteral">    array : 2d np.ndarray</span></div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="stringliteral">        an array containing NaN elements that have to be replaced</span></div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<span class="stringliteral">    max_iter : int</span></div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="stringliteral">        the number of iterations</span></div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="stringliteral">    tol: float</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<span class="stringliteral">        the difference between subsequent iterations for stopping the algorithm</span></div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="stringliteral">    kernel_size : int</span></div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="stringliteral">        the size of the kernel, default is 1</span></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="stringliteral">        </span></div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;<span class="stringliteral">    method : str</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="stringliteral">        the method used to replace invalid values. Valid options are</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="stringliteral">        `localmean`.</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="stringliteral">        </span></div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="stringliteral">    Returns</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="stringliteral">    --------</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="stringliteral">    filled : 2d np.ndarray</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="stringliteral">        a copy of the input array, where NaN elements have been replaced.</span></div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;<span class="stringliteral"></span></div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="stringliteral">    ---------</span></div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="stringliteral">    ##Acknowledgements</span></div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="stringliteral">    </span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="stringliteral">    Code for this function is (very slightly modified) from </span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="stringliteral">    https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="stringliteral">    which is part of the OpenPIV project.</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="stringliteral">    * docs here: http://alexlib.github.io/openpiv-python/index.html </span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="stringliteral">    * code here: https://github.com/gasagna/openpiv-python</span></div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="stringliteral">        </span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    filled = np.empty( [array.shape[0], array.shape[1]], dtype=np.float64)</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    kernel = np.empty( (2*kernel_size+1, 2*kernel_size+1), dtype=np.float64 ) </div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    <span class="comment"># indices where array is NaN</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    inans, jnans = np.nonzero( np.isnan(array) )</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    <span class="comment"># number of NaN elements</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    n_nans = len(inans)</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    </div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <span class="comment"># arrays which contain replaced values to check for convergence</span></div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    replaced_new = np.zeros( n_nans, dtype=np.float64)</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    replaced_old = np.zeros( n_nans, dtype=np.float64)</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    </div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="comment"># depending on kernel type, fill kernel array</span></div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    <span class="keywordflow">if</span> method == <span class="stringliteral">&#39;localmean&#39;</span>:</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                kernel[i,j] = 1.0</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        <span class="keywordflow">raise</span> ValueError( <span class="stringliteral">&#39;method not valid. Should be one of `localmean`.&#39;</span>)</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;    </div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;    <span class="comment"># fill new array with input elements</span></div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(array.shape[0]):</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(array.shape[1]):</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;            filled[i,j] = array[i,j]</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="stringliteral">    ---------</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="stringliteral">    ##Acknowledgements</span></div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="stringliteral">    </span></div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="stringliteral">    Code for this function is (very slightly modified) from </span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="stringliteral">    https://github.com/gasagna/openpiv-python/commit/81038df6d218b893b044193a739026630238fb22#diff-9b2f4f9bb8180e4451e8f85164df7217</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="stringliteral">    which is part of the OpenPIV project.</span></div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="stringliteral">    * docs here: http://alexlib.github.io/openpiv-python/index.html </span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="stringliteral">    * code here: https://github.com/gasagna/openpiv-python</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="stringliteral">        </span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    filled = np.empty( [array.shape[0], array.shape[1]], dtype=np.float64)</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    kernel = np.empty( (2*kernel_size+1, 2*kernel_size+1), dtype=np.float64 ) </div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    <span class="comment"># indices where array is NaN</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    inans, jnans = np.nonzero( np.isnan(array) )</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    </div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    <span class="comment"># number of NaN elements</span></div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    n_nans = len(inans)</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    </div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    <span class="comment"># arrays which contain replaced values to check for convergence</span></div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    replaced_new = np.zeros( n_nans, dtype=np.float64)</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    replaced_old = np.zeros( n_nans, dtype=np.float64)</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    </div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    <span class="comment"># depending on kernel type, fill kernel array</span></div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <span class="keywordflow">if</span> method == <span class="stringliteral">&#39;localmean&#39;</span>:</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                kernel[i,j] = 1.0</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        <span class="keywordflow">raise</span> ValueError( <span class="stringliteral">&#39;method not valid. Should be one of `localmean`.&#39;</span>)</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;    </div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    <span class="comment"># fill new array with input elements</span></div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(array.shape[0]):</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(array.shape[1]):</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;            filled[i,j] = array[i,j]</div>
 <div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    filled = <a class="code" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">numerics_replace_nans</a>(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old)</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    <span class="comment"># replace remaining nans with global mean</span></div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    inans, jnans = np.nonzero( np.isnan(filled) )</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    n_nans = len(inans)</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="comment"># for each NaN element</span></div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    fill_value = np.nanmean(filled)</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(n_nans):</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        i = inans[k]</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        j = jnans[k]</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    <span class="comment">#filled = numerics_replace_nans(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old)</span></div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    <span class="comment"># make several passes</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    <span class="comment"># until we reach convergence</span></div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    <span class="keywordflow">for</span> it <span class="keywordflow">in</span> range(max_iter):</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        </div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(n_nans):</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            i = inans[k]</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;            j = jnans[k]</div>
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            </div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;        filled[i,j] = fill_value</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="comment"># Check the corners - these are the tricky bits</span></div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="comment">#    filled[0,0] = (filled[0,1] + filled[1,0] + filled[1,1])/3</span></div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,-1])):</span></div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    <span class="comment">#    filled[0,-1] = (filled[0,-2] + filled[1,-1] + filled[1,-2])/3</span></div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    <span class="comment">#    filled[-1,0] = (filled[-1,1] + filled[-2,0] + filled[-2,1])/3</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    <span class="comment">#    filled[-1,-1] = (filled[-1,-2] + filled[-2,-1] + filled[-2,-2])/3</span></div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;    <span class="comment"># now go around the edge and fill in any nans found there</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    <span class="comment"># indices where array is NaN</span></div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    <span class="comment">#jnans = np.nonzero( np.isnan(filled[0,:]) )</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="comment"># number of NaN elements</span></div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    <span class="comment">#n_nans = len(jnans)</span></div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    <span class="comment"># for each NaN element</span></div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    <span class="comment">#    j = jnans[k]</span></div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="comment">#    filled[0,j] = np.nanmean(filled[0,j-1:j+2])</span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    <span class="comment">#jnans = np.nonzero( np.isnan(filled[-1,:]) )</span></div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    <span class="comment">#n_nans = len(jnans)</span></div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    <span class="comment">#    j = jnans[k]</span></div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;    <span class="comment">#    filled[-1,j] = np.nanmean(filled[-1,j-1:j+2])</span></div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;    <span class="comment">#inans = np.nonzero( np.isnan(filled[:,0]) )</span></div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;    <span class="comment"># number of NaN elements</span></div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;    <span class="comment">#n_nans = len(inans)</span></div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;    <span class="comment"># for each NaN element</span></div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;    <span class="comment">#    i = inans[k]</span></div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;    <span class="comment">#    filled[i,0] = np.nanmean(filled[i-1:i+2,0])</span></div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <span class="comment">#inans = np.nonzero( np.isnan(filled[:,-1]) )</span></div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    <span class="comment"># number of NaN elements</span></div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <span class="comment">#n_nans = len(inans)</span></div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="comment"># for each NaN element</span></div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="comment">#    i = inans[k]</span></div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="comment">#    filled[i,-1] = np.nanmean(filled[i-1:i+2,-1])</span></div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    <span class="keywordflow">return</span> filled</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;@numba.jit</div>
-<div class="line"><a name="l00548"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">  548</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">numerics_replace_nans</a>(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old):</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    <span class="comment"># make several passes</span></div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;    <span class="comment"># until we reach convergence</span></div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;    <span class="keywordflow">for</span> it <span class="keywordflow">in</span> range(max_iter):</div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;        </div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;        <span class="comment"># for each NaN element</span></div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;        <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(n_nans):</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;            i = inans[k]</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;            j = jnans[k]</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;            </div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;            <span class="comment"># initialize to zero</span></div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;            filled[i,j] = 0.0</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;            n = 0</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;            </div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;            <span class="comment"># loop over the kernel</span></div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            <span class="keywordflow">for</span> I <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                <span class="keywordflow">for</span> J <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                   </div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                    <span class="comment"># if we are not out of the boundaries</span></div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                    <span class="keywordflow">if</span> i+I-kernel_size &lt; filled.shape[0] <span class="keywordflow">and</span> i+I-kernel_size &gt;= 0:</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                        <span class="keywordflow">if</span> j+J-kernel_size &lt; filled.shape[1] <span class="keywordflow">and</span> j+J-kernel_size &gt;= 0:</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                                                </div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                            <span class="comment"># if the neighbour element is not NaN itself.</span></div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                            <span class="keywordflow">if</span> filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                                </div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                                <span class="comment"># do not sum itself</span></div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                                <span class="keywordflow">if</span> I-kernel_size != 0 <span class="keywordflow">and</span> J-kernel_size != 0:</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                                    </div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                                    <span class="comment"># convolve kernel with original array</span></div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                                    filled[i,j] += filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                                    n = n + 1</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;            <span class="comment"># divide value by effective number of added elements</span></div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;            <span class="keywordflow">if</span> n != 0:</div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                filled[i,j] = filled[i,j] / n</div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                replaced_new[k] = filled[i,j]</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                filled[i,j] = np.nan</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                </div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;        <span class="comment"># check if mean square difference between values of replaced </span></div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;        <span class="comment">#elements is below a certain tolerance</span></div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        <span class="keywordflow">if</span> np.mean( (replaced_new-replaced_old)**2 ) &lt; tol:</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;            <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            <span class="keywordflow">for</span> l <span class="keywordflow">in</span> range(n_nans):</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                replaced_old[l] = replaced_new[l]</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;    <span class="keywordflow">return</span> filled</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    <span class="keyword">def </span>shift_vort_to_T(array):</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;! Shift the array from vorticity points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        shifted = (array[...,0:-1] + array[...,1:])/2</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        <span class="keywordflow">return</span> shifted</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;</div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;    <span class="keyword">def </span>shift_U_to_T(array):</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;! Shift the array from UVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;        shifted = (array[...,0:-1] + array[...,1:])/2</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;        <span class="keywordflow">return</span> shifted</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;    <span class="keyword">def </span>shift_V_to_T(array):</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;! Shift the array from VVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;        shifted = (array[...,0:-1,:] + array[...,1:,:])/2</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;        <span class="keywordflow">return</span> shifted</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;    <span class="keyword">def </span>shift_W_to_T(array):</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;! Shift the array from WVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;        shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;        <span class="keywordflow">return</span> shifted</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;            <span class="comment"># initialize to zero</span></div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            filled[i,j] = 0.0</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            n = 0</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;            </div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;            <span class="comment"># loop over the kernel</span></div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            <span class="keywordflow">for</span> I <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                <span class="keywordflow">for</span> J <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                   </div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                    <span class="comment"># if we are not out of the boundaries</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                    <span class="keywordflow">if</span> i+I-kernel_size &lt; filled.shape[0] <span class="keywordflow">and</span> i+I-kernel_size &gt;= 0:</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                        <span class="keywordflow">if</span> j+J-kernel_size &lt; filled.shape[1] <span class="keywordflow">and</span> j+J-kernel_size &gt;= 0:</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                                                </div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                            <span class="comment"># if the neighbour element is not NaN itself.</span></div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                            <span class="keywordflow">if</span> filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                                </div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                                <span class="comment"># do not sum itself</span></div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                                <span class="keywordflow">if</span> I-kernel_size != 0 <span class="keywordflow">and</span> J-kernel_size != 0:</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                                    </div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                                    <span class="comment"># convolve kernel with original array</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                                    filled[i,j] += filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                                    n = n + 1</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            <span class="comment"># divide value by effective number of added elements</span></div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;            <span class="keywordflow">if</span> n != 0:</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                filled[i,j] = filled[i,j] / n</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                replaced_new[k] = filled[i,j]</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                filled[i,j] = np.nan</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;                </div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        <span class="comment"># check if mean square difference between values of replaced </span></div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        <span class="comment">#elements is below a certain tolerance</span></div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        <span class="keywordflow">if</span> np.mean( (replaced_new-replaced_old)**2 ) &lt; tol:</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;            <span class="keywordflow">for</span> l <span class="keywordflow">in</span> range(n_nans):</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                replaced_old[l] = replaced_new[l]</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;    <span class="comment"># replace remaining nans with global mean</span></div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    inans, jnans = np.nonzero( np.isnan(filled) )</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    n_nans = len(inans)</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;    <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    fill_value = np.nanmean(filled)</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(n_nans):</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;        i = inans[k]</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;        j = jnans[k]</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;            </div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;        filled[i,j] = fill_value</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;    <span class="comment"># Check the corners - these are the tricky bits</span></div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    <span class="comment">#    filled[0,0] = (filled[0,1] + filled[1,0] + filled[1,1])/3</span></div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,-1])):</span></div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;    <span class="comment">#    filled[0,-1] = (filled[0,-2] + filled[1,-1] + filled[1,-2])/3</span></div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;    <span class="comment">#    filled[-1,0] = (filled[-1,1] + filled[-2,0] + filled[-2,1])/3</span></div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    <span class="comment">#if np.nonzero(np.isnan(filled[0,0])):</span></div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;    <span class="comment">#    filled[-1,-1] = (filled[-1,-2] + filled[-2,-1] + filled[-2,-2])/3</span></div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    <span class="comment"># now go around the edge and fill in any nans found there</span></div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    <span class="comment"># indices where array is NaN</span></div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    <span class="comment">#jnans = np.nonzero( np.isnan(filled[0,:]) )</span></div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;    <span class="comment"># number of NaN elements</span></div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;    <span class="comment">#n_nans = len(jnans)</span></div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;    <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    <span class="comment">#    j = jnans[k]</span></div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;    <span class="comment">#    filled[0,j] = np.nanmean(filled[0,j-1:j+2])</span></div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;</div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;    <span class="comment">#jnans = np.nonzero( np.isnan(filled[-1,:]) )</span></div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;    <span class="comment">#n_nans = len(jnans)</span></div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    <span class="comment">#    j = jnans[k]</span></div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    <span class="comment">#    filled[-1,j] = np.nanmean(filled[-1,j-1:j+2])</span></div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;</div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    <span class="comment">#inans = np.nonzero( np.isnan(filled[:,0]) )</span></div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;    <span class="comment"># number of NaN elements</span></div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <span class="comment">#n_nans = len(inans)</span></div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;    <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;    <span class="comment">#    i = inans[k]</span></div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;    <span class="comment">#    filled[i,0] = np.nanmean(filled[i-1:i+2,0])</span></div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;    <span class="comment">#inans = np.nonzero( np.isnan(filled[:,-1]) )</span></div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;    <span class="comment"># number of NaN elements</span></div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    <span class="comment">#n_nans = len(inans)</span></div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;    <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;    <span class="comment">#for k in range(n_nans):</span></div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;    <span class="comment">#    i = inans[k]</span></div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;    <span class="comment">#    filled[i,-1] = np.nanmean(filled[i-1:i+2,-1])</span></div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;    <span class="keywordflow">return</span> filled</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;<span class="comment">#@numba.jit</span></div>
+<div class="line"><a name="l00595"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">  595</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">numerics_replace_nans</a>(max_iter,n_nans,inans,jnans,filled,kernel,kernel_size,tol,replaced_new,replaced_old):</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;    <span class="comment"># make several passes</span></div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    <span class="comment"># until we reach convergence</span></div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    <span class="keywordflow">for</span> it <span class="keywordflow">in</span> range(max_iter):</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        </div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="comment"># for each NaN element</span></div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(n_nans):</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;            i = inans[k]</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;            j = jnans[k]</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;            </div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;            <span class="comment"># initialize to zero</span></div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;            filled[i,j] = 0.0</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;            n = 0</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;            </div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;            <span class="comment"># loop over the kernel</span></div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;            <span class="keywordflow">for</span> I <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;                <span class="keywordflow">for</span> J <span class="keywordflow">in</span> range(2*kernel_size+1):</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                   </div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                    <span class="comment"># if we are not out of the boundaries</span></div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                    <span class="keywordflow">if</span> i+I-kernel_size &lt; filled.shape[0] <span class="keywordflow">and</span> i+I-kernel_size &gt;= 0:</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                        <span class="keywordflow">if</span> j+J-kernel_size &lt; filled.shape[1] <span class="keywordflow">and</span> j+J-kernel_size &gt;= 0:</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                                                </div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                            <span class="comment"># if the neighbour element is not NaN itself.</span></div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                            <span class="keywordflow">if</span> filled[i+I-kernel_size, j+J-kernel_size] == filled[i+I-kernel_size, j+J-kernel_size] :</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                                </div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                                <span class="comment"># do not sum itself</span></div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                                <span class="keywordflow">if</span> I-kernel_size != 0 <span class="keywordflow">and</span> J-kernel_size != 0:</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                                    </div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                                    <span class="comment"># convolve kernel with original array</span></div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                                    filled[i,j] += filled[i+I-kernel_size, j+J-kernel_size]*kernel[I, J]</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                                    n = n + 1</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;            <span class="comment"># divide value by effective number of added elements</span></div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;            <span class="keywordflow">if</span> n != 0:</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                filled[i,j] = filled[i,j] / n</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                replaced_new[k] = filled[i,j]</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                filled[i,j] = np.nan</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                </div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;        <span class="comment"># check if mean square difference between values of replaced </span></div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        <span class="comment">#elements is below a certain tolerance</span></div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;        <span class="keywordflow">if</span> np.mean( (replaced_new-replaced_old)**2 ) &lt; tol:</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;            <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;            <span class="keywordflow">for</span> l <span class="keywordflow">in</span> range(n_nans):</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;                replaced_old[l] = replaced_new[l]</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;    <span class="keywordflow">return</span> filled</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;</div>
+<div class="line"><a name="l00647"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#aed1104c67878e97d1fce0640dfd0bb26">  647</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#aed1104c67878e97d1fce0640dfd0bb26">shift_vort_to_T</a>(array):</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;! Shift the array from vorticity points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;    shifted = (array[...,0:-1] + array[...,1:])/2</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;    shifted = (shifted[...,0:-1,:] + shifted[...,1:,:])/2</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    <span class="keywordflow">return</span> shifted</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;</div>
+<div class="line"><a name="l00653"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a4080d0c45351dcd041bf1c77e26f42f4">  653</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a4080d0c45351dcd041bf1c77e26f42f4">shift_U_to_T</a>(array):</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;! Shift the array from UVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    shifted = (array[...,0:-1] + array[...,1:])/2</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;    <span class="keywordflow">return</span> shifted</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;</div>
+<div class="line"><a name="l00659"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a26bab479bedecc18aa830eda439ab9b7">  659</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a26bab479bedecc18aa830eda439ab9b7">shift_V_to_T</a>(array):</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;! Shift the array from VVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    shifted = (array[...,0:-1,:] + array[...,1:,:])/2</div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;    <span class="keywordflow">return</span> shifted</div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;</div>
+<div class="line"><a name="l00665"></a><span class="lineno"><a class="line" href="namespacemitgcm_1_1functions.html#a53542e46800d54165cbda624b24a1d83">  665</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacemitgcm_1_1functions.html#a53542e46800d54165cbda624b24a1d83">shift_W_to_T</a>(array):</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;! Shift the array from WVEL points to the corresponding tracer point.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;    shifted = (array[...,0:-1,:,:] + array[...,1:,:,:])/2</div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;    <span class="keywordflow">return</span> shifted</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;</div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a4027a61553c5b8f04b4fcb335224b30e"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a4027a61553c5b8f04b4fcb335224b30e">mitgcm.functions.interp_field</a></div><div class="ttdeci">def interp_field</div><div class="ttdoc">Interpolate a given field onto a different grid. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00290">functions.py:290</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_ab197f4884fc8a0ab7d38dc5a5cfd5eb2"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">mitgcm.functions.show_variables</a></div><div class="ttdeci">def show_variables(netcdf_filename)</div><div class="ttdoc">A shortcut function to display all of the variables contained within a netcdf file. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00347">functions.py:347</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_aed1104c67878e97d1fce0640dfd0bb26"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#aed1104c67878e97d1fce0640dfd0bb26">mitgcm.functions.shift_vort_to_T</a></div><div class="ttdeci">def shift_vort_to_T(array)</div><div class="ttdoc">Shift the array from vorticity points to the corresponding tracer point. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00647">functions.py:647</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_ab197f4884fc8a0ab7d38dc5a5cfd5eb2"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab197f4884fc8a0ab7d38dc5a5cfd5eb2">mitgcm.functions.show_variables</a></div><div class="ttdeci">def show_variables(netcdf_filename)</div><div class="ttdoc">A shortcut function to display all of the variables contained within a netcdf file. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00348">functions.py:348</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_ab12baa939c3055bc4c9bceb54da9f16e"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab12baa939c3055bc4c9bceb54da9f16e">mitgcm.functions.test_layer_integrate</a></div><div class="ttdeci">def test_layer_integrate()</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00276">functions.py:276</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_a6070f3c37fd5bc2f9f9e5c53dbd2d986"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">mitgcm.functions.plt_mon_stats</a></div><div class="ttdeci">def plt_mon_stats</div><div class="ttdoc">Plot some monitor file variables. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00362">functions.py:362</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a6070f3c37fd5bc2f9f9e5c53dbd2d986"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a6070f3c37fd5bc2f9f9e5c53dbd2d986">mitgcm.functions.plt_mon_stats</a></div><div class="ttdeci">def plt_mon_stats</div><div class="ttdoc">Plot some monitor file variables. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00363">functions.py:363</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a26bab479bedecc18aa830eda439ab9b7"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a26bab479bedecc18aa830eda439ab9b7">mitgcm.functions.shift_V_to_T</a></div><div class="ttdeci">def shift_V_to_T(array)</div><div class="ttdoc">Shift the array from VVEL points to the corresponding tracer point. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00659">functions.py:659</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a97ad44d662af0ab6cd58e2090a0dfe62"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a97ad44d662af0ab6cd58e2090a0dfe62">mitgcm.functions.extract_on_surface</a></div><div class="ttdeci">def extract_on_surface(input_array, surface_locations, axis_values)</div><div class="ttdoc">Extract the value of a 3D field on a 2D surface. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00102">functions.py:102</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_a79d214026dcd3ed31e27a1d2c9249cd5"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">mitgcm.functions.export_binary</a></div><div class="ttdeci">def export_binary</div><div class="ttdoc">Export binary files that can be imported into the MITgcm. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00333">functions.py:333</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a53542e46800d54165cbda624b24a1d83"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a53542e46800d54165cbda624b24a1d83">mitgcm.functions.shift_W_to_T</a></div><div class="ttdeci">def shift_W_to_T(array)</div><div class="ttdoc">Shift the array from WVEL points to the corresponding tracer point. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00665">functions.py:665</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a79d214026dcd3ed31e27a1d2c9249cd5"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a79d214026dcd3ed31e27a1d2c9249cd5">mitgcm.functions.export_binary</a></div><div class="ttdeci">def export_binary</div><div class="ttdoc">Export binary files that can be imported into the MITgcm. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00334">functions.py:334</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_ab26c3c96d103e888d18a0378ebd78355"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#ab26c3c96d103e888d18a0378ebd78355">mitgcm.functions.layer_integrate</a></div><div class="ttdeci">def layer_integrate</div><div class="ttdoc">Integrate between two non-trivial surfaces, &#39;upper_contour&#39; and &#39;lower_contour&#39;. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00143">functions.py:143</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_a4f5e2c48ffb91f133837e5fcae1eb143"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">mitgcm.functions.numerics_replace_nans</a></div><div class="ttdeci">def numerics_replace_nans(max_iter, n_nans, inans, jnans, filled, kernel, kernel_size, tol, replaced_new, replaced_old)</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00548">functions.py:548</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a4f5e2c48ffb91f133837e5fcae1eb143"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a4f5e2c48ffb91f133837e5fcae1eb143">mitgcm.functions.numerics_replace_nans</a></div><div class="ttdeci">def numerics_replace_nans(max_iter, n_nans, inans, jnans, filled, kernel, kernel_size, tol, replaced_new, replaced_old)</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00595">functions.py:595</a></div></div>
 <div class="ttc" id="namespacemitgcm_1_1functions_html_a09eadeb67465639c4d304789365e17b7"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a09eadeb67465639c4d304789365e17b7">mitgcm.functions.calc_surface</a></div><div class="ttdeci">def calc_surface</div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00021">functions.py:21</a></div></div>
-<div class="ttc" id="namespacemitgcm_1_1functions_html_accc175fb281b4d8b8ffa973260d0b792"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">mitgcm.functions.replace_nans</a></div><div class="ttdeci">def replace_nans</div><div class="ttdoc">Replace NaN elements in an array using an iterative image inpainting algorithm. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00406">functions.py:406</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_a4080d0c45351dcd041bf1c77e26f42f4"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#a4080d0c45351dcd041bf1c77e26f42f4">mitgcm.functions.shift_U_to_T</a></div><div class="ttdeci">def shift_U_to_T(array)</div><div class="ttdoc">Shift the array from UVEL points to the corresponding tracer point. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00653">functions.py:653</a></div></div>
+<div class="ttc" id="namespacemitgcm_1_1functions_html_accc175fb281b4d8b8ffa973260d0b792"><div class="ttname"><a href="namespacemitgcm_1_1functions.html#accc175fb281b4d8b8ffa973260d0b792">mitgcm.functions.replace_nans</a></div><div class="ttdeci">def replace_nans</div><div class="ttdoc">Replace NaN elements in an array using an iterative image inpainting algorithm. </div><div class="ttdef"><b>Definition:</b> <a href="functions_8py_source.html#l00407">functions.py:407</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 28 2015 11:12:54 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 4 2015 17:34:22 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
