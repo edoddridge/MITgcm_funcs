@@ -11,6 +11,8 @@ These functions work on cartesian and spherical polar grids - other grids, such 
 Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.
 
 Streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time.
+
+7 October 2015 - Have realised that these definitions aren't quite right, will need to change them. https://en.wikipedia.org/wiki/Streamlines,_streaklines,_and_pathlines
 """
 
 
@@ -473,7 +475,7 @@ def stream3_many(u,v,w,
 #####################################################
 
 
-def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+def pathlines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             startx,starty,startz,startt,
             t,
             grid_object,            
@@ -822,9 +824,37 @@ def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     return x_stream,y_stream,z_stream,t_stream
 
 
-######################################################################
+def streaklines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            startx,starty,startz,startt,
+            t,
+            grid_object,            
+            u_netcdf_variable='UVEL',
+            v_netcdf_variable='VVEL',
+            w_netcdf_variable='WVEL',
+            t_max=3.1e5,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None):
 
-def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+    import warnings
+    warnings.warn("streaklines should not be called any longer. \n Use pathlines instead.")
+
+    return pathlines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            startx,starty,startz,startt,
+            t,
+            grid_object,            
+            u_netcdf_variable='UVEL',
+            v_netcdf_variable='VVEL',
+            w_netcdf_variable='WVEL',
+            t_max=3.1e5,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None)
+            ######################################################################
+
+def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             startx,starty,startz,startt,
             t,
             grid_object,            
@@ -1121,6 +1151,36 @@ def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     w_netcdf_filehandle.close()
 
     return x_stream,y_stream,z_stream,t_stream
+
+def streaklines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            startx,starty,startz,startt,
+            t,
+            grid_object,            
+            u_netcdf_variable='UVEL',
+            v_netcdf_variable='VVEL',
+            w_netcdf_variable='WVEL',
+            t_max=3.1e5,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None):
+    """! Included only for backwards compatibility. Will be removed soon. Use pathlines_many instead"""
+
+    import warnings
+    warnings.warn("streaklines_many should not be called any longer. \n Use pathlines_many instead.")
+
+    return pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            startx,starty,startz,startt,
+            t,
+            grid_object,            
+            u_netcdf_variable='UVEL',
+            v_netcdf_variable='VVEL',
+            w_netcdf_variable='WVEL',
+            t_max=3.1e5,delta_t=3600,
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None)
 
     #################################################################################
 def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
