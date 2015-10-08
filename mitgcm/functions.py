@@ -19,8 +19,13 @@ import mitgcm
 
     
 def calc_surface(input_array,surface_value,axis_values,method='linear'):
-    """ nearest finds the index just before the search value. linear uses linear interpolation to find the location between grid points.
-    May give silly answers if the input_array is not monotonic in the search direction."""
+    """! Calculate an isosurface of input_array. This function is fast, but it is not designed to deal well with non-monotonicity in the search direction.
+
+    There are two search options:
+    * 'nearest' finds the index just before the search value
+    * 'linear' uses linear interpolation to find the location between grid points.
+    
+    May give silly answers if input_array is not monotonic in the search direction."""
 
 
     axis=0
@@ -299,6 +304,16 @@ def interp_field(field,old_x,old_y,new_x,new_y,interp_order,fill_nans='no',max_i
     * fill_nans - if 'no' values in field are not altered. If 'yes', then NaNs in 'field'
     are replace with the mean of surrounding non-NaNs.
     * max_its - maximum number of iterations to perform when healing NaNs in field."""
+
+    # reshape input field if it's only given as a 2D array
+    if len(field.shape) == 2:
+        field = field.reshape((1,field.shape[0],field.shape[1]))
+    elif len(field.shape) == 3:
+        pass
+    else:
+        error_message = 'Input field is must be either 2D or 3D.'
+        raise RuntimeError(error_message)
+        
 
     field_interp = np.zeros((field.shape[0],
                      len(new_y),
