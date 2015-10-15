@@ -231,10 +231,10 @@ def stream3(u,v,w,
     len_y_w = len(y_w)
     len_z_w = len(z_w)
 
-    x_stream = np.ones((int(t_max/delta_t)+2))*startx
-    y_stream = np.ones((int(t_max/delta_t)+2))*starty
-    z_stream = np.ones((int(t_max/delta_t)+2))*startz
-    t_stream = np.zeros((int(t_max/delta_t)+2))
+    x_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startx
+    y_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*starty
+    z_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startz
+    t_stream = np.zeros((int(np.fabs(t_max/delta_t))+2))
 
     t = 0 #set the initial time to be zero
     i=0
@@ -243,7 +243,8 @@ def stream3(u,v,w,
 
     
     # Runge-Kutta fourth order method to estimate next position.
-    while t < t_max:
+    while i < np.fabs(t_max/delta_t):
+    #t < t_max:
         if grid_object['grid_type']=='polar':
             # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
             deg_per_m = np.array([1./(1852.*60.),np.cos(starty*np.pi/180.)/(1852.*60.)])
@@ -401,10 +402,10 @@ def stream3_many(u,v,w,
     len_y_w = len(y_w)
     len_z_w = len(z_w)
 
-    x_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startx[:,np.newaxis]
-    y_stream = np.ones((len(startx),int(t_max/delta_t)+2))*starty[:,np.newaxis]
-    z_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startz[:,np.newaxis]
-    t_stream = np.zeros((int(t_max/delta_t)+2))
+    x_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startx[:,np.newaxis]
+    y_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*starty[:,np.newaxis]
+    z_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startz[:,np.newaxis]
+    t_stream = np.zeros((int(np.fabs(t_max/delta_t))+2))
 
     t = 0 #set the initial time to be zero
     i=0
@@ -415,7 +416,8 @@ def stream3_many(u,v,w,
         deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
     
     # Runge-Kutta fourth order method to estimate next position.
-    while t < t_max:
+    while i < np.fabs(t_max/delta_t):
+        #t < t_max:
         if grid_object['grid_type']=='polar':
             # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
             deg_per_m[:,1] = np.cos(starty*np.pi/180.)/(1852.*60.)# multiplier for u
@@ -596,10 +598,10 @@ def pathlines(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     if w_bias_field is None:
         w_bias_field = np.zeros_like(grid_object['wet_mask_W'][:])
 
-    x_stream = np.ones((int(t_max/delta_t)+2))*startx
-    y_stream = np.ones((int(t_max/delta_t)+2))*starty
-    z_stream = np.ones((int(t_max/delta_t)+2))*startz
-    t_stream = np.ones((int(t_max/delta_t)+2))*startt
+    x_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startx
+    y_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*starty
+    z_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startz
+    t_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startt
 
     t_RK = startt #set the initial time to be the given start time
     z_RK = startz
@@ -955,10 +957,10 @@ def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     if w_bias_field is None:
         w_bias_field = np.zeros_like(grid_object['wet_mask_W'][1:,...])
 
-    x_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startx[:,np.newaxis]
-    y_stream = np.ones((len(startx),int(t_max/delta_t)+2))*starty[:,np.newaxis]
-    z_stream = np.ones((len(startx),int(t_max/delta_t)+2))*startz[:,np.newaxis]
-    t_stream = np.ones((int(t_max/delta_t)+2))*startt
+    x_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startx[:,np.newaxis]
+    y_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*starty[:,np.newaxis]
+    z_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startz[:,np.newaxis]
+    t_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startt
 
     t_RK = startt #set the initial time to be the given start time
     z_RK = startz
