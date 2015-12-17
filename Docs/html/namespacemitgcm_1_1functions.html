@@ -106,6 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a09eadeb67465639c4d304789365e17b7"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a09eadeb67465639c4d304789365e17b7">calc_surface</a></td></tr>
+<tr class="memdesc:a09eadeb67465639c4d304789365e17b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate an isosurface of input_array.  <a href="#a09eadeb67465639c4d304789365e17b7">More...</a><br /></td></tr>
 <tr class="separator:a09eadeb67465639c4d304789365e17b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97ad44d662af0ab6cd58e2090a0dfe62"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1functions.html#a97ad44d662af0ab6cd58e2090a0dfe62">extract_on_surface</a> (input_array, surface_locations, axis_values)</td></tr>
 <tr class="memdesc:a97ad44d662af0ab6cd58e2090a0dfe62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the value of a 3D field on a 2D surface.  <a href="#a97ad44d662af0ab6cd58e2090a0dfe62">More...</a><br /></td></tr>
@@ -185,8 +186,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">nearest finds the index just before the search value. linear uses linear interpolation to find the location between grid points.
-May give silly answers if the input_array is not monotonic in the search direction.</pre> 
+
+<p>Calculate an isosurface of input_array. </p>
+<p>This function is fast, but it is not designed to deal well with non-monotonicity in the search direction.</p>
+<p>There are two search options:</p><ul>
+<li>'nearest' finds the index just before the search value</li>
+<li>'linear' uses linear interpolation to find the location between grid points.</li>
+</ul>
+<p>May give silly answers if input_array is not monotonic in the search direction. </p>
+
 <p>Definition at line <a class="el" href="functions_8py_source.html#l00021">21</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
@@ -225,7 +233,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>The files are big endian, and the datatype can either be 'float64' (= double precision), or 'float32' (=single precision).</p>
 <p>Might not work for very large datasets. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00334">334</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00339">339</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -262,7 +270,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>Extract the value of a 3D field on a 2D surface. </p>
 <p>This function takes an 3 dimensional matrix 'input_array' and an 2 dimensional matrix 'surface_locations' and returns a 2 dimensional matrix that contains the values of input_array at the location specified by surface_locations along the third dimension using the values for that axis contained in 'axis_values'. Linear interpolation is used to find the values. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00102">102</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00107">107</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -338,7 +346,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>max_its - maximum number of iterations to perform when healing NaNs in field. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00290">290</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00295">295</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -396,7 +404,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>integrand - the field to be integrated between the contours </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00143">143</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00148">148</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -472,7 +480,7 @@ May give silly answers if the input_array is not monotonic in the search directi
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00595">595</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00600">600</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -543,7 +551,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>and many others. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00363">363</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00368">368</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -608,7 +616,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <li>code here: <a href="https://github.com/gasagna/openpiv-python">https://github.com/gasagna/openpiv-python</a> </li>
 </ul>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00407">407</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00412">412</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -628,7 +636,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 
 <p>Shift the array from UVEL points to the corresponding tracer point. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00653">653</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00658">658</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -648,7 +656,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 
 <p>Shift the array from VVEL points to the corresponding tracer point. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00659">659</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00664">664</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -668,7 +676,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 
 <p>Shift the array from vorticity points to the corresponding tracer point. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00647">647</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00652">652</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -688,7 +696,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 
 <p>Shift the array from WVEL points to the corresponding tracer point. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00665">665</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00670">670</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -709,7 +717,7 @@ May give silly answers if the input_array is not monotonic in the search directi
 <p>A shortcut function to display all of the variables contained within a netcdf file. </p>
 <p>If the filename contains wildcards, they'll be expanded and only the first file used. </p>
 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00348">348</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00353">353</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
@@ -726,14 +734,14 @@ May give silly answers if the input_array is not monotonic in the search directi
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Test function to check that the layer integrate function is working correctly.</pre> 
-<p>Definition at line <a class="el" href="functions_8py_source.html#l00276">276</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
+<p>Definition at line <a class="el" href="functions_8py_source.html#l00281">281</a> of file <a class="el" href="functions_8py_source.html">functions.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 4 2015 17:34:24 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Oct 8 2015 13:44:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
