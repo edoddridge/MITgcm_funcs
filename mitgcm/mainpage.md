@@ -37,7 +37,7 @@ The way that python is setup on ARCHER makes this a little trickier.
 Create a conda environment called ‘VENV’ with base python installed inside it
 
 \code
-conda create --  name VENV python
+conda create --name VENV python
 \endcode
 
 activate this environment with
