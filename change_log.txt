@@ -1,0 +1,9 @@
+
+Dec 2015:
+version 0.1.2
+
+Added matplotlib to dependencies for installer
+
+
+version 0.1.1
+Uploaded package to conda.anaconda.org to ease installation

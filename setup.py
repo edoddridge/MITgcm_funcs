@@ -13,5 +13,6 @@ setup(name='mitgcm',
 	  'netCDF4',
 	  'numba',
         'scipy',
-      ],
+        'matplotlib',
+              ],
       zip_safe=False)

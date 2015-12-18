@@ -22,3 +22,6 @@ examples/data/1_deg_spherical_sector/interpolated_fields/*
 
 # ipython checkpoints
 *-checkpoint.ipynb
+
+# binary builds for conda
+/outputdir/

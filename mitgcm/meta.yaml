@@ -1,0 +1,26 @@
+package:
+  name: mitgcm
+  version: "0.1.1"
+ 
+source:
+  git_rev: 0.1.1
+  git_url: https://bitbucket.org/edoddridge/mitgcm.git
+ 
+requirements:
+  build:
+    - python
+    - setuptools
+    - scipy
+    - numpy
+    - numba
+    - netcdf4
+  run:
+    - python
+    - scipy
+    - numpy
+    - numba
+    - netcdf4
+
+about:
+  home: https://bitbucket.org/edoddridge/mitgcm
+  license: MIT
