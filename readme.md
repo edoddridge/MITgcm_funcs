@@ -1,11 +1,24 @@
 #Read me#
 
 ##To install##
-Download the code (either by downloading the repo or cloning it into a directory)
 
-Navigate to the download directory and run:
+The code can be installed through conda using
 
+```
+conda install -c https://conda.anaconda.org/edoddridge mitgcm
+```
+
+Or, it can be installed by:
+
+Downloading the code (either by downloading the repo or cloning it into a directory)
+
+Navigating to the download directory and running:
+
+```
 python setup.py install
+```
+
+in the terminal
 
 
 ##To read the documentation##

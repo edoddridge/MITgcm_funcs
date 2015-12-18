@@ -10,12 +10,66 @@ This package provides methods and classes for analysing the output of mitgcm sim
 
 ##To install##
 Download and install python. I'd recommend [Annaconda](https://store.continuum.io/cshop/anaconda/), it's a nice self-contained python distribution.
-You'll also need the NetCDF4 module. Run 'conda install netcdf4' in the command line.
 
-You're now ready to install this package. Navigate to the directory it is in and run:
 
+The code can be installed through conda using
+
+\code
+conda install -c https://conda.anaconda.org/edoddridge mitgcm
+\endcode
+
+Or, it can be installed by:
+
+Downloading the code (either by downloading the repo or cloning it into a directory)
+
+Navigating to the download directory and running:
+
+\code
 python setup.py install
+\endcode
 
+in the terminal
+
+
+###To install on ARCHER###
+The way that python is setup on ARCHER makes this a little trickier.
+
+Create a conda environment called ‘VENV’ with base python installed inside it
+
+\code
+conda create --  name VENV python
+\endcode
+
+activate this environment with
+
+\code
+source activate VENV
+\endcode
+
+remove the PYTHONPATH and PYTHONHOME variables
+
+\code
+unset PYTHONPATH
+unset PYTHONHOME
+
+conda install -c https://conda.anaconda.org/edoddridge mitgcm
+\endcode
+
+If you want to use ipython notebooks, you’ll also need to run
+
+\code
+conda install jupyter
+\endcode
+
+
+It's also worth adding 
+\code 
+source activate VENV
+unset PYTHONPATH
+unset PYTHONHOME
+\endcode
+
+to your .bashrc file, so that you don't have to manually do this everytime you log in.
 
 ##To use##
 Import the module and instantiate a simulation object:
@@ -31,13 +85,4 @@ An example ipython notebook, and the data it relies on, are in the examples fold
 
 There is also an example for the interpolation functions [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb)
 
-
-
-##Revision History##
-January 2015:
- * Added documentation
-
-February 2015:
- * Added streamline and streakline algorithms
- * v0.1 tagged
 

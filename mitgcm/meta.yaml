@@ -1,9 +1,9 @@
 package:
   name: mitgcm
-  version: "0.1.1"
+  version: "0.1.2"
  
 source:
-  git_rev: 0.1.1
+  git_rev: 0.1.2
   git_url: https://bitbucket.org/edoddridge/mitgcm.git
  
 requirements:
@@ -14,12 +14,14 @@ requirements:
     - numpy
     - numba
     - netcdf4
+    - matplotlib
   run:
     - python
     - scipy
     - numpy
     - numba
     - netcdf4
+    - matplotlib
 
 about:
   home: https://bitbucket.org/edoddridge/mitgcm

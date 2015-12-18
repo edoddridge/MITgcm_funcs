@@ -7,3 +7,14 @@ Added matplotlib to dependencies for installer
 
 version 0.1.1
 Uploaded package to conda.anaconda.org to ease installation
+
+
+
+February 2015:
+version 0.1
+
+Added streamline and streakline algorithms
+
+
+January 2015:
+Added documentation
