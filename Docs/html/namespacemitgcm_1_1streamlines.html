@@ -117,14 +117,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ab2862901dc9d4f96c6c6749dbe199e59"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#ab2862901dc9d4f96c6c6749dbe199e59">pathlines</a></td></tr>
 <tr class="memdesc:ab2862901dc9d4f96c6c6749dbe199e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">A three-dimensional lagrangian particle tracker.  <a href="#ab2862901dc9d4f96c6c6749dbe199e59">More...</a><br /></td></tr>
 <tr class="separator:ab2862901dc9d4f96c6c6749dbe199e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a493dab136e4b63582d7f6b77e7a9c644"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a493dab136e4b63582d7f6b77e7a9c644">streaklines</a></td></tr>
-<tr class="separator:a493dab136e4b63582d7f6b77e7a9c644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e4718a7262d4c61651569dce9ff3dba"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a6e4718a7262d4c61651569dce9ff3dba">pathlines_many</a></td></tr>
 <tr class="memdesc:a6e4718a7262d4c61651569dce9ff3dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">A three-dimensional lagrangian particle tracker designed for tracking many particles at once.  <a href="#a6e4718a7262d4c61651569dce9ff3dba">More...</a><br /></td></tr>
 <tr class="separator:a6e4718a7262d4c61651569dce9ff3dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70dea9e5149dc20a5e0ee4d09ae9acc3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a70dea9e5149dc20a5e0ee4d09ae9acc3">streaklines_many</a></td></tr>
-<tr class="memdesc:a70dea9e5149dc20a5e0ee4d09ae9acc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Included only for backwards compatibility.  <a href="#a70dea9e5149dc20a5e0ee4d09ae9acc3">More...</a><br /></td></tr>
-<tr class="separator:a70dea9e5149dc20a5e0ee4d09ae9acc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4522067d3d52d4fc38a5ec611d776702"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702">bilinear_interp</a> (x0, y0, field, x, y, len_x, len_y)</td></tr>
 <tr class="memdesc:a4522067d3d52d4fc38a5ec611d776702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do bilinear interpolation of a field.  <a href="#a4522067d3d52d4fc38a5ec611d776702">More...</a><br /></td></tr>
 <tr class="separator:a4522067d3d52d4fc38a5ec611d776702"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,8 +160,7 @@ Functions</h2></td></tr>
 <p>Functions for creating and analysing streamlines.</p>
 <p>These functions work on cartesian and spherical polar grids - other grids, such as cubed sphere, are not supported.</p>
 <p>Streamlines are defined to be the path that a parcel of fluid would follow when advected by an unchanging velocity field - the velocities are constant in time.</p>
-<p>Streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time.</p>
-<p>7 October 2015 - Have realised that these definitions aren't quite right, will need to change them. <a href="https://en.wikipedia.org/wiki/Streamlines,_streaklines,_and_pathlines">https://en.wikipedia.org/wiki/Streamlines,_streaklines,_and_pathlines</a> </p>
+<p>Streaklines are defined as the path that a parcel of fluid would follow in the actual flow - the velocity fields change with time. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="af0379625b51f588355836dd3711aae7c"></a>
 <div class="memitem">
@@ -237,7 +231,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated bilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01216">1216</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01161">1161</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -334,7 +328,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated quadralinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01359">1359</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01304">1304</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -413,7 +407,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated trilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01313">1313</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01258">1258</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -475,7 +469,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</p>
 <p>x0,y0 are the points to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01186">1186</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01131">1131</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -552,7 +546,7 @@ Functions</h2></td></tr>
 <li>dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01561">1561</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01506">1506</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -613,7 +607,7 @@ Functions</h2></td></tr>
 <p>Extract the value of a field along a path through a 3 dimensional field. </p>
 <p>The field must be passed as an array. Time varying fields are not supported. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01533">1533</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01478">1478</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -693,7 +687,7 @@ Functions</h2></td></tr>
 <p>The field must be in a NetCDF file, since it is assumed to be 4D and very large.</p>
 <p>This can also be used to pull out values at specific locations and times. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01443">1443</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01388">1388</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -796,7 +790,7 @@ Functions</h2></td></tr>
 <p>A helper function to extract a small 4D hypercube of data from a netCDF file. </p>
 <p>This isn't intended to be used on its own. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01408">1408</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01353">1353</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -862,6 +856,18 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>t_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>delta_t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>u_netcdf_variable</em> = <code>'UVEL'</code>, </td>
         </tr>
         <tr>
@@ -875,18 +881,6 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>w_netcdf_variable</em> = <code>'WVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t_max</em> = <code>3.1e5</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>delta_t</em> = <code>3600</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -947,7 +941,7 @@ Functions</h2></td></tr>
 <li>?_bias_field = bias to add to that velocity field omponent. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00489">489</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00490">490</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1013,6 +1007,18 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>t_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>delta_t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>u_netcdf_variable</em> = <code>'UVEL'</code>, </td>
         </tr>
         <tr>
@@ -1026,18 +1032,6 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>w_netcdf_variable</em> = <code>'WVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t_max</em> = <code>3.1e5</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>delta_t</em> = <code>3600</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1106,7 +1100,7 @@ Functions</h2></td></tr>
 <li>?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00868">868</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00841">841</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1230,282 +1224,7 @@ Functions</h2></td></tr>
 <p>The velocity field, "field", is passed as a truncated 4D field.</p>
 <p>x,y,z,t are vectors of these dimensions. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01339">1339</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a493dab136e4b63582d7f6b77e7a9c644"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.streamlines.streaklines </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>starty</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startz</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>grid_object</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_netcdf_variable</em> = <code>'UVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_netcdf_variable</em> = <code>'VVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_netcdf_variable</em> = <code>'WVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t_max</em> = <code>3.1e5</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>delta_t</em> = <code>3600</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_grid_loc</em> = <code>'U'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_grid_loc</em> = <code>'V'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_grid_loc</em> = <code>'W'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_bias_field</em> = <code>None</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_bias_field</em> = <code>None</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_bias_field</em> = <code>None</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00838">838</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a70dea9e5149dc20a5e0ee4d09ae9acc3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.streamlines.streaklines_many </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_netcdf_filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>starty</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startz</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>startt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>grid_object</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_netcdf_variable</em> = <code>'UVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_netcdf_variable</em> = <code>'VVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_netcdf_variable</em> = <code>'WVEL'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>t_max</em> = <code>3.1e5</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>delta_t</em> = <code>3600</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_grid_loc</em> = <code>'U'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_grid_loc</em> = <code>'V'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_grid_loc</em> = <code>'W'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u_bias_field</em> = <code>None</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v_bias_field</em> = <code>None</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>w_bias_field</em> = <code>None</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Included only for backwards compatibility. </p>
-<p>Will be removed soon. Use pathlines_many instead </p>
-
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01166">1166</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01284">1284</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1578,7 +1297,7 @@ Functions</h2></td></tr>
 <p>A two-dimensional streamline solver. </p>
 <p>The velocity fields <em>must</em> be two dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, T and Zeta. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00030">30</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00029">29</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1705,7 +1424,7 @@ Functions</h2></td></tr>
 <p>A three-dimensional streamline solver. </p>
 <p>The velocity fields must be three dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00145">145</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l00144">144</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1916,7 +1635,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01226">1226</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01171">1171</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1996,14 +1715,14 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01270">1270</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01215">1215</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 8 2015 13:44:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 18 2015 17:08:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

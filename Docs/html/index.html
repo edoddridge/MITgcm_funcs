@@ -91,9 +91,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>Overview</h2>
 <p>This package provides methods and classes for analysing the output of mitgcm simulations.</p>
 <h2>To install</h2>
-<p>Download and install python. I'd recommend <a href="https://store.continuum.io/cshop/anaconda/">Annaconda</a>, it's a nice self-contained python distribution. You'll also need the NetCDF4 module. Run 'conda install netcdf4' in the command line.</p>
-<p>You're now ready to install this package. Navigate to the directory it is in and run:</p>
-<p>python setup.py install</p>
+<p>Download and install python. I'd recommend <a href="https://store.continuum.io/cshop/anaconda/">Annaconda</a>, it's a nice self-contained python distribution.</p>
+<p>The code can be installed through conda using</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;conda install -c https://conda.anaconda.org/edoddridge mitgcm</div>
+</div><!-- fragment --><p>Or, it can be installed by:</p>
+<p>Downloading the code (either by downloading the repo or cloning it into a directory)</p>
+<p>Navigating to the download directory and running:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;python setup.py install</div>
+</div><!-- fragment --><p>in the terminal</p>
+<h3>To install on ARCHER</h3>
+<p>The way that python is setup on ARCHER makes this a little trickier.</p>
+<p>Create a conda environment called ‘VENV’ with base python installed inside it</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;conda create --  name VENV python</div>
+</div><!-- fragment --><p>activate this environment with</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;source activate VENV</div>
+</div><!-- fragment --><p>remove the PYTHONPATH and PYTHONHOME variables</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;unset PYTHONPATH</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;unset PYTHONHOME</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;conda install -c https://conda.anaconda.org/edoddridge mitgcm</div>
+</div><!-- fragment --><p>If you want to use ipython notebooks, you’ll also need to run</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;conda install jupyter</div>
+</div><!-- fragment --><p>It's also worth adding </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;source activate VENV</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;unset PYTHONPATH</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;unset PYTHONHOME</div>
+</div><!-- fragment --><p>to your .bashrc file, so that you don't have to manually do this everytime you log in.</p>
 <h2>To use</h2>
 <p>Import the module and instantiate a simulation object:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> mitgcm</div>
@@ -101,19 +123,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;m = <a class="code" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html">mitgcm.MITgcm_Simulation</a>(path_to_output,<span class="stringliteral">&#39;grid.all.nc&#39;</span>)</div>
 </div><!-- fragment --><h2>Examples</h2>
 <p>An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, <a href="http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster">here</a>.</p>
-<p>There is also an example for the interpolation functions <a href="http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb">here</a></p>
-<h2>Revision History</h2>
-<p>January 2015:</p><ul>
-<li>Added documentation</li>
-</ul>
-<p>February 2015:</p><ul>
-<li>Added streamline and streakline algorithms</li>
-<li>v0.1 tagged </li>
-</ul>
+<p>There is also an example for the interpolation functions <a href="http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb">here</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 8 2015 13:44:10 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 18 2015 17:08:42 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
