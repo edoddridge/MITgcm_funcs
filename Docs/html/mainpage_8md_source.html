@@ -128,85 +128,91 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;###To install on ARCHER###</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;The way that python is setup on ARCHER makes this a little trickier.</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;Create a conda environment called ‘VENV’ with base python installed inside it</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;Firstly, make sure you&#39;ve loaded the Anaconda module</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;\code</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;conda create --name VENV python</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;module load anaconda</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;\endcode</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;activate this environment with</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Then, create a conda environment called ‘VENV’ with base python installed inside it</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;\code</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;source activate VENV</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;conda create --name VENV python</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;\endcode</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;remove the PYTHONPATH and PYTHONHOME variables</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;activate this environment with</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;\code</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;unset PYTHONPATH</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;unset PYTHONHOME</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;source activate VENV</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;\endcode</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;conda install -c https://conda.anaconda.org/edoddridge mitgcm</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;\endcode</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;If you want to use ipython notebooks, you’ll also need to run</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;\code</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;conda install jupyter</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;remove the PYTHONPATH and PYTHONHOME variables</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;\code</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;unset PYTHONPATH</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;unset PYTHONHOME</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;conda install -c https://conda.anaconda.org/edoddridge mitgcm</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;\endcode</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;It&#39;s also worth adding </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;\code </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;source activate VENV</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;unset PYTHONPATH</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;unset PYTHONHOME</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;\endcode</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;to your .bashrc file, so that you don&#39;t have to manually do this everytime you log in.</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;##To use##</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;Import the module and instantiate a simulation object:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;\code{.py}</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;import mitgcm</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;If you want to use ipython notebooks, you’ll also need to run</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;\code</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;conda install jupyter</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;\endcode</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;It&#39;s also worth adding </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;\code </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;source activate VENV</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;unset PYTHONPATH</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;unset PYTHONHOME</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;\endcode</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;to your .bashrc file, so that you don&#39;t have to manually do this everytime you log in.</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;m = mitgcm.MITgcm_Simulation(path_to_output,&#39;grid.all.nc&#39;)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;\endcode</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;##To use##</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;Import the module and instantiate a simulation object:</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;###To use notebooks on ARCHER###</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;By using port forwarding when logging in to ARCHER it is possible to run a notebook on ARCHER and access it locally. It&#39;s best to run these on the serial nodes. To do this ssh into the login nodes</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;\code{.py}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;import mitgcm</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;\code</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;ssh -X -L11111:localhost:11111 USERNAME@login.archer.ac.uk</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;\endcode</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;and from there, ssh into the serial nodes</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;m = mitgcm.MITgcm_Simulation(path_to_output,&#39;grid.all.nc&#39;)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;\endcode</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;###To use notebooks on ARCHER###</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;By using port forwarding when logging in to ARCHER it is possible to run a notebook on ARCHER and access it locally. It&#39;s best to run these on the serial nodes. To do this ssh into the login nodes</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;\code</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;ssh -L11111:localhost:11111 espp1</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;ssh -X -L11111:localhost:11111 USERNAME@login.archer.ac.uk</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;\endcode</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;and run</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;\code</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;ipython notebook --no-browser  --port 11111</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;\endcode</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;to launch the notebook server. Then point your web browser towards &quot;http://localhost:11111/&quot; to use the notebook.</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;##Examples##</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;and from there, ssh into the serial nodes</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;\code</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;ssh -L11111:localhost:11111 espp1</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;\endcode</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;and run</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;\code</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;ipython notebook --no-browser  --port 11111</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;\endcode</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;to launch the notebook server. Then point your web browser towards &quot;http://localhost:11111/&quot; to use the notebook.</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;There is also an example for the interpolation functions [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;##Examples##</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;There is also an example for the interpolation functions [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 28 2016 17:05:27 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 28 2016 17:13:04 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
