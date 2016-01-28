@@ -34,7 +34,13 @@ in the terminal
 ###To install on ARCHER###
 The way that python is setup on ARCHER makes this a little trickier.
 
-Create a conda environment called ‘VENV’ with base python installed inside it
+Firstly, make sure you've loaded the Anaconda module
+
+\code
+module load anaconda
+\endcode
+
+Then, create a conda environment called ‘VENV’ with base python installed inside it
 
 \code
 conda create --name VENV python
