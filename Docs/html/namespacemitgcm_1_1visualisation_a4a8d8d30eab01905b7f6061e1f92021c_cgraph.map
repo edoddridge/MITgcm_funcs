@@ -1,4 +1,3 @@
 <map id="mitgcm.visualisation.LIC2_sparse_animate" name="mitgcm.visualisation.LIC2_sparse_animate">
-<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="448,13,637,39"/>
-<area shape="rect" id="node3" href="$namespacemitgcm_1_1visualisation.html#a4430839055cec2863a38da36a86e9b5d" title="Line integral convolution with a sparse noise field. " alt="" coords="227,35,400,76"/>
+<area shape="rect" id="node2" href="$namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="227,13,416,39"/>
 </map>

@@ -111,9 +111,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a4a8d8d30eab01905b7f6061e1f92021c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1visualisation.html#a4a8d8d30eab01905b7f6061e1f92021c">LIC2_sparse_animate</a></td></tr>
 <tr class="memdesc:a4a8d8d30eab01905b7f6061e1f92021c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line integral convolution with a sparse noise field.  <a href="#a4a8d8d30eab01905b7f6061e1f92021c">More...</a><br /></td></tr>
 <tr class="separator:a4a8d8d30eab01905b7f6061e1f92021c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4430839055cec2863a38da36a86e9b5d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1visualisation.html#a4430839055cec2863a38da36a86e9b5d">LIC2_sparse_animate_new</a></td></tr>
-<tr class="memdesc:a4430839055cec2863a38da36a86e9b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line integral convolution with a sparse noise field.  <a href="#a4430839055cec2863a38da36a86e9b5d">More...</a><br /></td></tr>
-<tr class="separator:a4430839055cec2863a38da36a86e9b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59cc9389b17d71b191e6126dfce012cd"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1visualisation.html#a59cc9389b17d71b191e6126dfce012cd">create_cmap_vary_alpha</a></td></tr>
 <tr class="separator:a59cc9389b17d71b191e6126dfce012cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -137,7 +134,7 @@ Functions</h2></td></tr>
 <pre class="fragment">create a colour map with variable alpha. This can be used to sketch out particles as they move.
 
 The only input variable 'coour' defines the colour that is used to create the colour map. It can be any colour code that matplotlib recognises: single letter codes, hex colour string, a standard colour name, or a string representation of a float (e.g. '0.4') for gray on a 0-1 scale.</pre> 
-<p>Definition at line <a class="el" href="visualisation_8py_source.html#l00443">443</a> of file <a class="el" href="visualisation_8py_source.html">visualisation.py</a>.</p>
+<p>Definition at line <a class="el" href="visualisation_8py_source.html#l00307">307</a> of file <a class="el" href="visualisation_8py_source.html">visualisation.py</a>.</p>
 
 </div>
 </div>
@@ -301,117 +298,7 @@ The only input variable 'coour' defines the colour that is used to create the co
 </ul>
 <hr/>
  <h2>Example call</h2>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;output,intensity,myCM = <a class="code" href="namespacemitgcm_1_1visualisation.html#a4a8d8d30eab01905b7f6061e1f92021c">LIC2_sparse_animate</a>(m.zonal_velocity[<span class="stringliteral">&#39;UVEL&#39;</span>][3,:,:],m.meridional_velocity[<span class="stringliteral">&#39;VVEL&#39;</span>][3,:,:],</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                        10000,m.grid,100*86400,30*86400,kernel=<span class="stringliteral">&#39;anisotropic_linear&#39;</span>,delta_t=5*3600)</div>
-</div><!-- fragment --><p>and then plot with</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;n = len(intensity)</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordflow">for</span> t <span class="keywordflow">in</span> xrange(output.shape[2]-len(intensity)):</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    plt.pcolormesh(m.grid[<span class="stringliteral">&#39;X&#39;</span>][:],m.grid[<span class="stringliteral">&#39;Y&#39;</span>][:],m.temperature[<span class="stringliteral">&#39;THETA&#39;</span>][level,:,:],cmap=<span class="stringliteral">&#39;winter&#39;</span>)</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    plt.colorbar()</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> xrange(output.shape[1]):</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        plt.scatter(output[0,i,t:t+n],output[1,i,t:t+n],</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                c=output[2,i,t:t+n],cmap=myCM,lw=0,vmin=0,vmax=1,s=4)</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    filename = <span class="stringliteral">&#39;../b animated LIC test &#39;</span> + str(t) + <span class="stringliteral">&#39;.png&#39;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    plt.savefig(filename)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    plt.clf()</div>
-</div><!-- fragment --> 
-<p>Definition at line <a class="el" href="visualisation_8py_source.html#l00131">131</a> of file <a class="el" href="visualisation_8py_source.html">visualisation.py</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph.png" border="0" usemap="#namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph" alt=""/></div>
-<map name="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph" id="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph">
-<area shape="rect" id="node2" href="namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="448,13,637,39"/><area shape="rect" id="node3" href="namespacemitgcm_1_1visualisation.html#a4430839055cec2863a38da36a86e9b5d" title="Line integral convolution with a sparse noise field. " alt="" coords="227,35,400,76"/></map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a4430839055cec2863a38da36a86e9b5d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def mitgcm.visualisation.LIC2_sparse_animate_new </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>u</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nparticles</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>grid_object</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>animation_length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>trace_length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>kernel</em> = <code>'anisotropic_linear'</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>delta_t</em> = <code>3600.</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Line integral convolution with a sparse noise field. </p>
-<p>The sparse noise field produces discrete points that travel around with the flow field.</p>
-<p>This function produces data that can be used to animate a static flow field.</p>
-<p>LIC is a method for visualising flow fields.</p>
-<p>returns:</p>
-<ul>
-<li>output_matrix = [Variables (this axis has three values: x,y,intensity_ramp),trace_number ,time]</li>
-<li>intensity = vector containing the convolved kernel and noise field</li>
-</ul>
-<hr/>
- <h2>Parameters</h2>
-<ul>
-<li>kernel - the convolution kernel. Options are:<ul>
-<li>'box' - same intensity for the entire trace</li>
-<li>'anisotropic_linear' - intensity ramps up over the trace</li>
-</ul>
-</li>
-</ul>
-<hr/>
- <h2>Example call</h2>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;output,intensity,myCM = <a class="code" href="namespacemitgcm_1_1visualisation.html#a4430839055cec2863a38da36a86e9b5d">LIC2_sparse_animate_new</a>(m.zonal_velocity[<span class="stringliteral">&#39;UVEL&#39;</span>][1,:,:],</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;output,intensity,myCM = LIC2_sparse_animate_new(m.zonal_velocity[<span class="stringliteral">&#39;UVEL&#39;</span>][1,:,:],</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                             m.meridional_velocity[<span class="stringliteral">&#39;VVEL&#39;</span>][1,:,:],</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                             15,m.grid,</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                             300*86400,60*86400,</div>
@@ -428,13 +315,13 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    plt.savefig(filename)</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    plt.clf()</div>
 </div><!-- fragment --> 
-<p>Definition at line <a class="el" href="visualisation_8py_source.html#l00267">267</a> of file <a class="el" href="visualisation_8py_source.html">visualisation.py</a>.</p>
+<p>Definition at line <a class="el" href="visualisation_8py_source.html#l00131">131</a> of file <a class="el" href="visualisation_8py_source.html">visualisation.py</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacemitgcm_1_1visualisation_a4430839055cec2863a38da36a86e9b5d_cgraph.png" border="0" usemap="#namespacemitgcm_1_1visualisation_a4430839055cec2863a38da36a86e9b5d_cgraph" alt=""/></div>
-<map name="namespacemitgcm_1_1visualisation_a4430839055cec2863a38da36a86e9b5d_cgraph" id="namespacemitgcm_1_1visualisation_a4430839055cec2863a38da36a86e9b5d_cgraph">
+<div class="center"><img src="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph.png" border="0" usemap="#namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph" alt=""/></div>
+<map name="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph" id="namespacemitgcm_1_1visualisation_a4a8d8d30eab01905b7f6061e1f92021c_cgraph">
 <area shape="rect" id="node2" href="namespacemitgcm_1_1streamlines.html#ac4d6c763bdac75600b3778f4e0ea3a31" title="A two&#45;dimensional streamline solver. " alt="" coords="227,13,416,39"/></map>
 </div>
 </p>
@@ -444,7 +331,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 18 2015 17:14:31 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 28 2016 17:01:30 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

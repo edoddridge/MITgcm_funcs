@@ -174,16 +174,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;m = mitgcm.MITgcm_Simulation(path_to_output,&#39;grid.all.nc&#39;)</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;\endcode</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;##Examples##</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;###To use notebooks on ARCHER###</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;By using port forwarding when logging in to ARCHER it is possible to run a notebook on ARCHER and access it locally. It&#39;s best to run these on the serial nodes. To do this ssh into the login nodes</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;There is also an example for the interpolation functions [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;\code</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;ssh -X -L11111:localhost:11111 USERNAME@login.archer.ac.uk</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;\endcode</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;and from there, ssh into the serial nodes</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;\code</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;ssh -L11111:localhost:11111 espp1</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;\endcode</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;and run</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;\code</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;ipython notebook --no-browser  --port 11111</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;\endcode</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;to launch the notebook server. Then point your web browser towards &quot;http://localhost:11111/&quot; to use the notebook.</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;##Examples##</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;There is also an example for the interpolation functions [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 18 2015 17:14:31 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 28 2016 17:01:29 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
