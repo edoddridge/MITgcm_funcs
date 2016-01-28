@@ -121,13 +121,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> mitgcm</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;m = <a class="code" href="classmitgcm_1_1core_1_1_m_i_tgcm___simulation.html">mitgcm.MITgcm_Simulation</a>(path_to_output,<span class="stringliteral">&#39;grid.all.nc&#39;</span>)</div>
-</div><!-- fragment --><h2>Examples</h2>
+</div><!-- fragment --><h3>To use notebooks on ARCHER</h3>
+<p>By using port forwarding when logging in to ARCHER it is possible to run a notebook on ARCHER and access it locally. It's best to run these on the serial nodes. To do this ssh into the login nodes</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ssh -X -L11111:localhost:11111 USERNAME@login.archer.ac.uk</div>
+</div><!-- fragment --><p>and from there, ssh into the serial nodes</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ssh -L11111:localhost:11111 espp1</div>
+</div><!-- fragment --><p>and run </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ipython notebook --no-browser  --port 11111</div>
+</div><!-- fragment --><p>to launch the notebook server. Then point your web browser towards "http://localhost:11111/" to use the notebook.</p>
+<h2>Examples</h2>
 <p>An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, <a href="http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster">here</a>.</p>
 <p>There is also an example for the interpolation functions <a href="http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/interpolation%20example.ipynb">here</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 18 2015 17:14:31 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 28 2016 17:05:27 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

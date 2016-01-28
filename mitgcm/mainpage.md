@@ -80,6 +80,29 @@ import mitgcm
 m = mitgcm.MITgcm_Simulation(path_to_output,'grid.all.nc')
 \endcode
 
+###To use notebooks on ARCHER###
+By using port forwarding when logging in to ARCHER it is possible to run a notebook on ARCHER and access it locally. It's best to run these on the serial nodes. To do this ssh into the login nodes
+
+\code
+ssh -X -L11111:localhost:11111 USERNAME@login.archer.ac.uk
+\endcode
+
+and from there, ssh into the serial nodes
+
+\code
+ssh -L11111:localhost:11111 espp1
+\endcode
+
+and run
+\code
+ipython notebook --no-browser  --port 11111
+\endcode
+
+to launch the notebook server. Then point your web browser towards "http://localhost:11111/" to use the notebook.
+
+
+
+
 ##Examples##
 An example ipython notebook, and the data it relies on, are in the examples folder. Alternatively, the notebook can be viewed, but not edited, [here](http://nbviewer.ipython.org/urls/bitbucket.org/edoddridge/mitgcm/raw/master/examples/example%20notebook.ipynb/%3Fat%3Dmaster).
 
