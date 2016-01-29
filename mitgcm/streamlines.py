@@ -839,7 +839,7 @@ def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_bias_field=None,
             v_bias_field=None,
             w_bias_field=None):
-    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the streaklines function. 
+    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the pathlines function. 
 
     The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
@@ -1130,11 +1130,12 @@ def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
 # Hack this to make it randomly assign particle locations initially
 # add a two column matrix. First column is the number of time steps to randomly assign new position after, second colun is count of how many timesteps have been taken since last reassignment of location.
-def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
-            startx,starty,startz,startt,
+
+def pathlines_for_OLIC_xyzt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            n_particles,startt,
             t,
             grid_object, 
-            t_max,delta_t,           
+            t_tracking,delta_t, trace_length,
             u_netcdf_variable='UVEL',
             v_netcdf_variable='VVEL',
             w_netcdf_variable='WVEL',
@@ -1156,13 +1157,14 @@ def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_file
     
     ## The variables are:
     * ?_netcdf_filename = name of the netcdf file with ?'s data in it.
-    * start? = (nx1) arrays of initial values for x, y, or z.
+    * n_particles = number of particles to track
     * startt = start time
     * t = vector of time levels that are contained in the velocity data.
     * grid_object is m.grid if you followed the standard naming conventions.
     * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
-    * t_max = length of time to track particles for, in seconds. This is always positive
+    * t_tracking = length of time to track particles for, in seconds. This is always positive
     * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
+    * trace_length = length of time for each individual trace
     * ?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
     * ?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used.
     """
@@ -1260,10 +1262,21 @@ def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_file
     if w_bias_field is None:
         w_bias_field = np.zeros_like(grid_object['wet_mask_W'][1:,...])
 
-    x_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startx[:,np.newaxis]
-    y_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*starty[:,np.newaxis]
-    z_stream = np.ones((len(startx),int(np.fabs(t_max/delta_t))+2))*startz[:,np.newaxis]
-    t_stream = np.ones((int(np.fabs(t_max/delta_t))+2))*startt
+
+    steps_per_trace = int(trace_length/delta_t)
+    time_steps_until_jitter = np.random.randint(steps_per_trace, size=n_particles)
+
+    startx = (np.random.rand(n_particles)*
+        (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+    starty = (np.random.rand(n_particles)*
+        (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
+    startz = (np.random.rand(n_particles)*
+        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+
+    x_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*startx[:,np.newaxis]
+    y_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*starty[:,np.newaxis]
+    z_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*startz[:,np.newaxis]
+    t_stream = np.ones((int(np.fabs(t_tracking/delta_t))+2))*startt
 
     t_RK = startt #set the initial time to be the given start time
     z_RK = startz
@@ -1309,8 +1322,8 @@ def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_file
         deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
 
     # Runge-Kutta fourth order method to estimate next position.
-    while i < np.fabs(t_max/delta_t):
-    #t_RK < t_max + startt:
+    while i < np.fabs(t_tracking/delta_t):
+    #t_RK < t_tracking + startt:
         
         if grid_object['grid_type']=='polar':
             # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
@@ -1343,7 +1356,19 @@ def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_file
             w_field = (w_field_before + ((w_field_before - w_field_after)*
                                 (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - w_bias_field)
 
-            # Interpolate velocities at initial location        
+        # check if any particles need moving, and then move them
+        for particle in xrange(0,n_particles):
+            if time_steps_until_jitter[particle] <= 0:
+                    x_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+                    y_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
+                    z_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+                    time_steps_until_jitter[particle] = steps_per_trace
+
+
+        # Interpolate velocities at initial location 
         u_loc = np.ones_like(startx)        
         v_loc = np.ones_like(startx)
         w_loc = np.ones_like(startx)
@@ -1413,6 +1438,7 @@ def pathlines_for_OLIC_xyt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_file
         z_RK = z_RK + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
         t_RK += delta_t
         i += 1
+        time_steps_until_jitter = time_steps_until_jitter - 1
 
         x_stream[:,i] = x_RK
         y_stream[:,i] = y_RK
