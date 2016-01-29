@@ -839,7 +839,7 @@ def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_bias_field=None,
             v_bias_field=None,
             w_bias_field=None):
-    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the streaklines function. 
+    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the pathlines function. 
 
     The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
@@ -1128,6 +1128,333 @@ def pathlines_many(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
     #################################################################################
 
+# Hack this to make it randomly assign particle locations initially
+# add a two column matrix. First column is the number of time steps to randomly assign new position after, second colun is count of how many timesteps have been taken since last reassignment of location.
+
+def pathlines_for_OLIC_xyzt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
+            n_particles,startt,
+            t,
+            grid_object, 
+            t_tracking,delta_t, trace_length,
+            u_netcdf_variable='UVEL',
+            v_netcdf_variable='VVEL',
+            w_netcdf_variable='WVEL',
+            u_grid_loc='U',v_grid_loc='V',w_grid_loc='W',
+            u_bias_field=None,
+            v_bias_field=None,
+            w_bias_field=None):
+    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the streaklines function. 
+
+    The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
+    It should work to track particles forwards or backwards in time (set delta_t <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
+    
+    Because this is a very large amount of data, the fields are passed as netcdffile handles.
+
+
+    ## Returns:
+    * x_stream, y_stream, z_stream - all with dimensions (particle,time_level)
+    * t_stream - with dimensions (time_level)
+    
+    ## The variables are:
+    * ?_netcdf_filename = name of the netcdf file with ?'s data in it.
+    * n_particles = number of particles to track
+    * startt = start time
+    * t = vector of time levels that are contained in the velocity data.
+    * grid_object is m.grid if you followed the standard naming conventions.
+    * ?_netcdf_variable = name of the "?" variable field in the netcdf file.
+    * t_tracking = length of time to track particles for, in seconds. This is always positive
+    * delta_t = timestep for particle tracking algorithm, in seconds. This can be positive or negative.
+    * trace_length = length of time for each individual trace
+    * ?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.
+    * ?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used.
+    """
+
+    if u_grid_loc == 'U':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Y'][:]
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'V':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Yp1'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'W':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Zl'][:]
+    elif u_grid_loc == 'T':
+        x_u = grid_object['X'][:]
+        y_u = grid_object['Y'][:]  
+        z_u = grid_object['Z'][:]
+    elif u_grid_loc == 'Zeta':
+        x_u = grid_object['Xp1'][:]
+        y_u = grid_object['Yp1'][:]
+        z_u = grid_object['Z'][:]
+    else:
+        print 'u_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
+
+    if v_grid_loc == 'U':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Y'][:]
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'V':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Yp1'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'W':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Zl'][:]
+    elif v_grid_loc == 'T':
+        x_v = grid_object['X'][:]
+        y_v = grid_object['Y'][:]  
+        z_v = grid_object['Z'][:]
+    elif v_grid_loc == 'Zeta':
+        x_v = grid_object['Xp1'][:]
+        y_v = grid_object['Yp1'][:]
+        z_v = grid_object['Z'][:]
+    else:
+        print 'v_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
+
+    if w_grid_loc == 'U':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Y'][:]
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'V':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Yp1'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'W':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Zl'][:]
+    elif w_grid_loc == 'T':
+        x_w = grid_object['X'][:]
+        y_w = grid_object['Y'][:]  
+        z_w = grid_object['Z'][:]
+    elif w_grid_loc == 'Zeta':
+        x_w = grid_object['Xp1'][:]
+        y_w = grid_object['Yp1'][:]
+        z_w = grid_object['Z'][:]
+    else:
+        print 'w_grid_loc not set correctly. Possible options are: U,V,W,T, and Zeta'
+        return
+
+    len_x_u = len(x_u)
+    len_y_u = len(y_u)
+    len_z_u = len(z_u)
+    
+    len_x_v = len(x_v)
+    len_y_v = len(y_v)
+    len_z_v = len(z_v)
+    
+    len_x_w = len(x_w)
+    len_y_w = len(y_w)
+    len_z_w = len(z_w)
+    
+    len_t = len(t)
+
+    if u_bias_field is None:
+        u_bias_field = np.zeros_like(grid_object['wet_mask_U'][:])
+    if v_bias_field is None:
+        v_bias_field = np.zeros_like(grid_object['wet_mask_V'][:])
+    if w_bias_field is None:
+        w_bias_field = np.zeros_like(grid_object['wet_mask_W'][1:,...])
+
+
+    steps_per_trace = int(trace_length/delta_t)
+    time_steps_until_jitter = np.random.randint(steps_per_trace, size=n_particles)
+
+    startx = (np.random.rand(n_particles)*
+        (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+    starty = (np.random.rand(n_particles)*
+        (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
+    startz = (np.random.rand(n_particles)*
+        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+
+    x_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*startx[:,np.newaxis]
+    y_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*starty[:,np.newaxis]
+    z_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*startz[:,np.newaxis]
+    t_stream = np.ones((int(np.fabs(t_tracking/delta_t))+2))*startt
+
+    t_RK = startt #set the initial time to be the given start time
+    z_RK = startz
+    y_RK = starty
+    x_RK = startx
+    
+    i=0
+    
+    u_netcdf_filehandle = netCDF4.Dataset(u_netcdf_filename)
+    v_netcdf_filehandle = netCDF4.Dataset(v_netcdf_filename)
+    w_netcdf_filehandle = netCDF4.Dataset(w_netcdf_filename)
+    
+    t_index = np.searchsorted(t,t_RK)
+    t_index_new = np.searchsorted(t,t_RK) # this is later used to test if new data needs to be read in.
+    if t_index == 0:
+        raise ValueError('Given time value is outside the given velocity fields - too small')
+    elif t_index == len_t:
+        raise ValueError('Given time value is outside the given velocity fields - too big')
+    
+
+    u_field_before = u_netcdf_filehandle.variables[u_netcdf_variable][t_index,...]
+    u_field_after = u_netcdf_filehandle.variables[u_netcdf_variable][t_index+1,...]
+    u_field = (u_field_before + ((u_field_before - u_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - 
+                u_bias_field)
+
+    v_field_before = v_netcdf_filehandle.variables[v_netcdf_variable][t_index,...]
+    v_field_after = v_netcdf_filehandle.variables[v_netcdf_variable][t_index+1,...]
+    v_field = (v_field_before + ((v_field_before - v_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - 
+                v_bias_field)
+
+    w_field_before = w_netcdf_filehandle.variables[w_netcdf_variable][t_index,...]
+    w_field_after = w_netcdf_filehandle.variables[w_netcdf_variable][t_index+1,...]
+    w_field = (w_field_before + ((w_field_before - w_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - 
+                w_bias_field)
+    
+    
+    # Prepare for spherical polar grids
+    deg_per_m = np.ones((len(startx),2),dtype=float)
+    if grid_object['grid_type']=='polar':
+        deg_per_m[:,0] = np.ones_like(startx)/(1852.*60.) # multiplier for v
+
+    # Runge-Kutta fourth order method to estimate next position.
+    while i < np.fabs(t_tracking/delta_t):
+    #t_RK < t_tracking + startt:
+        
+        if grid_object['grid_type']=='polar':
+            # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
+            deg_per_m[:,1] = np.cos(starty*np.pi/180.)/(1852.*60.)# multiplier for u
+            # Compute indices at location given
+        
+        if (t_index_new == t_index):
+            # time hasn't progressed beyond the loaded time slices
+            pass
+        else: 
+            t_index = np.searchsorted(t,t_RK)
+            if t_index == 0:
+                raise ValueError('Given time value is outside the given velocity fields - too small')
+            elif t_index == len_t:
+                raise ValueError('Given time value is outside the given velocity fields - too big')
+
+
+            u_field_before = u_netcdf_filehandle.variables[u_netcdf_variable][t_index,...]
+            u_field_after = u_netcdf_filehandle.variables[u_netcdf_variable][t_index+1,...]
+            u_field = (u_field_before + ((u_field_before - u_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - u_bias_field)
+
+            v_field_before = v_netcdf_filehandle.variables[v_netcdf_variable][t_index,...]
+            v_field_after = v_netcdf_filehandle.variables[v_netcdf_variable][t_index+1,...]
+            v_field = (v_field_before + ((v_field_before - v_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - v_bias_field)
+
+            w_field_before = w_netcdf_filehandle.variables[w_netcdf_variable][t_index,...]
+            w_field_after = w_netcdf_filehandle.variables[w_netcdf_variable][t_index+1,...]
+            w_field = (w_field_before + ((w_field_before - w_field_after)*
+                                (t_RK - t[t_index])/(t[t_index+1] - t[t_index])) - w_bias_field)
+
+        # check if any particles need moving, and then move them
+        for particle in xrange(0,n_particles):
+            if time_steps_until_jitter[particle] <= 0:
+                    x_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+                    y_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
+                    z_RK[particle] = (np.random.rand(1)*
+                        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+                    time_steps_until_jitter[particle] = steps_per_trace
+
+
+        # Interpolate velocities at initial location 
+        u_loc = np.ones_like(startx)        
+        v_loc = np.ones_like(startx)
+        w_loc = np.ones_like(startx)
+
+        u_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,w_field,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+            
+        u_loc = u_loc*deg_per_m[:,1]
+        v_loc = v_loc*deg_per_m[:,0]
+
+        dx1 = delta_t*u_loc
+        dy1 = delta_t*v_loc
+        dz1 = delta_t*w_loc
+        
+        u_loc1 = np.ones_like(startx)       
+        v_loc1 = np.ones_like(startx)   
+        w_loc1 = np.ones_like(startx)
+
+        u_loc1 = trilinear_interp_arrays(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,
+                    u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc1 = trilinear_interp_arrays(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,
+                    v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc1 = trilinear_interp_arrays(x_RK + 0.5*dx1,y_RK + 0.5*dy1,z_RK + 0.5*dz1,
+                    w_field,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        u_loc1 = u_loc1*deg_per_m[:,1]
+        v_loc1 = v_loc1*deg_per_m[:,0]
+        dx2 = delta_t*u_loc1
+        dy2 = delta_t*v_loc1
+        dz2 = delta_t*w_loc1
+                    
+        u_loc2 = np.ones_like(startx)       
+        v_loc2 = np.ones_like(startx)   
+        w_loc2 = np.ones_like(startx)
+        u_loc2 = trilinear_interp_arrays(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,
+                    u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc2 = trilinear_interp_arrays(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,
+                    v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc2 = trilinear_interp_arrays(x_RK + 0.5*dx2,y_RK + 0.5*dy2,z_RK + 0.5*dz2,
+                    w_field,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+
+        u_loc2 = u_loc2*deg_per_m[:,1]
+        v_loc2 = v_loc2*deg_per_m[:,0]
+        dx3 = delta_t*u_loc2
+        dy3 = delta_t*v_loc2
+        dz3 = delta_t*w_loc2
+
+        u_loc3 = np.ones_like(startx)
+        v_loc3 = np.ones_like(startx)
+        w_loc3 = np.ones_like(startx)
+        u_loc3 = trilinear_interp_arrays(x_RK + dx3,y_RK + dy3,z_RK + dz3,
+                    u_field,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+        v_loc3 = trilinear_interp_arrays(x_RK + dx3,y_RK + dy3,z_RK + dz3,
+                    v_field,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
+        w_loc3 = trilinear_interp_arrays(x_RK + dx3,y_RK + dy3,z_RK + dz3,
+                    w_field,x_w,y_w,z_w,len_x_w,len_y_w,len_z_w)
+        
+        u_loc3 = u_loc3*deg_per_m[:,1]
+        v_loc3 = v_loc3*deg_per_m[:,0]
+        dx4 = delta_t*u_loc3
+        dy4 = delta_t*v_loc3
+        dz4 = delta_t*w_loc3
+
+        #recycle the variables to keep the code clean
+        x_RK = x_RK + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
+        y_RK = y_RK + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
+        z_RK = z_RK + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
+        t_RK += delta_t
+        i += 1
+        time_steps_until_jitter = time_steps_until_jitter - 1
+
+        x_stream[:,i] = x_RK
+        y_stream[:,i] = y_RK
+        z_stream[:,i] = z_RK
+        t_stream[i] = t_RK
+        
+        t_index_new = np.searchsorted(t,t_RK)
+
+  
+    u_netcdf_filehandle.close()
+    v_netcdf_filehandle.close()
+    w_netcdf_filehandle.close()
+
+    return x_stream,y_stream,z_stream,t_stream
+
+##########################
 def bilinear_interp(x0,y0,field,x,y,len_x,len_y):
   """!Do bilinear interpolation of a field. This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.
 
