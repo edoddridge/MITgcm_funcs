@@ -1270,8 +1270,8 @@ def pathlines_for_OLIC_xyzt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_fil
         (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
     starty = (np.random.rand(n_particles)*
         (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
-    startz = (np.random.rand(n_particles)*
-        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+    startz = (np.random.rand(n_particles)*grid_object['Z'][1])
+        #(np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
 
     x_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*startx[:,np.newaxis]
     y_stream = np.ones((len(startx),int(np.fabs(t_tracking/delta_t))+2))*starty[:,np.newaxis]
@@ -1363,8 +1363,9 @@ def pathlines_for_OLIC_xyzt_ani(u_netcdf_filename,v_netcdf_filename,w_netcdf_fil
                         (np.max(grid_object['X'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
                     y_RK[particle] = (np.random.rand(1)*
                         (np.max(grid_object['Y'][:]) - np.min(grid_object['Y'][:]))) + np.min(grid_object['Y'][:])
-                    z_RK[particle] = (np.random.rand(1)*
-                        (np.max(grid_object['Z'][:]) - np.min(grid_object['X'][:]))) + np.min(grid_object['X'][:])
+                    z_RK[particle] = grid_object['Z'][1]
+                        #(np.random.rand(1)*
+                        #(np.max(grid_object['Z'][:]) - np.min(grid_object['Z'][:]))) + np.min(grid_object['Z'][:])
                     time_steps_until_jitter[particle] = steps_per_trace
 
 
