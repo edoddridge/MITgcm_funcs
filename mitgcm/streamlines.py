@@ -1593,25 +1593,9 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         w_bias_field = np.zeros_like(grid_object['wet_mask_W'][1:,...])
 
 
-    ini_x = (np.random.rand(n_particles)*r_x + startx)
-    ini_y = (np.random.rand(n_particles)*r_y + starty)
-    ini_z = (np.random.rand(n_particles)*r_z + startz)
-
-    normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
-                      ((ini_y - starty)**2)/(r_y**2) + 
-                      ((ini_z - startz)**2)/(r_z**2) )
-
-    while any(normed_radius > 1):
-        for particle in xrange(n_particles):
-            if normed_radius[particle] > 1:
-                    ini_x[particle] = ((np.random.rand(1)-0.5)*2*r_x + startx)
-                    ini_y[particle] = ((np.random.rand(1)-0.5)*2*r_y + starty)
-                    ini_z[particle] = ((np.random.rand(1)-0.5)*2*r_z + startz)
-        normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
-                  ((ini_y - starty)**2)/(r_y**2) + 
-                  ((ini_z - startz)**2)/(r_z**2) )
-
-
+    ini_x = ((np.random.rand(n_particles)-0.5)*2*r_x + startx)
+    ini_y = ((np.random.rand(n_particles)-0.5)*2*r_y + starty)
+    ini_z = ((np.random.rand(n_particles)-0.5)*2*r_z + startz)
 
     x_stream = np.ones((n_particles,int(np.fabs(total_time/timestep))+2))*startx
     y_stream = np.ones((n_particles,int(np.fabs(total_time/timestep))+2))*starty
@@ -1628,6 +1612,28 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     x_com = startx
     y_com = starty
     z_com = startz
+
+    normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
+                      ((ini_y - starty)**2)/(r_y**2) + 
+                      ((ini_z - startz)**2)/(r_z**2) )
+
+    wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+
+    for particle in xrange(n_particles): # check if any particles outside cutoffs
+        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
+            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+                x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
+                y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
+                z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
+                normed_radius[particle] = ( ((x_RK[particle] - x_com)**2)/(r_x**2) +  
+                                  ((y_RK[particle] - y_com)**2)/(r_y**2) + 
+                                  ((z_RK[particle] - z_com)**2)/(r_z**2) )
+                wet_test[particle] = trilinear_interp(x_RK[particle],y_RK[particle],z_RK[particle],
+                    grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+
+
+
+
     
     i=0
     
@@ -1705,14 +1711,16 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
         # check if any particles need moving, and then reseed them inside an ellipsoid around centre of mass with the original size
         for particle in xrange(n_particles): # check if any particles outside cutoff
-            if normed_radius[particle] > r_cutoff_factor: # find specific particles
-                while normed_radius[particle] > 1: # reseed inside ellipsoid
+            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
+                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
                     x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                     y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                     z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
                     normed_radius[particle] = ( ((x_RK[particle] - x_com)**2)/(r_x**2) +  
                                       ((y_RK[particle] - y_com)**2)/(r_y**2) + 
                                       ((z_RK[particle] - z_com)**2)/(r_z**2) )
+                    wet_test[particle] = trilinear_interp(x_RK[particle],y_RK[particle],z_RK[particle],
+                        grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
 
 
         # Interpolate velocities at initial location 
@@ -1790,7 +1798,7 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
         normed_radius = ( ((x_RK - x_com)**2)/(r_x**2) +  
                           ((y_RK - y_com)**2)/(r_y**2) + 
                           ((z_RK - z_com)**2)/(r_z**2) )
-
+        wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
   
     u_netcdf_filehandle.close()
     v_netcdf_filehandle.close()
@@ -1906,24 +1914,9 @@ def numeric_GLM_xyz(u,v,w,
     len_z_w = len(z_w)
 
 
-    ini_x = (np.random.rand(n_particles)*r_x + startx)
-    ini_y = (np.random.rand(n_particles)*r_y + starty)
-    ini_z = (np.random.rand(n_particles)*r_z + startz)
-
-    normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
-                      ((ini_y - starty)**2)/(r_y**2) + 
-                      ((ini_z - startz)**2)/(r_z**2) )
-
-    while any(normed_radius > 1):
-        for particle in xrange(n_particles):
-            if normed_radius[particle] > 1:
-                    ini_x[particle] = ((np.random.rand(1)-0.5)*2*r_x + startx)
-                    ini_y[particle] = ((np.random.rand(1)-0.5)*2*r_y + starty)
-                    ini_z[particle] = ((np.random.rand(1)-0.5)*2*r_z + startz)
-        normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
-                  ((ini_y - starty)**2)/(r_y**2) + 
-                  ((ini_z - startz)**2)/(r_z**2) )
-
+    ini_x = ((np.random.rand(n_particles)-0.5)*2*r_x + startx)
+    ini_y = ((np.random.rand(n_particles)-0.5)*2*r_y + starty)
+    ini_z = ((np.random.rand(n_particles)-0.5)*2*r_z + startz)
 
     x_stream = np.ones((n_particles,int(np.fabs(total_time/timestep))+2))*startx
     y_stream = np.ones((n_particles,int(np.fabs(total_time/timestep))+2))*starty
@@ -1940,8 +1933,27 @@ def numeric_GLM_xyz(u,v,w,
     x_com = startx
     y_com = starty
     z_com = startz
+    t = startt
+    
+    normed_radius = ( ((ini_x - startx)**2)/(r_x**2) +  
+                      ((ini_y - starty)**2)/(r_y**2) + 
+                      ((ini_z - startz)**2)/(r_z**2) )
 
-    t = startt #set the initial time to be zero
+    wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+
+    for particle in xrange(n_particles): # check if any particles outside cutoff
+        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
+            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+                x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
+                y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
+                z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
+                normed_radius[particle] = ( ((x_RK[particle] - x_com)**2)/(r_x**2) +  
+                                  ((y_RK[particle] - y_com)**2)/(r_y**2) + 
+                                  ((z_RK[particle] - z_com)**2)/(r_z**2) )
+                wet_test[particle] = trilinear_interp(x_RK[particle],y_RK[particle],z_RK[particle],
+                    grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+
+
     i=0
 
     # Prepare for spherical polar grids
@@ -1951,7 +1963,7 @@ def numeric_GLM_xyz(u,v,w,
 
     # Runge-Kutta fourth order method to estimate next position.
     while i < np.fabs(total_time/timestep):
-        #t < total_time:
+        #t_RK < total_time:
         if grid_object['grid_type']=='polar':
             # use degrees per metre and convert all the velocities to degrees / second# calculate degrees per metre at current location - used to convert the m/s velocities in to degrees/s
             deg_per_m[:,1] = np.cos(np.ones((n_particles))*starty*np.pi/180.)/(1852.*60.)# multiplier for u
@@ -1959,14 +1971,17 @@ def numeric_GLM_xyz(u,v,w,
 
         # check if any particles need moving, and then reseed them inside an ellipsoid around centre of mass with the original size
         for particle in xrange(n_particles): # check if any particles outside cutoff
-            if normed_radius[particle] > r_cutoff_factor: # find specific particles
-                while normed_radius[particle] > 1: # reseed inside ellipsoid
+            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
+                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
                     x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                     y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                     z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
                     normed_radius[particle] = ( ((x_RK[particle] - x_com)**2)/(r_x**2) +  
                                       ((y_RK[particle] - y_com)**2)/(r_y**2) + 
                                       ((z_RK[particle] - z_com)**2)/(r_z**2) )
+                    wet_test[particle] = trilinear_interp(x_RK[particle],y_RK[particle],z_RK[particle],
+                        grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
+
         # Interpolate velocities to initial location
         u_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,u,x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
         v_loc = trilinear_interp_arrays(x_RK,y_RK,z_RK,v,x_v,y_v,z_v,len_x_v,len_y_v,len_z_v)
@@ -2008,7 +2023,7 @@ def numeric_GLM_xyz(u,v,w,
         x_RK = x_RK + (dx1 + 2*dx2 + 2*dx3 + dx4)/6
         y_RK = y_RK + (dy1 + 2*dy2 + 2*dy3 + dy4)/6
         z_RK = z_RK + (dz1 + 2*dz2 + 2*dz3 + dz4)/6
-        t += timestep
+        t_RK += timestep
         i += 1
 
         x_com = np.mean(x_RK)
@@ -2027,6 +2042,8 @@ def numeric_GLM_xyz(u,v,w,
         normed_radius = ( ((x_RK - x_com)**2)/(r_x**2) +  
                           ((y_RK - y_com)**2)/(r_y**2) + 
                           ((z_RK - z_com)**2)/(r_z**2) )
+
+        wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
 
 
     return x_stream,y_stream,z_stream,t_stream, com_stream
