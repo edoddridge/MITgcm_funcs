@@ -1620,8 +1620,8 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
     wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
 
     for particle in xrange(n_particles): # check if any particles outside cutoffs
-        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
-            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # find specific particles
+            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # reseed inside ellipsoid
                 x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                 y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                 z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
@@ -1711,8 +1711,8 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
 
         # check if any particles need moving, and then reseed them inside an ellipsoid around centre of mass with the original size
         for particle in xrange(n_particles): # check if any particles outside cutoff
-            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
-                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # find specific particles
+                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # reseed inside ellipsoid
                     x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                     y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                     z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
@@ -1942,8 +1942,8 @@ def numeric_GLM_xyz(u,v,w,
     wet_test = trilinear_interp_arrays(x_RK,y_RK,z_RK,grid_object['wet_mask_U'][:],x_u,y_u,z_u,len_x_u,len_y_u,len_z_u)
 
     for particle in xrange(n_particles): # check if any particles outside cutoff
-        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
-            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+        if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # find specific particles
+            while (normed_radius[particle] > 1 or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # reseed inside ellipsoid
                 x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                 y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                 z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
@@ -1971,8 +1971,8 @@ def numeric_GLM_xyz(u,v,w,
 
         # check if any particles need moving, and then reseed them inside an ellipsoid around centre of mass with the original size
         for particle in xrange(n_particles): # check if any particles outside cutoff
-            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5): # find specific particles
-                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5): # reseed inside ellipsoid
+            if (normed_radius[particle] > r_cutoff_factor or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # find specific particles
+                while (normed_radius[particle] > 1 or wet_test[particle] < 0.5 or z_RK[particle]*grid_object['Z'][2] < 0): # reseed inside ellipsoid
                     x_RK[particle] = ((np.random.rand(1)-0.5)*r_x*2 + x_com)
                     y_RK[particle] = ((np.random.rand(1)-0.5)*r_y*2 + y_com)
                     z_RK[particle] = ((np.random.rand(1)-0.5)*r_z*2 + z_com)
