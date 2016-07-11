@@ -34,8 +34,10 @@ def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',
     ##Example call
 
     \code{.py}
-    output,myCM = LIC2_sparse(m.zonal_velocity['UVEL'][3,:,:],m.meridional_velocity['VVEL'][3,:,:],
+    output = LIC2_sparse(m.zonal_velocity['UVEL'][3,:,:],m.meridional_velocity['VVEL'][3,:,:],
                                                         5000,m.grid,15*86400,kernel='anisotropic_linear',delta_t=10*3600)
+
+    white_var_alpha = mitgcm.visualisation.create_cmap_vary_alpha(colour='k')
 	\endcode
 	 
 	Then plot with
@@ -45,7 +47,7 @@ def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',
 	plt.colorbar()
 	for i in xrange(output.shape[1]):
     	plt.scatter(output[0,i,:],output[1,i,:],
-                c=output[2,i,:],cmap=myCM,lw=0,vmin=0,vmax=1,s=4)
+                c=output[2,i,:],cmap=white_var_alpha,lw=0,vmin=0,vmax=1,s=4)
 	\endcode
 
 	\callgraph
@@ -111,20 +113,7 @@ def LIC2_sparse(u,v,points,grid_object,trace_length,kernel='anisotropic_linear',
         output[1,i,:steps_per_trace] = y_stream[:steps_per_trace]
         output[2,i,:steps_per_trace] = intensity[:steps_per_trace]
 
-
-            
-            
-    # define a colour map with alpha varying
-    newCM = plt.cm.get_cmap('bone_r')
-    newCM._init()
-
-    alphas = np.abs(np.linspace(0, 1.0, newCM.N))
-    newCM._lut[:-3,-1] = alphas
-    newCM._lut[:,0] = 1             
-    newCM._lut[:,1] = 1             
-    newCM._lut[:,2] = 1  
-
-    return output,newCM
+    return output
 
 
 def LIC2_sparse_animate(u,v,nparticles,grid_object,animation_length,trace_length,kernel='anisotropic_linear',
@@ -152,11 +141,12 @@ def LIC2_sparse_animate(u,v,nparticles,grid_object,animation_length,trace_length
     ##Example call
 
     \code{.py}
-    output,intensity,myCM = LIC2_sparse_animate_new(m.zonal_velocity['UVEL'][1,:,:],
+    output,intensity = LIC2_sparse_animate(m.zonal_velocity['UVEL'][1,:,:],
                                                                  m.meridional_velocity['VVEL'][1,:,:],
                                                                  15,m.grid,
                                                                  300*86400,60*86400,
                                                                  kernel='anisotropic_linear',delta_t=4*3600)
+    white_var_alpha = mitgcm.visualisation.create_cmap_vary_alpha(colour='k')
     \endcode
 
     and then plot with
@@ -288,24 +278,12 @@ def LIC2_sparse_animate(u,v,nparticles,grid_object,animation_length,trace_length
                 output[n,0,t_ind:t_ind+steps_per_trace] = x_stream[:steps_per_trace]
                 output[n,1,t_ind:t_ind+steps_per_trace] = y_stream[:steps_per_trace]
 
-        
 
-                        
-    # define a colour map with alpha varying
-    newCM = copy.deepcopy(plt.cm.get_cmap('bone_r'))
-    newCM._init()
-
-    alphas = np.abs(np.linspace(0, 1.0, newCM.N))
-    newCM._lut[:-3,-1] = alphas
-    newCM._lut[:,0] = 1             
-    newCM._lut[:,1] = 1             
-    newCM._lut[:,2] = 1  
-
-    return output,intensity[:int(steps_per_kernel/2.)],newCM
+    return output,intensity[:int(steps_per_kernel/2.)]
 
 
 def create_cmap_vary_alpha(colour='white'):
-    """create a colour map with variable alpha. This can be used to sketch out particles as they move.
+    """!Create a colour map with variable alpha. This can be used to sketch out particles as they move.
 
     The only input variable 'coour' defines the colour that is used to create the colour map. It can be any colour code that matplotlib recognises: single letter codes, hex colour string, a standard colour name, or a string representation of a float (e.g. '0.4') for gray on a 0-1 scale."""
     

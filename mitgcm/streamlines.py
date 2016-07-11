@@ -1472,7 +1472,9 @@ def numeric_GLM_xyzt(u_netcdf_filename,v_netcdf_filename,w_netcdf_filename,
             u_bias_field=None,
             v_bias_field=None,
             w_bias_field=None):
-    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once. If you're tracking fewer than O(10) - use the streaklines function. 
+    """!A three-dimensional lagrangian particle tracker designed for tracking many particles at once as a method of estimating Generalised Lagrangian-Mean velocities. 
+
+    The algorithm is a little slow because it spends time checking that the particles are within a given distance of the centre of mass, that they are in the fluid not the bathymetry and that they are below the surface. This means that the cloud of particles should remain within the fluid and not get trapped by the bathymetry.
 
     The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s.
     It should work to track particles forwards or backwards in time (set timestep <0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.
