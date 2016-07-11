@@ -123,6 +123,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ae49eb0e5ee3a691f1ee6deff26400135"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#ae49eb0e5ee3a691f1ee6deff26400135">pathlines_for_OLIC_xyzt_ani</a></td></tr>
 <tr class="memdesc:ae49eb0e5ee3a691f1ee6deff26400135"><td class="mdescLeft">&#160;</td><td class="mdescRight">A three-dimensional lagrangian particle tracker designed for tracking many particles at once.  <a href="#ae49eb0e5ee3a691f1ee6deff26400135">More...</a><br /></td></tr>
 <tr class="separator:ae49eb0e5ee3a691f1ee6deff26400135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a2ee1fe3b060825286a4cdf7999e1e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a61a2ee1fe3b060825286a4cdf7999e1e">numeric_GLM_xyzt</a></td></tr>
+<tr class="memdesc:a61a2ee1fe3b060825286a4cdf7999e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A three-dimensional lagrangian particle tracker designed for tracking many particles at once as a method of estimating Generalised Lagrangian-Mean velocities.  <a href="#a61a2ee1fe3b060825286a4cdf7999e1e">More...</a><br /></td></tr>
+<tr class="separator:a61a2ee1fe3b060825286a4cdf7999e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a0f036d78f38df2d9e6cac70f2b2bd"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a14a0f036d78f38df2d9e6cac70f2b2bd">numeric_GLM_xyz</a></td></tr>
+<tr class="memdesc:a14a0f036d78f38df2d9e6cac70f2b2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A three-dimensional streamline solver.  <a href="#a14a0f036d78f38df2d9e6cac70f2b2bd">More...</a><br /></td></tr>
+<tr class="separator:a14a0f036d78f38df2d9e6cac70f2b2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4522067d3d52d4fc38a5ec611d776702"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemitgcm_1_1streamlines.html#a4522067d3d52d4fc38a5ec611d776702">bilinear_interp</a> (x0, y0, field, x, y, len_x, len_y)</td></tr>
 <tr class="memdesc:a4522067d3d52d4fc38a5ec611d776702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do bilinear interpolation of a field.  <a href="#a4522067d3d52d4fc38a5ec611d776702">More...</a><br /></td></tr>
 <tr class="separator:a4522067d3d52d4fc38a5ec611d776702"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -234,7 +240,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated bilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01488">1488</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02086">2086</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -331,7 +337,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated quadralinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01631">1631</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02229">2229</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -410,7 +416,7 @@ Functions</h2></td></tr>
 <p>This is a numba accelerated trilinear interpolation. </p>
 <p>The .jit decorator just above this function causes it to be compiled just before it is run. This introduces a small, Order(1 second), overhead the first time, but not on subsequent calls. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01585">1585</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02183">2183</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -472,7 +478,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles.</p>
 <p>x0,y0 are the points to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01458">1458</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02056">2056</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -549,7 +555,7 @@ Functions</h2></td></tr>
 <li>dx, dy - order of the derivative to take in x or y. Optional arguments that are passed to the scipy cubic interpolation function. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01833">1833</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02431">2431</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -610,7 +616,7 @@ Functions</h2></td></tr>
 <p>Extract the value of a field along a path through a 3 dimensional field. </p>
 <p>The field must be passed as an array. Time varying fields are not supported. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01805">1805</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02403">2403</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -690,7 +696,7 @@ Functions</h2></td></tr>
 <p>The field must be in a NetCDF file, since it is assumed to be 4D and very large.</p>
 <p>This can also be used to pull out values at specific locations and times. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01715">1715</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02313">2313</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -793,7 +799,366 @@ Functions</h2></td></tr>
 <p>A helper function to extract a small 4D hypercube of data from a netCDF file. </p>
 <p>This isn't intended to be used on its own. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01680">1680</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02278">2278</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a14a0f036d78f38df2d9e6cac70f2b2bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.streamlines.numeric_GLM_xyz </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>n_particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>starty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>total_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>timestep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_cutoff_factor</em> = <code>3</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>x_v</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>y_v</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>z_v</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>x_w</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>y_w</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>z_w</em> = <code>'None'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u_grid_loc</em> = <code>'U'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v_grid_loc</em> = <code>'V'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w_grid_loc</em> = <code>'W'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A three-dimensional streamline solver. </p>
+<p>The velocity fields must be three dimensional and not vary in time. X_grid_loc variables specify where the field "X" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.</p>
+<p>Returns:</p><ul>
+<li>x_stream, y_stream, z_stream - all with dimensions (particle,time_level)</li>
+<li>t_stream - with dimensions (time_level)</li>
+<li>com_stream - with dimensions (3(x,y,z),time_level) </li>
+</ul>
+
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01821">1821</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a61a2ee1fe3b060825286a4cdf7999e1e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def mitgcm.streamlines.numeric_GLM_xyzt </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u_netcdf_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v_netcdf_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w_netcdf_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>n_particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>starty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>total_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>timestep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>grid_object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>r_cutoff_factor</em> = <code>3</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u_netcdf_variable</em> = <code>'UVEL'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v_netcdf_variable</em> = <code>'VVEL'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w_netcdf_variable</em> = <code>'WVEL'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u_grid_loc</em> = <code>'U'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v_grid_loc</em> = <code>'V'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w_grid_loc</em> = <code>'W'</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>u_bias_field</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>v_bias_field</em> = <code>None</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w_bias_field</em> = <code>None</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A three-dimensional lagrangian particle tracker designed for tracking many particles at once as a method of estimating Generalised Lagrangian-Mean velocities. </p>
+<p>The algorithm is a little slow because it spends time checking that the particles are within a given distance of the centre of mass, that they are in the fluid not the bathymetry and that they are below the surface. This means that the cloud of particles should remain within the fluid and not get trapped by the bathymetry.</p>
+<p>The velocity fields must be four dimensional (three spatial, one temporal) and have units of m/s. It should work to track particles forwards or backwards in time (set timestep &lt;0 for backwards in time). But, be warned, backwards in time hasn't been thoroughly tested yet.</p>
+<p>Because this is a very large amount of data, the fields are passed as netcdffile handles.</p>
+<h2>Returns:</h2>
+<ul>
+<li>x_stream, y_stream, z_stream - all with dimensions (particle,time_level)</li>
+<li>t_stream - with dimensions (time_level)</li>
+<li>com_stream - with dimensions (time_level)</li>
+</ul>
+<h2>The variables are:</h2>
+<ul>
+<li>?_netcdf_filename = name of the netcdf file with ?'s data in it.</li>
+<li>n_particles = number of particles to track</li>
+<li>start? = starting value for x, y, z, or time</li>
+<li>total_time = length of time to track particles for, in seconds. This is always positive</li>
+<li>timestep = timestep for particle tracking algorithm, in seconds. This can be positive or negative.</li>
+<li>r_? = radius of sedding ellipsoid in x, y, or z direction</li>
+<li>t = vector of time levels that are contained in the velocity data.</li>
+<li>grid_object is m.grid if you followed the standard naming conventions.</li>
+<li>?_netcdf_variable = name of the "?" variable field in the netcdf file.</li>
+<li>?_grid_loc = where the field "?" is located on the C-grid. Possibles options are, U, V, W, T and Zeta.</li>
+<li>?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
+</ul>
+
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01474">1474</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1098,7 +1463,7 @@ Functions</h2></td></tr>
 <li>?_bias_field = bias to add to that velocity field component. If set to -mean(velocity component), then only the time varying portion of that field will be used. </li>
 </ul>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01145">1145</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01143">1143</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1381,7 +1746,7 @@ Functions</h2></td></tr>
 <p>The velocity field, "field", is passed as a truncated 4D field.</p>
 <p>x,y,z,t are vectors of these dimensions. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01611">1611</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02209">2209</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1792,7 +2157,7 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01498">1498</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02096">2096</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
@@ -1872,14 +2237,14 @@ Functions</h2></td></tr>
 <p>This function assumes that the grid can locally be regarded as cartesian, with everything at right angles. It also requires that the entire field can be held in memory at the same time.</p>
 <p>x0,y0, and z0 represent the point to interpolate to. </p>
 
-<p>Definition at line <a class="el" href="streamlines_8py_source.html#l01542">1542</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
+<p>Definition at line <a class="el" href="streamlines_8py_source.html#l02140">2140</a> of file <a class="el" href="streamlines_8py_source.html">streamlines.py</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 29 2016 15:55:03 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 11 2016 10:05:04 for mitgcm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
