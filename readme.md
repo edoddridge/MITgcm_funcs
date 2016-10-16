@@ -2,15 +2,7 @@
 
 ##To install##
 
-The code can be installed through conda using
-
-```
-conda install -c https://conda.anaconda.org/edoddridge mitgcm
-```
-
-Or, it can be installed by:
-
-Downloading the code (either by downloading the repo or cloning it into a directory)
+The code can be installed by downloading the code (either by downloading the repo or cloning it into a directory)
 
 Navigating to the download directory and running:
 
