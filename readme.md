@@ -2,9 +2,9 @@
 
 ##To install##
 
-The code can be installed by downloading the code (either by downloading the repo or cloning it into a directory)
+The code runs in Python 2.7 and uses a number of dependencies that are all satisfied by the Anaconda distribution.
 
-Navigating to the download directory and running:
+The code can be installed by downloading the code (either by downloading the repo or cloning it into a directory), navigating to the download directory and running:
 
 ```
 python setup.py install
