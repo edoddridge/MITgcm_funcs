@@ -14,7 +14,7 @@ in the terminal
 
 
 ##To read the documentation##
-Open index.html with a web browser (it's in Docs/html), or click [here](http://edoddridge.bitbucket.org/MITgcm_py/index.html) to view the online documentation.
+Open index.html with a web browser (it's in Docs/html), or click [here](https://edoddridge.bitbucket.io/MITgcm_py/index.html) to view the online documentation.
 
 
 ##To use##
