@@ -1,5 +1,7 @@
 # Read me
 
+NOTE: This code is not currently being developed or maintained.
+
 ## To install
 
 The code runs in Python 2.7 and uses a number of dependencies that are all satisfied by the Anaconda distribution.
